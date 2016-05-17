@@ -1,0 +1,7 @@
+/var/log/daily-system-update.log {
+    daily
+    rotate 28
+    notifempty
+    missingok
+    compress
+}

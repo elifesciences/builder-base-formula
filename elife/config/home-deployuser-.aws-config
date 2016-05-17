@@ -1,0 +1,2 @@
+[default]
+region = {{ pillar.elife.deploy_user.aws_region }}

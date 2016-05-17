@@ -1,0 +1,9 @@
+{% set mail = pillar.elife.postfix_ses_mail %}
+# sSMTP aliases
+# 
+# Format:	local_account:outgoing_address:mailhub
+#
+# Example: root:your_login@your.domain:mailhub.your.domain[:port]
+# where [:port] is an optional port number that defaults to 25.
+root:{{ mail.from }}:{{ mail.smtp }}
+{{ pillar.elife.deploy_user.username }}:{{ mail.from }}:{{ mail.smtp }}
