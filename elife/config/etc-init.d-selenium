@@ -1,0 +1,46 @@
+#!/bin/bash
+
+DESC="Selenium server"
+RUN_AS=root
+JAVA_BIN=/usr/bin/java
+
+PID_FILE="/var/run/selenium.pid"
+JAR_FILE="/usr/bin/selenium-server-standalone-2.46.0.jar"
+LOG_FILE="/var/log/selenium.log"
+
+MAX_MEMORY="-Xmx500m"
+STACK_SIZE="-Xss1024k"
+
+DAEMON_OPTS=" -client $MAX_MEMORY $STACK_SIZE -jar $JAR_FILE -log $LOG_FILE"
+
+NAME=selenium
+
+export DISPLAY=:99
+
+case "$1" in
+    start)
+        echo -n "Starting $DESC: "
+        start-stop-daemon -c $RUN_AS --start --background --pidfile $PID_FILE --make-pidfile --oknodo --exec $JAVA_BIN -- $DAEMON_OPTS
+        echo "$NAME."
+        ;;
+
+    stop)
+        echo -n "Stopping $DESC: "
+        start-stop-daemon --stop --pidfile $PID_FILE
+        echo "$NAME."
+        ;;
+
+    restart|force-reload)
+        echo -n "Restarting $DESC: "
+        start-stop-daemon --stop --pidfile $PID_FILE
+    sleep 1
+    start-stop-daemon -c $RUN_AS --start --background --pidfile $PID_FILE  --make-pidfile --exec $JAVA_BIN -- $DAEMON_OPTS
+    echo "$NAME."
+    ;;
+
+    *)
+        N=/etc/init.d/$NAME
+        echo "Usage: $N {start|stop|restart|force-reload}" >&2
+        exit 1
+        ;;
+esac

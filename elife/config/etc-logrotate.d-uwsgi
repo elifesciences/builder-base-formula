@@ -1,0 +1,7 @@
+/var/log/uwsgi.log {
+    daily
+    rotate 7
+    notifempty
+    missingok
+    compress
+}
