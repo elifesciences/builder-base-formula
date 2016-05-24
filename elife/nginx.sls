@@ -1,4 +1,4 @@
-{% set wwwuser = pillar.elife.webserver.user %}
+{% set wwwuser = pillar.elife.webserver.username %}
 {% set user = pillar.elife.deploy_user.username %}
 
 nginx-server:
