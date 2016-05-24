@@ -85,8 +85,8 @@ nginx-server-service:
 # BASIC auth 
 #
 
-create-web-users:
 {% for title, user in pillar.elife.web_users.items() %}
+create-web-user-{{ title }}:
     cmd.run:
         - name: htpasswd -b -c /etc/nginx/.{{ title }}htpasswd {{ user.username }} {{ user.password }}
         - require:
