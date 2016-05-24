@@ -1,3 +1,3 @@
 include:
-    - syslog-ng
-    - collectd
+    - .syslog-ng
+    - .collectd
