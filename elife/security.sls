@@ -1,7 +1,7 @@
 # prevent brute-force logins
 fail2ban:
-    pkg.installed:
-        - name: fail2ban
+    pkg:
+        - installed
 
     service.running:
         - require:
