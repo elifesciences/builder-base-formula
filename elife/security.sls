@@ -32,7 +32,7 @@ sshd_config:
 
 # have the system keep itself updated with security patches
 unattended-upgrades:
-    pkg-installed:
+    pkg.installed:
         - name: unattended-upgrades
 
     file.managed:
