@@ -11,7 +11,7 @@ open source builder sorted and working.
 4. add licence
 5. re-create this repo, destroying it's history
 
-## Copyright & Licence
+# Copyright & Licence
 
 Copyright 2016 eLife Sciences. Licensed under the [GPLv3](LICENCE.txt)
 
