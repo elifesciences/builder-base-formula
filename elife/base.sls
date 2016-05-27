@@ -42,6 +42,16 @@ pip-shim:
         - name: easy_install "pip<=8.1.1"
         - require:
             - pkg: pip-shim
+    # https://github.com/saltstack/salt/issues/28036
+    # sacrificial state that does nothing except reload modules + fail silently
+    pip.installed:
+        - name: "pip<=8.1.1"
+        - reload_modules: True
+        - check_cmd:
+            # fail silently
+            - /bin/true
+        - require:
+            - cmd: pip-shim
 
 
 global-python-requisites:

@@ -7,6 +7,9 @@ bitbucket.org:
         # ssh-keyscan -t ssh-rsa -H bitbucket.org > key.pub && ssh-keygen -l -f key.pub
         - fingerprint: 97:8c:1b:f2:6f:14:6b:5c:3b:ec:aa:46:46:74:7c:40
         - enc: ssh-rsa
+        # ha! https://github.com/saltstack/salt/issues/29335
+        # generates a warning despite being in the docs ... ? :(
+        #- timeout: 5
 
 github.com:
     ssh_known_hosts.present:
