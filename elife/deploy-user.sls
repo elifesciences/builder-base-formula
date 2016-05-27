@@ -28,6 +28,8 @@ deploy-user:
         - user: {{ user }}
         # the empty double quote is the "no passphrase" switch
         - name: ssh-keygen -t rsa -f /home/{{ user }}/.ssh/id_rsa -N ""
+        - unless:
+            - test -f /home/{{ user }}/.ssh/id_rsa
         - require:
             - file: /home/{{ user }}/.ssh/
             - user: deploy-user

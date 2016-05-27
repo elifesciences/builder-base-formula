@@ -37,6 +37,12 @@ alias_database = hash:/etc/aliases
 mydestination = {{ salt['elife.cfg']('cfn.outputs.DomainName') }}, localhost.localdomain, localhost
 relayhost = [{{ mail.smtp }}]:{{ mail.port }}
 
+# we have a 14/second send rate with amazon. 
+# this *may* cause us to have fewer "454 Throttled" type errors
+# https://forums.aws.amazon.com/message.jspa?messageID=448174
+default_destination_concurrency_limit = 12
+max_use = 1
+
 smtp_sasl_auth_enable=yes
 smtp_sasl_password_maps=hash:/etc/postfix/relay_password
 smtp_sasl_security_options=noanonymous

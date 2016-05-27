@@ -2,12 +2,13 @@ base:
     pkg.installed:
         - pkgs:
             - logrotate
+            # deprecating. moving to upstart for 14.04
             # http://libslack.org/daemon/
-            - daemon 
+            - daemon
             - curl
             - git
             # Ubuntu 14.04 bundles with X11 :(
-            # - mercurial   
+            # - mercurial
             - vim
             # also provides 'unzip'
             - zip
@@ -31,17 +32,27 @@ python-pip:
             - pip-shim
 
 pip-shim:
+    pkg.installed:
+        - pkgs:
+            - python-setuptools
+
     cmd.run:
-        - name: easy_install pip
+        # issue with newer versions of pip
+        # https://github.com/saltstack/salt/issues/33163
+        - name: easy_install "pip<=8.1.1"
+        - require:
+            - pkg: pip-shim
+
 
 global-python-requisites:
     pip.installed:
         - pkgs:
             - virtualenv>=13
             # elife's delete script for stuff that accumulates
-            - "-e git+https://github.com/elifesciences/rmrf_enter.git@master#egg=rmrf_enter" 
+            - "git+https://github.com/elifesciences/rmrf_enter.git@master#egg=rmrf_enter" 
         - require:
             - pkg: base
+            - pkg: python-pip
 
 base-vim-config:
     file.managed:

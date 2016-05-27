@@ -4,7 +4,8 @@
 
 bitbucket.org:    
     ssh_known_hosts.present:
-        - fingerprint: 131.103.20.167,131.103.20.168,131.103.20.169,131.103.20.170
+        # ssh-keyscan -t ssh-rsa -H bitbucket.org > key.pub && ssh-keygen -l -f key.pub
+        - fingerprint: 97:8c:1b:f2:6f:14:6b:5c:3b:ec:aa:46:46:74:7c:40
         - enc: ssh-rsa
 
 github.com:
@@ -13,9 +14,7 @@ github.com:
         - enc: ssh-rsa
 
 /etc/ssh/ssh_known_hosts:
-    file:
-        - present
+    file.exists:
         - require:
             - ssh_known_hosts: github.com
-            - ssh_known_hosts: gist.github.com
             - ssh_known_hosts: bitbucket.org
