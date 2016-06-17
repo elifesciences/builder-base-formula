@@ -20,7 +20,7 @@ grr-try-bitbucket.org-again:
         # generates a warning despite being in the docs ... ? :(
         - timeout: 60 # seconds. yes, really.
         - onfail_in:
-            - ssh_known_hosts: grr-try-bitbucket.org-again
+            - ssh_known_hosts: bitbucket.org
 
 github.com:
     ssh_known_hosts.present:
