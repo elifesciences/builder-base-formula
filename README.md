@@ -3,9 +3,9 @@
 Provides a "base environment" and sensible configuration for a number of common 
 applications such as nginx, php, python, postgresql, etc.
 
-See the (https://github.com/elifesciences/builder-example-project)[example project]
+See the [https://github.com/elifesciences/builder-example-project](example project)
 for how to integrate these base formulas into your own project, particularly the
-(https://github.com/elifesciences/builder-example-project/blob/master/salt/example.top)[example.top]
+[https://github.com/elifesciences/builder-example-project/blob/master/salt/example.top](example.top)
 file.
 
 # Copyright & Licence
