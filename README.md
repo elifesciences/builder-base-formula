@@ -1,15 +1,12 @@
-# elife-formula PRIVATE
+# builder-base-formula 
 
-These are the 'base' states from the original `elife-builder`.
+Provides a "base environment" and sensible configuration for a number of common 
+applications such as nginx, php, python, postgresql, etc.
 
-This repository is currently ***PRIVATE*** until we have the new
-open source builder sorted and working.
-
-1. get this formula working standalone with new builder
-2. create a `pillar.example` file from the final pillar.sls file
-3. move the final pillar data into a private repo
-4. add licence
-5. re-create this repo, destroying it's history
+See the [https://github.com/elifesciences/builder-example-project](example project)
+for how to integrate these base formulas into your own project, particularly the
+[https://github.com/elifesciences/builder-example-project/blob/master/salt/example.top](example.top)
+file.
 
 # Copyright & Licence
 
