@@ -45,11 +45,13 @@ deploy-user:
 #
 
 {% set pname = salt['elife.project_name']() %}
+{% set ssh = pillar.elife.ssh_access %}
 
 # allow
 
-{% for username in pillar.elife.ssh_access.allowed[pname] %}
+{% for username in ssh.allowed.get(pname, []) %}
     {% if pillar.elife.ssh_users.has_key(username) %}
+
 {{ pname }}-ssh-access-for-{{ username }}:
     ssh_auth.present:
         - user: {{ pillar.elife.deploy_user.username }}
@@ -57,13 +59,15 @@ deploy-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
+
     {% endif %}
 {% endfor %}
 
 # deny
 
-{% for username in pillar.elife.ssh_access.denied[pname] %}
+{% for username in ssh.denied.get(pname, []) %}
     {% if pillar.elife.ssh_users.has_key(username) %}
+
 {{ pname }}-ssh-denial-for-{{ username }}:
     ssh_auth.absent:
         - user: {{ pillar.elife.deploy_user.username }}
@@ -71,5 +75,7 @@ deploy-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
+
     {% endif %}
 {% endfor %}
+
