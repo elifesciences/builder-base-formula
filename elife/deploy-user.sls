@@ -39,3 +39,37 @@ deploy-user:
         - source: salt://elife/config/etc-sudoers.d-90saltusers
         - mode: 440
         - template: jinja
+
+#
+# ssh allow/deny access
+#
+
+{% set pname = salt['elife.project_name']() %}
+
+# allow
+
+{% for username in pillar.elife.ssh_access.allowed[pname] %}
+    {% if pillar.elife.ssh_users.has_key(username) %}
+{{ pname }}-ssh-access-for-{{ username }}:
+    ssh_auth.present:
+        - user: {{ pillar.elife.deploy_user.username }}
+        - name: {{ pillar.elife.ssh_users[username] }}
+        - comment: {{ username }}
+        - require:
+            - cmd: /home/{{ user }}/.ssh/
+    {% endif %}
+{% endfor %}
+
+# deny
+
+{% for username in pillar.elife.ssh_access.denied[pname] %}
+    {% if pillar.elife.ssh_users.has_key(username) %}
+{{ pname }}-ssh-denial-for-{{ username }}:
+    ssh_auth.absent:
+        - user: {{ pillar.elife.deploy_user.username }}
+        - name: {{ pillar.elife.ssh_users[username] }}
+        - comment: {{ username }}
+        - require:
+            - cmd: /home/{{ user }}/.ssh/
+    {% endif %}
+{% endfor %}

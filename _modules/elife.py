@@ -85,6 +85,10 @@ def project():
     known_paths = ['/etc/build-vars.json.b64', '/etc/build_vars.json.b64']
     return first(filter(None, map(read_json, known_paths))) or {}
 
+def project_name():
+    "salt['elife.cfg']('project.project_name') works as well, but not on vagrant machines"
+    return first(__grains__['id'].split('--'))
+
 def cfn():
     "returns whatever cfn output data it can find."
     data = read_json("/etc/cfn-info.json") or {}
