@@ -9,3 +9,4 @@ include:
     - .backups
     - .security
     - .logging
+    - .daily-system-updates

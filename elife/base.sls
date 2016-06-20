@@ -15,7 +15,9 @@ base:
             # a nicer 'top'
             - htop
             # provides add-apt-repository binary needed to install a new ppa easily
-            - python-software-properties 
+            - python-software-properties
+            # installed as part of bootstrap for gitfs support, but worth mentioning again here.
+            - python-dev 
             # find which files are taking up space on filesystem
             - ncdu 
 

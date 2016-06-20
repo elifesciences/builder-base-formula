@@ -9,7 +9,7 @@ bitbucket.org:
         - enc: ssh-rsa
         # ha! https://github.com/saltstack/salt/issues/29335
         # generates a warning despite being in the docs ... ? :(
-        #- timeout: 5
+        - timeout: 30
 
 github.com:
     ssh_known_hosts.present:
