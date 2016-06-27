@@ -13,6 +13,10 @@ def first(x):
     except (IndexError, KeyError, TypeError):
         return None
 
+def firstnn(lst):
+    "returns first non-nil value in lst or None"
+    return first(filter(None, lst))
+    
 def lookup(data, path, default=0xDEADBEEF):
     try:
         bits = path.split('.', 1)
@@ -67,6 +71,14 @@ def reachable(url):
 # 
 #
 
+def branch(default='master'):
+    """used in the `git.latest` state for the `branch` attribute.
+    If a specific revision exists DONT USE THE BRANCH VALUE. 
+    There will always be a branch value, even if it's the 'master' default"""
+    if cfg('project.revision'):
+        return 'pinned-revision' # arbitrary
+    return cfg('project.branch', default)
+
 def read_json(path):
     "reads the json from the given `path`, detecting base64 encoded versions."
     if os.path.exists(path):
@@ -117,13 +129,18 @@ def cfn():
     data['derived'] = derived_data
     return data
 
-def cfg(path, default=None):
+def cfg(*paths):
+    """returns the value at the given dot-delimited path within the project config.
+    if just one path is specified, the default is None.
+    if more than one path is specified, the value of the last path is the default.
+    THIS MEANS IF YOU SPECIFY MORE THAN ONE PATH YOU MUST SPECIFY A DEFAULT"""
+    default = paths[-1] if len(paths) > 1 else None    
     data = {
         'project': project(), # template 'compile' time data
         'cfn': cfn() # stack 'creation' time data
     }
     # don't raise exceptions if path value not found. very django-like
-    return lookup(data, path, default=default)
+    return firstnn(map(lambda path: lookup(data, path, default=None), paths)) or default 
 
 def b64encode(string):
     # used by the salt/elife-website/load-tester.sh:21
