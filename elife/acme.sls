@@ -58,7 +58,7 @@ acme-fetch-certs-script:
         - require:
             - file: install-letsencrypt
 
-{% if pillar.elife.env != 'dev' %}
+{% if pillar.elife.dev %}
 clear-vhosts:
     cmd.script:
         - source: salt://elife/scripts/nuke-vhost-restart-webserver.sh 
