@@ -6,7 +6,7 @@ install-ubr:
             - test -d /opt/ubr
 
     git.latest:
-        - name: git@github.com:elifesciences/ubr.git
+        - name: https://github.com/elifesciences/ubr
         # these work in 2015.8.0
         - force: True
         - force_checkout: True
