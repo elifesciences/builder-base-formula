@@ -9,7 +9,9 @@ bitbucket.org:
         - enc: ssh-rsa
         # ha! https://github.com/saltstack/salt/issues/29335
         # generates a warning despite being in the docs ... ? :(
-        - timeout: 30
+        # Our version of Salt is too old, requires 2016.3.0
+        # https://docs.saltstack.com/en/latest/ref/states/all/salt.states.ssh_known_hosts.html
+        #- timeout: 30
 
 github.com:
     ssh_known_hosts.present:
