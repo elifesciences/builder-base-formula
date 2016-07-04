@@ -8,7 +8,7 @@ install-ubr:
     git.latest:
         - name: https://github.com/elifesciences/ubr
         # these work in 2015.8.0
-        - force: True
+        - force_clone: True
         - force_checkout: True
         - force_reset: True        
         - target: /opt/ubr
