@@ -1,9 +1,10 @@
 # global defaults for the 'elife' saltstack formula
+# this is the DEFAULT DEVELOPMENT file
 
 elife:
     # useful yes/no switch for when developing in Vagrant
     dev: True
-    
+
     # another more fine grained approach to determining environment
     # production is 'prod' by default 
     # can be overriden per-project by pillar files
@@ -18,7 +19,7 @@ elife:
         key: null
         github_token: null
 
-    ssh_users: 
+    ssh_users:
         # username: pubkey
         # (this really is an example public key - no one actually owns it)
         example-user: AAAAB3NzaC1yc2EAAAADAQABAAABAQCi0rsrz3X3+oyp85EG+QOhDEAyhykndH5Zyn91pJevvGeJQSxAWjjKVFywCjHJIyZdgq20eiuTPS0nwWTWeUXndCT9K3p7I5emqcnCpd/rboyLPrsvh8y1Gg0FOB7deY8A554yzCT76WjBqiLShv2xSX5sfvgW7hmg+/oVRql55ua13bnEFvwf0pzPDKkY2cUxqlI16Eco8uI+JvVX5y5xPQUgFATh0enwZ0YBjMsFCe+CIHV5RMGHgKypOnva2UzFdwSl6lP1GHvDlHSMoSYgvNUrUv5AEgKD5zbeQoIALI7z5iyyE+xAOUq9I67PeR5faoU+QzrKqr7HsJ5Vinzp
