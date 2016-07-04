@@ -1,8 +1,13 @@
 # global defaults for the 'elife' saltstack formula
 
 elife:
-    # useful for turning off cron jobs and certain services while developing
+    # useful yes/no switch for when developing in Vagrant
     dev: True
+    
+    # another more fine grained approach to determining environment
+    # production is 'prod' by default 
+    # can be overriden per-project by pillar files
+    env: dev
 
     deploy_user:
         username: elife
