@@ -46,6 +46,7 @@ php-log:
         - name: /var/log/php_errors.log
         - user: {{ pillar.elife.webserver.username }}
         - mode: 640
+        - replace: False
 
 pecl-uploadprogress:
     cmd.run:
