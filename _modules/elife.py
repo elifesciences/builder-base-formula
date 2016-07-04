@@ -71,12 +71,18 @@ def reachable(url):
 # 
 #
 
+def rev():
+    """used in the `git.latest` state for the `rev` attribute.
+    Prefer a commit if specified in revision, otherwise a branch name
+    and when there's nothing specified default to master"""
+    return cfg('project.revision', 'project.branch', 'master')
+
 def branch(default='master'):
     """used in the `git.latest` state for the `branch` attribute.
-    If a specific revision exists DONT USE THE BRANCH VALUE. 
+    If a specific revision exists DON'T USE THE BRANCH VALUE. 
     There will always be a branch value, even if it's the 'master' default"""
     if cfg('project.revision'):
-        return 'pinned-revision' # arbitrary
+        return '' # results in a None value for git.latest
     return cfg('project.branch', default)
 
 def read_json(path):
