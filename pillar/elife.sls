@@ -15,6 +15,8 @@ elife:
         aws_access: null
         aws_secret: null
         aws_region: us-east-1
+        key: null
+        github_token: null
 
     ssh_users: 
         # username: pubkey
