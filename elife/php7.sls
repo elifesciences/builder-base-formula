@@ -1,9 +1,5 @@
 # base php installation
 
-old-php-ppa:
-    pkgrepo.absent:
-        - ppa: ondrej/php-7.0
-
 php-ppa:
     cmd.run:
         - name: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
