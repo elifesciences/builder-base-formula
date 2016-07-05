@@ -72,7 +72,7 @@ composer-home:
 
 {% if pillar.elife.deploy_user.github_token %}
 composer-auth:
-    environ.setenv:
+    builder.environ_setenv_sensitive:
         - name: COMPOSER_AUTH
         - value: '{"github-oauth": { "github.com": "{{ pillar.elife.deploy_user.github_token }}" } }'
 {% else %}
@@ -91,7 +91,7 @@ install-composer:
         - require:
             - cmd: php
             - environ: composer-home
-            - environ: composer-auth
+            - composer-auth
         - unless:
             - which composer
 
