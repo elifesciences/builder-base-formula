@@ -19,6 +19,9 @@ elife:
         key: null
         github_token: null
 
+    bootstrap_user:
+        username: vagrant # ubuntu in prod
+
     ssh_users:
         # username: pubkey
         # (this really is an example public key - no one actually owns it)
@@ -26,6 +29,9 @@ elife:
 
     # grants known users remote access to project systems
     ssh_access:
+        # ssh access is granted to the vagrant/ubuntu (bootstrap user) as well as 
+        # the deploy user (elife).
+        also_bootstrap_user: True
         # adds keys to deploy user's `~/.ssh/authorized_keys` file
         allowed:
             project1:
@@ -34,6 +40,8 @@ elife:
         # removes keys. happens after allowing keys
         denied:
             project1: 
+                - example-user
+            elife-bot:
                 - example-user
 
     backups:

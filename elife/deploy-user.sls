@@ -60,6 +60,18 @@ deploy-user:
         - require:
             - cmd: /home/{{ user }}/.ssh/
 
+        {% if pillar.elife.ssh_access.also_bootstrap_user %}
+
+{{ pname }}-ssh-access-for-{{ username }}-using-{{ pillar.elife.bootstrap_user.username }}:
+    ssh_auth.present:
+        - user: {{ pillar.elife.bootstrap_user.username }}
+        - name: {{ pillar.elife.ssh_users[username] }}
+        - comment: {{ username }}
+        - require:
+            - cmd: /home/{{ user }}/.ssh/
+
+        {% endif %}
+
     {% endif %}
 {% endfor %}
 
@@ -75,7 +87,15 @@ deploy-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
-
+            
+{{ pname }}-ssh-denial-for-{{ username }}-using-{{ pillar.elife.bootstrap_user.username }}:
+    ssh_auth.absent:
+        - user: {{ pillar.elife.bootstrap_user.username }}
+        - name: {{ pillar.elife.ssh_users[username] }}
+        - comment: {{ username }}
+        - require:
+            - cmd: /home/{{ user }}/.ssh/
+            
     {% endif %}
 {% endfor %}
 
