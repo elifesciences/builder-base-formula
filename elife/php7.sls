@@ -47,14 +47,6 @@ php-log:
         - user: {{ pillar.elife.webserver.username }}
         - mode: 640
 
-pecl-uploadprogress:
-    cmd.run:
-        - name: pecl install uploadprogress
-        - unless:
-            - pecl list | grep uploadprogress
-        - require:
-            - cmd: php
-       
 #
 # Composer (php package management)
 #
