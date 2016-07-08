@@ -41,8 +41,6 @@ elife:
         denied:
             project1: 
                 - example-user
-            elife-bot:
-                - example-user
 
     backups:
         # AWS credentials for uploading backups to S3
