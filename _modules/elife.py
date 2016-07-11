@@ -98,11 +98,6 @@ def read_json(path):
             # there is a bug where json is not properly escaped.
             LOG.error("failed to deserialize %r as json: %r", path, contents)
 
-def project():
-    "returns whatever project build data it can find."
-    known_paths = ['/etc/build-vars.json.b64', '/etc/build_vars.json.b64']
-    return first(filter(None, map(read_json, known_paths))) or {}
-
 def project_name():
     "salt['elife.cfg']('project.project_name') works as well, but not on vagrant machines"
     return first(__grains__['id'].split('--'))
@@ -115,21 +110,8 @@ def cfn():
         return data
     
     derived_data = {}
-    # add project hostname to cfn.derived.project_hostname
-    # "parallel.ppp-dash.elifesciences.org"  (instance hostname)
-    # => "ppp-dash.elifesciences.org"        (project hostname)
-    hostname = lookup(data, 'outputs.DomainName', default=None)
-    if hostname:
-        project_hostname = '.'.join(hostname.split('.')[-3:])
-        derived_data['project_hostname'] = project_hostname
-
-    stackname = lookup(data, 'stack_name', default=None)
-    if stackname:
-        derived_data['is_prod_instance'] = stackname.split('-')[-1] in ['master', 'production']
-
-    # is project (not instance) host reachable?
-    if hostname and derived_data.get('is_prod_instance', False):
-        key = url = derived_data['project_hostname'] # lax.elifesciences.org
+    if data.get('hostname') and data.get('is_prod_instance'):
+        key = url = data.get('project_hostname')
         derived_data['project_hostname_reachable'] = once_a_day(key, partial(acme_enabled, url))
     
     data['derived'] = derived_data
@@ -142,7 +124,7 @@ def cfg(*paths):
     THIS MEANS IF YOU SPECIFY MORE THAN ONE PATH YOU MUST SPECIFY A DEFAULT"""
     default = paths[-1] if len(paths) > 1 else None    
     data = {
-        'project': project(), # template 'compile' time data
+        'project': read_json('/etc/build-vars.json.b64'), # template 'compile' time data
         'cfn': cfn() # stack 'creation' time data
     }
     # don't raise exceptions if path value not found. very django-like
