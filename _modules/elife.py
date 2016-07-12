@@ -18,20 +18,23 @@ def firstnn(lst):
     return first(filter(None, lst))
     
 def lookup(data, path, default=0xDEADBEEF):
-    try:
-        bits = path.split('.', 1)
-        if len(bits) > 1:
-            bit, rest = bits
-        else:
-            bit, rest = bits[0], []
-        val = data[bit]
-        if rest:
-            return lookup(val, rest, default)
-        return val
-    except KeyError:
+    def _default():
         if default == 0xDEADBEEF:
-            raise
+            raise RuntimeError("Cannot find %s in %s" % (path, data))
         return default
+    bits = path.split('.', 1)
+    if len(bits) > 1:
+        bit, rest = bits
+    else:
+        bit, rest = bits[0], []
+    if not data:
+        return _default()
+    if bit not in data:
+        return _default()
+    val = data[bit]
+    if rest:
+        return lookup(val, rest, default)
+    return val
 
 def once_a_day(key, func):
     "simplistic cache that expires result once a day"
