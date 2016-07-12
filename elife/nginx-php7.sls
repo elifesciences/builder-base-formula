@@ -6,6 +6,8 @@
 php-nginx-deps:
     pkg.installed:
         - name: php7.0-fpm
+        - require:
+            - php
 
 php-fpm-config:
     file.managed:
