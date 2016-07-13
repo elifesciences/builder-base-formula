@@ -15,6 +15,9 @@ mysql-server:
         - watch:
             - file: mysql-server
 
+mysql-ready:
+    cmd.run:
+        - name: echo "MySQL is ready"
 
 {% set root = pillar.elife.db_root %}
 
@@ -39,7 +42,7 @@ mysql-root-user:
         - require_in:
             - mysql-ready
 
-{% if pillar.elife.dev %}
+{% if pillar.elife.env == 'dev' %}
 # within a dev environment the root user can connect from outside the machine
 mysql-root-user-dev-perms:
     mysql_user.present:
@@ -63,6 +66,3 @@ mysql-root-user-dev-perms:
             - mysql-ready
 {% endif %}
 
-mysql-ready:
-    cmd.run:
-        - name: echo "MySQL is ready"
