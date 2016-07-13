@@ -124,7 +124,7 @@ def cfg(*paths):
     THIS MEANS IF YOU SPECIFY MORE THAN ONE PATH YOU MUST SPECIFY A DEFAULT"""
     default = paths[-1] if len(paths) > 1 else None    
     data = {
-        'project': read_json('/etc/build-vars.json.b64'), # template 'compile' time data
+        'project': read_json('/etc/build-vars.json.b64') or {}, # template 'compile' time data
         'cfn': cfn() # stack 'creation' time data
     }
     # don't raise exceptions if path value not found. very django-like
