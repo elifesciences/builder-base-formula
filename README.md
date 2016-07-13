@@ -10,4 +10,4 @@ file.
 
 # Copyright & Licence
 
-Copyright 2016 eLife Sciences. Licensed under the [MIT](LICENCE)
+Copyright 2016 eLife Sciences. Licensed under the [MIT license](LICENSE).
