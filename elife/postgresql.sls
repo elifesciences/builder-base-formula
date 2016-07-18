@@ -38,8 +38,9 @@ rds-postgresql-user:
     postgres_user.present:
         - name: {{ pillar.elife.db_root.username }}
         - password: {{ pillar.elife.db_root.password }}
+        # https://github.com/saltstack/salt/issues/11821
         - refresh_password: True
-        - db_password: {{ pillar.elife.db_root.password }}
+        - db_password: {{ salt['elife.cfg']('project.rds_password') }}
         - db_host: {{ salt['elife.cfg']('cfn.outputs.RDSHost') }}
         - db_port: {{ salt['elife.cfg']('cfn.outputs.RDSPort') }}
         - login: True
