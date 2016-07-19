@@ -1,0 +1,754 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+	<testsuite errors="2" failures="0" name="publisher.tests.test_ejp_article_ingest.TestEJPIngest-20160524070147" skipped="0" tests="4" time="2.762">
+		<testcase classname="publisher.tests.test_ejp_article_ingest.TestEJPIngest" name="test_ejp_ingest" time="2.717"/>
+		<testcase classname="publisher.tests.test_ejp_article_ingest.TestEJPIngest" name="test_ejp_ingest_data" time="0.027"/>
+		<testcase classname="publisher.tests.test_ejp_article_ingest.TestEJPIngest" name="test_ejp_ingest_over_existing_data" time="0.010">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_ejp_article_ingest.py", line 83, in test_ejp_ingest_over_existing_data
+    [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<testcase classname="publisher.tests.test_ejp_article_ingest.TestEJPIngest" name="test_ejp_ingest_over_existing_data_with_defaults" time="0.009">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_ejp_article_ingest.py", line 65, in test_ejp_ingest_over_existing_data_with_defaults
+    [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="4" failures="0" name="publisher.tests.test_corrections.TestCorrectionsLogic-20160524070147" skipped="0" tests="4" time="0.036">
+		<testcase classname="publisher.tests.test_corrections.TestCorrectionsLogic" name="test_create_correction" time="0.010">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_corrections.py", line 41, in setUp
+    self.art, version = logic.add_or_update_article(**art)
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<testcase classname="publisher.tests.test_corrections.TestCorrectionsLogic" name="test_create_correction_future_date" time="0.009">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_corrections.py", line 41, in setUp
+    self.art, version = logic.add_or_update_article(**art)
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<testcase classname="publisher.tests.test_corrections.TestCorrectionsLogic" name="test_create_correction_specific_date" time="0.009">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_corrections.py", line 41, in setUp
+    self.art, version = logic.add_or_update_article(**art)
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<testcase classname="publisher.tests.test_corrections.TestCorrectionsLogic" name="test_create_correction_way_in_the_past" time="0.009">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_corrections.py", line 41, in setUp
+    self.art, version = logic.add_or_update_article(**art)
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="1" failures="0" name="publisher.tests.test_corrections.TestCorrections-20160524070147" skipped="0" tests="1" time="0.011">
+		<testcase classname="publisher.tests.test_corrections.TestCorrections" name="test_correction_model" time="0.011">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_corrections.py", line 24, in test_correction_model
+    artobj, version = logic.add_or_update_article(**art)
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="1" failures="0" name="publisher.tests.test_corrections.TestCorrectionsAPI-20160524070147" skipped="0" tests="1" time="0.011">
+		<testcase classname="publisher.tests.test_corrections.TestCorrectionsAPI" name="test_record_correction" time="0.011">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_corrections.py", line 78, in setUp
+    self.art, self.version = logic.add_or_update_article(**art)
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="0" failures="0" name="publisher.tests.test_eif_import.ImportArticleFromRepo-20160524070147" skipped="0" tests="2" time="0.179">
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromRepo" name="test_article_import_bad_doi" time="0.176"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromRepo" name="test_article_import_no_doi" time="0.003"/>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="0" failures="0" name="publisher.tests.test_eif_import.ImportArticleFromJSON-20160524070147" skipped="0" tests="8" time="0.101">
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSON" name="test_article_created" time="0.012"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSON" name="test_article_data" time="0.010"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSON" name="test_article_import_update_of_many_versions" time="0.033"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSON" name="test_article_not_created" time="0.004"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSON" name="test_article_not_updated" time="0.013"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSON" name="test_article_update_when_doesnt_exist" time="0.004"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSON" name="test_article_updated" time="0.016"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSON" name="test_article_version_data" time="0.010"/>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="0" failures="0" name="publisher.tests.test_journal.Journal-20160524070147" skipped="0" tests="1" time="0.004">
+		<testcase classname="publisher.tests.test_journal.Journal" name="test_fetch_journal" time="0.004"/>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="4" failures="0" name="publisher.tests.test_article.ArticleLogic-20160524070147" skipped="0" tests="5" time="0.042">
+		<testcase classname="publisher.tests.test_article.ArticleLogic" name="test_fetch_nonexistant_article" time="0.004"/>
+		<testcase classname="publisher.tests.test_article.ArticleLogic" name="test_fetch_historical" time="0.011">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_article.py", line 77, in test_fetch_historical
+    [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<testcase classname="publisher.tests.test_article.ArticleLogic" name="test_fetch_specific_historical" time="0.009">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_article.py", line 109, in test_fetch_specific_historical
+    [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<testcase classname="publisher.tests.test_article.ArticleLogic" name="test_fetch_specific_historical_when_multiple_of_same_version" time="0.009">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_article.py", line 150, in test_fetch_specific_historical_when_multiple_of_same_version
+    [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<testcase classname="publisher.tests.test_article.ArticleLogic" name="test_fetches_latest_always" time="0.009">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_article.py", line 49, in test_fetches_latest_always
+    [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="3" failures="0" name="publisher.tests.test_article.ArticleInfoViaApi-20160524070147" skipped="0" tests="8" time="0.104">
+		<testcase classname="publisher.tests.test_article.ArticleInfoViaApi" name="test_article_corpus_api" time="0.022"/>
+		<testcase classname="publisher.tests.test_article.ArticleInfoViaApi" name="test_article_info_api" time="0.023"/>
+		<testcase classname="publisher.tests.test_article.ArticleInfoViaApi" name="test_article_info_api_case_insensitive" time="0.021"/>
+		<testcase classname="publisher.tests.test_article.ArticleInfoViaApi" name="test_article_info_api_no_article" time="0.005"/>
+		<testcase classname="publisher.tests.test_article.ArticleInfoViaApi" name="test_article_info_version_grouping_no_art" time="0.005"/>
+		<testcase classname="publisher.tests.test_article.ArticleInfoViaApi" name="test_article_info_incorrect_version" time="0.010">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_article.py", line 279, in test_article_info_incorrect_version
+    [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<testcase classname="publisher.tests.test_article.ArticleInfoViaApi" name="test_article_info_version" time="0.009">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_article.py", line 256, in test_article_info_version
+    [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<testcase classname="publisher.tests.test_article.ArticleInfoViaApi" name="test_article_info_version_grouping" time="0.009">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_article.py", line 223, in test_article_info_version_grouping
+    [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="0" failures="0" name="publisher.tests.test_rss.RSSViews-20160524070147" skipped="0" tests="6" time="0.163">
+		<testcase classname="publisher.tests.test_rss.RSSViews" name="test_last_n_articles" time="0.032"/>
+		<testcase classname="publisher.tests.test_rss.RSSViews" name="test_last_n_articles_db_performance" time="0.027"/>
+		<testcase classname="publisher.tests.test_rss.RSSViews" name="test_specific_feed_many_article" time="0.027"/>
+		<testcase classname="publisher.tests.test_rss.RSSViews" name="test_specific_feed_many_article_db_performance" time="0.026"/>
+		<testcase classname="publisher.tests.test_rss.RSSViews" name="test_specific_feed_single_article" time="0.025"/>
+		<testcase classname="publisher.tests.test_rss.RSSViews" name="test_specific_feed_single_article_db_performance" time="0.026"/>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="0" failures="0" name="publisher.tests.test_utils.TestUtils-20160524070147" skipped="0" tests="12" time="0.004">
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_bad_nths" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_delall" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_delall_bad_idx" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_dictmap_funcargs" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_dictmap_nofuncargs" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_first_second" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_future_date" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_isint" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_isnotint" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_not_future_dates" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_nth" time="0.000"/>
+		<testcase classname="publisher.tests.test_utils.TestUtils" name="test_todict" time="0.003"/>
+		<system-out>
+<![CDATA[testing one
+testing a
+testing <module 'publisher.utils' from '/srv/lax/src/publisher/utils.pyc'>
+testing abc 0 a
+testing abc 1 b
+testing abc 2 c
+testing abc 3 None
+testing abc -1 c
+testing abc -3 a
+testing abc -4 None
+testing [1, 2, 3] 0 1
+testing [] 0 None
+testing (1, 2, 3) 0 1
+]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="0" failures="0" name="publisher.tests.test_doi_checker.DOICheck-20160524070147" skipped="1" tests="1" time="0.000">
+		<testcase classname="publisher.tests.test_doi_checker.DOICheck" name="test_doi" time="0.000">
+			<skipped message="unfinished" type="skip"/>
+		</testcase>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="0" failures="1" name="publisher.tests.test_eif_import.ImportArticleFromJSONViaAPI-20160524070147" skipped="0" tests="8" time="0.121">
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSONViaAPI" name="test_article_create_update_view" time="0.029"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSONViaAPI" name="test_article_created_view" time="0.010"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSONViaAPI" name="test_article_created_view_with_bad_payload" time="0.004"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSONViaAPI" name="test_article_created_view_with_incorrect_payload" time="0.014"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSONViaAPI" name="test_article_multiple_creates" time="0.016"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSONViaAPI" name="test_article_update_when_doesnt_exist" time="0.005"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSONViaAPI" name="test_article_updated_view" time="0.019"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportArticleFromJSONViaAPI" name="test_article_create_update_multiple_versions_view" time="0.025">
+			<failure message="2 != 1" type="AssertionError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_eif_import.py", line 191, in test_article_create_update_multiple_versions_view
+    self.assertEqual(v1.version, 1)
+AssertionError: 2 != 1
+]]>			</failure>
+		</testcase>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="0" failures="0" name="publisher.tests.test_reports.TestReport-20160524070147" skipped="0" tests="2" time="0.203">
+		<testcase classname="publisher.tests.test_reports.TestReport" name="test_poa_vor_pubdates_report" time="0.114"/>
+		<testcase classname="publisher.tests.test_reports.TestReport" name="test_poa_vor_pubdates_report_api" time="0.089"/>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="1" failures="0" name="publisher.tests.test_rss.TestLatest-20160524070147" skipped="0" tests="1" time="0.010">
+		<testcase classname="publisher.tests.test_rss.TestLatest" name="test_only_most_recent_article_versions_returned" time="0.010">
+			<error message="value too long for type character varying(3)
+" type="DataError">
+<![CDATA[Traceback (most recent call last):
+  File "/srv/lax/src/publisher/tests/test_rss.py", line 56, in test_only_most_recent_article_versions_returned
+    [logic.add_or_update_article(**article_data) for article_data in article_data_list]
+  File "/srv/lax/src/publisher/logic.py", line 130, in add_or_update_article
+    return ingestor.import_article(journal(), article_data, create=True, update=True)
+  File "/srv/lax/src/publisher/ingestor.py", line 97, in import_article
+    avobj = import_article_version(article_obj, article_data, create, update)
+  File "/srv/lax/src/publisher/ingestor.py", line 48, in import_article_version
+    avobj.save()
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 700, in save
+    force_update=force_update, update_fields=update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 728, in save_base
+    updated = self._save_table(raw, cls, force_insert, force_update, using, update_fields)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 812, in _save_table
+    result = self._do_insert(cls._base_manager, using, fields, update_pk, raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/base.py", line 851, in _do_insert
+    using=using, raw=raw)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/manager.py", line 122, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/query.py", line 1039, in _insert
+    return query.get_compiler(using=using).execute_sql(return_id)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/models/sql/compiler.py", line 1064, in execute_sql
+    cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/utils.py", line 95, in __exit__
+    six.reraise(dj_exc_type, dj_exc_value, traceback)
+  File "/srv/lax/venv/local/lib/python2.7/site-packages/django/db/backends/utils.py", line 64, in execute
+    return self.cursor.execute(sql, params)
+DataError: value too long for type character varying(3)
+
+]]>			</error>
+		</testcase>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="0" failures="0" name="publisher.tests.test_eif_import.ImportFromPPPEIF-20160524070147" skipped="0" tests="2" time="0.108">
+		<testcase classname="publisher.tests.test_eif_import.ImportFromPPPEIF" name="test_ppp_basic_import" time="0.092"/>
+		<testcase classname="publisher.tests.test_eif_import.ImportFromPPPEIF" name="test_ppp_update" time="0.016"/>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+	<testsuite errors="0" failures="0" name="publisher.tests.test_views.TestViews-20160524070147" skipped="0" tests="1" time="0.160">
+		<testcase classname="publisher.tests.test_views.TestViews" name="test_landing_view" time="0.160"/>
+		<system-out>
+<![CDATA[]]>		</system-out>
+		<system-err>
+<![CDATA[]]>		</system-err>
+	</testsuite>
+</testsuites>

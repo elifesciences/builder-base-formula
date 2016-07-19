@@ -105,3 +105,6 @@ elife:
         user: null # SES-created IAM username
         pass: null # SES-created IAM password
 
+    jenkins:
+        slack:
+            channel_hook: null
