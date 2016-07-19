@@ -119,3 +119,12 @@ composer-permissions:
             - group
         - require:
             - cmd: update-composer
+
+# useful to depend on
+composer:
+    cmd.run:
+        - name: composer --version
+        - require:
+            - composer-permissions
+            - composer-global-paths
+        
