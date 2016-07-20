@@ -2,7 +2,7 @@
 # this is the DEFAULT DEVELOPMENT file
 
 elife:
-    # useful yes/no switch for when developing in Vagrant
+    # deprecated, use pillar.env
     dev: True
 
     # another more fine grained approach to determining environment
@@ -105,3 +105,6 @@ elife:
         user: null # SES-created IAM username
         pass: null # SES-created IAM password
 
+    jenkins:
+        slack:
+            channel_hook: http://...
