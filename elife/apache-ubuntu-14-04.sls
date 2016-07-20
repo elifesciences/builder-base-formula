@@ -13,7 +13,7 @@ apache2:
 
 enable-common-modules:
     cmd.run:
-        - name: a2enmod rewrite expires 
+        - name: a2enmod rewrite expires ssl
         - require:
             - pkg: apache2
 
@@ -30,3 +30,11 @@ add-deploy-user-to-apache-group:
             - pkg: apache2
         - unless:
             - groups {{ user.username }} | grep {{ wwwuser.username }}
+            
+redirect-apache-http-to-https:
+    file.managed:
+        - name: /etc/apache2/sites-available/unencrypted-redirect.conf
+        - source: salt://elife/config/etc-apache2-sites-available-unencrypted-redirect.conf
+        - template: jinja
+        - require:
+            - pkg: apache2
