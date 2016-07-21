@@ -1,4 +1,4 @@
-{% set user = pillar.elife.deploy_user.username }}
+{% set user = pillar.elife.deploy_user.username %}
 
 drush:
   cmd.run:
