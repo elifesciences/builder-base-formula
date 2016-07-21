@@ -6,6 +6,7 @@ include:
     - .hostname
     - .known-hosts
     - .deploy-user
+    - .time-correction
     - .backups
     - .security
     - .logging
