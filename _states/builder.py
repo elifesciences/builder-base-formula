@@ -40,8 +40,8 @@ def git_latest(**kwargs):
     '''
     fetch_pull_requests = kwargs.pop('fetch_pull_requests', False)
     target = kwargs.get('target')
-    is_git_repository_existing = os.path.isdir(target)
-    if fetch_pull_requests and is_git_repository_existing:
+    git_repository_exists = os.path.isdir(target)
+    if fetch_pull_requests and git_repository_exists:
         refspecs = [
             '+refs/pull/*:refs/pull/*',
         ]
@@ -53,6 +53,5 @@ def git_latest(**kwargs):
             user=kwargs.get('user'),
             identity=kwargs.get('identity')
         )
-
     ret = __states__['git.latest'](**kwargs)
     return ret
