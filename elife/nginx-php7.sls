@@ -14,7 +14,8 @@ php-fpm-config:
         - name: /etc/php/7.0/fpm/php.ini
         - source: salt://elife/config/etc-php-7.0-fpm-php.ini
         - require:
-            - pkg: php-nginx-deps
+            - php-nginx-deps
+            - php-log
 
 php-fpm:
     # nginx config needs to target this sock file. 
