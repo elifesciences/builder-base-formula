@@ -11,3 +11,4 @@ include:
     - .security
     - .logging
     - .daily-system-updates
+    - .environment-name
