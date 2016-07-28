@@ -45,8 +45,18 @@ php-log:
     file.managed:
         - name: /var/log/php_errors.log
         - user: {{ pillar.elife.webserver.username }}
-        - mode: 640
+        - group: {{ pillar.elife.webserver.username }}
+        - mode: 660
         - replace: False
+
+php-cli-config:
+    file.managed:
+        - name: /etc/php/7.0/cli/php.ini
+        - source: salt://elife/config/etc-php-7.0-cli-php.ini
+        - require:
+            - php
+            - php-log
+
 
 #
 # Composer (php package management)
