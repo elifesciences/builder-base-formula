@@ -47,6 +47,13 @@ deploy-user:
 {% set pname = salt['elife.project_name']() %}
 {% set ssh = pillar.elife.ssh_access %}
 
+vagrant-user:
+    ssh_auth.present:
+        - user: {{ pillar.elife.deploy_user.username }}
+        - source: /vagrant/custom-vagrant/id_rsa.pub
+        - onlyif:
+            - test -e /vagrant/custom-vagrant/id_rsa.pub
+
 # allow
 
 {% for username in ssh.allowed.get(pname, []) %}
