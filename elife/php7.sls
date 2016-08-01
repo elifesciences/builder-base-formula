@@ -123,6 +123,13 @@ composer-permissions:
         - require:
             - cmd: update-composer
 
+composer-cache-dir:
+    cmd.run:
+        - name: composer global config cache-dir /tmp/composer-cache
+        - user: {{ pillar.elife.deploy_user.username }}
+        - require:
+            - composer-permissions
+
 # useful to depend on
 composer:
     cmd.run:
@@ -130,4 +137,5 @@ composer:
         - require:
             - composer-permissions
             - composer-global-paths
+            - composer-cache-dir
         
