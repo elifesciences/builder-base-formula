@@ -19,10 +19,12 @@ base:
             # find which files are taking up space on filesystem
             - ncdu 
 
-# installed as part of bootstrap for gitfs support, 
-# but worth mentioning again here.
 python-dev:
-    pkg.installed
+    pkg.installed:
+        - pkgs:
+            - python-dev
+            - libffi-dev 
+            - libssl-dev
 
 # https://github.com/saltstack/salt/issues/28036
 #python-pip:
