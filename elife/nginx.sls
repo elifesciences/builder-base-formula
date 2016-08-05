@@ -92,7 +92,14 @@ web-fullchain-key:
         - source: salt://elife/config/etc-certificates-fullchain.pem
         - require:
             - file: web-certificates-dir
-            
+
+better-dhe:
+    cmd.run:
+        - cwd: /etc/ssl/certs
+        - name: openssl dhparam -out dhparam.pem 2048
+        - unless:
+            - test -e /etc/ssl/certs/dhparam.pem
+
 web-ssl-enabled:
     cmd.run:
         - name: echo "ssl enabled"
@@ -100,7 +107,8 @@ web-ssl-enabled:
             - file: web-fullchain-key
             - file: web-private-key
             - file: web-certificate-file
-            
+            - cmd: better-dhe
+
 {% endif %}
 
 
