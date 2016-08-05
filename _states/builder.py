@@ -38,7 +38,7 @@ def git_latest(**kwargs):
         starting, to ensure the head and merge commits of PRs
         are available as a revision to switch to.
     '''
-    fetch_pull_requests = kwargs.pop('fetch_pull_requests', False)
+    fetch_pull_requests = kwargs.pop('fetch_pull_requests', True)
     target = kwargs.get('target')
     git_repository_exists = os.path.isdir(target)
     if fetch_pull_requests and git_repository_exists:
