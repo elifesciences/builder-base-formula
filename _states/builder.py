@@ -40,7 +40,7 @@ def git_latest(**kwargs):
     '''
     fetch_pull_requests = kwargs.pop('fetch_pull_requests', True)
     target = kwargs.get('target')
-    git_repository_exists = os.path.isdir(target)
+    git_repository_exists = os.path.isdir(os.path.join(target, '.git'))
     if fetch_pull_requests and git_repository_exists:
         refspecs = [
             '+refs/pull/*:refs/pull/*',
