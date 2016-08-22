@@ -19,6 +19,9 @@ elife:
         key: null
         github_token: null
 
+    projects_builder:
+        key: null
+
     bootstrap_user:
         username: vagrant # ubuntu in prod
 
