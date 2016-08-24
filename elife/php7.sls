@@ -13,30 +13,15 @@ php-ppa:
             #- pkgrepo: old-php-ppa
 
 php:
-    cmd.run:
-        # here be dragons:
-        # this is still true for php7.0 :(
-        # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/423071
-        # simply put: there are four possible dependencies and apache is the 
-        # default. if you don't specify any of the others, INSTALLING PHP5 WILL 
-        # INSTALL APACHE2
-        # see: apt-cache show php7.0
-        #
-        # To have these states remain uncoupled and independant of ordering, we 
-        # have to take a hit here and have Ubuntu install apache.
-        - name: |
-            export DEBIAN_FRONTEND=noninteractive 
-            apt-get install -y --force-yes --no-install-recommends \
-                php7.0 \
-                php7.0-mbstring \
-                php7.0-dev \
-                php-pear \
-                php7.0-mysql \
-                php7.0-xsl \
-                php7.0-gd \
-                php7.0-curl \
-                php7.0-mcrypt \
-                libpcre3-dev # pcre for php5 \
+    pkg.installed:
+        - pkgs:
+            - php7.0-cli
+            - php7.0-mbstring
+            - php7.0-mysql
+            - php7.0-xsl
+            - php7.0-gd
+            - php7.0-curl
+            - php7.0-mcrypt
         - require:
             - pkgrepo: php-ppa
             - pkg: base
@@ -92,7 +77,7 @@ install-composer:
             wget -O - https://getcomposer.org/installer | php
             mv composer.phar composer
         - require:
-            - cmd: php
+            - php
             - environ: composer-home
             - composer-auth
         - unless:
