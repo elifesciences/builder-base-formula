@@ -116,23 +116,11 @@ web-ssl-enabled:
 # service
 #
 
-# php in ubuntu 14.04 comes with a transistive dependency on apache2 by default. 
-# when we install php, we don't know if we are going to be using nginx or apache
-# so it installs apache by default if it can't find any other webserver
-# this is an arse, a bug, and the below is a hack.
-kill-me-an-injun:
-    service.dead:
-        - name: apache2
-        - enable: False
-        - onlyif:
-            - which apache2
-
 nginx-server-service:
     service.running:
         - name: nginx
         - require:
             - pkg: nginx-server
-            - service: kill-me-an-injun
         - watch:
             # this might not be doing what I think it's doing:
             # https://github.com/saltstack/salt/issues/24436
