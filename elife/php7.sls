@@ -47,16 +47,31 @@ php-cli-config:
 # Composer (php package management)
 #
 
-{% set composer_home = '/home/' ~ pillar.elife.deploy_user.username ~ '/.composer' %}
+{% set composer_home = '/etc/composer' %}
+
+composer-home-dir:
+    file.directory:
+        - name: {{ composer_home }}
+        - user: {{ pillar.elife.deploy_user.username }}
+        - group: {{ pillar.elife.deploy_user.username }}
+        - dir_mode: 775
+        - file_mode: 664
+        - recurse:
+            - user
+            - group
+            - mode
 
 composer-home:
     environ.setenv:
         - name: COMPOSER_HOME
         - value: {{ composer_home }}
-    cmd.run:
-        - name: echo 'export COMPOSER_HOME={{ composer_home }}' > /etc/profile.d/composer-home.sh
         - require:
-            - environ: composer-home
+            - file: composer-home-dir
+    file.managed:
+        - name: /etc/profile.d/composer-home.sh
+        - contents: export COMPOSER_HOME={{ composer_home }}
+        - require:
+            - file: composer-home-dir
 
 {% if pillar.elife.deploy_user.github_token %}
 composer-auth:
@@ -78,49 +93,32 @@ install-composer:
             mv composer.phar composer
         - require:
             - php
-            - environ: composer-home
+            - composer-home
             - composer-auth
         - unless:
             - which composer
 
 composer-global-paths:
-    cmd.run:
-        - name: echo 'export PATH={{ composer_home }}/vendor/bin:$PATH' > /etc/profile.d/composer-global-paths.sh
+    file.managed:
+        - name: /etc/profile.d/composer-global-paths.sh
+        - contents: export PATH={{ composer_home }}/vendor/bin:$PATH
         - require:
-            - cmd: install-composer
+            - file: composer-home-dir
 
 update-composer:
     cmd.run:
         - name: composer self-update
+        - user: {{ pillar.elife.deploy_user.username }}
         - onlyif:
             - which composer
         - require:
             - cmd: install-composer
 
-composer-permissions:
-    file.directory:
-        - name: {{ composer_home }}
-        - user: {{ pillar.elife.deploy_user.username }}
-        - group: {{ pillar.elife.deploy_user.username }}
-        - recurse:
-            - user
-            - group
-        - require:
-            - cmd: update-composer
-
-composer-cache-dir:
-    cmd.run:
-        - name: composer global config cache-dir /tmp/composer-cache
-        - user: {{ pillar.elife.deploy_user.username }}
-        - require:
-            - composer-permissions
-
 # useful to depend on
 composer:
     cmd.run:
         - name: composer --version
+        - user: {{ pillar.elife.deploy_user.username }}
         - require:
-            - composer-permissions
+            - update-composer
             - composer-global-paths
-            - composer-cache-dir
-        
