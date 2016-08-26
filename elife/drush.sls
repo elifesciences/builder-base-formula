@@ -7,7 +7,7 @@ drush:
     #- name: composer global require --no-interaction drush/drush:~7.0\|~8.0
     - name: composer global require --no-interaction drush/drush:~7.0
     - require:
-        - cmd: composer-global-paths
+        - composer
 
 drush-aliases-folder:
     cmd.run:
