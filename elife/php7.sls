@@ -47,19 +47,17 @@ php-cli-config:
 # Composer (php package management)
 #
 
-{% set composer_home = '/etc/composer' %}
+{% set composer_home = '/usr/lib/composer' %}
 
 composer-home-dir:
     file.directory:
         - name: {{ composer_home }}
         - user: {{ pillar.elife.deploy_user.username }}
         - group: {{ pillar.elife.deploy_user.username }}
-        - dir_mode: 775
-        - file_mode: 664
+        - dir_mode: 755
         - recurse:
             - user
             - group
-            - mode
 
 composer-home:
     environ.setenv:
