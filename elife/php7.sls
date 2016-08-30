@@ -54,12 +54,10 @@ composer-home-dir:
         - name: {{ composer_home }}
         - user: {{ pillar.elife.deploy_user.username }}
         - group: {{ pillar.elife.deploy_user.username }}
-        - dir_mode: 775
-        - file_mode: 664
+        - dir_mode: 755
         - recurse:
             - user
             - group
-            - mode
 
 composer-home:
     environ.setenv:
