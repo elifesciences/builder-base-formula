@@ -71,11 +71,11 @@ composer-home:
         - require:
             - file: composer-home-dir
 
-{% if pillar.elife.deploy_user.github_token %}
+{% if pillar.elife.projects_builder.github_token %}
 composer-auth:
     builder.environ_setenv_sensitive:
         - name: COMPOSER_AUTH
-        - value: '{"github-oauth": { "github.com": "{{ pillar.elife.deploy_user.github_token }}" } }'
+        - value: '{"github-oauth": { "github.com": "{{ pillar.elife.projects_builder.github_token }}" } }'
 {% else %}
 composer-auth:
     environ.setenv:
