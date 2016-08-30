@@ -47,7 +47,7 @@ php-cli-config:
 # Composer (php package management)
 #
 
-{% set composer_home = '/etc/composer' %}
+{% set composer_home = '/usr/lib/composer' %}
 
 composer-home-dir:
     file.directory:
