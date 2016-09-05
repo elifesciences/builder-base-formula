@@ -17,6 +17,18 @@ nginx-config:
         - listen_in:
             - service: nginx-server-service
 
+nginx-config-for-reuse:
+    file.recurse:
+        - name: /etc/nginx/traits.d
+        - source: salt://elife/config/etc-nginx-traits.d
+        - template: jinja
+        - dir_mode: 755
+        - file_mode: 644
+        - require:
+            - pkg: nginx-server
+        - listen_in:
+            - service: nginx-server-service
+
 # created by the webserver. ensure the one created is the one we're expecting
 webserver-user-group:
     group.present:
