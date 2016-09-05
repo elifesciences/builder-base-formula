@@ -112,6 +112,7 @@ better-dhe:
         - unless:
             - test -e /etc/ssl/certs/dhparam.pem
 
+# useful to depend upon
 web-ssl-enabled:
     cmd.run:
         - name: echo "ssl enabled"
