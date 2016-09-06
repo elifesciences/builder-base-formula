@@ -4,11 +4,8 @@
 jenkins-scripts:
     file.recurse:
         - name: /usr/local/jenkins-scripts/
-        - user: jenkins
         - source: salt://elife/jenkins-scripts
         - file_mode: 555
-        - require:
-            - jenkins-user-and-group
 
 slack-channel-hook:
     cmd.run:
