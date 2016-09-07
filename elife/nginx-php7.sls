@@ -17,6 +17,11 @@ php-fpm-config:
             - php-nginx-deps
             - php-log
 
+# favoring php_errors.log for everything
+not-used-php-log:
+    file.absent:
+        - name: /var/log/php7.0-fpm.log
+
 php-fpm:
     # nginx config needs to target this sock file. 
     # easier to target when version stripped out
