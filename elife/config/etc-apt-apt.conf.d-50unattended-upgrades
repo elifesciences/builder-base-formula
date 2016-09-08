@@ -56,4 +56,4 @@ Unattended-Upgrade::Package-Blacklist {
 
 // Use apt bandwidth limit feature, this example limits the download
 // speed to 70kb/sec
-Acquire::http::Dl-Limit "70";
+Acquire::http::Dl-Limit "1000";
