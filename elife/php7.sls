@@ -59,6 +59,16 @@ composer-home-dir:
             - user
             - group
 
+composer-home-dir-cache:
+    file.directory:
+        - name: {{ composer_home }}/cache
+        - user: {{ pillar.elife.deploy_user.username }}
+        - group: {{ pillar.elife.deploy_user.username }}
+        - dir_mode: 755
+        - recurse:
+            - user
+            - group
+
 composer-home:
     environ.setenv:
         - name: COMPOSER_HOME
@@ -69,7 +79,8 @@ composer-home:
         - name: /etc/profile.d/composer-home.sh
         - contents: export COMPOSER_HOME={{ composer_home }}
         - require:
-            - file: composer-home-dir
+            - composer-home-dir
+            - composer-home-dir-cache
 
 {% if pillar.elife.projects_builder.github_token %}
 composer-auth:
@@ -106,7 +117,6 @@ composer-global-paths:
 update-composer:
     cmd.run:
         - name: composer self-update
-        - user: {{ pillar.elife.deploy_user.username }}
         - onlyif:
             - which composer
         - require:
