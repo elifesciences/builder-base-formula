@@ -5,7 +5,7 @@ RUN_AS=root
 JAVA_BIN=/usr/bin/java
 
 PID_FILE="/var/run/selenium.pid"
-JAR_FILE="/usr/bin/selenium-server-standalone-2.46.0.jar"
+JAR_FILE="/usr/bin/selenium-server-standalone.jar"
 LOG_FILE="/var/log/selenium.log"
 
 MAX_MEMORY="-Xmx500m"
