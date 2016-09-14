@@ -6,6 +6,7 @@ xvfb:
         - source: salt://elife/config/etc-init.d-xvfb
         - mode: 755
     service.running:
+        - enable: True
         - watch:
               - file: xvfb
         - require:
