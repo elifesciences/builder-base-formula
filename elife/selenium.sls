@@ -33,6 +33,7 @@ selenium:
         - source: salt://elife/config/etc-init.d-selenium
         - mode: 755
     service.running:
+        - enable: True
         - watch:
               - file: selenium-server
               - file: selenium
