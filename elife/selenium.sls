@@ -22,6 +22,11 @@ selenium-server:
         - source: https://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
         - source_hash: md5=63a0b96eab18f8420b9bba2f0f5d380c
 
+# runs as root for now
+selenium-log:
+    file.managed:
+        - name: /var/log/selenium.log
+
 selenium:
     file.managed:
         - name: /etc/init.d/selenium
