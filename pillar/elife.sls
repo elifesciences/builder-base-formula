@@ -112,3 +112,5 @@ elife:
     jenkins:
         slack:
             channel_hook: http://...
+        github:
+            commit_status_token: null

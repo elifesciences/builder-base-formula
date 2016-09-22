@@ -10,3 +10,7 @@ jenkins-scripts:
 slack-channel-hook:
     cmd.run:
         - name: echo 'export SLACK_CHANNEL_HOOK={{ pillar.elife.jenkins.slack.channel_hook }}' > /etc/profile.d/slack-channel-hook.sh
+
+github-token:
+    cmd.run:
+        - name: echo 'export GITHUB_COMMIT_STATUS_TOKEN={{ pillar.elife.jenkins.github.commit_status_token }}' > /etc/profile.d/github-commit-status-token.sh
