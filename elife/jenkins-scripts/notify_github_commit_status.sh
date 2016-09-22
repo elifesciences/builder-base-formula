@@ -7,9 +7,19 @@ then
     commit=$(git rev-parse HEAD)
 fi
 
-curl \
+status_code=$(curl \
     -v \
+    -s \
+    -o github_commit_status.log \
+    -w '%{http_code}'
     "https://api.github.com/repos/$owner_and_repo/statuses/$commit?access_token=$GITHUB_COMMIT_STATUS_TOKEN" \
     -H "Content-Type: application/json" \
     -X POST \
-    -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$BUILD_URL\"}"
+    -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$BUILD_URL\"}")
+
+if [[ $status_code -eq 201 ]]; then
+    exit 0
+fi
+
+cat github_commit_status.log
+exit 22 # standard curl -f exit code
