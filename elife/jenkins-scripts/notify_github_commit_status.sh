@@ -12,4 +12,4 @@ curl \
     "https://api.github.com/repos/$owner_and_repo/statuses/$commit?access_token=$GITHUB_COMMIT_STATUS_TOKEN" \
     -H "Content-Type: application/json" \
     -X POST \
-    -d "{\"state\": \"$status\", \"description\": \"$description\", \"target_url\": \"$BUILD_URL\"}"
+    -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$BUILD_URL\"}"
