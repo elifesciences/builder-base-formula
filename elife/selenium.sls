@@ -25,8 +25,8 @@ firefox-ppa:
 firefox-pinned-version:
     cmd.run:
         - name: |
-            wget -O firefox-48.deb http://downloads.sourceforge.net/project/ubuntuzilla/mozilla/apt/pool/main/f/firefox-mozilla-build/firefox-mozilla-build_48.0.2-0ubuntu1_amd64.deb
-            dpkg -i firefox-48.deb
+            wget -O firefox-47.deb http://downloads.sourceforge.net/project/ubuntuzilla/mozilla/apt/pool/main/f/firefox-mozilla-build/firefox-mozilla-build_47.0.1-0ubuntu1_amd64.deb
+            dpkg -i firefox-47.deb
         - cwd: /root
         - require:
             - firefox-ppa
