@@ -31,9 +31,6 @@ firefox-pinned-version:
         - require:
             - firefox-ppa
 
-firefox:
-    pkg.purged
-
 selenium-server:
     file.managed:
         - name: /usr/bin/selenium-server-standalone.jar
