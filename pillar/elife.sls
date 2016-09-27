@@ -100,6 +100,11 @@ elife:
             enabled: False
             host: "logs3.papertrailapp.com"
             port: 48058
+            
+        tick:
+            enabled: False
+            influx_host: http://localhost:8086
+            influx_db: telegraf
 
     # postfix using AWS SES as a backend
     postfix_ses_mail:
