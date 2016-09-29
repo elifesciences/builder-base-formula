@@ -130,3 +130,14 @@ composer:
         - require:
             - update-composer
             - composer-global-paths
+
+syslog-ng-for-php-log:
+    file.managed:
+        - name: /etc/syslog-ng/conf.d/php.conf
+        - source: salt://elife/config/etc-syslog-ng-conf.d-php.conf
+        - template: jinja
+        - require:
+            - pkg: syslog-ng
+        - listen_in:
+            - service: syslog-ng
+    
