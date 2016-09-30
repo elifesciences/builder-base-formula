@@ -141,3 +141,7 @@ syslog-ng-for-php-log:
         - listen_in:
             - service: syslog-ng
     
+logrotate-for-php-log:
+    file.managed:
+        - name: /etc/logrotate.d/php
+        - source: salt://elife/config/etc-logrotate.d-php
