@@ -6,7 +6,10 @@
     delaycompress
     notifempty
     sharedscripts
+    # only needed if php-nginx is installed
+    # but since the PHP log is a single file for sanity,
+    # we need to take care of it in `php7.sls`
     postrotate
-        [ ! -f /var/run/php5-fpm.pid ] || kill -USR1 `cat /var/run/php5-fpm.pid`
+        [ ! -f /var/run/php/php7.0-fpm.pid ] || kill -USR1 `cat /var/run/php/php7.0-fpm.pid`
     endscript
 }
