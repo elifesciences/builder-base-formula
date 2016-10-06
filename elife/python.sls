@@ -12,12 +12,12 @@ python-2.7+:
             - pkgrepo: python-2.7+
 
     # this does upgrade it, but new python isn't available during rest of highstate
-    cmd.run:
-        - name: apt-get install python2.7 -y
-        # might work?
-        - reload_modules: True
-        - require:
-            - pkg: python-2.7+
+    #cmd.run:
+    #    - name: apt-get install python2.7 -y
+    #    # might work?
+    #    - reload_modules: True
+    #    - require:
+    #        - pkg: python-2.7+
 
 python-dev:
     pkg.installed:
