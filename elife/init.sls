@@ -3,6 +3,7 @@
 
 include:
     - .base # misc. that really should belong elsewhere (but where?)
+    - .python
     - .hostname
     - .known-hosts
     - .deploy-user
