@@ -1,3 +1,24 @@
+python-2.7+:
+    pkgrepo.managed:
+        - humanname: Python 2.7 Updates
+        - ppa: fkrull/deadsnakes-python2.7
+
+    pkg.installed:
+        - name: python2.7
+        # these don't work to upgrade if 'python2.7' already installed
+        #- refresh: True
+        #- allow_updates: True
+        - require:
+            - pkgrepo: python-2.7+
+
+    # this does upgrade it, but new python isn't available during rest of highstate
+    cmd.run:
+        - name: apt-get install python2.7 -y
+        # might work?
+        - reload_modules: True
+        - require:
+            - pkg: python-2.7+
+
 python-dev:
     pkg.installed:
         - pkgs:
@@ -49,4 +70,3 @@ global-python-requisites:
         - require:
             - pkg: base
             - pkg: python-pip
-
