@@ -1,23 +1,11 @@
-python-2.7+:
-    pkgrepo.managed:
-        - humanname: Python 2.7 Updates
-        - ppa: fkrull/deadsnakes-python2.7
-
+python-2.7:
     pkg.installed:
         - name: python2.7
         # these don't work to upgrade if 'python2.7' already installed
+        # and it's in the base box so this should never do anything
         #- refresh: True
         #- allow_updates: True
-        - require:
-            - pkgrepo: python-2.7+
-
-    # this does upgrade it, but new python isn't available during rest of highstate
-    #cmd.run:
-    #    - name: apt-get install python2.7 -y
-    #    # might work?
-    #    - reload_modules: True
-    #    - require:
-    #        - pkg: python-2.7+
+        #- reload_modules: True
 
 python-dev:
     pkg.installed:
@@ -25,6 +13,7 @@ python-dev:
             - python-dev
             - libffi-dev 
             - libssl-dev
+        #- reload_modules: True
 
 # https://github.com/saltstack/salt/issues/28036
 #python-pip:
@@ -70,3 +59,22 @@ global-python-requisites:
         - require:
             - pkg: base
             - pkg: python-pip
+
+# pkgrepo for future upgrade from distro 2.7.6 to 2.7.12
+python-2.7+:
+    pkgrepo.managed:
+        - humanname: Python 2.7 Updates
+        - ppa: fkrull/deadsnakes-python2.7
+        - require:
+            - python-2.7
+            - python-dev
+            - global-python-requisites
+
+    # this does upgrade it, but new python isn't available during rest of highstate
+    #cmd.run:
+    #    - name: apt-get install python2.7 -y
+    #    # might work?
+    #    - reload_modules: True
+    #    - require:
+    #        - pkg: python-2.7+
+
