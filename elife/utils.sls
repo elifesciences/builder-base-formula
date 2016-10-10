@@ -7,6 +7,5 @@ utils-scripts:
 utils-scripts-path:
     file.managed:
         - name: /etc/profile.d/utils-path.sh
-        - contents: |
-            export PATH=/usr/local/utils:$PATH
+        - source: salt://elife/config/etc-profile.d-utils-path.sh
         - mode: 644
