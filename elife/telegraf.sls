@@ -17,6 +17,7 @@ telegraf:
 
     service.running:
         - enable: True
+        - restart: True
         - require:
             - file: telegraf
 {% endif %}
