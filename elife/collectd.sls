@@ -1,4 +1,5 @@
 collectd:
+{% if pillar.elife.logging.collectd.enabled %}
     cmd.run:
         # installation fails out of the box for some reason
         - name: apt-get install collectd --no-install-recommends -y || true
@@ -19,3 +20,9 @@ collectd:
             - file: collectd
         - watch:
             - file: collectd
+{% else %}
+    pkg.removed:
+        - pkgs:
+            - collectd
+            - collectd-core
+{% endif %}
