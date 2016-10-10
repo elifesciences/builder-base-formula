@@ -105,7 +105,7 @@ elife:
             enabled: False
             influx_host: http://localhost:8086
             influx_db: telegraf
-            influx_username: null
+            influx_user: null
             influx_password: null
 
     # postfix using AWS SES as a backend
