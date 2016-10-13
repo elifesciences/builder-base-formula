@@ -11,6 +11,8 @@ include:
     - .backups
     - .security
     - .logging
+    {% if salt['elife.only_on_aws']() %}
     - .daily-system-updates
+    {% endif %}
     - .environment-name
     - .utils

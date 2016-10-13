@@ -134,3 +134,7 @@ def b64encode(string):
     # used by the salt/elife-website/load-tester.sh:21
     # TODO: investigate using `base64` rather than code
     return base64.b64encode(string)
+
+def only_on_aws():
+    LOG.info('cfn is %s', cfn())
+    return cfn() != {}
