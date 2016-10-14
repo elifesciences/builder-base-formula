@@ -28,8 +28,8 @@ newrelic-install-script:
 newrelic-ini-for-{{ ini_file }}:
     file.replace:
         - name: {{ ini_file }}
-        - pattern: '^newrelic.appname'
-        - repl: newrelic.appname = "{{ salt['elife.cfg']('project.instance_id') }}"
+        - pattern: '^newrelic.appname.*'
+        - repl: newrelic.appname = "{{ salt['elife.cfg']('project.instance_id', 'PHP application') }}"
         - onlyif:
             - test -e {{ ini_file }}
         - require:
