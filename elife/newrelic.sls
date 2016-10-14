@@ -17,7 +17,7 @@ newrelic-system-daemon-package:
             - newrelic-repository-key
 
 
-newrelic-license:
+newrelic-system-daemon-license:
     cmd.run:
         - name: nrsysmond-config --set license_key={{ pillar.elife.newrelic.license }}
         - require:
@@ -27,4 +27,4 @@ newrelic-system-daemon:
     service.running:
         - name: newrelic-sysmond
         - require:
-            - newrelic-license
+            - newrelic-system-daemon-license
