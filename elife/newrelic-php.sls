@@ -9,9 +9,9 @@ newrelic-php-extension-package:
 newrelic-php-extension-headless-configuration:
     environ.setenv:
         - value:
-            - NR_INSTALL_SILENT: 1
-            # NR_INSTALL_PATH
-            - NR_INSTALL_KEY: {{ pillar.elife.newrelic.license }}
+            NR_INSTALL_SILENT: 1
+            #NR_INSTALL_PATH: ...
+            NR_INSTALL_KEY: {{ pillar.elife.newrelic.license }}
 
 newrelic-install-script:
     cmd.run:
