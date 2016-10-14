@@ -15,7 +15,7 @@ newrelic-php-extension-headless-configuration:
 
 newrelic-install-script:
     cmd.run:
-        - name: newrelic-install
+        - name: newrelic-install install
         - require:
             - newrelic-php-extension-package
             - newrelic-php-extension-headless-configuration
