@@ -24,7 +24,7 @@ newrelic-install-script:
             - newrelic-php-extension-package
             - newrelic-php-extension-headless-configuration
 
-{% for ini_file in ['/etc/php/7.0/cli/conf.d/newrelic.ini', '/etc/php/7.0/fpm/conf.d/newrelic.ini']
+{% for ini_file in ['/etc/php/7.0/cli/conf.d/newrelic.ini', '/etc/php/7.0/fpm/conf.d/newrelic.ini'] %}
 newrelic-ini:
     file.replace:
         - name: {{ ini_file }}
