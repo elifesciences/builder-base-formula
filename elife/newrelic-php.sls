@@ -36,3 +36,4 @@ newrelic-ini:
             - newrelic-install-script
         - listen_in:
             - service: php-fpm
+{% endfor %}
