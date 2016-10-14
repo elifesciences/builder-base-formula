@@ -108,6 +108,9 @@ elife:
             influx_user: null
             influx_password: null
 
+    newrelic:
+        license: null
+
     # postfix using AWS SES as a backend
     postfix_ses_mail:
         smtp: email-smtp.us-east-1.amazonaws.com # change region to suit
