@@ -26,7 +26,7 @@ newrelic-system-daemon-license:
 newrelic-system-daemon-hostname:
     file.replace:
         - name: /etc/newrelic/nrsysmond.cfg
-        - pattern: "^#?hostname="
+        - pattern: "^#?hostname=.*$"
         - repl: "hostname={{ salt['elife.cfg']('project.nodename', 'project.stackname', 'cfn.stack_id', 'Unknown server') }}"
         - require: 
             - newrelic-system-daemon-package
