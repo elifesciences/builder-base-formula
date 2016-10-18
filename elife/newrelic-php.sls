@@ -30,10 +30,18 @@ newrelic-ini-for-{{ ini_file }}:
         - name: {{ ini_file }}
         - pattern: '^newrelic.appname.*'
         - repl: newrelic.appname = "{{ salt['elife.cfg']('project.stackname', 'PHP application') }}"
+        # otherwise PHP will pick up the .bak files too
+        - backup: False
         - onlyif:
             - test -e {{ ini_file }}
         - require:
             - newrelic-install-script
         - listen_in:
             - service: php-fpm
+
+remove-old-newrelic-ini-for-{{ ini_file}}-backups:
+    file.absent:
+        - name: {{ ini_file }}.bak
 {% endfor %}
+
+
