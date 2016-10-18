@@ -42,6 +42,13 @@ newrelic-ini-for-{{ ini_file }}:
 remove-old-newrelic-ini-for-{{ ini_file}}-backups:
     file.absent:
         - name: {{ ini_file }}.bak
+        - require:
+            - newrelic-ini-for-{{ ini_file }}
 {% endfor %}
 
+remove-additional-mods-available-file:
+    file.absent:
+        - name: /etc/php/7.0/mods-available/newrelic.ini
+        - require:
+            - newrelic-install-script
 
