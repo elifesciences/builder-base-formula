@@ -109,6 +109,7 @@ elife:
             influx_password: null
 
     newrelic:
+        enabled: False
         license: null
 
     # postfix using AWS SES as a backend
