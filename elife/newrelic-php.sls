@@ -29,7 +29,7 @@ newrelic-ini-for-{{ ini_file }}:
     file.replace:
         - name: {{ ini_file }}
         - pattern: '^newrelic.appname.*'
-        - repl: newrelic.appname = "{{ salt['elife.cfg']('project.stackname', 'PHP application') }}"
+        - repl: newrelic.appname = "{{ salt['elife.cfg']('project.stackname', 'cfn.stack_id', 'PHP application') }}"
         # otherwise PHP will pick up the .bak files too
         - backup: False
         - onlyif:
