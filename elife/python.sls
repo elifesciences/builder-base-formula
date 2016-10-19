@@ -60,7 +60,7 @@ global-python-requisites:
             - pkg: base
             - pkg: python-pip
 
-# pkgrepo for future upgrade from distro 2.7.6 to 2.7.12
+# pkgrepo for 2.7.12, should already be configured by builder's Salt bootstrap
 python-2.7+:
     pkgrepo.managed:
         - humanname: Python 2.7 Updates
@@ -69,12 +69,6 @@ python-2.7+:
             - python-2.7
             - python-dev
             - global-python-requisites
-
-    # this does upgrade it, but new python isn't available during rest of highstate
-    #cmd.run:
-    #    - name: apt-get install python2.7 -y
-    #    # might work?
-    #    - reload_modules: True
-    #    - require:
-    #        - pkg: python-2.7+
+        - unless:
+            - test -e /etc/apt/sources.list.d/fkrull-deadsnakes-python2_7-trusty.list
 
