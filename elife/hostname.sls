@@ -1,4 +1,4 @@
-{% set hostname = salt['elife.cfg']('cfn.outputs.DomainName', 'cfn.outputs.IntDomainName', None) %}
+{% set hostname = salt['elife.cfg']('cfn.outputs.DomainName', 'cfn.outputs.IntDomainName', '') %}
 
 # only set a hostname if we have a public hostname like foo.elifesciences.org
 
