@@ -28,7 +28,7 @@ newrelic-install-script:
 newrelic-ini-for-{{ ini_file }}:
     file.managed:
         - name: {{ ini_file }}
-        - source: elife/config/etc-php-7.0-sapi-conf.d-newrelic.ini
+        - source: salt://elife/config/etc-php-7.0-sapi-conf.d-newrelic.ini
         - template: jinja
         - onlyif:
             - test -e {{ ini_file }}
