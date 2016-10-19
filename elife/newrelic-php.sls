@@ -26,12 +26,10 @@ newrelic-install-script:
 
 {% for ini_file in ['/etc/php/7.0/cli/conf.d/newrelic.ini', '/etc/php/7.0/fpm/conf.d/newrelic.ini'] %}
 newrelic-ini-for-{{ ini_file }}:
-    file.replace:
+    file.managed:
         - name: {{ ini_file }}
-        - pattern: '^newrelic.appname.*'
-        - repl: newrelic.appname = "{{ salt['elife.cfg']('project.stackname', 'cfn.stack_id', 'PHP application') }}"
-        # otherwise PHP will pick up the .bak files too
-        - backup: False
+        - source: elife/config/etc-php-7.0-sapi-conf.d-newrelic.ini
+        - template: jinja
         - onlyif:
             - test -e {{ ini_file }}
         - require:
@@ -39,6 +37,7 @@ newrelic-ini-for-{{ ini_file }}:
         - listen_in:
             - service: php-fpm
 
+# remove when situation is stabilized
 remove-old-newrelic-ini-for-{{ ini_file}}-backups:
     file.absent:
         - name: {{ ini_file }}.bak
