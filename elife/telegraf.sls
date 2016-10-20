@@ -20,7 +20,11 @@ telegraf:
         - restart: True
         - require:
             - file: telegraf
+{% else %}
+telegraf:
+    pkg.purged
 {% endif %}
+
             
            
 #influxdb:
