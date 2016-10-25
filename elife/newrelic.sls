@@ -31,12 +31,22 @@ newrelic-system-daemon-hostname:
         - require: 
             - newrelic-system-daemon-package
 
+newrelic-system-daemon-labels:
+    file.replace:
+        - name: /etc/newrelic/nrsysmond.cfg
+        - pattern: "^#?labels=.*$"
+        - repl: "labels=project:{{ salt['elife.cfg']('project.project_name', 'Unknown project') }},environment={{ salt['elife.cfg']('project.instance_id', 'Unknown environment') }}"
+        - require: 
+            - newrelic-system-daemon-package
+
 newrelic-system-daemon:
     service.running:
         - name: newrelic-sysmond
         - require:
             - newrelic-system-daemon-license
             - newrelic-system-daemon-hostname
+            - newrelic-system-deamon-labels
         - watch:
             - newrelic-system-daemon-license
             - newrelic-system-daemon-hostname
+            - newrelic-system-daemon-labels
