@@ -45,7 +45,7 @@ newrelic-system-daemon:
         - require:
             - newrelic-system-daemon-license
             - newrelic-system-daemon-hostname
-            - newrelic-system-deamon-labels
+            - newrelic-system-daemon-labels
         - watch:
             - newrelic-system-daemon-license
             - newrelic-system-daemon-hostname
