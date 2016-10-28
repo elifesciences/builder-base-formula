@@ -6,7 +6,7 @@ gearman-daemon:
 gearman-php-extension:
     pkg.installed:
         - pkgs:
-            - php7.0-gearman
+            - php-gearman
         - require:
             - gearman-daemon
             - php
