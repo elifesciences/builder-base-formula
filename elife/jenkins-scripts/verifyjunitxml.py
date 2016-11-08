@@ -18,7 +18,12 @@ def verify(filename, logger=None):
                 failures += int(i.attrib['failures'])
     if logger:
         logger("Errors: %d. Failures: %d\n" % (errors, failures))
-    return errors + failures
+    warning_test_cases = tree.findall('.//testcase[@name="Warning"]')
+    if warning_test_cases is None:
+        warnings = 0
+    else:
+        warnings = len(warning_test_cases)
+    return errors + failures + warnings
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
