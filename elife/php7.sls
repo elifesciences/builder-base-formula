@@ -1,16 +1,18 @@
 # base php installation
 
 php-ppa:
-    cmd.run:
-        - name: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
+    #cmd.run:
+    #    - name: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
 
     pkgrepo.managed:
         - humanname: Ondřej Surý PHP PPA
         # there was a name change from "php-7.0" to just "php"
         - ppa: ondrej/php
-        - require:
-            - cmd: php-ppa
-            #- pkgrepo: old-php-ppa
+        - keyid: E5267A6C
+        - keyserver: keyserver.ubuntu.com
+        #- require:
+        #    - cmd: php-ppa
+        #    - pkgrepo: old-php-ppa
 
 php:
     pkg.installed:
