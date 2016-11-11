@@ -1,18 +1,20 @@
 # base php installation
 
 php-ppa:
-    #cmd.run:
-    #    - name: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
+    cmd.run:
+        - name: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
+        - unless:
+            - apt-key list | grep E5267A6C
 
+    # https://launchpad.net/~ondrej/+archive/ubuntu/php
     pkgrepo.managed:
         - humanname: Ondřej Surý PHP PPA
         # there was a name change from "php-7.0" to just "php"
         - ppa: ondrej/php
-        - keyid: E5267A6C
+        #- keyid: E5267A6C # 2016-11-11, LSH: doesn't seem to work
         - keyserver: keyserver.ubuntu.com
-        #- require:
-        #    - cmd: php-ppa
-        #    - pkgrepo: old-php-ppa
+        - require:
+            - cmd: php-ppa
 
 php:
     pkg.installed:
