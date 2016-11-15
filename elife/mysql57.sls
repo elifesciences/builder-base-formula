@@ -28,6 +28,8 @@ mysql-server:
         - refresh: True
         - pkgs:
             - mysql-server
+            - mysql-client
+            - python-mysqldb
         - require:
             - pkgrepo: mysql-server-ppa
 
