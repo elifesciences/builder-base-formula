@@ -28,13 +28,12 @@ mysql-server:
         - refresh: True
         - pkgs:
             - mysql-server
-            - mysql-client
         - require:
             - pkgrepo: mysql-server-ppa
 
     file.managed:
         - name: /etc/mysql/my.cnf
-        - source: salt://elife/config/etc-mysql-my.cnf
+        - source: salt://elife/config/etc-mysql5.7-my.cnf
         - require:
             - pkg: mysql-server
 
