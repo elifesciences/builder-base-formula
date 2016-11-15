@@ -13,8 +13,11 @@ php-ppa:
         - ppa: ondrej/php
         #- keyid: E5267A6C # 2016-11-11, LSH: doesn't seem to work
         - keyserver: keyserver.ubuntu.com
+        - file: /etc/apt/sources.list.d/ondrej-php-trusty.list
         - require:
             - cmd: php-ppa
+        - unless:
+            - test -e /etc/apt/source.list.d/ondrej-php-trusty.list
 
 php:
     pkg.installed:
