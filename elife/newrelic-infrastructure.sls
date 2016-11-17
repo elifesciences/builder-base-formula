@@ -1,6 +1,6 @@
 newrelic-infrastructure-license:
     cmd.run:
-        - name: printf "license_key: {{ pillar.elife.newrelic.license}}" | tee -a /etc/newrelic-infra.yml
+        - name: printf "license_key: {{ pillar.elife.newrelic.license }}" | tee -a /etc/newrelic-infra.yml
 
 newrelic-infrastructure-repository-key:
     cmd.run:
