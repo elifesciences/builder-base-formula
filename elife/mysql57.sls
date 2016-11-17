@@ -23,8 +23,7 @@ mysql-server-ppa:
     #        - test -e /etc/apt/sources.list.d/mysql.list
 
 mysql-server:
-    pkg.installed
-        - refresh: True
+    pkg.installed:
         - pkgs:
             - mysql-server
             - mysql-client
