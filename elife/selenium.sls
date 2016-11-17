@@ -30,6 +30,8 @@ firefox-pinned-version:
         - cwd: /root
         - require:
             - firefox-ppa
+        - unless:
+            - test "`firefox -v`" = "Mozilla Firefox 47.0.1"
 
 selenium-server:
     file.managed:
