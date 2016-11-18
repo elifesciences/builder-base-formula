@@ -17,7 +17,7 @@ php-ppa:
         - require:
             - cmd: php-ppa
         - unless:
-            - test -e /etc/apt/source.list.d/ondrej-php-trusty.list
+            - test -e /etc/apt/sources.list.d/ondrej-php-trusty.list
 
 php:
     pkg.installed:
