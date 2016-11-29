@@ -19,6 +19,7 @@ oracle-license-select:
 oracle-java8-installer:
     pkg:
         - installed
+        - refresh: True
         - require:
             - pkgrepo: oracle-ppa
             - oracle-license-select
