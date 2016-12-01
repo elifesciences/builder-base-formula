@@ -19,6 +19,11 @@ base:
             # find which files are taking up space on filesystem
             - ncdu 
 
+base-purging:
+    pkg.purged:
+        - pkgs:
+            - puppet
+
 base-vim-config:
     file.managed:
         - name: /etc/vim/vimrc
