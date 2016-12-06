@@ -10,6 +10,8 @@ mysql-server-ppa:
         - ppa: ondrej/mysql-5.7
         - require:
             - cmd: mysql-server-ppa
+        - unless:
+            - test -e /etc/apt/sources.list.d/ondrej-mysql-5_7-trusty.list
 
     # alternative: untested official MySQL repository
     #pkgrepo.managed:
