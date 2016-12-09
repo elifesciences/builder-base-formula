@@ -1,6 +1,8 @@
 newrelic-repository:
-    cmd.run:
-        - name: echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' > /etc/apt/sources.list.d/newrelic.list
+    file.managed:
+        - name: /etc/apt/sources.list.d/newrelic.list
+        - contents: |
+            deb http://apt.newrelic.com/debian/ newrelic non-free
 
 newrelic-repository-key:
     cmd.run:
