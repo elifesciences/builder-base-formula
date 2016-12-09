@@ -7,6 +7,9 @@ redis-server-install:
         - name: /etc/redis/redis.conf
         - source: salt://elife/config/etc-redis-redis.conf
         - template: jinja
+        # by default, redis runs as a purely in-memory service, no persistence
+        # projects should override redis.conf if they need different settings
+        - replace: False 
         - require:
             - pkg: redis-server-install
             - file: /var/run/redis
