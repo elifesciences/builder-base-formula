@@ -35,15 +35,14 @@ newrelic-system-daemon-hostname:
         - repl: "hostname={{ newrelic_hostname }}"
         - require:
             - newrelic-system-daemon-package
-        - unless:
-            - grep hostname={{ newrelic_hostname }} /etc/newrelic/nrsysmond.cfg
 
-{% newrelic_labels = salt['elife.cfg']('project.project_name', 'Unknown project') %}
+{% set newrelic_labels = salt['elife.cfg']('project.project_name', 'Unknown project') %}
+{% set newrelic_environment = salt['elife.cfg']('project.instance_id', 'Unknown environment') %}
 newrelic-system-daemon-labels:
     file.replace:
         - name: /etc/newrelic/nrsysmond.cfg
         - pattern: "^#?labels=.*$"
-        - repl: "labels=project:{{ newrelic_labels }},environment={{ salt['elife.cfg']('project.instance_id', 'Unknown environment') }}"
+        - repl: "labels=project:{{ newrelic_labels }},environment={{ newrelic_environment }}"
         - require: 
             - newrelic-system-daemon-package
 
