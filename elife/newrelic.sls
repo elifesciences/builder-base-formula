@@ -5,6 +5,8 @@ newrelic-repository:
 newrelic-repository-key:
     cmd.run:
         - name: wget -O- https://download.newrelic.com/548C16BF.gpg | apt-key add -
+        - unless:
+            - apt-key list | grep 548C16BF
 
 
 # this agent monitors CPU, RAM, IO, load...
@@ -22,20 +24,26 @@ newrelic-system-daemon-license:
         - name: nrsysmond-config --set license_key={{ pillar.elife.newrelic.license }}
         - require:
             - newrelic-system-daemon-package
+        - unless:
+            - grep license_key={{ pillar.elife.newrelic.license }} /etc/newrelic/nrsysmond.cfg
 
+{% set newrelic_hostname = salt['elife.cfg']('project.nodename', 'project.stackname', 'cfn.stack_id', 'Unknown server') %}
 newrelic-system-daemon-hostname:
     file.replace:
         - name: /etc/newrelic/nrsysmond.cfg
         - pattern: "^#?hostname=.*$"
-        - repl: "hostname={{ salt['elife.cfg']('project.nodename', 'project.stackname', 'cfn.stack_id', 'Unknown server') }}"
-        - require: 
+        - repl: "hostname={{ newrelic_hostname }}"
+        - require:
             - newrelic-system-daemon-package
+        - unless:
+            - grep hostname={{ newrelic_hostname }} /etc/newrelic/nrsysmond.cfg
 
+{% newrelic_labels = salt['elife.cfg']('project.project_name', 'Unknown project') %}
 newrelic-system-daemon-labels:
     file.replace:
         - name: /etc/newrelic/nrsysmond.cfg
         - pattern: "^#?labels=.*$"
-        - repl: "labels=project:{{ salt['elife.cfg']('project.project_name', 'Unknown project') }},environment={{ salt['elife.cfg']('project.instance_id', 'Unknown environment') }}"
+        - repl: "labels=project:{{ newrelic_labels }},environment={{ salt['elife.cfg']('project.instance_id', 'Unknown environment') }}"
         - require: 
             - newrelic-system-daemon-package
 
