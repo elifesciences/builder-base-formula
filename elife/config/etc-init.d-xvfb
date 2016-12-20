@@ -13,7 +13,7 @@ case "$1" in
     echo "."
     ;;
   status)
-    start-stop-daemon --status --quiet --pidfile $PID_FILE
+    start-stop-daemon --status --quiet --pidfile $PIDFILE
     PROC_STATUS=$?
     echo $PROC_STATUS
     exit $PROC_STATUS
