@@ -30,17 +30,24 @@ case "$1" in
         echo "$NAME."
         ;;
 
+    status)
+        start-stop-daemon --status --quiet --pidfile $PID_FILE
+        PROC_STATUS=$?
+        echo $PROC_STATUS
+        exit $PROC_STATUS
+        ;;
+
     restart|force-reload)
         echo -n "Restarting $DESC: "
         start-stop-daemon --stop --pidfile $PID_FILE
-    sleep 1
-    start-stop-daemon -c $RUN_AS --start --background --pidfile $PID_FILE  --make-pidfile --exec $JAVA_BIN -- $DAEMON_OPTS
-    echo "$NAME."
-    ;;
+        sleep 1
+        start-stop-daemon -c $RUN_AS --start --background --pidfile $PID_FILE  --make-pidfile --exec $JAVA_BIN -- $DAEMON_OPTS
+        echo "$NAME."
+        ;;
 
     *)
         N=/etc/init.d/$NAME
-        echo "Usage: $N {start|stop|restart|force-reload}" >&2
+        echo "Usage: $N {start|stop|status|restart|force-reload}" >&2
         exit 1
         ;;
 esac

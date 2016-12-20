@@ -12,12 +12,18 @@ case "$1" in
     start-stop-daemon --stop --quiet --pidfile $PIDFILE
     echo "."
     ;;
+  status)
+    start-stop-daemon --status --quiet --pidfile $PID_FILE
+    PROC_STATUS=$?
+    echo $PROC_STATUS
+    exit $PROC_STATUS
+  ;;
   restart)
     $0 stop
     $0 start
     ;;
   *)
-        echo "Usage: /etc/init.d/xvfb {start|stop|restart}"
+        echo "Usage: /etc/init.d/xvfb {start|stop|status|restart}"
         exit 1
 esac
 
