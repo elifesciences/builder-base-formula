@@ -5,12 +5,12 @@ install-ubr:
         - onlyif:
             - test -d /opt/ubr
 
-    git.latest:
+    git.detached:
         - name: https://github.com/elifesciences/ubr
-        # these work in 2015.8.0
-        - force_clone: True
+        - ref:  d1430c5585c60ade4f08347924190386e70cc493 # master, stable
+        #- ref: 5be709277eab9e293f8ae552057198097a22a3c3 # develop, unstable
         - force_checkout: True
-        - force_reset: True        
+        - hard_reset: True        
         - target: /opt/ubr
         - require:
             - cmd: install-ubr
