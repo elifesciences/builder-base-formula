@@ -47,6 +47,7 @@ elife:
                 - example-user
 
     backups:
+        bucket: elife-app-backups
         # AWS credentials for uploading backups to S3
         s3_access: null 
         s3_secret: null
