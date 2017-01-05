@@ -125,6 +125,7 @@ def cfg(*paths):
     default = paths[-1] if len(paths) > 1 else None    
     data = {
         'project': read_json('/etc/build-vars.json.b64') or {}, # template 'compile' time data
+        'buildvars': read_json('/etc/build-vars.json.b64') or {}, # template 'compile' time data
         'cfn': cfn() # stack 'creation' time data
     }
     # don't raise exceptions if path value not found. very django-like
