@@ -45,20 +45,18 @@ rds-postgresql-user:
         - login: True
         - require:
             - pkg: postgresql
-{% endif %}
-
+{% else %}
 postgresql-user:
     postgres_user.present:
         - name: {{ pillar.elife.db_root.username }}
         - password: {{ pillar.elife.db_root.password }}
         - refresh_password: True
         - db_password: {{ pillar.elife.db_root.password }}
-        
         # doesn't work on RDS instances
         - superuser: True
-
         - login: True
         - require:
             - pkg: postgresql
             - service: postgresql
+{% endif %}
 
