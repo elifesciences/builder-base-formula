@@ -45,6 +45,8 @@ rds-postgresql-user:
         - login: True
         - require:
             - pkg: postgresql
+        - require_in:
+            - postgresql-ready
 {% endif %}
 
 postgresql-user:
@@ -62,3 +64,10 @@ postgresql-user:
             - pkg: postgresql
             - service: postgresql
 
+postgresql-ready:
+    cmd.run:
+        - name: echo "PostgreSQL is set up and ready"
+        - require:
+            - postgresql
+            - postgresql-config
+            - postgresql-user
