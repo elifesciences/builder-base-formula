@@ -24,7 +24,7 @@ postgresql:
             - pkg: postgresql
 
 postgresql-init:
-    file.managed;
+    file.managed:
         - name: /etc/init.d/postgresql
         - source: salt://elife/config/etc-init.d-postgresql
         - require:
