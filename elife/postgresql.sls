@@ -23,6 +23,13 @@ postgresql:
         - require:
             - pkg: postgresql
 
+postgresql-init:
+    file.managed;
+        - name: /etc/init.d/postgresql
+        - source: salt://elife/config/etc-init.d-postgresql
+        - require:
+            - pkg: postgresql
+
 postgresql-config:
     file.managed:
         - name: /etc/postgresql/9.4/main/pg_hba.conf
@@ -69,5 +76,6 @@ postgresql-ready:
         - name: echo "PostgreSQL is set up and ready"
         - require:
             - postgresql
+            - postgresql-init
             - postgresql-config
             - postgresql-user
