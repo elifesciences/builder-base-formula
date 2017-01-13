@@ -4,4 +4,4 @@ go-get-goaws:
         - env:
             - GOPATH: /usr/local
         - require:
-            - pkg: golang-go
+            - pkg: golang
