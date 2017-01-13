@@ -9,3 +9,9 @@ utils-scripts-path:
         - name: /etc/profile.d/utils-path.sh
         - source: salt://elife/config/etc-profile.d-utils-path.sh
         - mode: 644
+
+utils-packages:
+    pkg.installed:
+        - pkgs:
+            # useful for smoke testing the JSON output
+            - jq
