@@ -11,9 +11,10 @@
 ### END INIT INFO
 
 NAME="goaws"
+PIDFILE="/var/run/goaws/goaws.pid"
 PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
 APPDIR="/"
-APPBIN="/usr/bin/goaws"
+APPBIN="/usr/local/bin/goaws"
 
 # Include functions
 set -e
@@ -21,7 +22,7 @@ set -e
 
 start() {
   printf "Starting '$NAME'... "
-  start-stop-daemon --start --background -m --oknodo --pidfile /var/run/${NAME}.pid --exec ${APPBIN}
+  start-stop-daemon --start --background -m --oknodo --pidfile ${PIDFILE} --make-pidfile --chuid root:root --exec ${APPBIN}
   aws sns create-topic --name=annual-reports --endpoint=http://localhost:4100
   aws sns create-topic --name=blog-articles --endpoint=http://localhost:4100
   aws sns create-topic --name=collections --endpoint=http://localhost:4100
@@ -48,17 +49,17 @@ killtree() {
 
 stop() {
   printf "Stopping '$NAME'... "
-  [ -z `cat /var/run/$NAME.pid 2>/dev/null` ] || \
+  [ -z `cat ${PIDFILE} 2>/dev/null` ] || \
   while test -d /proc/$(cat /var/run/$NAME.pid); do
-    killtree $(cat /var/run/$NAME.pid) 15
+    killtree $(cat ${PIDFILE}) 15
     sleep 0.5
   done
-  [ -z `cat /var/run/$NAME.pid 2>/dev/null` ] || rm /var/run/$NAME.pid
+  [ -z `cat ${PIDFILE} 2>/dev/null` ] || rm ${PIDFILE}
   printf "done\n"
 }
 
 status() {
-  status_of_proc -p /var/run/$NAME.pid "" $NAME && exit 0 || exit $?
+  status_of_proc -p ${PIDFILE} "" $NAME && exit 0 || exit $?
 }
 
 case "$1" in
