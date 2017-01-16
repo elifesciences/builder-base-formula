@@ -5,6 +5,7 @@ include:
     - .base # misc. that really should belong elsewhere (but where?)
     - .python
     - .hostname
+    - .dhcp
     - .known-hosts
     - .deploy-user
     - .time-correction
