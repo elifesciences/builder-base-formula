@@ -13,7 +13,6 @@ python-dev:
             - python-dev
             - libffi-dev 
             - libssl-dev
-        #- reload_modules: True
 
 # https://github.com/saltstack/salt/issues/28036
 #python-pip:
@@ -61,6 +60,7 @@ global-python-requisites:
             - pkg: python-pip
 
 # pkgrepo for 2.7.12, should already be configured by builder's Salt bootstrap
+# officially abandoned
 python-2.7+:
     pkgrepo.managed:
         - humanname: Python 2.7 Updates
