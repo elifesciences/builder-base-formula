@@ -8,20 +8,14 @@ goaws-install:
             - aws-cli
 
 goaws-init:
+
     file.managed:
-        - name: /etc/init.d/goaws
-        - source: salt://elife/config/etc-init.d-goaws
+        - name: /etc/init/goaws-init.conf
+        - source: salt://elife/config/etc-init-goaws-init.conf
         - mode: 755
         - template: jinja
         - require:
             - goaws-install
-    service.running:
-        - require:
-            - cmd: goaws-install
-            - file: goaws-init
-            - file: /var/run/goaws
-        - watch:
-            - file: goaws-init
 
 /var/run/goaws:
     file.directory:
