@@ -1,6 +1,6 @@
 aws-cli:
-    cmd.run:
-        - name: pip install awscli
+    pip.installed:
+        - name: awscli
         - require:
-            - python-pip
+          - python-pip
 
