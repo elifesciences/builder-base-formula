@@ -13,5 +13,7 @@ python-3:
             
     pkg.installed:
         - pkgs:
-            - python3.6
+            - python3 # 3.4
             - python3-dev
+            - python3.6
+            - python3.6-dev
