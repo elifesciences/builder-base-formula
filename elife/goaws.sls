@@ -19,4 +19,4 @@ goaws-init:
     service.running:
         - name: goaws-init
         - require:
-            - file: goaws-install
+            - file: goaws-init
