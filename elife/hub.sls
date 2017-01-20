@@ -10,7 +10,7 @@ hub:
         - unless:
             - which hub
         - require:
-            - add-jenkins-gitconfig
+            - deploy-user
 
     file.managed:
         - name: /home/{{ pillar.elife.deploy_user.username }}/.config/hub
