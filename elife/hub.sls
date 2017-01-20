@@ -9,16 +9,15 @@ hub:
         - cwd: /opt
         - unless:
             - which hub
-        - require:
-            - deploy-user
 
     file.managed:
-        - name: /home/{{ pillar.elife.deploy_user.username }}/.config/hub
+        - name: /home/{{ pillar.elife.hub.username }}/.config/hub
         - source: salt://elife/config/home-deploy-user-.config-hub
         - template: jinja
         - makedirs: True
-        - user: {{ pillar.elife.deploy_user.username }}
-        - group: {{ pillar.elife.deploy_user.username }}
+        - user: {{ pillar.elife.hub.username }}
+        - group: {{ pillar.elife.hub.username }}
         - require:
+            - deploy-user
             - cmd: hub
 
