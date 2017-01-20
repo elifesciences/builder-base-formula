@@ -1,0 +1,4 @@
+github.com:
+- user: {{ pillar.elife.hub.user }}
+  oauth_token: {{ pillar.elife.hub.token }}
+  protocol: https

@@ -126,3 +126,7 @@ elife:
             channel_hook: http://...
         github:
             commit_status_token: null
+    # hub tool for Github interaction
+    hub:
+        user: null
+        token: null
