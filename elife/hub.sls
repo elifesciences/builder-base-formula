@@ -11,7 +11,7 @@ hub:
             - which hub
 
     file.managed:
-        - name: /home/{{ pillar.elife.hub.username }}/.config/hub
+        - name: {{ salt['user.info'](pillar.elife.hub.username).home }}/.config/hub
         - source: salt://elife/config/home-deploy-user-.config-hub
         - template: jinja
         - makedirs: True
