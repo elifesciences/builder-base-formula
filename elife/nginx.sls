@@ -97,5 +97,5 @@ create-web-user-{{ title }}:
         - require:
             - pkg: nginx-server
         - unless:
-            - test -f /etc/nginx/.{{ title }}-htpasswd
+            - test -f /etc/nginx/.{{ title }}htpasswd
 {% endfor %}
