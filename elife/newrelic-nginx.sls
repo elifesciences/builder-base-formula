@@ -23,7 +23,7 @@ newrelic-nginx-package:
         - require:
             - newrelic-nginx-repository
     
-newrelix-nginx-configuration-license:
+newrelic-nginx-configuration-license:
     file.replace:
         - name: /etc/nginx-nr-agent/nginx-nr-agent.ini
         - pattern: '^newrelic_license_key=.*'
@@ -31,7 +31,7 @@ newrelix-nginx-configuration-license:
         - require: 
             - newrelic-nginx-package
 
-newrelix-nginx-configuration-source:
+newrelic-nginx-configuration-source:
     file.append:
         - name: /etc/nginx-nr-agent/nginx-nr-agent.ini
         - text:
