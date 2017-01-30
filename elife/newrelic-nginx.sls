@@ -31,12 +31,13 @@ newrelic-nginx-configuration-license:
         - require: 
             - newrelic-nginx-package
 
+{% set newrelic_hostname = salt['elife.cfg']('project.nodename', 'project.stackname', 'Unknown nginx') %}
 newrelic-nginx-configuration-source:
     file.append:
         - name: /etc/nginx-nr-agent/nginx-nr-agent.ini
         - text:
             - [source1]
-            - name=nginx
+            - name={{ newrelic_hostname }}
             - url=http://localhost:8002/nginx_status
         - require: 
             - newrelic-nginx-package
