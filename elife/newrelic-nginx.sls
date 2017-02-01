@@ -1,3 +1,6 @@
+# New Relic plugin for monitoring Nginx
+# deprecated: does not provide much information
+
 # I don't trust pkgrepo.managed and key_url anymore,
 # it never works
 newrelic-nginx-repository-key:
