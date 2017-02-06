@@ -1,3 +1,8 @@
+# In case there is an external EBS volume available, 
+# this state file will format it and make it available on /ext
+# In Vagrant, this falls back to just be an empty /ext directory
+# on the same device as `/`
+
 format-external-volume:
     cmd.run: 
         - name: mkfs -t {{ pillar.elife.external_volume.filesystem }} {{ pillar.elife.external_volume.device }}
