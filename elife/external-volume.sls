@@ -21,7 +21,7 @@ mount-external-volume:
     mount.mounted:
         - name: /ext
         - device: {{ pillar.elife.external_volume.device }}
-        - fstype: {{ pillar.elife.external_volume.device }}
+        - fstype: {{ pillar.elife.external_volume.filesystem }}
         - mkmnt: True
         - opts:
             - defaults
