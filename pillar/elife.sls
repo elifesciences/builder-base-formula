@@ -132,3 +132,7 @@ elife:
         github:
             user: null
             token: null
+
+    external_volume:
+        device: /dev/xvdh
+        filesystem: ext4
