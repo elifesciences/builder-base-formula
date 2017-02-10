@@ -136,3 +136,10 @@ elife:
     external_volume:
         device: /dev/xvdh
         filesystem: ext4
+
+    # these will be created as system users
+    # but they will only have permissions for their empty home directory
+    ftp_users:
+        johndoe:
+            username: johndoe
+            password: somepassword
