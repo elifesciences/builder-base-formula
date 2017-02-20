@@ -17,4 +17,5 @@ include:
     - .daily-system-updates
     {% endif %}
     - .environment-name
+    - .smoke
     - .utils
