@@ -68,13 +68,6 @@ loris-images-folder:
         - name: /usr/local/share/images
         - user: loris
 
-loris-image-examples:
-    cmd.run:
-        - name: cp -R tests/img/* /usr/local/share/images
-        - cwd: /opt/loris
-        - require:
-            - loris-images-folder
-
 # only runs on second time?
 # has to be run multiple times, unclear what it's doing
 # add requires, experiment
@@ -89,13 +82,23 @@ loris-setup:
             - loris-user
             - loris-images-folder
 
-# TODO: should be on an external volume
-loris-cache:
+loris-cache-general:
     file.directory:
-        - name: /var/cache/loris2
+        - name: {{ pillar.elife.loris.storage }}/cache-general
         - user: loris
         - group: loris
         - dir_mode: 755
+        - makedirs: True
+        - require:
+            - loris-setup
+
+loris-cache-resolver:
+    file.directory:
+        - name: {{ pillar.elife.loris.storage }}/cache-resolver
+        - user: loris
+        - group: loris
+        - dir_mode: 755
+        - makedirs: True
         - require:
             - loris-setup
 
@@ -106,6 +109,8 @@ loris-config:
         - template: jinja
         - require:
             - loris-setup
+            - loris-cache-general
+            - loris-cache-resolver
 
 loris-wsgi-entry-point:
     file.managed:
@@ -170,7 +175,6 @@ loris-ready:
         - require:
             - loris-nginx-ready
 
-    #TODO: add images
     cmd.run:
         - name: |
             smoke-loris

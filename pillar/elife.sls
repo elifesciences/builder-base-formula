@@ -152,13 +152,11 @@ elife:
         storage: /tmp/loris
         port: 8010
         resolver:
-            #impl = 'loris.resolver.SimpleFSResolver'
+            #impl: loris.resolver.SimpleFSResolver
             #src_img_root: /usr/local/share/images
 
             impl: loris.resolver.SimpleHTTPResolver
             source_prefix: https://publishing-cdn.elifesciences.org/
-            # TODO: should be on an external volume too
-            cache_root: /usr/local/share/images/loris
             #source_suffix='/datastreams/accessMaster/content'
             #user='<if needed else remove this line>'
             #pw='<if needed else remove this line>'
