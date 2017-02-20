@@ -45,6 +45,7 @@ php-cli-config:
     file.managed:
         - name: /etc/php/7.0/cli/php.ini
         - source: salt://elife/config/etc-php-7.0-cli-php.ini
+        - template: jinja
         - require:
             - php
             - php-log

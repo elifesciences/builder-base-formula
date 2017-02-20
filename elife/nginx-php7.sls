@@ -13,6 +13,7 @@ php-fpm-config:
     file.managed:
         - name: /etc/php/7.0/fpm/php.ini
         - source: salt://elife/config/etc-php-7.0-fpm-php.ini
+        - template: jinja
         - require:
             - php-nginx-deps
             - php-log
