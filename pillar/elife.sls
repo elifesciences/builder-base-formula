@@ -148,6 +148,7 @@ elife:
         upload_max_filesize: 2M
 
     loris:
+        port: 8010
         resolver:
             #impl = 'loris.resolver.SimpleFSResolver'
             #src_img_root: /usr/local/share/images

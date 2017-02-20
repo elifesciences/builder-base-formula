@@ -1,43 +1,3 @@
-# most recent guide: https://stkenny.github.io/iiif/loris/2016/10/03/loris_install/
-# 1. Requirements
-# checkout git@github.com:loris-imageserver/loris.git
-# elife:elife on /opt/loris
-# git@github.com:loris-imageserver/loris.git
-apache-packages:
-    pkg.installed:
-        - pkgs:
-            - apache2
-            - libapache2-mod-wsgi
-
-apache-module-headers:
-    apache_module.enabled:
-        - name: headers
-        - require:
-            - apache-packages
-
-apache-module-expires:
-    apache_module.enabled:
-        - name: expires
-        - require:
-            - apache-packages
-
-apache-module-wsgi:
-    apache_module.enabled:
-        - name: wsgi
-        - require:
-            - apache-packages
-
-apache-default-site:
-    apache_site.disabled:
-        - name: 000-default
-
-apache-loris-site:
-    file.managed:
-        - name: /etc/apache2/sites-enabled/loris.conf
-        - source: salt://elife/config/etc-apache2-sites-enabled-loris.conf
-        - require:
-            - apache-packages
-
 loris-repository:
     git.latest:
         - name: git@github.com:loris-imageserver/loris.git
@@ -89,7 +49,7 @@ loris-dependencies:
             venv/bin/pip install Werkzeug
             venv/bin/pip install configobj
             venv/bin/pip install Pillow
-            #venv/bin/pip install --no-binary :all: Pillow
+            venv/bin/pip install uwsgi==2.0.14
         - cwd: /opt/loris
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
@@ -154,32 +114,61 @@ loris-wsgi-entry-point:
         - require:
             - loris-setup
 
-apache-ready:
+loris-uwsgi-configuration:
+    file.managed:
+        - name: /etc/loris2/uwsgi.ini
+        - source: salt://elife/config/etc-loris2-uwsgi.ini
+        - require:
+            - loris-setup
+
+loris-uwsgi-log:
+    file.managed:
+        - name: /var/log/uwsgi-loris.log
+        # don't want to lose any write to this
+        - mode: 666
+
+loris-uwsgi-ready:
+    file.managed:
+        - name: /etc/init/uwsgi-loris.conf
+        - source: salt://elife/config/etc-init-uwsgi-loris.conf
+        - require:
+            - loris-uwsgi-configuration
+            - loris-uwsgi-log
+
     service.running:
-        - name: apache2
+        - name: uwsgi-loris
         - enable: True
-        - reload: True
+        - restart: True
         - watch:
             - loris-repository
             - loris-dependencies
             - loris-setup
             - loris-config
             - loris-wsgi-entry-point
+
+loris-nginx-ready:
+    file.managed:
+        - name: /etc/nginx/sites-enabled/loris.conf
+        - source: salt://elife/config/etc-nginx-sites-enabled-loris.conf
+        - template: jinja
         - require:
-            - apache-module-expires
-            - apache-module-headers
-            - apache-module-wsgi
-            - apache-default-site
-            - apache-loris-site
-            - loris-config
-            - loris-wsgi-entry-point
-            - loris-cache
+            - loris-uwsgi-ready
+
+    service.running:
+        - name: nginx
+        - enable: True
+        - reload: True
+        - watch:
+            - file: loris-nginx-ready
 
 loris-ready:
     file.managed:
         - name: /usr/local/bin/smoke-loris
         - source: salt://elife/config/usr-local-bin-smoke-loris
+        - template: jinja
         - mode: 755
+        - require:
+            - loris-nginx-ready
 
     #TODO: add images
     cmd.run:

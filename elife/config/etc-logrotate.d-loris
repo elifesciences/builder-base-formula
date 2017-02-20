@@ -6,3 +6,21 @@
     compress
     copytruncate
 }
+
+/var/log/uwsgi-loris.log {
+    daily
+    rotate 7
+    notifempty
+    missingok
+    compress
+    copytruncate
+}
+
+/var/log/upstart/uwsgi-loris.log {
+    daily
+    rotate 7
+    notifempty
+    missingok
+    compress
+    copytruncate
+}
