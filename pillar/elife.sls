@@ -147,6 +147,7 @@ elife:
 
     php:
         upload_max_filesize: 2M
+        post_max_size: 8M
 
     loris:
         storage: /tmp/loris
