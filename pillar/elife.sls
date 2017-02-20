@@ -143,3 +143,6 @@ elife:
         johndoe:
             username: johndoe
             password: somepassword
+
+    php:
+        upload_max_filesize: 2M
