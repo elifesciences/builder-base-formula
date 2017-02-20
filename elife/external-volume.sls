@@ -1,5 +1,6 @@
 # In case there is an external EBS volume available, 
 # this state file will format it and make it available on /ext
+# (customizable with pillar.elife.external_volume.directory)
 # In Vagrant, this falls back to just be an empty /ext directory
 # on the same device as `/`
 
@@ -15,11 +16,11 @@ format-external-volume:
 
 mount-point-external-volume:
     file.directory:
-        - name: /ext
+        - name: {{ pillar.elife.external_volume.directory }}
 
 mount-external-volume:
     mount.mounted:
-        - name: /ext
+        - name: {{ pillar.elife.external_volume.directory }}
         - device: {{ pillar.elife.external_volume.device }}
         - fstype: {{ pillar.elife.external_volume.filesystem }}
         - mkmnt: True
@@ -33,6 +34,6 @@ mount-external-volume:
             - test -b {{ pillar.elife.external_volume.device }}
         - unless:
             # mount point already has a volume mounted
-            - cat /proc/mounts | grep --quiet --no-messages /ext/
+            - cat /proc/mounts | grep --quiet --no-messages {{ pillar.elife.external_volume.directory }}
 
 

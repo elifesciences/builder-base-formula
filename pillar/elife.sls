@@ -136,6 +136,7 @@ elife:
     external_volume:
         device: /dev/xvdh
         filesystem: ext4
+        directory: /ext
 
     # these will be created as system users
     # but they will only have permissions for their empty home directory
@@ -148,6 +149,7 @@ elife:
         upload_max_filesize: 2M
 
     loris:
+        storage: /tmp/loris
         port: 8010
         resolver:
             #impl = 'loris.resolver.SimpleFSResolver'
