@@ -1,0 +1,8 @@
+/var/log/loris2/loris.log {
+    daily
+    rotate 7
+    notifempty
+    missingok
+    compress
+    copytruncate
+}

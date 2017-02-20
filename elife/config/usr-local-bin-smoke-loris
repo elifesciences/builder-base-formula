@@ -1,0 +1,6 @@
+#!/bin/bash
+
+. /opt/smoke.sh/smoke.sh
+
+smoke_url_ok "http://localhost:80/loris"
+smoke_report
