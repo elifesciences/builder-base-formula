@@ -30,7 +30,7 @@ mysql-server-ppa:
             - test -e /etc/apt/sources.list.d/mysql.list
 
 mysql-server:
-    pkg.latest:
+    pkg.installed:
         - pkgs:
             - mysql-server
             - mysql-client
