@@ -55,6 +55,9 @@ mysql-server:
 mysql-ready:
     cmd.run:
         - name: echo "MySQL is ready"
+        - require:
+            - mysql-server
+            # look at require_in: of other states in this file
 
 {% set root = pillar.elife.db_root %}
 
