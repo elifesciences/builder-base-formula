@@ -77,7 +77,7 @@ mysql-root-user:
             - service: mysql-server
             - mysql_user: mysql-root-user
         - require_in:
-            - mysql-ready
+            - cmd: mysql-ready
 
 {% if pillar.elife.env == 'dev' %}
 # within a dev environment the root user can connect from outside the machine
@@ -100,6 +100,6 @@ mysql-root-user-dev-perms:
             - service: mysql-server
             - mysql_user: mysql-root-user-dev-perms
         - require_in:
-            - mysql-ready
+            - cmd: mysql-ready
 {% endif %}
 
