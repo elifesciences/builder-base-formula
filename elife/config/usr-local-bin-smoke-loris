@@ -1,6 +1,0 @@
-#!/bin/bash
-
-. /opt/smoke.sh/smoke.sh
-
-smoke_url_ok "http://localhost:{{ pillar.elife.loris.port}}/"
-smoke_report
