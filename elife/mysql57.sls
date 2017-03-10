@@ -62,7 +62,6 @@ mysql-ready:
 {% set root = pillar.elife.db_root %}
 
 # the 'root' db user that has access to *everything*
-# untested with RDS, doesn't work as intended with PostgreSQL.
 mysql-root-user:
     mysql_user.present:
         - name: {{ root.username }}
