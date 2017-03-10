@@ -1,6 +1,9 @@
 {% set wwwuser = pillar.elife.webserver %}
 {% set user = pillar.elife.deploy_user %}
 
+include:
+    - .certificates
+
 apache2:
     pkg:
         - installed
