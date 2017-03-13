@@ -23,6 +23,24 @@ install-ubr:
         - require:
             - git: install-ubr
 
+new-ubr-config:
+    file.managed:
+        - name: /opt/ubr/app.cfg
+        - source: salt://elife/config/opt-ubr-app.cfg
+        - template: jinja
+        # read-write for root only
+        - user: root
+        - group: root
+        - mode: 600
+        - require:
+            - install-ubr
+
+# untested
+#monitor-logs:
+#    file.managed:
+#        - name: /etc/syslog-ng/conf.d/ubr.conf
+#        - source: salt://elife/config/etc-syslog-ng-conf.d-ubr.conf
+
 
 daily-backups: # 11pm every day
 {% if pillar.elife.dev %}
@@ -36,4 +54,4 @@ daily-backups: # 11pm every day
         - minute: 0
         - hour: 23
         - require:
-            - git: install-ubr
+            - install-ubr
