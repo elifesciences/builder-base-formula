@@ -19,3 +19,4 @@ include:
     - .environment-name
     - .smoke
     - .utils
+    - .forced-dns
