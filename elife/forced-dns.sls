@@ -10,7 +10,7 @@ forced-dns-entries-{{ hostname }}:
 forced-dns-entries-{{ hostname }}:
     file.replace:
         - name: /etc/hosts
-        - pattern: "^{{ ip_address }} "
+        - pattern: " {{ hostname }}$"
         - repl: ""
 {% endif %}
 {% endfor %}
