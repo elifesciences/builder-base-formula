@@ -10,7 +10,7 @@ forced-dns-entries-add-{{ hostname }}:
 forced-dns-entries-remove-{{ hostname }}:
     file.replace:
         - name: /etc/hosts
-        - pattern: "^[0-9\.]* {{ hostname }}$"
+        - pattern: "^[0-9.]* {{ hostname }}$"
         - repl: ""
 {% endif %}
 {% endfor %}
