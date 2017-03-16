@@ -7,7 +7,7 @@ install-ubr:
 
     git.detached:
         - name: https://github.com/elifesciences/ubr
-        - ref:  d1430c5585c60ade4f08347924190386e70cc493 # master, stable
+        - ref:  35eca5b12d61434bd76d7a3fd1e5725c1a36e261 # master, stable
         #- ref: 5be709277eab9e293f8ae552057198097a22a3c3 # develop, unstable
         - force_checkout: True
         - hard_reset: True        
