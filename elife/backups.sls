@@ -1,7 +1,7 @@
 install-ubr:
     # necessary because git.latest won't actually force anything in 2014.8
     cmd.run:
-        - name: cd /opt/ubr && git reset --hard
+        - name: cd /opt/ubr && git reset --hard && git fetch
         - onlyif:
             - test -d /opt/ubr
 
