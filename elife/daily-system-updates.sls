@@ -19,8 +19,8 @@ daily-system-updates:
         # salt isn't emitting anything :( this log and logrotation is useless
         - name: /usr/local/bin/daily-system-update
         - minute: 30
-        - hour: 10
-        - dayweek: '1-5'
+        - hour: 21
+        - dayweek: '0-4'
         - require:
             - file: daily-system-update-log-rotater
             - daily-system-update-command
