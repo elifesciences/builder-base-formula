@@ -5,13 +5,12 @@ install-ubr:
         - onlyif:
             - test -d /opt/ubr
 
-    git.detached:
+    git.latest:
         - name: https://github.com/elifesciences/ubr
-        - ref:  35eca5b12d61434bd76d7a3fd1e5725c1a36e261 # master, stable
-        #- ref: 5be709277eab9e293f8ae552057198097a22a3c3 # develop, unstable
-        - force_checkout: True
-        - hard_reset: True        
         - target: /opt/ubr
+        - rev: master # what branch to clone
+        - branch: master # and name of local branch to clone into.
+        - force_checkout: True
         - require:
             - cmd: install-ubr
 
