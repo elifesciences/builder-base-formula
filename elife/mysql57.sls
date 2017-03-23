@@ -49,8 +49,8 @@ mysql-server:
         - name: mysql 
         - require:
             - pkg: mysql-server
-        - watch:
             - file: mysql-server
+        - reload: True
 
 mysql-ready:
     cmd.run:
