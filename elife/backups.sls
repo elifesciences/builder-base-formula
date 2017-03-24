@@ -27,6 +27,12 @@ new-ubr-config:
         - name: /opt/ubr/app.cfg
         - source: salt://elife/config/opt-ubr-app.cfg
         - template: jinja
+        - defaults:
+            working_dir: /tmp
+{% if salt['file.directory_exists' ]('/ext/tmp') %}
+        - context:
+            working_dir: /ext/tmp
+{% endif %}
         # read-write for root only
         - user: root
         - group: root
