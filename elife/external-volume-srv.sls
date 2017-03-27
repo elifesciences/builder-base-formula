@@ -7,8 +7,8 @@ srv-directory:
         - name: /ext/srv
         - require:
             - mount-external-volume
-        - require_in:
-            - file: new-ubr-config
+        #- require_in:
+        #    - file: new-ubr-config
 
 srv-directory-linked:
     cmd.run:
