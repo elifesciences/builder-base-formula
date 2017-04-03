@@ -47,12 +47,14 @@ new-ubr-config:
 #        - source: salt://elife/config/etc-syslog-ng-conf.d-ubr.conf
 
 
-daily-backups: # 11pm every day
-{% if pillar.elife.dev %}
+# 11pm every day
+daily-backups: 
+    # only backup prod, adhoc and continuumtest instances
+    {% if pillar.elife.env in ['dev', 'ci', 'end2end'] %}
     cron.absent:
-{% else %}
+    {% else %}
     cron.present:
-{% endif %}
+    {% endif %}
         - user: root
         - identifier: daily-app-backups
         - name: cd /opt/ubr/ && ./ubr.sh > /var/log/ubr-cron.log
