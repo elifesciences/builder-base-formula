@@ -30,7 +30,7 @@ firefox-dependencies:
 firefox-pinned-version:
     cmd.run:
         - name: |
-            wget -c -O firefox-47.deb http://downloads.sourceforge.net/project/ubuntuzilla/mozilla/apt/pool/main/f/firefox-mozilla-build/firefox-mozilla-build_47.0.1-0ubuntu1_amd64.deb
+            wget -c -O firefox-47.deb http://s3.amazonaws.com/elife-builder/packages/firefox-47.deb
             dpkg -i firefox-47.deb
         - cwd: /root
         - require:
