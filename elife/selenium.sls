@@ -21,6 +21,11 @@ firefox-ppa:
       - keyid: C1289A29
       - keyserver: keyserver.ubuntu.com
 
+firefox-dependencies:
+    pkg.installed:
+        - pkgs:
+            - libgtk-3-0
+
 # cannot actually install an old version from PPA, downloading a deb
 firefox-pinned-version:
     cmd.run:
@@ -30,6 +35,7 @@ firefox-pinned-version:
         - cwd: /root
         - require:
             - firefox-ppa
+            - firefox-dependencies
         - unless:
             - test "`firefox -v`" = "Mozilla Firefox 47.0.1"
 
