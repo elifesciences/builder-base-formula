@@ -29,3 +29,10 @@ base-vim-config:
         - name: /etc/vim/vimrc
         - source: salt://elife/config/etc-vim-vimrc
 
+autoremove-orphans:
+    cmd.run:
+        - name: apt-get autoremove -y
+        - env:
+            - DEBIAN_FRONTEND: noninteractive
+        - require:
+            - base-purging
