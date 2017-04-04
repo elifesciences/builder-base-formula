@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+if [ "$#" != 1 ]
+then
+    echo "Usage: smoke-tests PROJECT_FOLDER"
+    echo "e.g.   smoke-tests /srv/journal"
+    exit 1
+fi
+
+folder="$1"
+
+if [ ! -d "$folder" ]
+then
+    echo "${folder} does not exist"
+    exit 2
+fi
+
+cd "$folder"
+code=0
+if [ -e ./smoke_tests.sh ]
+then 
+    ./smoke_tests.sh || code=$?
+fi
+echo "Exit code: $code"
+exit "$code"

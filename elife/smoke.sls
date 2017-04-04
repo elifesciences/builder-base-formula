@@ -9,3 +9,10 @@ smoke.sh-repository:
         - force_fetch: True
         - force_checkout: True
         - force_reset: True
+
+# ensure something is always able to run even if a project has no smoke-tests.sh script
+smoke-tests-wrapper-script:
+    file.managed:
+        - name: /usr/local/bin/smoke-tests
+        - source: salt://elife/config/usr-local-bin-smoke-tests
+        - mode: 555
