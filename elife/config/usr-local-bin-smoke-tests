@@ -22,5 +22,5 @@ if [ -e ./smoke_tests.sh ]
 then 
     ./smoke_tests.sh || code=$?
 fi
-echo "Exit code: $code"
+echo "Exit code of /usr/local/bin/smoke-tests: $code"
 exit "$code"
