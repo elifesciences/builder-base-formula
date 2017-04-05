@@ -33,14 +33,6 @@ add-deploy-user-to-apache-group:
             - pkg: apache2
         - unless:
             - groups {{ user.username }} | grep {{ wwwuser.username }}
-            
-redirect-apache-http-to-https:
-    file.managed:
-        - name: /etc/apache2/sites-available/unencrypted-redirect.conf
-        - source: salt://elife/config/etc-apache2-sites-available-unencrypted-redirect.conf
-        - template: jinja
-        - require:
-            - pkg: apache2
          
 #
 # if you want apache you also get mod php5
