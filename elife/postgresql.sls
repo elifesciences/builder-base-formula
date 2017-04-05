@@ -10,6 +10,24 @@ postgresql-deb:
         - require:
             - cmd: postgresql-deb
 
+pgpass-file:
+    file.managed:
+        - name: /root/.pgpass
+        - source: salt://elife/config/root-pgpass
+        - template: jinja
+        - mode: 0600
+        - defaults:
+            user: {{ pillar.elife.db_root.username }}
+            pass: {{ pillar.elife.db_root.password }}
+            host: localhost
+            port: 5432
+        {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
+        - context:
+            pass: {{ salt['elife.cfg']('project.rds_password') }}
+            host: {{ salt['elife.cfg']('cfn.outputs.RDSHost') }}
+            port: {{ salt['elife.cfg']('cfn.outputs.RDSPort') }}
+        {% endif %}
+
 postgresql:
     pkg.installed:
         - pkgs:
@@ -22,6 +40,7 @@ postgresql:
         - enable: True
         - require:
             - pkg: postgresql
+            - pgpass-file
 
 postgresql-init:
     file.managed:

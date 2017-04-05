@@ -1,0 +1,3 @@
+# hostname:port:database:username:password
+# Each of the first four fields can be a literal value, or *, which matches anything. 
+{{ host }}:{{ port }}:*:{{ user }}:{{ pass }}
