@@ -32,11 +32,10 @@ php-packages:
         - require:
             - pkg: base
 
-php-ini:
+php5.6-apache-ini:
     file.managed:
-        - name: /etc/php5/apache2/php.ini
-        - backup: minion
-        - source: salt://elife/config/etc-php5.5-apache2-php.ini
+        - name: /etc/php/5.6/apache2/php.ini
+        - source: salt://elife/config/etc-php-5.6-apache2-php.ini
         - require:
             - pkg: php-packages
 
