@@ -38,7 +38,5 @@ pecl-uploadprogress:
         - name: pecl install uploadprogress
         - unless:
             - pecl list | grep uploadprogress
-        - watch_in:
-            - service: apache2-server
         - require:
             - pkg: php-packages

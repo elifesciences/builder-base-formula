@@ -41,3 +41,18 @@ redirect-apache-http-to-https:
         - template: jinja
         - require:
             - pkg: apache2
+         
+#
+# if you want apache you also get mod php5
+#
+            
+enable-php5-mod:
+    cmd.run:
+        - name: a2enmod php5
+
+apache2-server:
+    service.running:
+        - name: apache2
+        - require: 
+            - file: apache2
+
