@@ -11,8 +11,7 @@ postgresql-deb:
             - cmd: postgresql-deb
 
 pgpass-file:
-    #file.managed: # this file may be interfering with rds app db creation
-    file.absent: 
+    file.managed:
         - name: /root/.pgpass
         - source: salt://elife/config/root-pgpass
         - template: jinja
