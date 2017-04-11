@@ -10,21 +10,25 @@ newrelic-php-extension-package:
             - php
             #- php-fpm-config
 
-newrelic-php-extension-headless-configuration:
-    environ.setenv:
-        - value:
-            NR_INSTALL_SILENT: "set-any-value-to-enable"
-            #NR_INSTALL_PATH: ...
-            NR_INSTALL_KEY: "{{ pillar.elife.newrelic.license }}"
+#newrelic-php-extension-headless-configuration:
+#    environ.setenv:
+#        - value:
+#            NR_INSTALL_SILENT: "set-any-value-to-enable"
+#            #NR_INSTALL_PATH: ...
+#            NR_INSTALL_KEY: "{{ pillar.elife.newrelic.license }}"
 
 newrelic-install-script:
     cmd.run:
-        - name: newrelic-install install
+        - name: newrelic-install install && touch /root/newrelic-installed-2017-04-11.flag
+        - env:
+            - NR_INSTALL_SILENT: "set-any-value-to-enable"
+            - NR_INSTALL_KEY: "{{ pillar.elife.newrelic.license }}"
+        - creates: /root/newrelic-installed-2017-04-11.flag
         - require:
             - newrelic-php-extension-package
             - newrelic-php-extension-headless-configuration
 
-{% for ini_file in ['/etc/php/5.6/apache2/conf.d/20-newrelic.ini', '/etc/php/5.6/cli/conf.d/20-newrelic.ini', '/etc/php/7.0/cli/conf.d/newrelic.ini', '/etc/php/7.0/fpm/conf.d/newrelic.ini'] %}
+{% for ini_file in ['/etc/php/5.6/apache2/conf.d/newrelic.ini', '/etc/php/5.6/cli/conf.d/newrelic.ini', '/etc/php/7.0/cli/conf.d/newrelic.ini', '/etc/php/7.0/fpm/conf.d/newrelic.ini'] %}
 newrelic-ini-for-{{ ini_file }}:
     file.managed:
         - name: {{ ini_file }}
@@ -45,9 +49,10 @@ remove-old-newrelic-ini-for-{{ ini_file}}-backups:
             - newrelic-ini-for-{{ ini_file }}
 {% endfor %}
 
+{% for ver in ['5.6', '7.0'] %}
 remove-additional-mods-available-file:
     file.absent:
-        - name: /etc/php/7.0/mods-available/newrelic.ini
+        - name: /etc/php/{{ ver }}/mods-available/newrelic.ini
         - require:
             - newrelic-install-script
-
+{% endfor %}
