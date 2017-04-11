@@ -34,8 +34,8 @@ newrelic-ini-for-{{ ini_file }}:
             - test -e {{ ini_file }}
         - require:
             - newrelic-install-script
-        - listen_in:
-            - service: php-fpm
+        #- listen_in:
+        #    - service: php-fpm
 
 # remove when situation is stabilized
 remove-old-newrelic-ini-for-{{ ini_file}}-backups:
