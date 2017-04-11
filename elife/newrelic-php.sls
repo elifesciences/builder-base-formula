@@ -8,7 +8,7 @@ newrelic-php-extension-package:
         - require:
             - newrelic-system-daemon
             - php
-            - php-fpm-config
+            #- php-fpm-config
 
 newrelic-php-extension-headless-configuration:
     environ.setenv:

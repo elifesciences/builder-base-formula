@@ -17,7 +17,7 @@ php-ppa:
         - unless:
             - test -e /etc/apt/sources.list.d/ondrej-php-trusty.list
 
-php-packages:
+php:
     pkg.installed:
         - pkgs:
             - php5.6
@@ -37,7 +37,7 @@ php5.6-apache-ini:
         - name: /etc/php/5.6/apache2/php.ini
         - source: salt://elife/config/etc-php-5.6-apache2-php.ini
         - require:
-            - pkg: php-packages
+            - pkg: php
 
 php-log:
     file.managed:
@@ -52,4 +52,4 @@ php-log:
 #        - unless:
 #            - pecl list | grep uploadprogress
 #        - require:
-#            - pkg: php-packages
+#            - pkg: php
