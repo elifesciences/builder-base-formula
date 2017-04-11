@@ -50,7 +50,7 @@ remove-old-newrelic-ini-for-{{ ini_file}}-backups:
 {% endfor %}
 
 {% for ver in ['5.6', '7.0'] %}
-remove-additional-mods-available-file:
+remove-php{{ ver }}-newrelic-mods-available-file:
     file.absent:
         - name: /etc/php/{{ ver }}/mods-available/newrelic.ini
         - require:
