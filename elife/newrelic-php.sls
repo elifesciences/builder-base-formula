@@ -26,7 +26,7 @@ newrelic-install-script:
         - creates: /root/newrelic-installed-2017-04-11.flag
         - require:
             - newrelic-php-extension-package
-            - newrelic-php-extension-headless-configuration
+            #- newrelic-php-extension-headless-configuration
 
 {% for ini_file in ['/etc/php/5.6/apache2/conf.d/newrelic.ini', '/etc/php/5.6/cli/conf.d/newrelic.ini', '/etc/php/7.0/cli/conf.d/newrelic.ini', '/etc/php/7.0/fpm/conf.d/newrelic.ini'] %}
 newrelic-ini-for-{{ ini_file }}:
