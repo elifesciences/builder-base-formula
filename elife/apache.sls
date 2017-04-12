@@ -40,7 +40,7 @@ add-deploy-user-to-apache-group:
             
 enable-php5-mod:
     cmd.run:
-        - name: a2enmod php5
+        - name: a2enmod php5.6
 
 apache2-server:
     service.running:
