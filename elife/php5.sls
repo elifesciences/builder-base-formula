@@ -17,6 +17,12 @@ php-ppa:
         - unless:
             - test -e /etc/apt/sources.list.d/ondrej-php-trusty.list
 
+purge-old-php:
+    pkg.purged:
+        - pkgs:
+            - php5
+            - libapache2-mod-php5
+
 php:
     pkg.installed:
         - pkgs:
@@ -29,8 +35,9 @@ php:
             - php5.6-curl
             - php5.6-mcrypt
             - libpcre3-dev # pcre for php5
+            - libapache2-mod-php5.6
         - require:
-            - pkg: base
+            - purge-old-php
 
 php5.6-apache-ini:
     file.managed:
