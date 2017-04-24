@@ -90,9 +90,9 @@ spectrum-cleanup-logrotate:
         - require:
             - file: spectrum-cleanup-log
 
-spectrum-configuration2:
+spectrum-configuration:
     file.managed:
-        - name: /srv/elife-spectrum/app2.cfg
+        - name: /srv/elife-spectrum/app.cfg
         - source: salt://elife/config/srv-elife-spectrum-app.cfg
         - template: jinja
         - user: {{ pillar.elife.deploy_user.username }}
