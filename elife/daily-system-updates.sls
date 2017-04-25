@@ -17,6 +17,7 @@ daily-system-updates:
     cron.present:
         - identifier: daily-system-update
         - name: /usr/local/bin/daily-system-update
+        # stagger updates to clusters of machines
         {% if salt['elife.cfg']('project.node', 1) % 2 == 1 %}
         # odd server
         - minute: '15'
