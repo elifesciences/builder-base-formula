@@ -123,6 +123,7 @@ def cfg(*paths):
     if more than one path is specified, the value of the last path is the default.
     THIS MEANS IF YOU SPECIFY MORE THAN ONE PATH YOU MUST SPECIFY A DEFAULT"""
     default = paths[-1] if len(paths) > 1 else None    
+    paths = paths[:-1] if len(paths) > 1 else paths
     data = {
         'project': read_json('/etc/build-vars.json.b64') or {}, # template 'compile' time data
         'cfn': cfn() # stack 'creation' time data
