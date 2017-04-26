@@ -16,9 +16,15 @@ daily-system-update-log-rotater:
 daily-system-updates:
     cron.present:
         - identifier: daily-system-update
-        # salt isn't emitting anything :( this log and logrotation is useless
         - name: /usr/local/bin/daily-system-update
-        - minute: 30
+        # stagger updates to clusters of machines
+        {% if salt['elife.cfg']('project.node', 1) % 2 == 1 %}
+        # odd server
+        - minute: '15'
+        {% else %}
+        # even server
+        - minute: '45'
+        {% endif %}
         - hour: 21
         - dayweek: '0-4'
         - require:
