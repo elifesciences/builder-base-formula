@@ -15,16 +15,14 @@ redis-server-install:
             - service: redis-server
 
 redis-server:
+    # /etc/init.d/redis-server is already provided by the package
     file.managed:
         - name: /etc/init.d/redis
-        - source: salt://elife/config/etc-init.d-redis
-        - mode: 755
 
     service.running:
         - require:
             - pkg: redis-server-install
             - file: redis-server-install
-            - file: redis-server
         - watch:
             - file: redis-server
 
