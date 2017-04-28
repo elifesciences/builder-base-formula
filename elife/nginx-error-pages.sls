@@ -17,3 +17,5 @@ nginx-error-pages:
         - force_reset: True
         - require:
             - file: nginx-error-pages
+        - watch_in:
+            - service: nginx-server-service
