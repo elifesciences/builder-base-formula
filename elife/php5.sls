@@ -34,6 +34,7 @@ php:
             - php5.6-gd
             - php5.6-curl
             - php5.6-mcrypt
+            - php5.6-mbstring
             - libpcre3-dev # pcre for php5
             - libapache2-mod-php5.6
         - require:
