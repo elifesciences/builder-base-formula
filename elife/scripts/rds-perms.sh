@@ -7,7 +7,11 @@ set -ex
 
 host={{ salt['elife.cfg']('cfn.outputs.RDSHost') }}
 port={{ salt['elife.cfg']('cfn.outputs.RDSPort') }}
+{% if otherdb is defined %}
+db={{ otherdb }}
+{% else %}
 db={{ salt['elife.cfg']('project.rds_dbname') }}
+{% endif %}
 pass={{ pass }}
 user={{ user }}
 
