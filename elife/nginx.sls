@@ -1,6 +1,12 @@
 {% set wwwuser = pillar.elife.webserver.username %}
 {% set user = pillar.elife.deploy_user.username %}
 
+nginx-logrotate-conf:
+    file.managed:
+        - name: /etc/logrotate.d/nginx
+        - source: salt://elife/config/etc-logrotate.d-nginx
+        - template: jinja
+
 nginx-server:
     pkg.installed:
         - pkgs:
