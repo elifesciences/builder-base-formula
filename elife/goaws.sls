@@ -1,6 +1,10 @@
 goaws-install:
     cmd.run:
-        - name: go get github.com/p4tin/goaws
+        - name: |
+            go get -d github.com/p4tin/goaws
+            cd /usr/local/src/github.com/p4tin/goaws
+            git checkout 941608ca3f63bdace571268a241d6835002edd94
+            go get github.com/p4tin/goaws
         - env:
             - GOPATH: /usr/local
         - require:
