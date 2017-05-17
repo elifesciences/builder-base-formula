@@ -16,7 +16,7 @@ redis-server-install:
 
 redis-server:
     # /etc/init.d/redis-server is already provided by the package
-    file.managed:
+    file.absent:
         - name: /etc/init.d/redis
 
     service.running:
