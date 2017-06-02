@@ -17,7 +17,10 @@ base:
             # provides add-apt-repository binary needed to install a new ppa easily
             - python-software-properties
             # find which files are taking up space on filesystem
-            - ncdu 
+            - ncdu
+            # diagnosing disk IO 
+            - sysstat # provides iostat
+            - iotop
 
 base-purging:
     pkg.purged:
