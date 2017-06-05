@@ -14,3 +14,8 @@ slack-channel-hook:
 github-token:
     cmd.run:
         - name: echo 'export GITHUB_COMMIT_STATUS_TOKEN={{ pillar.elife.jenkins.github.commit_status_token }}' > /etc/profile.d/github-commit-status-token.sh
+
+new-relic-rest-api-key:
+    cmd.run:
+        - name: echo 'export NEW_RELIC_REST_API_KEY={{ pillar.elife.newrelic.rest_api_key }}' > /etc/profile.d/new-relic-rest-api-key.sh
+
