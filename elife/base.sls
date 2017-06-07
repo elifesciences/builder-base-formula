@@ -7,6 +7,7 @@ base:
             - daemon
             - curl
             - git
+            - realpath # resolves symlinks in paths for shell
             # Ubuntu 14.04 bundles with X11 :(
             # - mercurial
             - vim
