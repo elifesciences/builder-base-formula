@@ -79,6 +79,7 @@ elife:
         host: 127.0.0.1
         port: 6379
         persistent: false
+        maxmemory: 256
 
     logging:
         collectd:
