@@ -8,5 +8,5 @@ if [ "$#" -ne 1 ]; then
 fi
 
 application_id="$1"
-curl -v "https://api.newrelic.com/v2/applications/${application_id}.json" -H "X-Api-Key: ${NEW_RELIC_REST_API_KEY}" | jq .application.health_status
+curl -v "https://api.newrelic.com/v2/applications/${application_id}.json" -H "X-Api-Key: ${NEW_RELIC_REST_API_KEY}" | jq -r .application.health_status
 
