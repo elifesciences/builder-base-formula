@@ -1,4 +1,4 @@
 include:
     - .syslog-ng
-    - .collectd
-    - .telegraf
+    #- .collectd
+    #- .telegraf
