@@ -1,5 +1,5 @@
 # originally used to obviate to Route53 downtime
-{% for hostname, ip_address in pillar.elife.forced_dns.iteritems() %}
+{% for hostname, ip_address in pillar.get('elife.forced_dns', []).iteritems() %}
 {% if ip_address %}
 forced-dns-entries-add-{{ hostname }}:
     file.append:
