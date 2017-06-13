@@ -30,6 +30,6 @@ newrelic-python-logfile-agent-in-ini-configuration:
         - repl: log_file = stderr
         - require:
             - newrelic-python-license-configuration
-        - require_in:
+        - listen_in:
             - service: {{ pillar.elife.newrelic_python.service }}
 
