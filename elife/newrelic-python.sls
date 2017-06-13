@@ -10,6 +10,8 @@ newrelic-python-license-configuration:
         - name: venv/bin/newrelic-admin generate-config {{ pillar.elife.newrelic.license }} newrelic.ini
         - cwd: {{ pillar.elife.newrelic_python.application_folder }}
         - user: {{ pillar.elife.deploy_user.username }}
+        - unless:
+            - grep -r {{ pillar.elife.newrelic.license }} newrelic.ini
         - require: 
             - {{ pillar.elife.newrelic_python.dependency_state }}
 
