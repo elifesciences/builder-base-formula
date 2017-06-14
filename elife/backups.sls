@@ -1,3 +1,8 @@
+old-ubr-config:
+    file.absent:
+        # this file now lives in /opt/ubr/app.cfg
+        - name: /etc/ubr/config
+
 install-ubr:
     # necessary because git.latest won't actually force anything in 2014.8
     cmd.run:
@@ -13,14 +18,6 @@ install-ubr:
         - force_checkout: True
         - require:
             - cmd: install-ubr
-
-    file.managed:
-        - name: /etc/ubr/config
-        - source: salt://elife/config/etc-ubr-config
-        - template: jinja
-        - makedirs: True
-        - require:
-            - git: install-ubr
 
 new-ubr-config:
     file.managed:
@@ -40,11 +37,11 @@ new-ubr-config:
         - require:
             - install-ubr
 
-# untested
-#monitor-logs:
-#    file.managed:
-#        - name: /etc/syslog-ng/conf.d/ubr.conf
-#        - source: salt://elife/config/etc-syslog-ng-conf.d-ubr.conf
+monitor-backup-logs:
+    file.managed:
+        - name: /etc/syslog-ng/conf.d/ubr.conf
+        - source: salt://elife/config/etc-syslog-ng-conf.d-ubr.conf
+        - template: jinja
 
 
 # 11pm every day
