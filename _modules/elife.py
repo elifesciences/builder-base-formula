@@ -46,17 +46,6 @@ def once_a_day(key, func):
     json.dump(resp, open(keyfile, 'w'))
     return resp
 
-def acme_enabled(url):
-    "if given url can be hit and it looks like the acme hidden dir exists, return True."
-    url = 'http://' + url + "/.well-known/acme-challenge/" # ll: http://lax.elifesciences.org/.well-known/acme-challenge
-    LOG.info('hitting %r', url)
-    try:
-        resp = requests.head(url, allow_redirects=False)
-        return resp.status_code == 403 # forbidden.
-    except (requests.ConnectionError, requests.Timeout):
-        # couldn't connect for whatever reason
-        return False
-
 def reachable(url):
     "return True if given url can be hit."
     LOG.info('hitting %r', url)
@@ -105,16 +94,7 @@ def project_name():
 def cfn():
     "returns whatever cfn output data it can find."
     data = read_json("/etc/cfn-info.json") or {}
-    if not data:
-        # return early, don't bother deriving stuff from non-existant stuff
-        return data
-    
-    derived_data = {}
-    if data.get('hostname') and data.get('is_prod_instance'):
-        key = url = data.get('project_hostname')
-        derived_data['project_hostname_reachable'] = once_a_day(key, partial(acme_enabled, url))
-    
-    data['derived'] = derived_data
+    data['derived'] = {}
     return data
 
 def cfg(*paths):

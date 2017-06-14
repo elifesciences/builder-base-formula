@@ -54,8 +54,6 @@ elife:
 
     webserver:
         username: www-data
-        acme_server: https://acme-v01.api.letsencrypt.org/directory
-        acme_staging_server: https://acme-staging.api.letsencrypt.org/directory
 
     web_users:
         '':
