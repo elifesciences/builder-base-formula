@@ -42,6 +42,8 @@ monitor-backup-logs:
         - name: /etc/syslog-ng/conf.d/ubr.conf
         - source: salt://elife/config/etc-syslog-ng-conf.d-ubr.conf
         - template: jinja
+        - require:
+            - pkg: syslog-ng
 
 
 # 11pm every day
