@@ -9,6 +9,7 @@ elife:
     # production is 'prod' by default 
     # can be overriden per-project by pillar files
     env: dev
+    domain: elifesciences.org
 
     deploy_user:
         username: elife
@@ -181,13 +182,13 @@ elife:
             lax:
                 host: null
             api_gateway:
-                host: 'http://end2end--gateway.elifesciences.org'
+                host: null
                 authorization: null
             journal:
-                host: 'http://end2end--journal.elifesciences.org'
-                cdn_host: 'http://end2end--cdn-journal.elifesciences.org'
+                host: null
+                cdn_host: null
             journal_cms:
-                host: 'https://end2end--journal-cms.elifesciences.org'
+                host: null
                 user: null
                 password: null
             github:
@@ -221,10 +222,10 @@ elife:
                 host: null
                 authorization: null
             journal:
-                host: 'http://continuumtest--journal.elifesciences.org'
-                cdn_host: 'http://continuumtest--cdn-journal.elifesciences.org'
+                host: null
+                cdn_host: null
             journal_cms:
-                host: 'https://continuumtest--journal-cms.elifesciences.org'
+                host: null
                 user: null
                 password: null
             github:
@@ -233,5 +234,5 @@ elife:
             aws:
                 region: us-east-1
             journal:
-                host: 'http://prod--journal.elifesciences.org'
+                host: null
         tmp: /ext/spectrum-tmp

@@ -1,10 +1,10 @@
 {% if salt['elife.only_on_aws']() %}
 {% set hostname = salt['elife.cfg']('cfn.outputs.DomainName', 'cfn.outputs.IntDomainName', '') %}
 {% else %}
-{% set hostname = 'dev--' + salt['elife.project_name']() + '.elifesciences.org' %}
+{% set hostname = 'dev--' + salt['elife.project_name']() + '.' + pillar.elife.domain %}
 {% endif %}
 
-# only set a hostname if we have a public hostname like foo.elifesciences.org
+# only set a hostname if we have a public hostname like foo.example.com
 
 {% if hostname %}
 set-hostname:
