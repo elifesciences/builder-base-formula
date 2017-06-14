@@ -36,4 +36,13 @@ mount-external-volume:
             # mount point already has a volume mounted
             - cat /proc/mounts | grep --quiet --no-messages {{ pillar.elife.external_volume.directory }}
 
+tmp-directory-on-external-volume:
+    file.directory:
+        - name: /ext/tmp
+        - user: {{ pillar.elife.deploy_user.username }}
+        - group: {{ pillar.elife.deploy_user.username }}
+        - require:
+            - mount-external-volume
+        - require_in:
+            - new-ubr-config # builder-base-formula.backups
 
