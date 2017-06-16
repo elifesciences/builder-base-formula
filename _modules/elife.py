@@ -93,9 +93,7 @@ def project_name():
 
 def cfn():
     "returns whatever cfn output data it can find."
-    data = read_json("/etc/cfn-info.json") or {}
-    data['derived'] = {}
-    return data
+    return read_json("/etc/cfn-info.json") or {}
 
 def cfg(*paths):
     """returns the value at the given dot-delimited path within the project config.
