@@ -14,6 +14,15 @@ mysql-server-ppa:
         - unless:
             - test -e /etc/apt/sources.list.d/mysql.list
 
+# have to apply https://github.com/saltstack/salt/issues/9736#issuecomment-176351724
+# or the apt-get install can get stuck on the first execution
+# assumption is the package does not overwrite this
+mysql-custom-init-script:
+    file.managed:
+        - name: /etc/init.d/mysql
+        - source: salt://elife/config/etc-init.d-mysql
+        - mode: 755
+
 mysql-server:
     pkg.installed:
         - pkgs:
@@ -22,7 +31,8 @@ mysql-server:
             - python-mysqldb
         - refresh: True
         - require:
-            - pkgrepo: mysql-server-ppa
+            - mysql-server-ppa
+            - mysql-custom-init-script
 
     file.managed:
         - name: /etc/mysql/my.cnf
