@@ -1,24 +1,9 @@
 mysql-server-ppa:
-    #cmd.run:
-    #    - name: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
-    #    - unless:
-    #        - apt-key list | grep E5267A6C
-
-    # https://launchpad.net/~ondrej/+archive/ubuntu/mysql-5.7
-    #pkgrepo.managed:
-    #    - humanname: Ondřej Surý PHP PPA
-    #    - ppa: ondrej/mysql-5.7
-    #    - require:
-    #        - cmd: mysql-server-ppa
-    #    - unless:
-    #        - test -e /etc/apt/sources.list.d/ondrej-mysql-5_7-trusty.list
-
     cmd.run:
         - name: apt-key adv --keyserver pgp.mit.edu --recv-keys 5072E1F5 
         - unless:
             - apt-key list | grep 5072E1F5
 
-    # alternative: untested official MySQL repository
     pkgrepo.managed:
         - humanname: Python 2.7 Updates
         - name: deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.7
@@ -29,6 +14,15 @@ mysql-server-ppa:
         - unless:
             - test -e /etc/apt/sources.list.d/mysql.list
 
+# have to apply https://github.com/saltstack/salt/issues/9736#issuecomment-176351724
+# or the apt-get install can get stuck on the first execution
+# assumption is the package does not overwrite this
+mysql-custom-init-script:
+    file.managed:
+        - name: /etc/init.d/mysql
+        - source: salt://elife/config/etc-init.d-mysql
+        - mode: 755
+
 mysql-server:
     pkg.installed:
         - pkgs:
@@ -37,7 +31,8 @@ mysql-server:
             - python-mysqldb
         - refresh: True
         - require:
-            - pkgrepo: mysql-server-ppa
+            - mysql-server-ppa
+            - mysql-custom-init-script
 
     file.managed:
         - name: /etc/mysql/my.cnf
