@@ -37,7 +37,9 @@ mysql-server:
         - refresh: True
         - require:
             - mysql-server-ppa
+            {% if not on_rds %}
             - mysql-custom-init-script
+            {% endif %}
 
     {% if not on_rds %}
     file.managed:
