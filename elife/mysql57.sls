@@ -1,5 +1,5 @@
 {% set on_rds = salt['elife.cfg']('cfn.outputs.RDSHost') %}
-mysql-server-ppa:
+mysql-ppa:
     cmd.run:
         - name: apt-key adv --keyserver pgp.mit.edu --recv-keys 5072E1F5 
         - unless:
@@ -11,7 +11,7 @@ mysql-server-ppa:
         - file: /etc/apt/sources.list.d/mysql.list
         - dist: trusty
         - require:
-            - cmd: mysql-server-ppa
+            - cmd: mysql-ppa
         - unless:
             - test -e /etc/apt/sources.list.d/mysql.list
 
@@ -26,22 +26,27 @@ mysql-custom-init-script:
         - mode: 755
 {% endif %}
 
-mysql-server:
+mysql-clients:
     pkg.installed:
         - pkgs:
-            {% if not on_rds %}
-            - mysql-server
-            {% endif %}
             - mysql-client
             - python-mysqldb
         - refresh: True
         - require:
-            - mysql-server-ppa
-            {% if not on_rds %}
+            - mysql-ppa
+    
+{% if not on_rds %}
+mysql-server:
+    pkg.installed:
+        - pkgs:
+            - mysql-server: 5.7.18-1ubuntu14.04
+        # not necessary, done in mysql-clients
+        # - refresh: True
+        - require:
+            - mysql-ppa
+            - mysql-clients
             - mysql-custom-init-script
-            {% endif %}
 
-    {% if not on_rds %}
     file.managed:
         - name: /etc/mysql/my.cnf
         - source: salt://elife/config/etc-mysql5.7-my.cnf
@@ -54,14 +59,17 @@ mysql-server:
             - pkg: mysql-server
             - file: mysql-server
         - reload: True
-    {% endif %}
+{% endif %}
 
 mysql-ready:
     cmd.run:
         - name: echo "MySQL is ready"
+        # look also at `require_in:` of other states in this file
         - require:
+            - mysql-clients
+            {% if not on_rds %}
             - mysql-server
-            # look at require_in: of other states in this file
+            {% endif %}
 
 {% if not on_rds %}
 {% set root = pillar.elife.db_root %}
