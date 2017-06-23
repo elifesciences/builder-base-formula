@@ -1,3 +1,4 @@
+{% set on_rds = salt['elife.cfg']('cfn.outputs.RDSHost') %}
 mysql-server-ppa:
     cmd.run:
         - name: apt-key adv --keyserver pgp.mit.edu --recv-keys 5072E1F5 
@@ -14,6 +15,7 @@ mysql-server-ppa:
         - unless:
             - test -e /etc/apt/sources.list.d/mysql.list
 
+{% if not on_rds %}
 # have to apply https://github.com/saltstack/salt/issues/9736#issuecomment-176351724
 # or the apt-get install can get stuck on the first execution
 # assumption is the package does not overwrite this
@@ -22,11 +24,14 @@ mysql-custom-init-script:
         - name: /etc/init.d/mysql
         - source: salt://elife/config/etc-init.d-mysql
         - mode: 755
+{% endif %}
 
 mysql-server:
     pkg.installed:
         - pkgs:
+            {% if not on_rds %}
             - mysql-server
+            {% endif %}
             - mysql-client
             - python-mysqldb
         - refresh: True
@@ -34,6 +39,7 @@ mysql-server:
             - mysql-server-ppa
             - mysql-custom-init-script
 
+    {% if not on_rds %}
     file.managed:
         - name: /etc/mysql/my.cnf
         - source: salt://elife/config/etc-mysql5.7-my.cnf
@@ -46,6 +52,7 @@ mysql-server:
             - pkg: mysql-server
             - file: mysql-server
         - reload: True
+    {% endif %}
 
 mysql-ready:
     cmd.run:
@@ -54,6 +61,7 @@ mysql-ready:
             - mysql-server
             # look at require_in: of other states in this file
 
+{% if not on_rds %}
 {% set root = pillar.elife.db_root %}
 
 # the 'root' db user that has access to *everything*
@@ -75,6 +83,7 @@ mysql-root-user:
             - mysql_user: mysql-root-user
         - require_in:
             - cmd: mysql-ready
+{% endif %}
 
 {% if pillar.elife.env == 'dev' %}
 # within a dev environment the root user can connect from outside the machine
