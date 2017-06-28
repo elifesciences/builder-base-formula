@@ -53,5 +53,11 @@ web-ssl-enabled:
             - file: web-private-key
             - file: web-certificate-file
             - cmd: better-dhe
+{% else %}
+
+# prevents further conditionals downstream
+web-ssl-enabled:
+    cmd.run:
+        - name: echo "ssl NOT enabled"
 
 {% endif %}
