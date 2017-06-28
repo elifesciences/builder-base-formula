@@ -1,8 +1,3 @@
-old-ubr-config:
-    file.absent:
-        # this file now lives in /opt/ubr/app.cfg
-        - name: /etc/ubr/config
-
 install-ubr:
     # necessary because git.latest won't actually force anything in 2014.8
     cmd.run:
@@ -18,6 +13,10 @@ install-ubr:
         - force_checkout: True
         - require:
             - cmd: install-ubr
+
+    file.directory:
+        - name: /etc/ubr/
+        - makedirs: True
 
 new-ubr-config:
     file.managed:
