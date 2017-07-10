@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -e
+
+if [ "$#" -lt 1 ]; then
+    echo "Usage: retry SCRIPT_PATH [MAXIMUM_TIMES]"
+    echo "Example: retry ./script.sh 3"
+    exit 11 # avoid overlap with `exit $attempt`
+fi
+
+script=${1}
+maximum=${2:-3}
+
+for attempt in $(seq 1 "$maximum"); do
+    echo "Attempt: $attempt"
+    if ! "$script"; then
+        echo "Script failure, retrying"
+        continue
+    else
+        echo "Script succeeded"
+        exit 0
+    fi
+done
+echo "Giving up after $attempt consecutive failures"
+exit "$attempt"
