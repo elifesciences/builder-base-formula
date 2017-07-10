@@ -12,7 +12,7 @@ maximum=${2:-3}
 
 for attempt in $(seq 1 "$maximum"); do
     echo "Attempt: $attempt"
-    if ! "$script"; then
+    if ! $script; then
         echo "Script failure, retrying"
         continue
     else
