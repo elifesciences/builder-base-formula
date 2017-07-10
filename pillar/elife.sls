@@ -115,7 +115,7 @@ elife:
 
     newrelic:
         enabled: False
-        license: null
+        license: 1234567890123456789012345678901234567890
         rest_api_key: null
 
     # postfix using AWS SES as a backend
