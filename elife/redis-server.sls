@@ -19,6 +19,7 @@ redis-packages-install:
             - service: redis-server
 
 {% else %}
+redis-packages-install:
     pkg.installed:
         - pkgs:
             - redis-tools # includes redis-cli
