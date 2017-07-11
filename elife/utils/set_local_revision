@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+if [ "$#" -ne "1" ]; then
+    echo "Usage: set_local_revision BRANCH|COMMIT"
+    echo "Example: set_local_revision develop"
+    echo "Example: set_local_revision 964a28d97275ceebfe15e87b8ce86f90228ae3a0"
+    exit 1
+fi
+
+revision="$1"
+echo '{"revision":"'"$revision"'"}' | base64 | sudo tee /etc/build-vars.json.b64
