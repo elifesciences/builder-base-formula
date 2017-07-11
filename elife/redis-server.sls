@@ -42,10 +42,8 @@ redis-server:
     service.running:
         - require:
             - redis-packages-install
-            - /var/run-redis
+            - /var/run/redis
             - /var/log/redis-server.log
-        - watch:
-            - file: redis-server
 
 {% else %}
 redis-server:
