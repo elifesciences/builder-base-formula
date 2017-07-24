@@ -1,13 +1,20 @@
 {% set user = pillar.elife.deploy_user.username %}
 
+remove-old-drush:
+    # Ubuntu 14.04 ships with Drush 5
+    # this avoids any conflict
+    pkg.removed:
+        - name: drush
+
 drush:
-  cmd.run:
-    - user: {{ user }}
-    # 2016-01-08: registry_rebuild doesn't work/exist yet for drush ~8.0
-    #- name: composer global require --no-interaction drush/drush:~7.0\|~8.0
-    - name: composer global require --no-interaction drush/drush:~7.0
-    - require:
-        - composer
+    cmd.run:
+        - user: {{ user }}
+        # 2016-01-08: registry_rebuild doesn't work/exist yet for drush ~8.0
+        #- name: composer global require --no-interaction drush/drush:~7.0\|~8.0
+        - name: composer global require --no-interaction drush/drush:~7.0
+        - require:
+            - remove-old-drush
+            - composer
 
 drush-aliases-folder:
     cmd.run:
