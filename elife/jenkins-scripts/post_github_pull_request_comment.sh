@@ -9,7 +9,7 @@ status_code=$(curl \
     -s \
     -o github_pull_request_comment.log \
     -w '%{http_code}' \
-    "https://api.github.com/repos/$owner_and_repo/issues/$number/comments?access_token=$GITHUB_COMMIT_STATUS_TOKEN" \
+    "https://api.github.com/repos/$owner_and_repo/issues/$number/comments?access_token=$GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
     -X POST \
     -d "{\"body\": \"$body\"}")

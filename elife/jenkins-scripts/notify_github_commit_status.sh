@@ -14,7 +14,7 @@ status_code=$(curl \
     -s \
     -o github_commit_status.log \
     -w '%{http_code}' \
-    "https://api.github.com/repos/$owner_and_repo/statuses/$commit?access_token=$GITHUB_COMMIT_STATUS_TOKEN" \
+    "https://api.github.com/repos/$owner_and_repo/statuses/$commit?access_token=$GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
     -X POST \
     -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$BUILD_URL\"}")
