@@ -1,10 +1,14 @@
-# WARNING: this file cannot be included without specifying
+# WARNING: this file cannot be included without specifying:
+#
 # - pillar.elife.newrelic_python.application_folder
 #     path to a Python application with a venv/ folder inside
+#
 # - pillar.elife.newrelic_python.dependency_state
 #     the name of a state that this configuration should be placed after
+#
 # - pillar.elife.newrelic_python.service 
 #     the name of a service.running state that should be restarted
+
 newrelic-python-license-configuration:
     cmd.run:
         - name: venv/bin/newrelic-admin generate-config {{ pillar.elife.newrelic.license }} newrelic.ini
