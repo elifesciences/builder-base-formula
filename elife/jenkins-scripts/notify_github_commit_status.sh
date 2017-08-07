@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-owner_and_repo=$(git remote -v 2>&1 | grep fetch | sed -e 's/.*github.com:\(.*\).git.*/\1/g')
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+owner_and_repo=$("$DIR/github_owner_and_repo.sh")
+
 if [ -z $commit ]
 then
     commit=$(git rev-parse HEAD)
