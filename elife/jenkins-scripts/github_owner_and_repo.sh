@@ -7,4 +7,4 @@ set -e
 git remote -v 2>&1 \
     | grep '(fetch)' \
     | grep -P "^origin\t" \
-    | sed -e 's/.*github.com[:/]\(.*\)\(.git\)\{0,1\} .*/\1/g'
+    | sed -e 's/.*github.com[:/]\([A-Za-z0-9/-]*\)\(.git\)\{0,1\} .*/\1/g'
