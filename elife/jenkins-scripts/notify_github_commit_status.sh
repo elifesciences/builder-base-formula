@@ -18,6 +18,7 @@ status_code=$(curl \
     -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$BUILD_URL\"}")
 
 if [[ $status_code -eq 201 ]]; then
+    rm github_commit_status.log
     exit 0
 fi
 
