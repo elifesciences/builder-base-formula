@@ -17,7 +17,7 @@ status_code=$(curl \
     "https://api.github.com/repos/$owner_and_repo/statuses/$commit?access_token=$GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
     -X POST \
-    -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$BUILD_URL\"}")
+    -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$target_url\"}")
 
 if [[ $status_code -eq 201 ]]; then
     rm github_commit_status.log
