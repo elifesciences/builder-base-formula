@@ -194,6 +194,8 @@ elife:
                 password: null
             github:
                 article_xml_repository_url: null
+            personalised_covers:
+                bucket: null
         continuumtest:
             aws:
                 access_key_id: null
@@ -231,6 +233,8 @@ elife:
                 password: null
             github:
                 article_xml_repository_url: null
+            personalised_covers:
+                bucket: null
         prod:
             aws:
                 region: us-east-1
