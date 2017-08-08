@@ -39,7 +39,7 @@ mysql-clients:
 mysql-server:
     pkg.installed:
         - pkgs:
-            - mysql-server: 5.7.18-1ubuntu14.04
+            - mysql-server: 5.7.19
         # not necessary, done in mysql-clients
         # - refresh: True
         - require:
