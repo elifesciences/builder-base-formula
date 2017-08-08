@@ -82,7 +82,7 @@ update-composer:
         - name: composer self-update
         - onlyif:
             - which composer
-        - require:
+        - require_in:
             - cmd: install-composer
 
 # useful to depend on
@@ -91,5 +91,5 @@ composer:
         - name: composer --version
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
-            - update-composer
+            - install-composer
             - composer-global-paths
