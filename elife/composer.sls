@@ -51,14 +51,21 @@ composer-auth:
 {% endif %}
 
 install-composer:
+    file.managed:
+        - name: {{ composer_home }}/setup.php
+        - source: https://getcomposer.org/installer
+        - source_hash: https://composer.github.io/installer.sig
+        - user: {{ pillar.elife.deploy_user.username }}
+        - require:
+            - composer-home
+        - unless:
+            - which composer
     cmd.run:
-        - cwd: /usr/local/bin/
-        - name: |
-            wget -O - https://getcomposer.org/installer | php
-            mv composer.phar composer
+        - cwd: {{ composer_home }}
+        - name: php setup.php --install-dir=/usr/local/bin --filename=composer
         - require:
             - php
-            - composer-home
+            - file: install-composer
             - composer-auth
         - unless:
             - which composer
