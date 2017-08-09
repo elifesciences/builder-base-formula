@@ -39,11 +39,20 @@ elife:
         also_bootstrap_user: True
         # adds keys to deploy user's `~/.ssh/authorized_keys` file
         allowed:
+            # per-user access to all instances
+            all: []
+
+            # per-user, per-project access
+
             project1:
                 - example-user
 
-        # removes keys. happens after allowing keys
+        # removes keys. happens *after* allowed
         denied:
+            # per-user denied access to all instances
+            all: []
+
+            # per-user, per-project denied access
             project1: 
                 - example-user
 
@@ -105,7 +114,7 @@ elife:
             enabled: False
             host: "logs3.papertrailapp.com"
             port: 48058
-            
+
         tick:
             enabled: False
             influx_host: http://localhost:8086
