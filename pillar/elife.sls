@@ -130,7 +130,7 @@ elife:
         slack:
             channel_hook: http://...
         github:
-            commit_status_token: null
+            token: null
     # hub tool for Github interaction
     hub:
         username: elife
