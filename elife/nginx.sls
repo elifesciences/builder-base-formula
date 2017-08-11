@@ -85,12 +85,15 @@ nginx-server-service:
         - name: nginx
         - require:
             - pkg: nginx-server
-        - watch:
+        #- watch:
             # this might not be doing what I think it's doing:
             # https://github.com/saltstack/salt/issues/24436
             #- file: /etc/nginx/sites-enabled/*.conf
             # this too
-            - file: /etc/nginx/sites-enabled/*
+            # 2017-08-11: disabling. this is causing nginx to restart when files appear in sites-enabled
+            # this sounds like a good thing, but some conf files reference external files that may not be 
+            # ready when they appear in here. explicit requisites/watches are better.
+            #- file: /etc/nginx/sites-enabled/*
 
 #
 # BASIC auth 

@@ -2,21 +2,27 @@
 # uWSGI is used to bridge nginx and python
 #
 
+# apps should be installing and using their own version of uwsgi
+#uwsgi-pkg:
+#    pip.installed:
+#        - name: uwsgi >= 2.0.8
+#        - require:
+#            - pkg: python-pip
+#            - pkg: python-dev
+#        - reload_modules: True
+
 uwsgi-pkg:
-    pip.installed:
-        - name: uwsgi >= 2.0.8
-        - require:
-            - pkg: python-pip
-            - pkg: python-dev
-        - reload_modules: True
+    pkg.installed:
+        - pkgs:
+            - gcc # needed for building uwsgi
 
 uwsgi-params:
     file.managed:
         - name: /etc/uwsgi/params
         - makedirs: True
         - source: salt://elife/config/etc-uwsgi-params
-        - require:
-            - pip: uwsgi-pkg
+        #- require:
+        #    - pip: uwsgi-pkg
 
 uwsgi-logrotate-def:
     file.managed:
@@ -34,9 +40,9 @@ uwsgi-syslog-conf:
         - watch_in:
             - service: syslog-ng
 
-uwsgi-sock-dir:
-    file.directory:
-        - name: /run/uwsgi/
-        - user: {{ pillar.elife.webserver.username }}
-        - require:
-            - pip: uwsgi-pkg
+#uwsgi-sock-dir:
+#    file.directory:
+#        - name: /run/uwsgi/
+#        - user: {{ pillar.elife.webserver.username }}
+#        - require:
+#            - pip: uwsgi-pkg
