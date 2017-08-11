@@ -1,3 +1,38 @@
+{% if salt['grains.get']('osrelease') == "16.04" %}
+
+python-2.7:
+    pkg.installed:
+        - pkgs: 
+            - python2.7
+            - python-pip
+
+python-3.5:
+    pkg.installed:
+        - pkgs:
+            - python3.5
+            #- python3-pip # python 3 has pip built in
+
+python-dev:
+    pkg.installed:
+        - pkgs:
+            - python2.7-dev
+            - python3.5-dev
+            - libffi-dev 
+            - libssl-dev
+
+global-python-requisites:
+    pip.installed:
+        #- pip_bin: /usr/bin/python2.7
+        - pkgs:
+            # DEPRECATED. installed for any remaining python 2 apps creating virtualenvs
+            - virtualenv>=13
+        - require:
+            - python-2.7
+
+{% else %}
+
+# DEPRECATED. removed after switch to 16.04
+
 python-2.7:
     pkg.installed:
         - name: python2.7
@@ -53,6 +88,7 @@ global-python-requisites:
     pip.installed:
         - pkgs:
             - virtualenv>=13
+            # rmrf_enter is DEPRECATED
             # elife's delete script for stuff that accumulates
             - "git+https://github.com/elifesciences/rmrf_enter.git@master#egg=rmrf_enter" 
         - require:
@@ -72,3 +108,4 @@ python-2.7+:
         - unless:
             - test -e /etc/apt/sources.list.d/fkrull-deadsnakes-python2_7-trusty.list
 
+{% endif %}
