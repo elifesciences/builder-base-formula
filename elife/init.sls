@@ -2,7 +2,8 @@
 # https://docs.saltstack.com/en/latest/ref/states/include.html
 
 include:
-    - .base # misc. that really should belong elsewhere (but where?)
+    - .base
+    - .masterless
     - .python
     - .hostname
     - .dhcp
