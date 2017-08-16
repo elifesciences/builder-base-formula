@@ -2,7 +2,7 @@
 # https://docs.saltstack.com/en/latest/ref/states/include.html
 
 include:
-    - .base # misc. that really should belong elsewhere (but where?)
+    - .base
     - .python
     - .hostname
     - .dhcp
@@ -13,10 +13,11 @@ include:
     - .security
     - .logging
     - .upstart-monitoring
-    {% if salt['elife.only_on_aws']() %}
     - .daily-system-updates
-    {% endif %}
     - .environment-name
     - .smoke
     - .utils
     - .forced-dns
+    {% if salt['elife.cfg']('project.ec2.masterless') %}
+    - .masterless
+    {% endif %}
