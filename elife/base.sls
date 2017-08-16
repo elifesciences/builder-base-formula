@@ -40,3 +40,8 @@ autoremove-orphans:
             - DEBIAN_FRONTEND: noninteractive
         - require:
             - base-purging
+
+systemd-dir-exists:
+    file.directory:
+        - name: /lib/systemd/system/
+        - makedirs: True
