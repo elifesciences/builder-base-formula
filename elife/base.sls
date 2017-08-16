@@ -2,6 +2,9 @@ base:
     pkg.installed:
         - pkgs:
             - logrotate
+            # deprecating. moving to upstart for 14.04
+            # http://libslack.org/daemon/
+            - daemon
             - curl
             - git
             - realpath # resolves symlinks in paths for shell
