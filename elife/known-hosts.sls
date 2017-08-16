@@ -18,6 +18,13 @@ github.com:
         - unless:
             - grep -r "^github.com," /etc/ssh/ssh_known_hosts
 
+gitlab.coko.foundation:
+    ssh_known_hosts.present:
+        - fingerprint: 39:2f:44:29:cc:9b:c3:d7:4d:2a:25:ca:6f:e4:17:bc
+        - enc: ssh-rsa
+        - unless:
+            - grep -r "^gitlab.coko.foundation," /etc/ssh/ssh_known_hosts
+
 /etc/ssh/ssh_known_hosts:
     file.exists:
         - require:
