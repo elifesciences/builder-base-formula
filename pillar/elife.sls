@@ -260,4 +260,8 @@ elife:
                 region: us-east-1
             journal:
                 host: null
+            reviewer_suggestions:
+                host: null
+                user: null
+                password: null
         tmp: /ext/spectrum-tmp
