@@ -18,12 +18,17 @@ github.com:
         - unless:
             - grep -r "^github.com," /etc/ssh/ssh_known_hosts
 
-gitlab.coko.foundation:
+
+{% for key in pillar.elife.known_hosts %}
+known-hosts-{{ key }}:
     ssh_known_hosts.present:
-        - fingerprint: 39:2f:44:29:cc:9b:c3:d7:4d:2a:25:ca:6f:e4:17:bc
-        - enc: ssh-rsa
+        - name: {{ pillar.elife.known_hosts[key].host }}
+        - fingerprint: {{ pillar.elife.known_hosts[key].fingerprint }}
+        - enc: {{ pillar.elife.known_hosts[key].get("enc", "ssh-rsa") }}
+        - timeout: {{ pillar.elife.known_hosts[key].get("timeout", 10) }}
         - unless:
-            - grep -r "^gitlab.coko.foundation," /etc/ssh/ssh_known_hosts
+            - grep -r "^{{ pillar.elife.known_hosts[key].host }}," /etc/ssh/ssh_known_hosts
+{% endfor %}
 
 /etc/ssh/ssh_known_hosts:
     file.exists:
