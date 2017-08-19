@@ -17,7 +17,7 @@ openjdk7-jre:
 openjdk-jre:
     cmd.run:
         - name: echo "alias for deprecated openjdk7-jre"
-    require:
-        - openjdk7-jre
+        - require:
+            - openjdk7-jre
 
 {% endif %}
