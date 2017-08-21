@@ -216,6 +216,8 @@ elife:
                 article_xml_repository_url: null
             personalised_covers:
                 bucket: null
+            generic_cdn:
+                host: null
         continuumtest:
             aws:
                 access_key_id: null
@@ -255,6 +257,8 @@ elife:
                 article_xml_repository_url: null
             personalised_covers:
                 bucket: null
+            generic_cdn:
+                host: null
         prod:
             aws:
                 region: us-east-1
