@@ -1,16 +1,45 @@
 {% if salt['grains.get']('osrelease') == "16.04" %}
 
+#
+# these states are temporary and occur when switching between 
+# builder-base-formula for 14.04 and 16.04. 
+# TODO: remove when all projects are using 16.04
+#
+
+dead-snakes-are-dead:
+    pkgrepo.absent:
+        - ppa: fkrull/deadsnakes-python2.7
+
+jonothonf-is-missing:
+    pkgrepo.absent:
+        - ppa: jonathonf/python-2.7
+
+third-party-python-repos-absent:
+    cmd.run:
+        - name: echo 'third party python repositories purged'
+        - require:
+            - dead-snakes-are-dead
+            - jonothonf-is-missing
+
+#
+#
+#
+
 python-2.7:
     pkg.installed:
         - pkgs: 
             - python2.7
             - python-pip
+        - require:
+            - third-party-python-repos-absent
 
 python-3.5:
     pkg.installed:
         - pkgs:
             - python3.5
-            #- python3-pip # python 3 has pip built in
+            - python3-pip
+        - require:
+            - third-party-python-repos-absent
 
 python-dev:
     pkg.installed:
@@ -19,6 +48,9 @@ python-dev:
             - python3.5-dev
             - libffi-dev 
             - libssl-dev
+        - require:
+            - python-2.7
+            - python-3.5
 
 global-python-requisites:
     pip.installed:
