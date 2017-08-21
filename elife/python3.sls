@@ -29,7 +29,7 @@ python-3:
             - python3.6
             - python3.6-dev
 
-            # ubuntu ... ffs.
+            # ubuntu ... ffs. issue exists in 16.04 too
             # https://bugs.launchpad.net/ubuntu/+source/python3.4/+bug/1290847
             - python3.5-venv
 {% endif %}
