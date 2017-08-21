@@ -127,17 +127,14 @@ global-python-requisites:
             - pkg: base
             - pkg: python-pip
 
-# pkgrepo for 2.7.12, should already be configured by builder's Salt bootstrap
-# officially abandoned
+# an updated python repo is configured in bootstrap.sh before salt is called.
+# ppa officially abandoned
 python-2.7+:
-    pkgrepo.managed:
-        - humanname: Python 2.7 Updates
+    pkgrepo.absent:
         - ppa: fkrull/deadsnakes-python2.7
         - require:
             - python-2.7
             - python-dev
             - global-python-requisites
-        - unless:
-            - test -e /etc/apt/sources.list.d/fkrull-deadsnakes-python2_7-trusty.list
 
 {% endif %}
