@@ -28,6 +28,6 @@ newrelic-infrastructure:
 
     service.running:
         - name: newrelic-infra
-        - enabled: True
+        - enable: True
         - require:
             - pkg: newrelic-infrastructure
