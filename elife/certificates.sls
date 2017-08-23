@@ -40,7 +40,7 @@ web-fullchain-key:
 web-complete-cert:
     cmd.run:
         - cwd: /etc/certificates/
-        - cat certificate.crt fullchain.pem > certificate.chained.crt
+        - name: cat certificate.crt fullchain.pem > certificate.chained.crt
         - require:
             - web-fullchain-key
             - web-certificate-file
