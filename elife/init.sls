@@ -3,6 +3,7 @@
 
 include:
     - .base
+    - .masterless
     - .python
     - .hostname
     - .dhcp

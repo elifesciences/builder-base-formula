@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-owner_and_repo=$(git remote -v 2>&1 | grep fetch | sed -e 's/.*github.com:\(.*\).git.*/\1/g')
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+owner_and_repo=$("$DIR/github_owner_and_repo.sh")
+
 if [ -z $commit ]
 then
     commit=$(git rev-parse HEAD)
@@ -12,12 +14,13 @@ status_code=$(curl \
     -s \
     -o github_commit_status.log \
     -w '%{http_code}' \
-    "https://api.github.com/repos/$owner_and_repo/statuses/$commit?access_token=$GITHUB_COMMIT_STATUS_TOKEN" \
+    "https://api.github.com/repos/$owner_and_repo/statuses/$commit?access_token=$GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
     -X POST \
-    -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$BUILD_URL\"}")
+    -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$target_url\"}")
 
 if [[ $status_code -eq 201 ]]; then
+    rm github_commit_status.log
     exit 0
 fi
 

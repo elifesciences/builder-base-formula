@@ -39,13 +39,33 @@ elife:
         also_bootstrap_user: True
         # adds keys to deploy user's `~/.ssh/authorized_keys` file
         allowed:
+            # per-user access to all instances
+            all: []
+
+            # per-user, per-project access
+
             project1:
                 - example-user
 
-        # removes keys. happens after allowing keys
+        # removes keys. happens *after* allowed
         denied:
+            # per-user denied access to all instances
+            all: []
+
+            # per-user, per-project denied access
             project1: 
                 - example-user
+
+    known_hosts:
+        coko:
+            host: gitlab.coko.foundation
+            fingerprint: "39:2f:44:29:cc:9b:c3:d7:4d:2a:25:ca:6f:e4:17:bc"
+            # optional
+            enc: ssh-rsa
+            timeout: 10
+
+
+
 
     backups:
         bucket: elife-app-backups
@@ -105,7 +125,7 @@ elife:
             enabled: False
             host: "logs3.papertrailapp.com"
             port: 48058
-            
+
         tick:
             enabled: False
             influx_host: http://localhost:8086
@@ -130,7 +150,7 @@ elife:
         slack:
             channel_hook: http://...
         github:
-            commit_status_token: null
+            token: null
     # hub tool for Github interaction
     hub:
         username: elife
@@ -194,6 +214,10 @@ elife:
                 password: null
             github:
                 article_xml_repository_url: null
+            personalised_covers:
+                bucket: null
+            generic_cdn:
+                host: null
         continuumtest:
             aws:
                 access_key_id: null
@@ -231,9 +255,17 @@ elife:
                 password: null
             github:
                 article_xml_repository_url: null
+            personalised_covers:
+                bucket: null
+            generic_cdn:
+                host: null
         prod:
             aws:
                 region: us-east-1
             journal:
                 host: null
+            reviewer_suggestions:
+                host: null
+                user: null
+                password: null
         tmp: /ext/spectrum-tmp

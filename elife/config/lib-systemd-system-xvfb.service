@@ -1,0 +1,10 @@
+[Unit]
+Description="virtual X frame buffer"
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+StandardError=syslog
+ExecStart=/usr/bin/Xvfb :99 -screen 0 1024x768x24

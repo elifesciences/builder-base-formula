@@ -37,6 +37,14 @@ web-fullchain-key:
         - require:
             - file: web-certificates-dir
 
+web-complete-cert:
+    cmd.run:
+        - name: cat certificate.crt fullchain.pem > certificate.chained.crt
+        - cwd: /etc/certificates/
+        - require:
+            - web-fullchain-key
+            - web-certificate-file
+
 better-dhe:
     cmd.run:
         - cwd: /etc/ssl/certs
@@ -52,7 +60,9 @@ web-ssl-enabled:
             - file: web-fullchain-key
             - file: web-private-key
             - file: web-certificate-file
+            - cmd: web-complete-cert
             - cmd: better-dhe
+
 {% else %}
 
 # prevents further conditionals downstream
