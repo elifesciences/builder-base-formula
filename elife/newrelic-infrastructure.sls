@@ -8,7 +8,7 @@ newrelic-infrastructure-repository-key:
 
 newrelic-infrastructure-repository:
     cmd.run:
-        - name: "printf "\deb [arch=amd64] http://download.newrelic.com/infrastructure_agent/linux/apt trusty main\" | tee -a /etc/apt/sources.list.d/newrelic-infra.list"
+        - name: "printf "\deb [arch=amd64] http://download.newrelic.com/infrastructure_agent/linux/apt trusty main\" | tee /etc/apt/sources.list.d/newrelic-infra.list"
         - require:
             - newrelic-infrastructure-repository-key
 
