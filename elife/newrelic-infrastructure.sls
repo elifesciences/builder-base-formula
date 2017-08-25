@@ -31,3 +31,5 @@ newrelic-infrastructure:
         - enable: True
         - require:
             - pkg: newrelic-infrastructure
+        - watch:
+            - newrelic-infrastructure-configuration
