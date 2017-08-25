@@ -28,7 +28,7 @@ timeout=120
                 echo "It shouldn't take more than $timeout seconds to kill all the {{ process }} processes"
                 exit 1
             fi
-            systemctl status {{ process }}@$i -n 0 | grep "Loaded: not-found" && break
+            systemctl status {{ process }}@$i -n 0 | grep "Active: inactive" && break
             sleep 1
             counter=$((counter + 1))
         done
