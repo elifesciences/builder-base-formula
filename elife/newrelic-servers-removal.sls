@@ -62,17 +62,3 @@ newrelic-system-daemon-license:
 #        - repl: "labels=project:{{ newrelic_labels }},environment={{ newrelic_environment }}"
 #        - require: 
 #            - newrelic-system-daemon-package
-
-newrelic-system-daemon:
-    #service.running:
-    service.dead:
-        - name: newrelic-sysmond
-        - enable: False
-        #- require:
-        #    - newrelic-system-daemon-license
-        #    - newrelic-system-daemon-hostname
-        #    - newrelic-system-daemon-labels
-        #- watch:
-        #    - newrelic-system-daemon-license
-        #    - newrelic-system-daemon-hostname
-        #    - newrelic-system-daemon-labels
