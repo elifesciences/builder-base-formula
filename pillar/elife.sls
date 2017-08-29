@@ -56,16 +56,7 @@ elife:
             project1: 
                 - example-user
 
-    known_hosts:
-        coko:
-            host: gitlab.coko.foundation
-            fingerprint: "39:2f:44:29:cc:9b:c3:d7:4d:2a:25:ca:6f:e4:17:bc"
-            # optional
-            enc: ssh-rsa
-            timeout: 10
-
-
-
+    known_hosts: {}
 
     backups:
         bucket: elife-app-backups
