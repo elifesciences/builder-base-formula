@@ -1,5 +1,7 @@
 {% set on_elasticache = salt['elife.cfg']('cfn.outputs.ElastiCacheHost') %}
 
+{% set distro = salt['grains.get']('oscodename') %}
+
 {% if not on_elasticache %}
 redis-packages-install:
     pkg.installed:
@@ -9,7 +11,7 @@ redis-packages-install:
 
     file.managed:
         - name: /etc/redis/redis.conf
-        - source: salt://elife/config/etc-redis-redis.conf
+        - source: salt://elife/config/etc-redis-redis.conf.{{ distro }}
         - template: jinja
         - require:
             - pkg: redis-packages-install

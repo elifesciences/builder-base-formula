@@ -6,7 +6,6 @@ newrelic-php-extension-package:
         # https://discuss.newrelic.com/t/php-agent-and-php-7-0/27687/85
         - name: newrelic-php5
         - require:
-            - newrelic-system-daemon
             - php
             #- php-fpm-config
 

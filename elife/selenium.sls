@@ -1,10 +1,18 @@
 xvfb:
     pkg:
         - installed
+
     file.managed:
+        {% if not salt['grains.get']('osrelease') == "16.04" %}
         - name: /etc/init.d/xvfb
         - source: salt://elife/config/etc-init.d-xvfb
         - mode: 755
+        {% else %}
+        - name: /lib/systemd/system/xvfb.service
+        - source: salt://elife/config/lib-systemd-system-xvfb.service
+        - mode: 644
+        {% endif %}
+
     service.running:
         - enable: True
         - watch:
@@ -52,16 +60,23 @@ selenium-log:
 
 selenium:
     file.managed:
+        {% if not salt['grains.get']('osrelease') == "16.04" %}
         - name: /etc/init.d/selenium
         - source: salt://elife/config/etc-init.d-selenium
         - mode: 755
+        {% else %}
+        - name: /lib/systemd/system/selenium.service
+        - source: salt://elife/config/lib-systemd-system-selenium.service
+        - mode: 644
+        {% endif %}
+
     service.running:
         - enable: True
         - watch:
               - file: selenium-server
               - file: selenium
         - require:
-              - pkg: openjdk7-jre
+              - openjdk-jre
               - file: selenium-server
               - file: selenium
               - service: xvfb
