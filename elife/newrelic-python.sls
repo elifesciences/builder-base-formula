@@ -26,8 +26,10 @@ newrelic-python-ini-configuration-appname:
         - repl: app_name = {{ salt['elife.cfg']('project.stackname', 'cfn.stack_id', 'Python application') }}
         - require:
             - newrelic-python-license-configuration
+        {% if pillar.elife.newrelic_python.service %}
         - listen_in:
             - service: {{ pillar.elife.newrelic_python.service }}
+        {% endif %}
 
 newrelic-python-logfile-agent-in-ini-configuration:
     file.replace:
@@ -36,6 +38,8 @@ newrelic-python-logfile-agent-in-ini-configuration:
         - repl: log_file = stderr
         - require:
             - newrelic-python-license-configuration
+        {% if pillar.elife.newrelic_python.service %}
         - listen_in:
             - service: {{ pillar.elife.newrelic_python.service }}
+        {% endif %}
 
