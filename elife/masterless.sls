@@ -1,16 +1,12 @@
+#
 # only included for masterless instances
-
+#
 
 # when running salt masterless, minion doesn't need to run as a daemon
 disable-salt-minion:
     service.dead:
         - name: salt-minion
         - enable: false
-        - onlyif:
-            # running within vagrant
-            - test -d /vagrant
-
-
 
 # deny access to all except those in allow.all and allow.master-server
 # necessary to ensure those with access don't inadvertently grant access to others
