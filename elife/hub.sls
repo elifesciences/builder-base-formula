@@ -27,8 +27,10 @@ hub-link-config:
         - name: |
             cd $(eval echo "~{{ pillar.elife.hub.username }}")/
             mkdir -p .config
+            chown {{ pillar.elife.hub.username}}:{{ pillar.elife.hub.username}} .config
             cd .config
             ln -sf /etc/hub.default hub
+            chown -h {{ pillar.elife.hub.username}}:{{ pillar.elife.hub.username}} hub
         - require:
             - hub
 
