@@ -255,7 +255,7 @@ elife:
                 region: us-east-1
             journal:
                 host: null
-            reviewer_suggestions:
+            peerscout:
                 host: null
                 user: null
                 password: null
