@@ -14,11 +14,9 @@ disable-salt-minion:
 # zero out all allowed keys
 deny_all_access:
     cmd.run:
-        - name: |
-            echo > /home/elife/.ssh/authorized_keys
-            # bootstrap user is needed to login
-            # masterless environment disables adding any other keys to bootstrap user
-            #echo > /home/ubuntu/.ssh/authorized_keys
+        - name: echo > /home/elife/.ssh/authorized_keys
+        - require:
+            - ssh-access-set # regular permissions configured
 
 # allow
 
@@ -32,9 +30,15 @@ masterless-ssh-access-for-{{ username }}:
         - name: {{ pillar.elife.ssh_users[username] }}
         - comment: {{ username }}
         - require:
-            - cmd: /home/{{ user }}/.ssh/
+            - deny_all_access
+        - require_in:
+            - masterless-ssh-access
     {% endif %}
 {% endfor %}
+
+masterless-ssh-access:
+    cmd.run:
+        - name: echo "masterless ssh access set"
 
 # deny 
 
@@ -49,7 +53,9 @@ masterless-ssh-denial-for-{{ username }}:
         - name: {{ pillar.elife.ssh_users[username] }}
         - comment: {{ username }}
         - require:
-            - cmd: /home/{{ user }}/.ssh/
+            - masterless-ssh-access
+        - require_in:
+            - masterless-ssh-configured
             
 masterless-ssh-denial-for-{{ username }}-using-{{ pillar.elife.bootstrap_user.username }}:
     ssh_auth.absent:
@@ -57,8 +63,14 @@ masterless-ssh-denial-for-{{ username }}-using-{{ pillar.elife.bootstrap_user.us
         - name: {{ pillar.elife.ssh_users[username] }}
         - comment: {{ username }}
         - require:
-            - cmd: /home/{{ user }}/.ssh/
+            - masterless-ssh-access
+        - require_in:
+            - masterless-ssh-configured
             
     {% endif %}
 {% endfor %}
+
+masterless-ssh-configured:
+    cmd.run:
+        - name: echo "all ssh access and access denials set for masterless instance"
 
