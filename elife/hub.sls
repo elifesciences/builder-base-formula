@@ -25,7 +25,7 @@ hub:
 hub-link-config:
     cmd.run:
         - name: |
-            cd $(eval echo "~$username")/
+            cd $(eval echo "~{{ pillar.elife.hub.username }}")/
             mkdir -p .config
             cd .config
             ln -sf /etc/hub.default hub
