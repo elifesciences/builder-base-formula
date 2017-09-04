@@ -1,10 +1,13 @@
+{% set root = pillar.elife.db_root %}
+{% set oscodename = salt['grains.get']('oscodename') %}
+
 mysql-server:
     pkg:
         - installed
 
     file.managed:
         - name: /etc/mysql/my.cnf
-        - source: salt://elife/config/etc-mysql-my.cnf
+        - source: salt://elife/config/etc-mysql-my.cnf.{{ oscodename }}
         - require:
             - pkg: mysql-server
 
@@ -19,14 +22,12 @@ mysql-ready:
     cmd.run:
         - name: echo "MySQL is ready"
 
-{% set root = pillar.elife.db_root %}
-
 # the 'root' db user that has access to *everything*
 # untested with RDS, doesn't work as intended with PostgreSQL.
 mysql-root-user:
     mysql_user.present:
         - name: {{ root.username }}
-        - password: {{ root.password }} 
+        - password: {{ root.password }}
         - host: localhost
         - require:
             - service: mysql-server
