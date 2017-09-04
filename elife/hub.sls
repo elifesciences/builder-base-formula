@@ -11,7 +11,7 @@ hub:
             - which hub
 
     file.managed:
-        - name: {{ salt['user.info'](pillar.elife.hub.username).home }}/.config/hub
+        - name: /etc/hub.default
         - source: salt://elife/config/home-deploy-user-.config-hub
         - template: jinja
         - makedirs: True
@@ -20,4 +20,17 @@ hub:
         - require:
             - deploy-user
             - cmd: hub
+            - user: {{ pillar.elife.hub.username }}
+
+hub-link-config:
+    cmd.run:
+        - name: |
+            cd $(eval echo "~{{ pillar.elife.hub.username }}")/
+            mkdir -p .config
+            chown {{ pillar.elife.hub.username}}:{{ pillar.elife.hub.username}} .config
+            cd .config
+            ln -sf /etc/hub.default hub
+            chown -h {{ pillar.elife.hub.username}}:{{ pillar.elife.hub.username}} hub
+        - require:
+            - hub
 
