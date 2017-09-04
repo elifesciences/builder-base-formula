@@ -35,5 +35,6 @@ goaws-init:
         - name: {% if xenial %}goaws{% else %}goaws-init{% endif %}
         - require:
             - goaws-install
+            - goaws-run-dir
             - goaws-init-systemd
             - goaws-init-upstart
