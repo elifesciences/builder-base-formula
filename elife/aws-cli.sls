@@ -2,5 +2,5 @@ aws-cli:
     pip.installed:
         - name: awscli
         - require:
-          - python-pip
+            - python-2.7
 
