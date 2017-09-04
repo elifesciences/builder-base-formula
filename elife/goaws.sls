@@ -8,19 +8,32 @@ goaws-install:
         - env:
             - GOPATH: /usr/local
         - require:
-            - pkg: golang-go
+            - golang-go
             - aws-cli
 
-goaws-init:
+goaws-run-dir:
+    file.directory:
+        - name: /var/run/goaws
+        - mode: 755
+
+goaws-init-upstart:
     file.managed:
         - name: /etc/init/goaws-init.conf
         - source: salt://elife/config/etc-init-goaws-init.conf
         - mode: 755
         - template: jinja
+
+goaws-init-systemd:
+    file.managed:
+        - name: /lib/systemd/system/goaws.service
+        - source: salt://elife/config/lib-systemd-system-goaws.service
+        - template: jinja
+
+{% set xenial = salt['grains.get']('oscodename') == 'xenial' %}
+goaws-init:
+    service.running:
+        - name: {% if xenial %}goaws{% else %}goaws-init{% endif %}
         - require:
             - goaws-install
-    
-    service.running:
-        - name: goaws-init
-        - require:
-            - file: goaws-init
+            - goaws-init-systemd
+            - goaws-init-upstart
