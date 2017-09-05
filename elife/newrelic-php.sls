@@ -1,11 +1,26 @@
 # requires both php7 and nginx-php7 state files
 
+newrelic-repository:
+    file.managed:
+        - name: /etc/apt/sources.list.d/newrelic.list
+        - contents: |
+            deb http://apt.newrelic.com/debian/ newrelic non-free
+
+newrelic-repository-key:
+    cmd.run:
+        - name: wget -O- https://download.newrelic.com/548C16BF.gpg | apt-key add -
+        - unless:
+            - apt-key list | grep 548C16BF
+
 newrelic-php-extension-package:
     pkg.installed:
         # the package contains both PHP 5 and PHP 7 support
         # https://discuss.newrelic.com/t/php-agent-and-php-7-0/27687/85
         - name: newrelic-php5
+        - refresh: True
         - require:
+            - newrelic-repository
+            - newrelic-repository-key
             - php
             #- php-fpm-config
 
