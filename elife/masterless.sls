@@ -20,6 +20,8 @@ deny_all_access:
 
 # allow
 
+{% set ssh = pillar.elife.ssh_access %}
+
 {% set allowed = ssh.allowed.get('master-server', []) + ssh.allowed.get("all", []) %}
 {% for username in allowed %}
     {% if pillar.elife.ssh_users.has_key(username) %}
