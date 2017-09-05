@@ -20,6 +20,8 @@ include:
     - .smoke
     - .utils
     - .forced-dns
+    {% if str(salt['elife.cfg']('project.ec2')) != 'True' %}
     {% if salt['elife.cfg']('project.ec2.masterless') %}
     - .masterless
+    {% endif %}
     {% endif %}
