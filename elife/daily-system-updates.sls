@@ -30,3 +30,7 @@ daily-system-updates:
         - require:
             - file: daily-system-update-log-rotater
             - daily-system-update-command
+
+       # don't update vagrant machines
+        - onlyif:
+            - test ! -d /vagrant

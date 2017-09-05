@@ -3,7 +3,6 @@
 
 include:
     - .base
-    - .masterless
     - .python
     - .hostname
     - .dhcp
@@ -21,3 +20,6 @@ include:
     - .smoke
     - .utils
     - .forced-dns
+    {% if salt['elife.cfg']('project.ec2.masterless') %}
+    - .masterless
+    {% endif %}
