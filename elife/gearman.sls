@@ -15,6 +15,20 @@ gearman-upstart-script:
         - require:
             - gearman-daemon
 
+gearman-systemd-script:
+    file.managed:
+        - name: /lib/systemd/system/gearman-job-server.service
+        - source: salt://elife/config/lib-systemd-system-gearman-job-server.service
+        - require:
+            - gearman-daemon
+
+default-gearman-config:
+    file.managed:
+        - name: /etc/gearman.conf
+        - source: salt://elife/config/etc-gearman.conf
+        - require:
+            - gearman-daemon
+
 gearman-php-extension:
     pkg.installed:
         - pkgs:
