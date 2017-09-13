@@ -9,7 +9,7 @@ nodejs:
         #- key_url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
         - file: /etc/apt/sources.list.d/nodesource.list
 
-    pkg.installed:
+    pkg.latest:
         - name: nodejs
         - require:
             - pkgrepo: nodejs
