@@ -13,7 +13,7 @@ include:
     {% if salt['elife.cfg']('project.node', 1) == 1 %}
     # first server of a cluster
     - .backups-cron
-    {% else %}
+    {% endif %}
     - .security
     - .logging
     - .upstart-monitoring
