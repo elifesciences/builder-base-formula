@@ -13,17 +13,24 @@ fakes3-directory:
         - user: {{ pillar.elife.deploy_user.username }}
         - group: {{ pillar.elife.deploy_user.username }}
 
-fakes3:
+fakes3-upstart:
     file.managed:
         - name: /etc/init/fakes3.conf
         - source: salt://elife/config/etc-init-fakes3.conf
         - mode: 644
         - template: jinja
-        - require:
-            - fakes3-installation
-            - fakes3-directory
-    
+
+fakes3-systemd:
+    file.managed:
+        - name: /lib/systemd/system/fakes3.service
+        - source: salt://elife/config/lib-systemd-system-fakes3.service
+        - template: jinja
+
+fakes3:
     service.running:
         - name: fakes3
         - require:
-            - file: fakes3
+            - fakes3-installation
+            - fakes3-directory
+            - fakes3-upstart
+            - fakes3-systemd
