@@ -1,9 +1,13 @@
-php-ppa:
+{% set codename = salt['grains.get']('oscodename') %}
+
+php-ppa-auth:
     cmd.run:
         - name: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
         - unless:
             - apt-key list | grep E5267A6C
 
+{% if codename == "trusty" %}
+php-ppa:
     # https://launchpad.net/~ondrej/+archive/ubuntu/php
     pkgrepo.managed:
         - humanname: Ondřej Surý PHP PPA
@@ -13,9 +17,24 @@ php-ppa:
         - keyserver: keyserver.ubuntu.com
         - file: /etc/apt/sources.list.d/ondrej-php-trusty.list
         - require:
-            - cmd: php-ppa
+            - php-ppa-auth
         - unless:
             - test -e /etc/apt/sources.list.d/ondrej-php-trusty.list
+
+{% else %}
+
+# encountering something very similar to: https://github.com/saltstack/salt/issues/23543
+php-ppa:
+    cmd.run:
+        - name: "apt-add-repository -y ppa:ondrej/php"
+        - env:
+            - LC_ALL: 'en_US.UTF-8'
+        - unless:
+            - test -e /etc/apt/sources.list.d/ondrej-ubuntu-php-{{ codename }}.list
+        - require:
+            - php-ppa-auth
+
+{% endif %}
 
 purge-old-php:
     pkg.purged:
@@ -37,7 +56,9 @@ php:
             - php5.6-mbstring
             - libpcre3-dev # pcre for php5
             - libapache2-mod-php5.6
+        - refresh: True
         - require:
+            - php-ppa
             - purge-old-php
 
 php5.6-apache-ini:
