@@ -94,6 +94,13 @@ elife:
         persistent: false
         maxmemory: 256
 
+    gearman:
+        persistent: false # if true, uses the values in 'db'
+        db:
+            name: gearman
+            username: gearman
+            password: gearman
+
     logging:
         collectd:
             enabled: False
