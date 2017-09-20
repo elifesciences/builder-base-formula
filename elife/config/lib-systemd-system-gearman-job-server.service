@@ -1,6 +1,9 @@
-{% set gdb = pillar.search.gearman.db %}
 [Unit]
 Description=gearman job control server
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
 
 [Service]
 ExecStartPre=/usr/bin/install -d -o gearman /run/gearman
@@ -8,7 +11,4 @@ PermissionsStartOnly=true
 User=gearman
 Restart=always
 PIDFile=/run/gearman/server.pid
-ExecStart=/usr/sbin/gearmand --conf-file=/etc/gearman.conf
-
-[Install]
-WantedBy=multi-user.target
+ExecStart=/usr/sbin/gearmand --config-file /etc/gearman.conf
