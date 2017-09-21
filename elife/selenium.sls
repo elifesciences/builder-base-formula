@@ -47,6 +47,24 @@ firefox-pinned-version:
         - unless:
             - test "`firefox -v`" = "Mozilla Firefox 47.0.1"
 
+firefox-headless-multimedia:
+    pkg.installed:
+        - pkgs:
+            - mplayer
+            - linux-sound-base
+
+    cmd.run:
+        - name: sudo apt-get -y install linux-image-extra-$(uname -r)
+        - require:
+            - pkg: firefox-headless-multimedia
+
+    kmod.present:
+        - name: snd_dummy
+        - persist: True
+        - require:
+            - cmd: firefox-headless-multimedia
+
+
 selenium-server:
     file.managed:
         - name: /usr/bin/selenium-server-standalone.jar
