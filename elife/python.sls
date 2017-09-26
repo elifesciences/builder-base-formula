@@ -92,7 +92,7 @@ python-pip:
             - python-pip
             - python-pip-whl
         - require_in:
-            - pip-shim
+            - pkg: pip-shim
 
 pip-shim:
     pkg.installed:

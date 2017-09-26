@@ -57,7 +57,7 @@ mysql-root-user-dev-perms:
         - require:
             - mysql_user: mysql-root-user-dev-perms
         - require_in:
-            - mysql-ready
+            - cmd: mysql-ready
 {% endif %}
 
 

@@ -34,7 +34,7 @@ masterless-ssh-access-for-{{ username }}:
         - require:
             - deny_all_access
         - require_in:
-            - masterless-ssh-access
+            - cmd: masterless-ssh-access
     {% endif %}
 {% endfor %}
 
@@ -57,7 +57,7 @@ masterless-ssh-denial-for-{{ username }}:
         - require:
             - masterless-ssh-access
         - require_in:
-            - masterless-ssh-configured
+            - cmd: masterless-ssh-configured
             
 masterless-ssh-denial-for-{{ username }}-using-{{ pillar.elife.bootstrap_user.username }}:
     ssh_auth.absent:
@@ -67,7 +67,7 @@ masterless-ssh-denial-for-{{ username }}-using-{{ pillar.elife.bootstrap_user.us
         - require:
             - masterless-ssh-access
         - require_in:
-            - masterless-ssh-configured
+            - cmd: masterless-ssh-configured
             
     {% endif %}
 {% endfor %}
