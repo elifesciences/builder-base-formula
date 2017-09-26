@@ -21,13 +21,9 @@ xvfb:
               - pkg: xvfb
               - file: xvfb
 
-firefox-ppa:
-    pkgrepo.managed:
-      - humanname: Mozilla PPA that has all versions of Firefox
-      - name: deb http://downloads.sourceforge.net/project/ubuntuzilla/mozilla/apt all main
-      - file: /etc/apt/sources.list.d/firefox-mozilla.list
-      - keyid: C1289A29
-      - keyserver: keyserver.ubuntu.com
+firefox-ppa-doesnt-work:
+    file.absent:
+      - name: /etc/apt/sources.list.d/firefox-mozilla.list
 
 firefox-dependencies:
     pkg.installed:
@@ -42,7 +38,6 @@ firefox-pinned-version:
             dpkg -i firefox-47.deb
         - cwd: /root
         - require:
-            - firefox-ppa
             - firefox-dependencies
         - unless:
             - test "`firefox -v`" = "Mozilla Firefox 47.0.1"
