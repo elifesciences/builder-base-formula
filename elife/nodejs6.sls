@@ -12,4 +12,4 @@ nodejs6:
     pkg.latest:
         - name: nodejs
         - require:
-            - pkgrepo: nodejs
+            - pkgrepo: nodejs6

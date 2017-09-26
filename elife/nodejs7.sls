@@ -12,4 +12,4 @@ nodejs7:
     pkg.installed:
         - name: nodejs
         - require:
-            - pkgrepo: nodejs
+            - pkgrepo: nodejs7
