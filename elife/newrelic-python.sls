@@ -9,6 +9,7 @@
 # - pillar.elife.newrelic_python.service 
 #     the name of a service.running state that should be restarted
 
+{% if pillar.elife.newrelic.enabled %}
 newrelic-python-license-configuration:
     cmd.run:
         - name: venv/bin/newrelic-admin generate-config {{ pillar.elife.newrelic.license }} newrelic.ini
@@ -42,4 +43,4 @@ newrelic-python-logfile-agent-in-ini-configuration:
         - listen_in:
             - service: {{ pillar.elife.newrelic_python.service }}
         {% endif %}
-
+{% endif %}
