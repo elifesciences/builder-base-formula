@@ -1,5 +1,0 @@
-# Elasticsearch configuration for {{ grains['fqdn'] }}
-
-node.name: "{{ grains['fqdn'] }}"
-http.cors.allow-origin: "/.*/"
-http.cors.enabled: true
