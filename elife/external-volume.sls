@@ -44,5 +44,5 @@ tmp-directory-on-external-volume:
         - require:
             - mount-external-volume
         - require_in:
-            - new-ubr-config # builder-base-formula.backups
+            - file: new-ubr-config # builder-base-formula.backups
 

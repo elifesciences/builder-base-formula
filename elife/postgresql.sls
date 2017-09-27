@@ -72,7 +72,7 @@ rds-postgresql-user:
         - require:
             - pkg: postgresql
         - require_in:
-            - postgresql-ready
+            - cmd: postgresql-ready
 {% endif %}
 
 postgresql-user:
