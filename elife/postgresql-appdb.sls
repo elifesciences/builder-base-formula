@@ -37,7 +37,7 @@ psql-app-db:
 
 db-perms-to-rds_superuser:
     cmd.script:
-        - name: salt://elife/scripts/rds-perms2.sh
+        - name: salt://elife/scripts/postgresql-appdb-perms.sh
         - template: jinja
         - defaults:
             user: {{ user }}
