@@ -1,0 +1,14 @@
+[Unit]
+Description="GOAWS local AWS server"
+After=network.target
+TimeoutStopSec=10
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Restart=on-failure
+User={{ pillar.elife.deploy_user.username }}
+WorkingDirectory=/home/{{ pillar.elife.deploy_user.username }}
+Environment="HOME=/home/{{ pillar.elife.deploy_user.username }}"
+ExecStart=/usr/local/bin/goaws

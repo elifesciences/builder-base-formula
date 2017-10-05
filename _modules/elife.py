@@ -60,11 +60,11 @@ def reachable(url):
 # 
 #
 
-def rev():
+def rev(default_branch='master'):
     """used in the `git.latest` state for the `rev` attribute.
     Prefer a commit if specified in revision, otherwise a branch name
     and when there's nothing specified default to master"""
-    return cfg('project.revision', 'project.branch', 'master')
+    return cfg('project.revision', 'project.branch', default_branch)
 
 def branch(default='master'):
     """used in the `git.latest` state for the `branch` attribute.

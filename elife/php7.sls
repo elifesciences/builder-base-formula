@@ -1,5 +1,23 @@
 # base php installation
 
+{% if salt['grains.get']('osrelease') == "16.04" %}
+
+php-ppa:
+      pkgrepo.managed:
+        - name: deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main
+        - dist: xenial
+        - file: /etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list
+        - keyserver: keyserver.ubuntu.com
+        - keyid: E5267A6C
+        - refresh_db: true
+        - unless:
+            - test -e /etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list
+
+{% else %}
+
+# still problematic in 16.04:
+# https://github.com/saltstack/salt/issues/32294
+
 php-ppa:
     cmd.run:
         - name: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
@@ -18,6 +36,8 @@ php-ppa:
             - cmd: php-ppa
         - unless:
             - test -e /etc/apt/sources.list.d/ondrej-php-trusty.list
+
+{% endif %}
 
 php:
     pkg.installed:

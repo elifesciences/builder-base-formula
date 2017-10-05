@@ -1,10 +1,15 @@
-# WARNING: this file cannot be included without specifying
+# WARNING: this file cannot be included without specifying:
+#
 # - pillar.elife.newrelic_python.application_folder
 #     path to a Python application with a venv/ folder inside
+#
 # - pillar.elife.newrelic_python.dependency_state
 #     the name of a state that this configuration should be placed after
+#
 # - pillar.elife.newrelic_python.service 
 #     the name of a service.running state that should be restarted
+
+{% if pillar.elife.newrelic.enabled %}
 newrelic-python-license-configuration:
     cmd.run:
         - name: venv/bin/newrelic-admin generate-config {{ pillar.elife.newrelic.license }} newrelic.ini
@@ -22,8 +27,10 @@ newrelic-python-ini-configuration-appname:
         - repl: app_name = {{ salt['elife.cfg']('project.stackname', 'cfn.stack_id', 'Python application') }}
         - require:
             - newrelic-python-license-configuration
+        {% if pillar.elife.newrelic_python.service %}
         - listen_in:
             - service: {{ pillar.elife.newrelic_python.service }}
+        {% endif %}
 
 newrelic-python-logfile-agent-in-ini-configuration:
     file.replace:
@@ -32,6 +39,8 @@ newrelic-python-logfile-agent-in-ini-configuration:
         - repl: log_file = stderr
         - require:
             - newrelic-python-license-configuration
+        {% if pillar.elife.newrelic_python.service %}
         - listen_in:
             - service: {{ pillar.elife.newrelic_python.service }}
-
+        {% endif %}
+{% endif %}

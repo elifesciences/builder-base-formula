@@ -56,7 +56,9 @@ vagrant-user:
 
 # allow
 
-{% for username in ssh.allowed.get(pname, []) %}
+{% set allowed = ssh.allowed.get(pname, []) + ssh.allowed.get("all", []) %}
+
+{% for username in allowed %}
     {% if pillar.elife.ssh_users.has_key(username) %}
 
 {{ pname }}-ssh-access-for-{{ username }}:
@@ -66,6 +68,8 @@ vagrant-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
+        - require_in:
+            - cmd: ssh-access-set
 
         {% if pillar.elife.ssh_access.also_bootstrap_user %}
 
@@ -76,6 +80,8 @@ vagrant-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
+        - require_in:
+            - cmd: ssh-access-set
 
         {% endif %}
 
@@ -84,7 +90,9 @@ vagrant-user:
 
 # deny
 
-{% for username in ssh.denied.get(pname, []) %}
+{% set denied = ssh.denied.get(pname, []) + ssh.denied.get("all", []) %}
+
+{% for username in denied %}
     {% if pillar.elife.ssh_users.has_key(username) %}
 
 {{ pname }}-ssh-denial-for-{{ username }}:
@@ -94,6 +102,8 @@ vagrant-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
+        - require_in:
+            - cmd: ssh-access-set
             
 {{ pname }}-ssh-denial-for-{{ username }}-using-{{ pillar.elife.bootstrap_user.username }}:
     ssh_auth.absent:
@@ -102,7 +112,13 @@ vagrant-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
+        - require_in:
+            - cmd: ssh-access-set
             
     {% endif %}
 {% endfor %}
+
+ssh-access-set:
+    cmd.run:
+        - name: echo "all ssh access and access denials set"
 

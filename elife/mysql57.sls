@@ -1,4 +1,22 @@
 {% set on_rds = salt['elife.cfg']('cfn.outputs.RDSHost') %}
+
+# mysql57.sls is deprecated
+# ubuntu 16.04 comes packaged with mysql 5.7.19
+
+{% if salt['grains.get']('oscodename') == 'xenial' %}
+
+
+
+include:
+    - .mysql-client
+    - .mysql-server
+
+
+
+{% else %}
+
+
+
 mysql-ppa:
     cmd.run:
         - name: apt-key adv --keyserver pgp.mit.edu --recv-keys 5072E1F5 
@@ -39,7 +57,7 @@ mysql-clients:
 mysql-server:
     pkg.installed:
         - pkgs:
-            - mysql-server: 5.7.18-1ubuntu14.04
+            - mysql-server: 5.7.19-1ubuntu14.04
         # not necessary, done in mysql-clients
         # - refresh: True
         - require:
@@ -119,3 +137,6 @@ mysql-root-user-dev-perms:
             - cmd: mysql-ready
 {% endif %}
 
+
+
+{% endif %} # ends 1604 check
