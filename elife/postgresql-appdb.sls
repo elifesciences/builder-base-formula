@@ -13,7 +13,7 @@
 {% set app_user_name = pillar.elife.db.app.username %}
 {% set app_user_pass = pillar.elife.db.app.password %}
 
-{% set db_exists = salt['postgres.db_exists']('{{ db_name }}', user='{{ user }}', host='{{ host }}', password='{{ pass }}') %}
+{% set db_exists = salt['postgres.db_exists'](db_name, user=user, host=host, password=pass) %}
 
 
 # handles permissions on legacy databases
@@ -32,7 +32,7 @@ db-perms-to-rds_superuser:
             app_user_pass: {{ app_user_pass }}
 {% else %}
     cmd.run:
-        - name: "no database to wrangle"
+        - name: echo "no database to wrangle"
 {% endif %}
 
 psql-app-db:
