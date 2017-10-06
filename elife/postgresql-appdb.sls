@@ -3,7 +3,7 @@
 # testing more convenient.
 
 {% set user = salt['elife.cfg']('project.rds_username', pillar.elife.db.root.username) %}
-{% set pass = salt['elife.cfg']('project.rds_username', pillar.elife.db.root.password) %}
+{% set pass = salt['elife.cfg']('project.rds_password', pillar.elife.db.root.password) %}
 {% set host = salt['elife.cfg']('cfn.outputs.RDSHost', pillar.elife.postgresql.host) %}
 {% set port = salt['elife.cfg']('cfn.outputs.RDSPort', pillar.elife.postgresql.port) %}
 
@@ -13,15 +13,40 @@
 {% set app_user_name = pillar.elife.db.app.username %}
 {% set app_user_pass = pillar.elife.db.app.password %}
 
+{% set db_exists = salt['postgres.db_exists']('{{ db_name }}', user='{{ user }}', host='{{ host }}', password='{{ pass }}') %}
+
+
+# handles permissions on legacy databases
+db-perms-to-rds_superuser:
+{% if db_exists %}
+    cmd.script:
+        - name: salt://elife/scripts/postgresql-appdb-perms.sh
+        - template: jinja
+        - defaults:
+            user: {{ user }}
+            pass: {{ pass }}
+            host: {{ host }}
+            port: {{ port }}
+            db_name: {{ db_name }}
+            app_user_name: {{ app_user_name }}
+            app_user_pass: {{ app_user_pass }}
+{% else %}
+    cmd.run:
+        - name: "no database to wrangle"
+{% endif %}
+
 psql-app-db:
     postgres_database.present:
         - name: {{ db_name }}
         - owner: {{ user }}
+        - owner_recurse: True # all tables get the same owner
 
         - db_user: {{ user }}
         - db_password: {{ pass }}
         - db_host: {{ host }}
         - db_port: {{ port }}
+        - require:
+            - db-perms-to-rds_superuser
 
     postgres_user.present:
         - name: {{ app_user_name }}
@@ -34,19 +59,6 @@ psql-app-db:
         - db_password: {{ pass }}
         - db_host: {{ host }}
         - db_port: {{ port }}
-
-db-perms-to-rds_superuser:
-    cmd.script:
-        - name: salt://elife/scripts/postgresql-appdb-perms.sh
-        - template: jinja
-        - defaults:
-            user: {{ user }}
-            pass: {{ pass }}
-            host: {{ host }}
-            port: {{ port }}
-            db_name: {{ db_name }}
-            app_user_name: {{ app_user_name }}
-            app_user_pass: {{ app_user_pass }}
         - require:
-            - psql-app-db
+            - postgres_database: psql-app-db
 
