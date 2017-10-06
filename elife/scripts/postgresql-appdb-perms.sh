@@ -43,4 +43,7 @@ GRANT ALL ON ALL TABLES IN SCHEMA public TO $user;
 ALTER DEFAULT PRIVILEGES FOR USER $user GRANT ALL ON tables TO $user;
 ALTER DEFAULT PRIVILEGES FOR USER $user GRANT ALL ON sequences TO $user;"
 
+# it doesn't hurt to run this script constantly, but once should be enough
+touch /root/legacy-db-permissions-migrated.flag
+
 echo "permissions set"
