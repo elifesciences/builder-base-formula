@@ -123,13 +123,6 @@ elife:
             port: 514
             token: null
 
-        # papertrail destination for syslog-ng logs
-        # https://papertrailapp.com/
-        papertrail:
-            enabled: False
-            host: "logs3.papertrailapp.com"
-            port: 48058
-
         tick:
             enabled: False
             influx_host: http://localhost:8086
@@ -264,6 +257,8 @@ elife:
             generic_cdn:
                 host: null
         prod:
+            journal:
+                host: null
             aws:
                 region: us-east-1
             journal:
