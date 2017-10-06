@@ -261,8 +261,6 @@ elife:
                 host: null
             aws:
                 region: us-east-1
-            journal:
-                host: null
             peerscout:
                 host: null
                 user: null
