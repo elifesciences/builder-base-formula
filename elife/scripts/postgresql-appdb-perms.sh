@@ -16,6 +16,10 @@ rootuser={{ user }}
 rootpass={{ pass }}
 
 PGPASSWORD=$pass psql -U $user -h $host -p $port $db -c "
+-- can't alter default privileges (later) for app user if rootuser not in same role
+-- you get ERROR:  must be member of role '<appuser>'
+GRANT $user TO $rootuser;
+
 -- ensure the root user has all permissions neccessary. if this is a legacy db,
 -- then the app user may be the owner with all of the permissions. if it's not,
 -- this statement will fail as the app user no longer has enough permissions.
