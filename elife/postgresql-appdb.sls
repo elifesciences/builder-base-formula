@@ -54,7 +54,7 @@ psql-app-db:
         - password: {{ app_user_pass }}
         - encrypted: True
         - refresh_password: True
-        - createdb: False
+        - createdb: {% if pillar.elife.env in ['prod', 'end2end'] %}False{% else %}True{% endif %}
 
         - db_user: {{ user }}
         - db_password: {{ pass }}
