@@ -1,6 +1,6 @@
 
 {% if 
-    salt['file.file_exists']('/etc/apt/sources.list.d/ondrej-ubuntu-php-trusty.list') or
+    salt['file.file_exists']('/etc/apt/sources.list.d/ondrej-php-trusty.list') or
     salt['file.file_exists']('/etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list')
 %}
 
