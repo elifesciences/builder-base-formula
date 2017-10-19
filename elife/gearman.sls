@@ -1,11 +1,3 @@
-
-{% if 
-    salt['file.file_exists']('/etc/apt/sources.list.d/ondrej-php-trusty.list') or
-    salt['file.file_exists']('/etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list')
-%}
-
-# we're using a third party ppa for php and need the separate ppa for gearman
-
 php-ppa-gearman:
     pkgrepo.managed:
         - humanname: Ondřej Surý PHP GEARMAN PPA
@@ -18,8 +10,9 @@ php-ppa-gearman:
             - pkg: gearman-php-extension
         - unless:
             - test -e /etc/apt/sources.list.d/ondrej-pkg-gearman.list
-
-{% endif %}
+        - onlyif:
+            # we're using a third party ppa for php and need the separate ppa for gearman
+            - test -e /etc/apt/sources.list.d/ondrej-php-trusty.list || test -e /etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list
 
 gearman-daemon:
     pkg.installed:

@@ -15,3 +15,11 @@ utils-packages:
         - pkgs:
             # useful for smoke testing the JSON output
             - jq
+
+elife-utils-ready:
+    cmd.run:
+        - name: echo "utils can now be used"
+        - require:
+            - utils-scripts
+            - utils-scripts-path
+            - utils-packages
