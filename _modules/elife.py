@@ -1,7 +1,4 @@
-from functools import partial
 import os, json
-from datetime import datetime
-import requests
 import base64
 
 import logging
@@ -32,29 +29,6 @@ def lookup(data, path, default=0xDEADBEEF):
         if default == 0xDEADBEEF:
             raise
         return default
-
-def once_a_day(key, func):
-    "simplistic cache that expires result once a day"
-    # ll: /tmp/salt-20151231-foobar.cache
-    key = key.replace('/', '--')
-    keyfile = '/tmp/salt-' + datetime.now().strftime('%Y%m%d-') + key + '.cache'
-    if os.path.exists(keyfile):
-        LOG.info("cache hit! %r", keyfile)
-        return json.load(open(keyfile, 'r'))
-    LOG.info("cache miss! %r", keyfile)
-    resp = func()
-    json.dump(resp, open(keyfile, 'w'))
-    return resp
-
-def reachable(url):
-    "return True if given url can be hit."
-    LOG.info('hitting %r', url)
-    try:
-        resp = requests.head(url, allow_redirects=False, timeout=0.25)
-        return resp.status_code == 200
-    except (requests.ConnectionError, requests.Timeout):
-        # couldn't connect for whatever reason
-        return False
 
 #
 # 
