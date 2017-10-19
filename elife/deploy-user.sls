@@ -68,6 +68,8 @@ vagrant-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
+        - require_in:
+            - cmd: ssh-access-set
 
         {% if pillar.elife.ssh_access.also_bootstrap_user %}
 
@@ -78,6 +80,8 @@ vagrant-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
+        - require_in:
+            - cmd: ssh-access-set
 
         {% endif %}
 
@@ -98,6 +102,8 @@ vagrant-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
+        - require_in:
+            - cmd: ssh-access-set
             
 {{ pname }}-ssh-denial-for-{{ username }}-using-{{ pillar.elife.bootstrap_user.username }}:
     ssh_auth.absent:
@@ -106,7 +112,13 @@ vagrant-user:
         - comment: {{ username }}
         - require:
             - cmd: /home/{{ user }}/.ssh/
+        - require_in:
+            - cmd: ssh-access-set
             
     {% endif %}
 {% endfor %}
+
+ssh-access-set:
+    cmd.run:
+        - name: echo "all ssh access and access denials set"
 

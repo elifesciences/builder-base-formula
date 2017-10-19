@@ -56,16 +56,7 @@ elife:
             project1: 
                 - example-user
 
-    known_hosts:
-        coko:
-            host: gitlab.coko.foundation
-            fingerprint: "39:2f:44:29:cc:9b:c3:d7:4d:2a:25:ca:6f:e4:17:bc"
-            # optional
-            enc: ssh-rsa
-            timeout: 10
-
-
-
+    known_hosts: {}
 
     backups:
         bucket: elife-app-backups
@@ -216,6 +207,8 @@ elife:
                 article_xml_repository_url: null
             personalised_covers:
                 bucket: null
+            generic_cdn:
+                host: null
         continuumtest:
             aws:
                 access_key_id: null
@@ -255,12 +248,14 @@ elife:
                 article_xml_repository_url: null
             personalised_covers:
                 bucket: null
+            generic_cdn:
+                host: null
         prod:
             aws:
                 region: us-east-1
             journal:
                 host: null
-            reviewer_suggestions:
+            peerscout:
                 host: null
                 user: null
                 password: null

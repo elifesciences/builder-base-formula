@@ -38,6 +38,7 @@ python-3.5:
         - pkgs:
             - python3.5
             - python3-pip
+            - python3.5-venv
         - require:
             - third-party-python-repos-absent
 
@@ -91,7 +92,7 @@ python-pip:
             - python-pip
             - python-pip-whl
         - require_in:
-            - pip-shim
+            - pkg: pip-shim
 
 pip-shim:
     pkg.installed:

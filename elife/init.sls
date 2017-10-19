@@ -3,7 +3,6 @@
 
 include:
     - .base
-    - .masterless
     - .python
     - .hostname
     - .dhcp
@@ -11,6 +10,10 @@ include:
     - .deploy-user
     - .time-correction
     - .backups
+    {% if salt['elife.cfg']('project.node', 1) == 1 %}
+    # first server of a cluster
+    - .backups-cron
+    {% endif %}
     - .security
     - .logging
     - .upstart-monitoring
@@ -21,3 +24,8 @@ include:
     - .smoke
     - .utils
     - .forced-dns
+    {% if (salt['elife.cfg']('project.ec2') | string) != 'True' %}
+    {% if salt['elife.cfg']('project.ec2.masterless') %}
+    - .masterless
+    {% endif %}
+    {% endif %}
