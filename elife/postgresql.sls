@@ -36,11 +36,18 @@ postgresql:
         - require:
             - pkgrepo: postgresql-deb
 
+{% if not salt['elife.cfg']('cfn.outputs.RDSHost') %}
     service.running:
         - enable: True
         - require:
             - pkg: postgresql
             - pgpass-file
+{% else %}
+    service.dead:
+        - require:
+            - pkg: postgresql
+            - pgpass-file
+{% endif %}
 
 postgresql-init:
     file.managed:
