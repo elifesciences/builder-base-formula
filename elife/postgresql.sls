@@ -44,6 +44,7 @@ postgresql:
             - pgpass-file
 {% else %}
     service.dead:
+        - enable: False
         - require:
             - pkg: postgresql
             - pgpass-file
