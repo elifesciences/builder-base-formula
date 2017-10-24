@@ -8,8 +8,8 @@ goaws:
 
     cmd.run:
         - name: |
-            stop goaws || true
-            rm -rf /etc/init/goaws.conf || true
+            stop goaws-init || true
+            rm -rf /etc/init/goaws-init.conf || true
             /usr/local/bin/docker-compose -f goaws-docker-compose.yml up --force-recreate -d
         - cwd: /home/{{ pillar.elife.deploy_user.username }}
         - require:
