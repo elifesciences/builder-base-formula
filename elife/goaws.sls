@@ -7,7 +7,7 @@ goaws:
             - docker-compose
 
     cmd.run:
-        - name: ||
+        - name: |
             stop goaws || true
             rm -rf /etc/init/goaws.conf || true
             /usr/local/bin/docker-compose -f goaws-docker-compose.yml up --force-recreate -d
