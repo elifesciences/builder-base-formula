@@ -1,0 +1,8 @@
+version: '2'
+services:
+  yopa:
+    container_name: goaws
+    image: elifealfreduser/goaws:20171024
+    ports:
+      - 4100:4100
+    restart: always
