@@ -22,3 +22,7 @@ while : ; do
         break
     fi
 done
+
+cache_file_for_package_revisions=~/.cache/composer/repo/https---packagist.org/provider-"${package/\//\$}".json
+echo "Removing $cache_file_for_package_revisions to make sure Composer will see the update."
+rm -f "$cache_file_for_package_revisions"
