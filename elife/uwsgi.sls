@@ -1,6 +1,14 @@
 #
 # uWSGI is used to bridge nginx and python
 #
+# If you provide a pillar.elife.uwsgi.services dictionary,
+# - the key is the name of the service
+# - 'folder' should indicate the /srv/... folder containing the project, which
+# -- must contain a venv/bin/uwsgi binary
+# -- must contain a uwsgi.ini file
+# -- may contain a venv/bin/newrelic-admin binary
+# -- may contain a newrelic.ini file
+#
 
 {% if salt['grains.get']('osrelease') == "16.04" %}
 uwsgi-pkg:
@@ -52,3 +60,23 @@ uwsgi-sock-dir:
         - require:
             - pip: uwsgi-pkg
 {% endif %}
+
+{% for name, configuration in pillar.elife.uwsgi.services.items() %}
+uwsgi-service-{{ name }}:
+    file.managed:
+        - name: /lib/systemd/system/uwsgi-{{ name }}.service
+        - source: salt://elife/config/lib-systemd-system-uwsgi-service.service
+        - template: jinja
+        - context:
+            name: {{ name }}
+            folder: {{ configuration.folder }}
+        - require:
+            - uwsgi-pkg
+            - uwsgi-params
+        - require_in:
+            - cmd: uwsgi-services
+{% endfor %}
+
+uwsgi-services:
+    cmd.run:
+        - name: systemctl daemon-reload
