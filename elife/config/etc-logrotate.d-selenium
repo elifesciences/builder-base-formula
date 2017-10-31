@@ -1,0 +1,8 @@
+/var/log/selenium.log {
+    daily
+    rotate 3
+    missingok
+    notifempty
+    compress
+    copytruncate
+}

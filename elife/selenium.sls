@@ -71,6 +71,13 @@ selenium-log:
     file.managed:
         - name: /var/log/selenium.log
 
+selenium-logrotate:
+    file.managed:
+        - name: /etc/logrotate.d/selenium
+        - source: salt://elife/config/etc-logrotate.d-selenium
+        - require:
+            - selenium-log
+
 selenium:
     file.managed:
         {% if not salt['grains.get']('osrelease') == "16.04" %}
