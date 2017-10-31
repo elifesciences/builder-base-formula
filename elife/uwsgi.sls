@@ -61,6 +61,7 @@ uwsgi-sock-dir:
             - pip: uwsgi-pkg
 {% endif %}
 
+{% if salt['grains.get']('osrelease') == "16.04" %}
 {% for name, configuration in pillar.elife.uwsgi.services.items() %}
 uwsgi-service-{{ name }}:
     file.managed:
@@ -80,3 +81,4 @@ uwsgi-service-{{ name }}:
 uwsgi-services:
     cmd.run:
         - name: systemctl daemon-reload
+{% endif %}
