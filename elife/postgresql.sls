@@ -57,6 +57,8 @@ postgresql-init:
         - source: salt://elife/config/etc-init.d-postgresql
         - require:
             - pkg: postgresql
+        - require_in:
+            - cmd: postgresql-ready
 
 postgresql-config:
     file.managed:
@@ -66,6 +68,8 @@ postgresql-config:
             - pkg: postgresql
         - watch_in:
             - service: postgresql
+        - require_in:
+            - cmd: postgresql-ready
 {% endif %}
 
 {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
@@ -83,8 +87,7 @@ rds-postgresql-user:
             - pkg: postgresql
         - require_in:
             - cmd: postgresql-ready
-{% endif %}
-
+{% else %}
 postgresql-user:
     postgres_user.present:
         - name: {{ pillar.elife.db_root.username }}
@@ -99,12 +102,13 @@ postgresql-user:
         - require:
             - pkg: postgresql
             - service: postgresql
+        - require_in:
+            - cmd: postgresql-ready
+{% endif %}
 
 postgresql-ready:
     cmd.run:
         - name: echo "PostgreSQL is set up and ready"
         - require:
             - postgresql
-            - postgresql-init
-            - postgresql-config
             - postgresql-user
