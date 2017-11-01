@@ -111,4 +111,3 @@ postgresql-ready:
         - name: echo "PostgreSQL is set up and ready"
         - require:
             - postgresql
-            - postgresql-user
