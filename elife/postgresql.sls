@@ -36,12 +36,21 @@ postgresql:
         - require:
             - pkgrepo: postgresql-deb
 
+{% if not salt['elife.cfg']('cfn.outputs.RDSHost') %}
     service.running:
         - enable: True
         - require:
             - pkg: postgresql
             - pgpass-file
+{% else %}
+    service.dead:
+        - enable: False
+        - require:
+            - pkg: postgresql
+            - pgpass-file
+{% endif %}
 
+{% if not salt['elife.cfg']('cfn.outputs.RDSHost') %}
 postgresql-init:
     file.managed:
         - name: /etc/init.d/postgresql
@@ -57,6 +66,7 @@ postgresql-config:
             - pkg: postgresql
         - watch_in:
             - service: postgresql
+{% endif %}
 
 {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
 # create the not-quite-super RDS user
