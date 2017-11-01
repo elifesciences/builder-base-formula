@@ -1,0 +1,18 @@
+[Unit]
+Description="uwsgi {{ name }}"
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+KillSignal=SIGQUIT
+Type=notify
+Restart=on-failure
+Environment="LANG=en_US.UTF-8"
+{% if pillar.elife.newrelic.enabled %}
+Environment="NEW_RELIC_CONFIG_FILE={{ folder }}/newrelic.ini"
+ExecStart={{ folder }}/venv/bin/newrelic-admin run-program {{ folder }}/venv/bin/uwsgi --enable-threads --ini {{ folder }}/uwsgi.ini
+{% else %}
+ExecStart={{ folder }}/venv/bin/uwsgi --ini {{ folder }}/uwsgi.ini
+{% endif %}
