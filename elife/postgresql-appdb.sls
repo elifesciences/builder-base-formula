@@ -13,8 +13,8 @@
 {% set app_user_name = pillar.elife.db.app.username %}
 {% set app_user_pass = pillar.elife.db.app.password %}
 
-{% set db_exists = salt['postgres.db_exists'](db_name, user=user, host=host, password=pass) %}
-{% set app_user_exists = salt['postgres.user_exists'](app_user_name, host=host, password=pass) %}
+{% set db_exists = salt.get('postgres.db_exists') and salt['postgres.db_exists'](db_name, user=user, host=host, password=pass) %}
+{% set app_user_exists = salt.get('postgres.user_exists') and salt['postgres.user_exists'](app_user_name, host=host, password=pass) %}
 
 # handles permissions on legacy databases
 db-perms-to-rds_superuser:
