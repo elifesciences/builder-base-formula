@@ -24,9 +24,22 @@ newrelic-python-ini-configuration-appname:
     file.replace:
         - name: {{ pillar.elife.newrelic_python.application_folder }}/newrelic.ini
         - pattern: '^app_name.*'
-        - repl: app_name = {{ salt['elife.cfg']('project.stackname', 'cfn.stack_id', 'Python application') }}
+        - repl: app_name = {{ salt['elife.cfg']('project.stackname', 'cfn.stack_id', 'python-unknown-application') }}
         - require:
             - newrelic-python-license-configuration
+        {% if pillar.elife.newrelic_python.service %}
+        - listen_in:
+            - service: {{ pillar.elife.newrelic_python.service }}
+        {% endif %}
+
+newrelic-python-ini-configuration-labels:
+    file.line:
+        - name: {{ pillar.elife.newrelic_python.application_folder }}/newrelic.ini
+        - content: "labels = project:{{ salt['elife.cfg']('project.project_name', 'python-unknown-project') }};env:{{ pillar.elife.env }}"
+        - mode: ensure
+        - after: '\[newrelic\]'
+        - require:
+            - newrelic-python-ini-configuration-appname
         {% if pillar.elife.newrelic_python.service %}
         - listen_in:
             - service: {{ pillar.elife.newrelic_python.service }}

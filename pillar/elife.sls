@@ -171,6 +171,17 @@ elife:
         upload_max_filesize: 2M
         post_max_size: 8M
 
+    uwsgi:
+        services: {}
+            #profiles:  
+            #    folder: /srv/profiles
+
+    aws:
+        # projects should provide this
+        #access_key_id: AKIAFAKE
+        #secret_access_key: fake
+        region: us-east-1
+
     forced_dns: {}
 
     spectrum:
