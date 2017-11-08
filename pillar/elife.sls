@@ -84,9 +84,22 @@ elife:
             password: NjU5YTcyYThlM2Q5NWVlZjYwY2ZjMjRk
 
     # values that both mysql and psql use
+    # 2017-08-04, 'db_root' is deprecated in favour of 'db.root'
     db_root:
         username: root
         password: root
+    db:
+        root:
+            username: root
+            password: root
+        app:
+            name: appdb
+            username: appuser
+            password: apppass
+
+    postgresql:
+        host: '127.0.0.1'
+        port: 5432
 
     redis:
         host: 127.0.0.1
@@ -109,13 +122,6 @@ elife:
             host: "logs-01.loggly.com"
             port: 514
             token: null
-
-        # papertrail destination for syslog-ng logs
-        # https://papertrailapp.com/
-        papertrail:
-            enabled: False
-            host: "logs3.papertrailapp.com"
-            port: 48058
 
         tick:
             enabled: False
@@ -262,10 +268,10 @@ elife:
             generic_cdn:
                 host: null
         prod:
-            aws:
-                region: us-east-1
             journal:
                 host: null
+            aws:
+                region: us-east-1
             peerscout:
                 host: null
                 user: null
