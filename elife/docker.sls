@@ -23,13 +23,15 @@ docker-packages:
             - docker-repository
 
 docker-compose:
-    cmd.run:
-        - name: |
-            curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-            chmod +x /usr/local/bin/docker-compose 
-        - unless:
-            - docker-compose
+    file.managed:
+        - name: /usr/local/bin/docker-compose 
+        - source: https://github.com/docker/compose/releases/download/1.16.1/docker-compose-Linux-x86_64
+        - source_hash: 0ed7666983387be3fd73d700c6627cdf
         - require:
             - docker-packages
-
+    
+    cmd.run:
+        - name: chmod +x /usr/local/bin/docker-compose 
+        - require:
+            - file: docker-compose
 
