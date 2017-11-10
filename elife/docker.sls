@@ -26,7 +26,7 @@ docker-compose:
     file.managed:
         - name: /usr/local/bin/docker-compose 
         - source: https://github.com/docker/compose/releases/download/1.16.1/docker-compose-Linux-x86_64
-        - source_hash: 0ed7666983387be3fd73d700c6627cdf
+        - source_hash: md5=0ed7666983387be3fd73d700c6627cdf
         - require:
             - docker-packages
     
