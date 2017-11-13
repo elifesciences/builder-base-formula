@@ -40,6 +40,7 @@ php-fpm:
 
     service.running:
         - name: php7.0-fpm
+        - enable: True
         - require:
             - file: php-fpm
             - file: php-fpm-config
