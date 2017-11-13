@@ -18,6 +18,14 @@ php-fpm-config:
             - php-nginx-deps
             - php-log
 
+php-fpm-pool:
+    file.managed:
+        - name: /etc/php/7.0/fpm/pool.d/www.conf
+        - source: salt://elife/config/etc-php-7.0-fpm-pool.d-www.conf
+        - template: jinja
+        - require:
+            - php-nginx-deps
+
 # favoring php_errors.log for everything
 not-used-php-log:
     file.absent:
@@ -34,4 +42,5 @@ php-fpm:
         - name: php7.0-fpm
         - require:
             - file: php-fpm
-            - file: php-fpm-config            
+            - file: php-fpm-config
+            - php-fpm-pool
