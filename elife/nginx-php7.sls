@@ -44,3 +44,6 @@ php-fpm:
             - file: php-fpm
             - file: php-fpm-config
             - php-fpm-pool
+        - watch:
+            - file: php-fpm-config
+            - file: php-fpm-pool
