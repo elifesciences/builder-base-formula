@@ -48,3 +48,19 @@ php-fpm:
         - watch:
             - file: php-fpm-config
             - file: php-fpm-pool
+
+php-cachetool:
+    file.managed:
+        - name: /usr/local/bin/cachetool
+        - source: https://gordalina.github.io/cachetool/downloads/cachetool.phar
+        - source_hash: md5=fa7ce33b37dba2642329b9a6bdc720b1
+
+    cmd.run:
+        - name: chmod +x /usr/local/bin/cachetool
+        - require:
+            - file: php-cachetool
+
+php-cachetool-config:
+    file.managed:
+        - name: /etc/cachetool.yml
+        - source: salt://elife/config/etc-cachetool.yml
