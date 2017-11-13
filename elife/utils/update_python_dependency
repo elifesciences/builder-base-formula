@@ -2,7 +2,7 @@
 set -e
 if [ "$#" -lt 1 ]; then
     echo "Usage: $0 PACKAGE_NAME REMOTE"
-    echo "Example: $0 elife-tools https://github.com/elifesciences/elife-tools.git"
+    echo "Example: $0 elifetools https://github.com/elifesciences/elife-tools.git"
     echo "Execute inside your virtualenv"
     exit 1
 fi
