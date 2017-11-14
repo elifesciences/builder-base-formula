@@ -35,3 +35,19 @@ php-fpm:
         - require:
             - file: php-fpm
             - file: php-fpm-config            
+
+php-cachetool:
+    file.managed:
+        - name: /usr/local/bin/cachetool
+        - source: https://s3.amazonaws.com/elife-builder/packages/cachetool.phar # 3.0.0
+        - source_hash: md5=fa7ce33b37dba2642329b9a6bdc720b1
+
+    cmd.run:
+        - name: chmod +x /usr/local/bin/cachetool
+        - require:
+            - file: php-cachetool
+
+php-cachetool-config:
+    file.managed:
+        - name: /etc/cachetool.yml
+        - source: salt://elife/config/etc-cachetool.yml
