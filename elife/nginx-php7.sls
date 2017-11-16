@@ -46,6 +46,7 @@ php-fpm:
             - file: php-fpm-config
             - php-fpm-pool
         - watch:
+            - pkg: php-nginx-deps
             - file: php-fpm-config
             - file: php-fpm-pool
 
