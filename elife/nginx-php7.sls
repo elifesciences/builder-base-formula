@@ -52,7 +52,7 @@ php-fpm:
 php-cachetool:
     file.managed:
         - name: /usr/local/bin/cachetool
-        - source: https://gordalina.github.io/cachetool/downloads/cachetool.phar
+        - source: https://s3.amazonaws.com/elife-builder/packages/cachetool.phar # 3.0.0
         - source_hash: md5=fa7ce33b37dba2642329b9a6bdc720b1
 
     cmd.run:

@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+if [ "$#" -lt 1 ]; then
+    echo "Usage: $0 PACKAGE_NAME REMOTE"
+    echo "Example: $0 elifetools https://github.com/elifesciences/elife-tools.git"
+    echo "Execute inside your virtualenv"
+    exit 1
+fi
+
+name="$1"
+remote="$2"
+clone_folder="/tmp/${name}-shallow-clone"
+rm -rf "$clone_folder"
+git clone --depth 1 "$remote" "$clone_folder"
+cd "$clone_folder"
+# this uses the default branch, which may be `develop` or `master`
+dependency_sha1=$(git rev-parse HEAD)
+cd - 1>&2
+sed -i -e "s;.*${remote}.*;git+${remote}@${dependency_sha1}#egg=${name};g" requirements.txt
+pip uninstall -y "$name" 1>&2
+pip install -r requirements.txt 1>&2
+echo "pinned $name in requirements.txt to $dependency_sha1"
