@@ -168,6 +168,7 @@ elife:
             password: somepassword
 
     php:
+        memory_limit: 64M
         upload_max_filesize: 2M
         post_max_size: 8M
 
