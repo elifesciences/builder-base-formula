@@ -10,6 +10,10 @@ include:
     - .deploy-user
     - .time-correction
     - .backups
+    {% if salt['elife.cfg']('project.node', 1) == 1 %}
+    # first server of a cluster
+    - .backups-cron
+    {% endif %}
     - .security
     - .logging
     - .upstart-monitoring

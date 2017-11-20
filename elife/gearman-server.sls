@@ -15,8 +15,6 @@ gearman-upstart-script:
         - require:
             - gearman-daemon
 
-# -----
-
 gearman-systemd-script:
     file.managed:
         - name: /lib/systemd/system/gearman-job-server.service

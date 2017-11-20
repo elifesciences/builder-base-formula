@@ -69,7 +69,7 @@ vagrant-user:
         - require:
             - cmd: /home/{{ user }}/.ssh/
         - require_in:
-            - ssh-access-set
+            - cmd: ssh-access-set
 
         {% if pillar.elife.ssh_access.also_bootstrap_user %}
 
@@ -81,7 +81,7 @@ vagrant-user:
         - require:
             - cmd: /home/{{ user }}/.ssh/
         - require_in:
-            - ssh-access-set
+            - cmd: ssh-access-set
 
         {% endif %}
 
@@ -103,7 +103,7 @@ vagrant-user:
         - require:
             - cmd: /home/{{ user }}/.ssh/
         - require_in:
-            - ssh-access-set
+            - cmd: ssh-access-set
             
 {{ pname }}-ssh-denial-for-{{ username }}-using-{{ pillar.elife.bootstrap_user.username }}:
     ssh_auth.absent:
@@ -113,7 +113,7 @@ vagrant-user:
         - require:
             - cmd: /home/{{ user }}/.ssh/
         - require_in:
-            - ssh-access-set
+            - cmd: ssh-access-set
             
     {% endif %}
 {% endfor %}

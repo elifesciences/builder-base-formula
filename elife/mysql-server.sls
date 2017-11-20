@@ -52,11 +52,12 @@ mysql-root-user-dev-perms:
         - user: {{ root.username }}
         - grant: all privileges
         - database: "*.*"
+        - connection_pass: {{ root.password }}
         - host: "%" # important! this+database+user constitute another root user
         - require:
             - mysql_user: mysql-root-user-dev-perms
         - require_in:
-            - mysql-ready
+            - cmd: mysql-ready
 {% endif %}
 
 

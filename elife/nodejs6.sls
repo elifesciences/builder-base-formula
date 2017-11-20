@@ -1,5 +1,5 @@
 {% set distro = salt['grains.get']('oscodename') %}
-nodejs:
+nodejs6:
     pkgrepo.managed:
         - name: deb http://deb.nodesource.com/node_6.x {{ distro }} main
         - key_url: http://deb.nodesource.com/gpgkey/nodesource.gpg.key
@@ -9,7 +9,7 @@ nodejs:
         #- key_url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
         - file: /etc/apt/sources.list.d/nodesource.list
 
-    pkg.installed:
+    pkg.latest:
         - name: nodejs
         - require:
-            - pkgrepo: nodejs
+            - pkgrepo: nodejs6
