@@ -1,5 +1,5 @@
 [Unit]
-Description="PHP long-running process {{ name }}"
+Description="PHP long-running process {{ name }} %I"
 Requires=network.target
 After=network.target
 
