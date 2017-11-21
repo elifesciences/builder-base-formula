@@ -14,4 +14,4 @@ User={{ pillar.elife.deploy_user.username }}
 ExecStart={{ command }}
 # restart even if exits cleanly (e.g. memory limit reached)
 Restart=always
-RestartSec=10
+RestartSec=5
