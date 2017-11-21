@@ -30,7 +30,7 @@ php-long-running-processes-load-configuration:
 {% set hyphenized = name | replace('_', '-') %}
 {% set service_name = salt['elife.project_name']() + '-' + hyphenized %}
 {% for i in range(1, configuration['number'] + 1) %}
-php-long-running-process-service-{{ hyphenized }}-{{ i }}-start:
+php-long-running-process-service-{{ hyphenized }}-{{ i }}-enable:
     cmd.run:
         - name: systemctl enable {{ service_name }}@{{ i }}
         - require:
@@ -44,6 +44,4 @@ php-long-running-process-service-{{ hyphenized }}-parallel-restart:
     cmd.run:
         - name: systemctl restart {{ service_name }}@{1..{{ configuration['number'] }}}
 {% endfor %}
-
-    
 {% endif %}
