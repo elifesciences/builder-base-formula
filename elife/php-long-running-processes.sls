@@ -4,7 +4,7 @@
 {% for name, configuration in pillar.elife.php.processes.configuration.items() %}
 {% set hyphenized = name | replace("_", "-") %}
 {% set service_name = salt['elife.project_name']() + "-" + hyphenized %}
-php-long-running-process-service-{{ name }}:
+php-long-running-process-service-{{ hyphenized }}:
     file.managed:
         - name: /lib/systemd/system/{{ service_name }}@.service
         - source: salt://elife/config/lib-systemd-system-php-service.service
@@ -15,11 +15,12 @@ php-long-running-process-service-{{ name }}:
             command: {{ configuration.command }}
         - require:
             - php
+            # TODO: add optional require
         - require_in:
-            - cmd: php-long-running-processes
+            - cmd: php-long-running-processes-load-configuration
 {% endfor %}
 
-php-long-running-processes:
+php-long-running-processes-load-configuration:
     cmd.run:
         - name: systemctl daemon-reload
 
@@ -29,29 +30,31 @@ php-long-running-processes:
 # TODO: add counter and instance numbers
 # TODO: " vs '
 {% for i in range(0, configuration['number']) %}
-php-long-running-process-service-{{ name }}-{{ i }}-start:
+php-long-running-process-service-{{ hyphenized }}-{{ i }}-start:
     cmd.run:
+        # TODO: does this make them come up on boot?
         - name: systemctl enable {{ service_name }}@{{ i }}
         - require:
-            - php-long-running-process-service-{{ name }}
+            - php-long-running-process-service-{{ hyphenized }}
         - require_in:
-            - file: php-long-running-process-service-{{ name }}-parallel-restart
+            - file: php-long-running-process-service-{{ hyphenized }}-parallel-restart
 {% endfor %}
 
 # TODO: this could be a single command for all kinds of processes
-php-long-running-process-service-{{ name }}-parallel-restart:
+php-long-running-process-service-{{ hyphenized }}-parallel-restart:
     file.managed:
-        - name: /usr/local/bin/php-long-running-processes-{{ name }}-restart
-        - template: salt://elife/templates/systemd-multiple-processes.sh
+        - name: /usr/local/bin/php-long-running-processes-{{ hyphenized }}-restart
+        - source: salt://elife/templates/systemd-multiple-processes.sh
+        - template: jinja
         - mode: 544
         - context:
             process: {{ service_name }}
             number: {{ configuration['number'] }}
 
     cmd.run:
-        - name: php-long-running-processes-{{ name }}-restart
+        - name: php-long-running-processes-{{ hyphenized }}-restart
         - require:
-            - file: php-long-running-process-service-{{ name }}-parallel-restart
+            - file: php-long-running-process-service-{{ hyphenized }}-parallel-restart
 
 {% endfor %}
 
