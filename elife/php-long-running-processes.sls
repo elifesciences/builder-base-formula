@@ -41,20 +41,8 @@ php-long-running-process-service-{{ hyphenized }}-{{ i }}-start:
 
 # TODO: this could be a single command for all kinds of processes
 php-long-running-process-service-{{ hyphenized }}-parallel-restart:
-    file.managed:
-        - name: /usr/local/bin/php-long-running-processes-{{ hyphenized }}-restart
-        - source: salt://elife/templates/systemd-multiple-processes.sh
-        - template: jinja
-        - mode: 544
-        - context:
-            process: {{ service_name }}
-            number: {{ configuration['number'] }}
-
     cmd.run:
-        - name: php-long-running-processes-{{ hyphenized }}-restart
-        - require:
-            - file: php-long-running-process-service-{{ hyphenized }}-parallel-restart
-
+        - name: systemctl restart {{ service_name }}@{1..{{ configuration['number'] }}}
 {% endfor %}
 
     
