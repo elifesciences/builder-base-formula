@@ -4,7 +4,7 @@
 {% for name, configuration in pillar.elife.php.processes.configuration.items() %}
 {% set hyphenized = name | replace('_', '-') %}
 {% set service_name = salt['elife.project_name']() + '-' + hyphenized %}
-php-long-running-process-service-{{ hyphenized }}:
+service-{{ hyphenized }}:
     file.managed:
         - name: /lib/systemd/system/{{ service_name }}@.service
         - source: salt://elife/config/lib-systemd-system-php-service.service
@@ -19,10 +19,10 @@ php-long-running-process-service-{{ hyphenized }}:
             - {{ configuration.get('require') }}
             {%- endif %}
         - require_in:
-            - cmd: php-long-running-processes-load-configuration
+            - cmd: service-reload-configurations
 {% endfor %}
 
-php-long-running-processes-load-configuration:
+service-reload-configurations:
     cmd.run:
         - name: systemctl daemon-reload
 
@@ -30,17 +30,17 @@ php-long-running-processes-load-configuration:
 {% set hyphenized = name | replace('_', '-') %}
 {% set service_name = salt['elife.project_name']() + '-' + hyphenized %}
 {% for i in range(1, configuration['number'] + 1) %}
-php-long-running-process-service-{{ hyphenized }}-{{ i }}-enable:
+service-{{ hyphenized }}-{{ i }}-enable:
     cmd.run:
         - name: systemctl enable {{ service_name }}@{{ i }}
         - require:
-            - php-long-running-process-service-{{ hyphenized }}
+            - service-{{ hyphenized }}
         - require_in:
-            - file: php-long-running-process-service-{{ hyphenized }}-parallel-restart
+            - file: service-{{ hyphenized }}-parallel-restart
 {% endfor %}
 
 # TODO: this could be a single command for all kinds of processes
-php-long-running-process-service-{{ hyphenized }}-parallel-restart:
+service-{{ hyphenized }}-parallel-restart:
     cmd.run:
         - name: systemctl restart {{ service_name }}@{1..{{ configuration['number'] }}}
 {% endfor %}
