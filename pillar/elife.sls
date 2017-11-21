@@ -172,8 +172,7 @@ elife:
         upload_max_filesize: 2M
         post_max_size: 8M
         processes:
-            enabled: True
-            #enabled: False
+            enabled: False
             configuration: {}
                 #annotations:
                 #    folder: /srv/annotations
