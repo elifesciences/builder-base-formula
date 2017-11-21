@@ -27,9 +27,8 @@ php-long-running-processes-load-configuration:
 {% for name, configuration in pillar.elife.php.processes.configuration.items() %}
 {% set hyphenized = name | replace("_", "-") %}
 {% set service_name = salt['elife.project_name']() + "-" + hyphenized %}
-# TODO: add counter and instance numbers
 # TODO: " vs '
-{% for i in range(0, configuration['number']) %}
+{% for i in range(1, configuration['number'] + 1) %}
 php-long-running-process-service-{{ hyphenized }}-{{ i }}-start:
     cmd.run:
         - name: systemctl enable {{ service_name }}@{{ i }}
