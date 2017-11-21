@@ -179,6 +179,7 @@ elife:
                 #    folder: /srv/annotations
                 #    command: /srv/annotations/bin/console queue:watch
                 #    number: 1
+                #    [require: some-state]
 
     uwsgi:
         services: {}

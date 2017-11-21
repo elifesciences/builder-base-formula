@@ -15,7 +15,9 @@ php-long-running-process-service-{{ hyphenized }}:
             command: {{ configuration.command }}
         - require:
             - php
-            # TODO: add optional require
+            {% if configuration.get('require', None) -%}
+            - {{ configuration.get('require') }}
+            {%- endif %}
         - require_in:
             - cmd: php-long-running-processes-load-configuration
 {% endfor %}
