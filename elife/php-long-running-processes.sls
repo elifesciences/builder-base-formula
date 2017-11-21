@@ -32,7 +32,6 @@ php-long-running-processes-load-configuration:
 {% for i in range(0, configuration['number']) %}
 php-long-running-process-service-{{ hyphenized }}-{{ i }}-start:
     cmd.run:
-        # TODO: does this make them come up on boot?
         - name: systemctl enable {{ service_name }}@{{ i }}
         - require:
             - php-long-running-process-service-{{ hyphenized }}
