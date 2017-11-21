@@ -174,7 +174,7 @@ elife:
         processes:
             enabled: False
             configuration: {}
-                #annotations:
+                #queue_watch:
                 #    folder: /srv/annotations
                 #    command: /srv/annotations/bin/console queue:watch
                 #    number: 1
