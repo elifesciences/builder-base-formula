@@ -2,8 +2,8 @@
 
 {% if pillar.elife.php.processes.enabled %}
 {% for name, configuration in pillar.elife.php.processes.configuration.items() %}
-{% set hyphenized = name | replace("_", "-") %}
-{% set service_name = salt['elife.project_name']() + "-" + hyphenized %}
+{% set hyphenized = name | replace('_', '-') %}
+{% set service_name = salt['elife.project_name']() + '-' + hyphenized %}
 php-long-running-process-service-{{ hyphenized }}:
     file.managed:
         - name: /lib/systemd/system/{{ service_name }}@.service
@@ -25,9 +25,8 @@ php-long-running-processes-load-configuration:
         - name: systemctl daemon-reload
 
 {% for name, configuration in pillar.elife.php.processes.configuration.items() %}
-{% set hyphenized = name | replace("_", "-") %}
-{% set service_name = salt['elife.project_name']() + "-" + hyphenized %}
-# TODO: " vs '
+{% set hyphenized = name | replace('_', '-') %}
+{% set service_name = salt['elife.project_name']() + '-' + hyphenized %}
 {% for i in range(1, configuration['number'] + 1) %}
 php-long-running-process-service-{{ hyphenized }}-{{ i }}-start:
     cmd.run:
