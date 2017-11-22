@@ -1,4 +1,6 @@
 #!/bin/bash
+# deprecated: use `systemctl restart process@{1..N}`
+
 NUMBER={{ number }}
 timeout=120
 echo "--------"

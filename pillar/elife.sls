@@ -171,6 +171,14 @@ elife:
         memory_limit: 64M
         upload_max_filesize: 2M
         post_max_size: 8M
+        processes:
+            enabled: False
+            configuration: {}
+                #queue_watch:
+                #    folder: /srv/annotations
+                #    command: /srv/annotations/bin/console queue:watch
+                #    number: 1
+                #    [require: some-state]
 
     uwsgi:
         services: {}

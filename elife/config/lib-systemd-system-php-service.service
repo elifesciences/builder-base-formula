@@ -1,0 +1,17 @@
+[Unit]
+Description="PHP long-running process {{ name }} %I"
+Requires=network.target
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory={{ folder }}
+Environment="ENVIRONMENT_NAME={{ pillar.elife.env }}"
+User={{ pillar.elife.deploy_user.username }}
+ExecStart={{ command }}
+# restart even if exits cleanly (e.g. memory limit reached)
+Restart=always
+RestartSec=5
