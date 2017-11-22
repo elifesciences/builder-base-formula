@@ -44,7 +44,7 @@
 {{ name }}-composer-install:
     cmd.run:
         {% if pillar.elife.env != 'dev' %}
-        - name: composer --no-interaction install --no-suggest --classmap-authoritative
+        - name: composer --no-interaction install --no-suggest --no-dev --classmap-authoritative
         {% else %}
         - name: composer --no-interaction install --no-suggest
         {% endif %}
