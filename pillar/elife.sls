@@ -180,6 +180,12 @@ elife:
                 #    number: 1
                 #    [require: some-state]
 
+    php_dummies:
+        #orcid_dummy:
+        #    repository: https://github.com/elifesciences/orcid-dummy
+        #    pinned_revision_file: /srv/profiles/orcid-dummy.sha1
+        #    port: 8081 # will add 1 to get an HTTPS port too
+        
     uwsgi:
         services: {}
             #profiles:  
