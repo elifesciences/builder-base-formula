@@ -62,8 +62,8 @@
         - source: salt://elife/config/etc-nginx-sites-enabled-php-dummy.conf
         - template: jinja
         - context:
-            - name: {{ name }}
-            - port: {{ configuration['port'] }}
+            name: {{ name }}
+            port: {{ configuration['port'] }}
         - require: 
             - {{ name }}-composer-install
         - listen_in:
