@@ -35,3 +35,10 @@ docker-compose:
         - require:
             - file: docker-compose
 
+docker-deploy-user-in-group:
+    group.present:
+        - name: docker
+        - addusers:
+            - {{ pillar.elife.deploy_user.username }}
+        - require:
+            - docker-packages
