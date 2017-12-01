@@ -79,11 +79,14 @@ composer-global-paths:
 
 update-composer:
     cmd.run:
-        - name: composer self-update
-        - onlyif:
-            - which composer
-        - require_in:
+        - name: composer self-update 1.5.2
+        - require:
             - cmd: install-composer
+        #- name: composer self-update
+        #- onlyif:
+        #    - which composer
+        #- require_in:
+        #    - cmd: install-composer
 
 # useful to depend on
 composer:
@@ -92,4 +95,5 @@ composer:
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - install-composer
+            - update-composer
             - composer-global-paths
