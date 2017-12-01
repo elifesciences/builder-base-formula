@@ -4,6 +4,36 @@
 #        - name: |
 #            sudo apt-get -y install linux-image-extra-$(uname -r) linux-image-extra-virtual
 
+docker-folder:
+    file.directory:
+        - name: /ext/docker
+        - makedirs: True
+        - mode: 711
+    
+docker-folder-linking:
+    cmd.run:
+        - name: |
+            # to be compatible with both upstart and systemd
+            stop docker || true
+            systemctl stop docker || true
+            # move files onto the volume
+            mv /var/lib/docker/* /ext/docker
+            rmdir /var/lib/docker
+        - onlyif:
+            # has something in it to move
+            - ls -l /var/lib/docker/ | grep -v 'total 0'
+            # is not a symlink already
+            - test ! -L /var/lib/docker
+        - require:
+            - docker-folder
+
+    file.symlink:
+        - name: /var/lib/docker
+        - target: /ext/docker
+        - force: True
+        - require:
+            - cmd: docker-folder-linking
+
 docker-gpg-key:
     cmd.run:
         - name: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -13,6 +43,7 @@ docker-repository:
         - name: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
         - require:
             - docker-gpg-key
+            - docker-folder-linking
 
 docker-packages:
     pkg.installed:
@@ -21,6 +52,11 @@ docker-packages:
         - refresh: True
         - require:
             - docker-repository
+
+    service.running:
+        - name: docker
+        - require:
+            - pkg: docker-packages
 
 docker-compose:
     file.managed:
