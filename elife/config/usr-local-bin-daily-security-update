@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e # everything must pass
+set -u # no unbound variables
+
+current_date=$(date -I)
+created_file="/root/updated-${current_date}"
+
+if [ -e "${created_file}" ]; then
+    echo "Already run: ${created_file}"
+    exit 0
+fi
+
+run-parts /etc/cron.daily
+touch "${created_file}"

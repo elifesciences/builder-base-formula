@@ -7,6 +7,12 @@ daily-system-update-command:
         - source: salt://elife/config/usr-local-bin-daily-system-update
         - mode: 544
 
+daily-security-updates-command:
+    file.managed:
+        - name: /usr/local/bin/daily-security-update
+        - source: salt://elife/config/usr-local-bin-daily-security-update
+        - mode: 544
+
 daily-system-update-log-rotater:
     file.managed:
         - name: /etc/logrotate.d/daily-system-update
@@ -34,3 +40,4 @@ daily-system-updates:
        # don't update vagrant machines
         - onlyif:
             - test ! -d /vagrant
+
