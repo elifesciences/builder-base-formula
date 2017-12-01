@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e # everything must pass
+set -u # no unbound variables
+
+if [ ! -e "/root/updated-$(date -I)" ]; then
+    run-parts /etc/cron.daily
+    touch "/root/updated-$(date -I)"
+fi
