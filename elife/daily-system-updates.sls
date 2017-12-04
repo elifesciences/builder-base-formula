@@ -20,6 +20,7 @@ daily-system-update-log-rotater:
 
 # every weekday at 10:30am UTC
 daily-system-updates:
+    {% if pillar.elife.env in ['ci', 'end2end'] %}
     cron.present:
         - identifier: daily-system-update
         - name: /usr/local/bin/daily-system-update
@@ -36,8 +37,13 @@ daily-system-updates:
         - require:
             - file: daily-system-update-log-rotater
             - daily-system-update-command
-
        # don't update vagrant machines
         - onlyif:
             - test ! -d /vagrant
+    {% else %}
+    # managed through Alfred
+    cron.absent:
+        - identifier: daily-system-update
+        - name: /usr/local/bin/daily-system-update
+    {% endif %}
 
