@@ -63,3 +63,37 @@ psql-app-db:
         - require:
             - postgres_database: psql-app-db
 
+install-pgbouncer:
+    pkg.installed:
+        - name: pgbouncer
+
+configure-pgbouncer:
+    file.managed:
+        - name: /etc/pgbouncer/pgbouncer.ini
+        - source: salt://elife/config/etc-pgbouncer-pgbouncer.ini
+        - template: jinja
+        - defaults:
+            user: {{ user }}
+            pass: {{ pass }}
+            host: {{ host }}
+            port: {{ port }}
+
+            db_name: {{ db_name }}
+            app_user: {{ app_user_name }}
+            app_pass: {{ app_user_pass }}
+
+pgbouncer-systemd:
+    file.managed:
+        - name: /lib/systemd/system/pgbouncer.service
+        - source: salt://elife/config/lib-systemd-system-pgbouncer.service
+        - template: jinja
+
+pgbouncer:
+    service.running:
+        - enable: True
+        - reload: True
+        - require:
+            - configure-pgbouncer
+            - pgbouncer-systemd
+        - watch:
+            - configure-pgbouncer

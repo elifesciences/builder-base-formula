@@ -101,6 +101,10 @@ elife:
         host: '127.0.0.1'
         port: 5432
 
+        pool: # pg_bouncer
+            host: '127.0.0.1'
+            port: 6543
+
     redis:
         host: 127.0.0.1
         port: 6379

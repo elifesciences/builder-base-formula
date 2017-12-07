@@ -1,0 +1,11 @@
+[Unit]
+Description=pg_bouncer
+After=network.target
+
+[Service]
+User=postgres
+ExecStart=/usr/sbin/pgbouncer /etc/pgbouncer/pgbouncer.ini
+ExecReload=/usr/sbin/pgbouncer -R /etc/pgbouncer/pgbouncer.ini
+
+[Install]
+WantedBy=multi-user.target
