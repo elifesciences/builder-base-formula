@@ -20,7 +20,7 @@ daily-system-update-log-rotater:
 
 # every weekday at 10:30am UTC
 daily-system-updates:
-    {% if pillar.elife.env in ['ci', 'end2end'] %}
+    {% if not pillar.elife.env in ['ci', 'end2end'] %}
     cron.present:
         - identifier: daily-system-update
         - name: /usr/local/bin/daily-system-update
