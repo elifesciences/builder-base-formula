@@ -16,9 +16,19 @@ apache2:
 
 enable-common-modules:
     cmd.run:
-        - name: a2enmod rewrite expires ssl
+        - name: a2enmod rewrite expires ssl headers
         - require:
             - pkg: apache2
+
+add-better-ssl-config:
+    file.managed:
+        - name: /etc/apache2/conf-enabled/ssl.conf
+        - source: salt://elife/config/etc-apache2-conf-enabled-ssl.conf
+        - template: jinja
+        - require:
+            - pkg: apache2
+        - watch_in:
+            - service: apache2-server
 
 disable-default-apache-site:
     cmd.run:
@@ -33,7 +43,7 @@ add-deploy-user-to-apache-group:
             - pkg: apache2
         - unless:
             - groups {{ user.username }} | grep {{ wwwuser.username }}
-         
+
 #
 # if you want apache you also get mod php5
 #
