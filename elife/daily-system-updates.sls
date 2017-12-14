@@ -18,7 +18,6 @@ daily-system-update-log-rotater:
         - name: /etc/logrotate.d/daily-system-update
         - source: salt://elife/config/etc-logrotate.d-daily-system-update
 
-# every weekday at 10:30am UTC
 daily-system-updates:
     {% if not pillar.elife.env in ['ci', 'end2end'] %}
     cron.present:
@@ -46,4 +45,12 @@ daily-system-updates:
         - identifier: daily-system-update
         - name: /usr/local/bin/daily-system-update
     {% endif %}
+
+
+{% if pillar.elife.env in ['ci', 'end2end'] %}
+# managed through Alfred
+daily-security-updates-cron-disable:
+    file.absent:
+        - name: /etc/cron.daily/apt-compat
+{% endif %}
 
