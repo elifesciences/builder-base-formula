@@ -5,9 +5,8 @@ postfix-mailserver:
             - mailutils # gives us the 'mail' command
 
     # mailserver only runs in production env to prevent accidental mailouts
-    {% if salt['elife.cfg']('project.is_prod_instance') %}
-    service.running:
-    {% elif pillar.elife.env == 'ci' %}
+    # why is mailserver running in ci ... ?
+    {% if pillar.elife.env in ['prod', 'ci'] %}
     service.running:
     {% else %}
     service.dead:
