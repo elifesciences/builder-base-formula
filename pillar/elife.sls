@@ -199,6 +199,9 @@ elife:
 
     forced_dns: {}
 
+    coveralls:
+        tokens: {}
+
     spectrum:
         end2end:
             aws:
