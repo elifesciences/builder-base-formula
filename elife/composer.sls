@@ -78,8 +78,8 @@ composer-global-paths:
             - file: composer-home-dir
 
 update-composer:
-    cmd.run:
-        - name: composer self-update
+    cmd.script:
+        - name: salt://elife/scripts/update-composer.sh
         - onlyif:
             - which composer
         - require_in:
