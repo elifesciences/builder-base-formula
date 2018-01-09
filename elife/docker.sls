@@ -78,3 +78,10 @@ docker-deploy-user-in-group:
             - {{ pillar.elife.deploy_user.username }}
         - require:
             - docker-packages
+
+docker-ready:
+    cmd.run:
+        - name: docker version
+        - require:
+            - docker-compose
+            - docker-deploy-user-in-group

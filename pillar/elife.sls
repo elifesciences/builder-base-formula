@@ -155,6 +155,10 @@ elife:
             user: null
             token: null
 
+    docker:
+        username: elifealfreduser
+        password: null
+
     external_volume:
         device: /dev/xvdh
         filesystem: ext4
