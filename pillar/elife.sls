@@ -244,6 +244,8 @@ elife:
                 bucket: null
             generic_cdn:
                 host: null
+            observer:
+                host: null
         continuumtest:
             aws:
                 access_key_id: null
@@ -285,6 +287,8 @@ elife:
                 bucket: null
             generic_cdn:
                 host: null
+            observer:
+                host: null
         prod:
             journal:
                 host: null
@@ -294,4 +298,6 @@ elife:
                 host: null
                 user: null
                 password: null
+            observer:
+                host: null
         tmp: /ext/spectrum-tmp
