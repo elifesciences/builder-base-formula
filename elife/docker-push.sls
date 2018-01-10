@@ -6,5 +6,6 @@ docker-login:
         - name: echo Simulated 'docker login'
         {% endif %}
         - stdin: {{ pillar.elife.docker.password }}
+        - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - docker-ready
