@@ -1,6 +1,9 @@
 # run the 'salt-call state.highstate' command once a day to bring the machine
 # in-line with it's configuration. removes uncertainty, stops pesky tinkerers.
 
+# TODO: exclude elife-alfred--prod if you add prod here?
+{% set environments_managed_through_alfred = ['ci', 'end2end', 'demo', 'continuumtest', 'continuumtestpreview'] %}
+
 daily-system-update-command:
     file.managed:
         - name: /usr/local/bin/daily-system-update
@@ -19,7 +22,7 @@ daily-system-update-log-rotater:
         - source: salt://elife/config/etc-logrotate.d-daily-system-update
 
 daily-system-updates:
-    {% if not pillar.elife.env in ['ci', 'end2end'] %}
+    {% if not pillar.elife.env in environments_managed_through_alfred %}
     cron.present:
         - identifier: daily-system-update
         - name: /usr/local/bin/daily-system-update
@@ -47,7 +50,7 @@ daily-system-updates:
     {% endif %}
 
 
-{% if pillar.elife.env in ['ci', 'end2end'] %}
+{% if pillar.elife.env in environments_managed_through_alfred %}
 # managed through Alfred
 daily-security-updates-cron-disable:
     file.absent:
