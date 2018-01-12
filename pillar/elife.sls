@@ -220,6 +220,7 @@ elife:
                     archive: null
                     published: null
                     silent_corrections: null
+                    packaging: null
                 queue:
                     workflow_starter: null
             website:
@@ -263,6 +264,7 @@ elife:
                     archive: null
                     published: null
                     silent_corrections: null
+                    packaging: null
                 queue:
                     workflow_starter: null
             website:
