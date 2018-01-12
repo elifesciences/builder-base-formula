@@ -9,11 +9,16 @@
 {% if not salt['grains.get']('osrelease') == "16.04" %}
 
 python-3:
+    cmd.run:
+        - name: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5BB92C09DB82666C
+        - require:
+            - global-python-requisites
+
     pkgrepo.managed:
         - humanname: Python 2.7 Updates
         - ppa: fkrull/deadsnakes
         - require:
-            - global-python-requisites
+            - cmd: python-3
         - unless:
             - test -e /etc/apt/sources.list.d/fkrull-deadsnakes-trusty.list
             
