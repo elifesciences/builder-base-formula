@@ -25,4 +25,3 @@ known-hosts-{{ key }}:
     file.exists:
         - require:
             - ssh_known_hosts: github.com
-            - ssh_known_hosts: bitbucket.org
