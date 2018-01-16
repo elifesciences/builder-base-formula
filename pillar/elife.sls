@@ -223,6 +223,7 @@ elife:
                     packaging: null
                 queue:
                     workflow_starter: null
+                host: null
             website:
                 host: null
                 user: null
@@ -267,6 +268,7 @@ elife:
                     packaging: null
                 queue:
                     workflow_starter: null
+                host: null
             website:
                 host: null
                 user: null
