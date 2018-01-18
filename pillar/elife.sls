@@ -224,10 +224,6 @@ elife:
                 queue:
                     workflow_starter: null
                 host: null
-            website:
-                host: null
-                user: null
-                password: null
             dashboard:
                 host: null
                 user: null
@@ -269,10 +265,6 @@ elife:
                 queue:
                     workflow_starter: null
                 host: null
-            website:
-                host: null
-                user: null
-                password: null
             dashboard:
                 host: null
                 user: null
