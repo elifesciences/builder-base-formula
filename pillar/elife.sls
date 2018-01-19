@@ -201,6 +201,10 @@ elife:
         #secret_access_key: fake
         region: us-east-1
 
+    goaws:
+        queues:
+            - hello-world
+
     forced_dns: {}
 
     coveralls:
