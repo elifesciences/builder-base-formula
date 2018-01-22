@@ -1,0 +1,8 @@
+Local:
+  Host: goaws
+  Port: 4100
+  Queues:
+    {% for queue_name in pillar.elife.goaws.queues %}
+    - Name: {{ queue_name }}
+    {% endfor %}
+

@@ -1,8 +1,11 @@
 version: '2'
 services:
-  yopa:
-    container_name: goaws
-    image: elifealfreduser/goaws:20171024
-    ports:
-      - 4100:4100
-    restart: always
+    yopa:
+        container_name: goaws
+        command: -debug
+        image: elifealfreduser/goaws:20171024
+        volumes:
+            - /home/{{ pillar.elife.deploy_user.username }}/goaws/conf:/conf
+        ports:
+            - 4100:4100
+        restart: always
