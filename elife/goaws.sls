@@ -25,6 +25,7 @@ goaws:
         - require:
             - deploy-user
             - docker-compose
+            - goaws-configuration
 
     cmd.run:
         - name: |
