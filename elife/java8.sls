@@ -24,16 +24,16 @@ oracle-java8-installer:
     #        - oracle-license-select
 
     # temporary workaround because Oracle, licenses and the fact that the whole world software infrastructure is based on a single guy's free time
-    # https://stackoverflow.com/questions/46815254/oracle-java8-installer-webupd8-ppa-404-not-found
-    # wget http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jdk1.8.0_152-linux-x64.tar.gz
+    # original work around, not working anymore: https://stackoverflow.com/questions/46815254/oracle-java8-installer-webupd8-ppa-404-not-found
+    # now: https://ubuntuforums.org/showthread.php?t=2374686&page=5&p=13732563#post13732563
     cmd.run:
         - name: |
             apt-get install -y oracle-java8-installer || true
             cd /var/lib/dpkg/info
-            sudo sed -i 's|JAVA_VERSION=8u144|JAVA_VERSION=8u152|' oracle-java8-installer.*
-            sudo sed -i 's|PARTNER_URL=http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/|PARTNER_URL=http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/|' oracle-java8-installer.*
-            sudo sed -i 's|SHA256SUM_TGZ="e8a341ce566f32c3d06f6d0f0eeea9a0f434f538d22af949ae58bc86f2eeaae4"|SHA256SUM_TGZ="218b3b340c3f6d05d940b817d0270dfe0cfd657a636bad074dcabe0c111961bf"|' oracle-java8-installer.*
-            sudo sed -i 's|J_DIR=jdk1.8.0_144|J_DIR=jdk1.8.0_152|' oracle-java8-installer.*
+            sed -i 's|JAVA_VERSION=8u151|JAVA_VERSION=8u162|' oracle-java8-installer.*
+            sed -i 's|PARTNER_URL=http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/|PARTNER_URL=http://download.oracle.com/otn-pub/java/jdk/8u162-b12/0da788060d494f5095bf8624735fa2f1/|' oracle-java8-installer.*
+            sed -i 's|SHA256SUM_TGZ="c78200ce409367b296ec39be4427f020e2c585470c4eed01021feada576f027f"|SHA256SUM_TGZ="68ec82d47fd9c2b8eb84225b6db398a72008285fafc98631b1ff8d2229680257"|' oracle-java8-installer.*
+            sed -i 's|J_DIR=jdk1.8.0_151|J_DIR=jdk1.8.0_162|' oracle-java8-installer.*
             apt-get install -y oracle-java8-installer
         - require:
             - pkgrepo: oracle-ppa
