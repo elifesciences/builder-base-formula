@@ -48,6 +48,20 @@ def branch(default='master'):
         return '' # results in a None value for git.latest
     return cfg('project.branch', default)
 
+def image_tag():
+    """used to deploy a particular tag of a Docker image.
+    
+    May return:
+    - a commit
+    - a branch name such as `approved`
+    - the conventional `latest`"""
+    revision = cfg('project.revision')
+    if revision == 'master':
+        return 'latest' # conventionally stable Docker tag
+    if not revision:
+        return 'latest' # conventionally stable Docker tag
+    return revision
+
 def read_json(path):
     "reads the json from the given `path`, detecting base64 encoded versions."
     if os.path.exists(path):
