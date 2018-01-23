@@ -33,6 +33,11 @@ base-vim-config:
         - name: /etc/vim/vimrc
         - source: salt://elife/config/etc-vim-vimrc
 
+base-updatedb-config:
+    file.managed:
+        - name: /etc/updatedb.conf
+        - source: salt://elife/config/etc-updatedb.conf
+
 autoremove-orphans:
     cmd.run:
         - name: apt-get autoremove -y
