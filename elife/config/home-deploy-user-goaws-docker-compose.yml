@@ -3,7 +3,7 @@ services:
     yopa:
         container_name: goaws
         command: -debug
-        image: elifealfreduser/goaws:20171024
+        image: elifesciences/goaws:1.0.1
         volumes:
             - /home/{{ pillar.elife.deploy_user.username }}/goaws/conf:/conf
         ports:
