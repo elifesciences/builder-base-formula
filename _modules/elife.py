@@ -1,5 +1,6 @@
 import os, json
 import base64
+import subprocess
 
 import logging
 LOG = logging.getLogger(__name__)
@@ -61,6 +62,13 @@ def image_tag():
     if not revision:
         return 'latest' # conventionally stable Docker tag
     return revision
+
+def image_label(image, label):
+    """used to retrieve a `label` from an `image`.
+
+    Warning: it will pull the image first, using bandwidth, time and disk space."""
+
+    return subprocess.check_output("/usr/local/docker-scripts/docker-read-label", image, label)
 
 def read_json(path):
     "reads the json from the given `path`, detecting base64 encoded versions."
