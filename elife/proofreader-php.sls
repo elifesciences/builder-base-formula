@@ -23,7 +23,7 @@ proofreader-php-repository:
 
     cmd.run:
         - name: |
-            composer install
+            composer --no-interaction install --no-suggest --classmap-authoritative --no-dev
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/proofreader-php
         - require:
