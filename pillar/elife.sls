@@ -202,6 +202,9 @@ elife:
         region: us-east-1
 
     goaws:
+        # `localhost` if used from the host
+        # `goaws` if only used from other Docker containers
+        host: localhost
         queues:
             - hello-world
 
