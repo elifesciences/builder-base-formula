@@ -79,9 +79,25 @@ docker-deploy-user-in-group:
         - require:
             - docker-packages
 
+docker-scripts:
+    file.recurse:
+        - name: /usr/local/docker-scripts/
+        - source: salt://elife/docker-scripts
+        - file_mode: 555
+
+docker-scripts-path:
+    file.managed:
+        - name: /etc/profile.d/docker-scripts-path.sh
+        - contents: export PATH=/usr/local/docker-scripts:$PATH
+        - mode: 644
+        - require: 
+            - docker-scripts
+
 docker-ready:
     cmd.run:
         - name: docker version
         - require:
             - docker-compose
             - docker-deploy-user-in-group
+            - docker-scripts
+            - docker-scripts-path
