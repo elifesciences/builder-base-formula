@@ -63,12 +63,14 @@ def image_tag():
         return 'latest' # conventionally stable Docker tag
     return revision
 
-def image_label(image, label):
-    """used to retrieve a `label` from an `image`.
+def image_label(image, label, image_tag='latest'):
+    """used to retrieve a `label` from an `image`. 
+    
+    Optionally specify an `image_tag` to pin.
 
     Warning: it will pull the image first, using bandwidth, time and disk space."""
 
-    return subprocess.check_output("/usr/local/docker-scripts/docker-read-label", image, label)
+    return subprocess.check_output("/usr/local/docker-scripts/docker-read-label", "%s:%s" % (image, image_tag), label)
 
 def read_json(path):
     "reads the json from the given `path`, detecting base64 encoded versions."
