@@ -297,6 +297,8 @@ elife:
             observer:
                 host: null
         prod:
+            api_gateway:
+                host: null
             journal:
                 host: null
             aws:
