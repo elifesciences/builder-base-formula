@@ -1,4 +1,4 @@
-{% set on_elasticache = salt['elife.cfg']('cfn.outputs.ElastiCacheHost') %}
+{% set on_elasticache = salt['elife.cfg']('cfn.outputs.ElastiCacheHost1') %}
 
 {% set distro = salt['grains.get']('oscodename') %}
 
