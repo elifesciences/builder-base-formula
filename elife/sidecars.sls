@@ -7,7 +7,7 @@ docker-network-sidecars:
             - docker-ready
 
 {% for key, configuration in pillar.elife.sidecars.containers.items() %}
-# TODO: use configuration['enabled'] to turn on/off
+{% if configuration['enabled'] %}
 
 docker-compose-{{ configuration['name'] }}:
     file.managed:
@@ -42,4 +42,6 @@ docker-compose-{{ configuration['name'] }}-up:
         - require: 
             - docker-compose-{{ configuration['name'] }}
             - docker-compose-{{ configuration['name'] }}-.env
+
+{% endif %}
 {% endfor %}
