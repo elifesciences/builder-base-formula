@@ -70,7 +70,15 @@ def image_label(image, label, image_tag='latest'):
 
     Warning: it will pull the image first, using bandwidth, time and disk space."""
 
-    return subprocess.check_output("/usr/local/docker-scripts/docker-read-label", "%s:%s" % (image, image_tag), label)
+    command = ["/usr/local/docker-scripts/docker-read-label", "%s:%s" % (image, image_tag), label]
+    p = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    output, error = p.communicate()
+    if p.returncode != 0: 
+        raise RuntimeError("Command: %s\nExit status: %s\nSTDOUT: %s\nSTDERR: %s\n" % (command, p.returncode, output, error))
+    value = output.strip()
+    if value == 'null':
+        raise RuntimeError("`%s` returned a null label" % command)
+    return value
 
 def read_json(path):
     "reads the json from the given `path`, detecting base64 encoded versions."
