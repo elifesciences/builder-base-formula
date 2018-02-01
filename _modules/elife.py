@@ -78,6 +78,8 @@ def image_label(image, label, image_tag='latest'):
     value = output.strip()
     if value == 'null':
         raise RuntimeError("`%s` returned a null label" % command)
+    if value == '':
+        raise RuntimeError("`%s` returned a empty string label" % command)
     return value
 
 def read_json(path):
