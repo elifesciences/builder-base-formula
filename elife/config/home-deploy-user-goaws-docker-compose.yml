@@ -1,11 +1,17 @@
 version: '2'
 services:
-    yopa:
+    goaws:
         container_name: goaws
         command: -debug
         image: elifesciences/goaws:1.0.1
         volumes:
             - /home/{{ pillar.elife.deploy_user.username }}/goaws/conf:/conf
+        networks:
+            - sidecars
         ports:
             - 4100:4100
         restart: always
+
+networks:
+    sidecars:
+        external: true
