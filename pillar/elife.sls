@@ -184,7 +184,7 @@ elife:
                 #    number: 1
                 #    [require: some-state]
 
-    php_dummies:
+    php_dummies: {}
         #orcid_dummy:
         #    repository: https://github.com/elifesciences/orcid-dummy
         #    pinned_revision_file: /srv/profiles/orcid-dummy.sha1
