@@ -208,6 +208,9 @@ elife:
         queues:
             - hello-world
 
+    sidecars:
+        containers: {}
+
     forced_dns: {}
 
     coveralls:
