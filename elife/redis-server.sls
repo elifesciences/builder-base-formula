@@ -21,11 +21,12 @@ redis-packages-install:
             - service: redis-server
 
 {% else %}
-redis-packages-install:
+redis-packages-purge:
     pkg.purged:
         - pkgs:
             - redis-server
 
+redis-packages-install:
     pkg.installed:
         - pkgs:
             - redis-tools # includes redis-cli
