@@ -29,7 +29,7 @@ docker-compose-{{ configuration['name'] }}-.env:
         - source: salt://elife/config/home-deploy-user-configuration-name-.env
         - template: jinja
         - context:
-            tag: {{ salt['elife.image_label'](pillar.elife.sidecars.main, 'org.elifesciences.dependencies.'+configuration['name']), salt['elife.image_tag']() }}
+            tag: {{ salt['elife.image_label'](pillar.elife.sidecars.main, 'org.elifesciences.dependencies.'+configuration['name'], salt['elife.image_tag']()) }}
         - makedirs: True
         - require: 
             - docker-compose-{{ configuration['name'] }}
