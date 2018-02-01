@@ -9,10 +9,13 @@ then
     commit=$(git rev-parse HEAD)
 fi
 
+unique_id=$(uuidgen)
+temp_file="github-commit-status-${unique_id}.log"
+
 status_code=$(curl \
     -v \
     -s \
-    -o github_commit_status.log \
+    -o "${temp_file}" \
     -w '%{http_code}' \
     "https://api.github.com/repos/$owner_and_repo/statuses/$commit?access_token=$GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
@@ -20,10 +23,10 @@ status_code=$(curl \
     -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$target_url\"}")
 
 if [[ $status_code -eq 201 ]]; then
-    rm github_commit_status.log
+    rm "${temp_file}"
     exit 0
 fi
 
-cat github_commit_status.log
-rm github_commit_status.log
+cat "${temp_file}"
+rm "${temp_file}"
 exit 22 # standard curl -f exit code
