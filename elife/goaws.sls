@@ -1,3 +1,12 @@
+# remove once dependency on docker-network-sidecars in elife.sidecars is correctly in place in all projects
+docker-network-sidecars-goaws-deprecated:
+    cmd.run:
+        - name: docker network create sidecars
+        - unless:
+            - docker network inspect sidecars
+        - require:
+            - docker-ready
+
 goaws-configuration:
     file.managed:
         - name: /home/{{ pillar.elife.deploy_user.username }}/goaws/conf/goaws.yaml
@@ -7,6 +16,7 @@ goaws-configuration:
         - makedirs: True
         - require:
             - deploy-user
+            - docker-network-sidecars-goaws-deprecated
 
 goaws-docker-compose-environment:
     file.managed:

@@ -1,0 +1,15 @@
+version: '2'
+services:
+    {{ name|replace("-", "_") }}:
+        container_name: {{ name|replace("-", "_") }}
+        image: {{ image }}:${IMAGE_TAG}
+        networks:
+            - sidecars
+        ports:
+            # TODO: make target port customizable
+            - {{ port }}:8080
+        restart: always
+
+networks:
+    sidecars:
+        external: true
