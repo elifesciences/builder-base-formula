@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 IMAGE ENVIRONMENT_VARIABLE"
+    echo "Example: $0 elifesciences/annotations_cli PROJECT_FOLDER"
+    exit 1
+fi
+
+image="${1}"
+label="${2}"
+docker pull "${image}" 1>&2
+docker inspect "${image}" | jq -r '.[0].Config.Env[]' | grep "^${label}=" | sed -e 's/[^=]\+=//'
