@@ -9,5 +9,7 @@ fi
 
 image="${1}"
 label="${2}"
-docker pull "${image}" 1>&2
+if ! docker inspect "${image}" 1>&2; then
+    docker pull "${image}" 1>&2
+fi
 docker inspect "${image}" | jq -r '.[0].Config.Env[]' | grep "^${label}=" | sed -e 's/[^=]\+=//'
