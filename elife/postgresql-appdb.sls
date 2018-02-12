@@ -20,7 +20,7 @@
 db-perms-to-rds_superuser:
 {% if db_exists and app_user_exists %}
     cmd.script:
-        - name: salt://elife/scripts/postgresql-appdb-perms.sh
+        - name: salt://elife/scripts/postgresql-appdb-perms-legacy.sh
         - creates: /root/legacy-db-permissions-migrated.flag
         - template: jinja
         - defaults:
@@ -32,8 +32,17 @@ db-perms-to-rds_superuser:
             app_user_name: {{ app_user_name }}
             app_user_pass: {{ app_user_pass }}
 {% else %}
-    cmd.run:
-        - name: echo "no database to wrangle"
+    cmd.script:
+        - name: salt://elife/scripts/postgresql-appdb-perms-fresh.sh
+        - creates: /root/db-permissions-set.flag
+        - template: jinja
+        - defaults:
+            user: {{ user }}
+            pass: {{ pass }}
+            host: {{ host }}
+            port: {{ port }}
+            db_name: {{ db_name }}
+
 {% endif %}
 
 psql-app-db:
