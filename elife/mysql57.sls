@@ -15,13 +15,21 @@ include:
 
 {% else %}
 
-
+# from https://dev.mysql.com/doc/refman/5.7/en/checking-gpg-signature.html
+# since pgp.mit.edu has been timing out for a couple of days
+mysql-ppa-key:
+    file.managed:
+        - name: /root/mysql-ppa.key
+        - source: salt://elife/config/root-mysql-ppa.key
 
 mysql-ppa:
     cmd.run:
-        - name: apt-key adv --keyserver pgp.mit.edu --recv-keys 5072E1F5 
-        - unless:
-            - apt-key list | grep 5072E1F5
+        - name: apt-key add /root/mysql-ppa.key
+        - require:
+            - mysql-ppa-key
+        #- name: apt-key adv --keyserver pgp.mit.edu --recv-keys 5072E1F5 
+        #- unless:
+        #    - apt-key list | grep 5072E1F5
 
     pkgrepo.managed:
         - humanname: Python 2.7 Updates
