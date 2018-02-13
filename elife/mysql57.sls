@@ -66,7 +66,8 @@ mysql-server:
     pkg.installed:
         - pkgs:
             #- mysql-server: 5.7.19-1ubuntu14.04
-            - mysql-server: 5.7.20-1ubuntu14.04
+            #- mysql-server: 5.7.20-1ubuntu14.04
+            - mysql-server: 5.7.21-1ubuntu14.04
 
         # not necessary, done in mysql-clients
         # - refresh: True
