@@ -44,6 +44,6 @@ ALTER DEFAULT PRIVILEGES FOR USER $user GRANT ALL ON tables TO $user;
 ALTER DEFAULT PRIVILEGES FOR USER $user GRANT ALL ON sequences TO $user;"
 
 # it doesn't hurt to run this script constantly, but once should be enough
-touch /root/legacy-db-permissions-migrated.flag
+touch /root/db-permissions-set.flag
 
 echo "permissions set"
