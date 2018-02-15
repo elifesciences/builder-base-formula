@@ -239,6 +239,7 @@ elife:
                     published: null
                     silent_corrections: null
                     packaging: null
+                    configuration: null
                 queue:
                     workflow_starter: null
                 host: null
@@ -280,6 +281,7 @@ elife:
                     published: null
                     silent_corrections: null
                     packaging: null
+                    configuration: null
                 queue:
                     workflow_starter: null
                 host: null
