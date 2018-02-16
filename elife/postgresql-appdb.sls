@@ -16,13 +16,12 @@
 {% set db_exists = salt.get('postgres.db_exists') and salt['postgres.db_exists'](db_name, user=user, host=host, password=pass) %}
 {% set app_user_exists = salt.get('postgres.user_exists') and salt['postgres.user_exists'](app_user_name, host=host, password=pass) %}
 
-# handles permissions on legacy databases
 db-perms-to-rds_superuser:
     cmd.script:
     {% if db_exists and app_user_exists %}
-        - name: salt://elife/scripts/postgresql-appdb-perms-legacy.sh
+        - name: salt://elife/scripts/postgresql-appdb-perms-migration.sh
     {% else %}
-        - name: salt://elife/scripts/postgresql-appdb-perms-fresh.sh
+        - name: salt://elife/scripts/postgresql-appdb-perms.sh
     {% endif %}
         - creates: /root/db-permissions-set.flag
         - template: jinja
