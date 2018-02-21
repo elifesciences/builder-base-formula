@@ -12,24 +12,28 @@ newrelic-infrastructure-repository-key:
     cmd.run:
         - name: "curl https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | apt-key add -"
 
-newrelic-infrastructure-repository:
-    cmd.run:
-        - name: "printf \"deb [arch=amd64] http://download.newrelic.com/infrastructure_agent/linux/apt {{ salt['grains.get']('oscodename') }} main\" | tee /etc/apt/sources.list.d/newrelic-infra.list"
-        - require:
-            - newrelic-infrastructure-repository-key
+newrelic-infrastructure-repository-remove:
+    cmd.run: 
+        - name: rm -f /etc/apt/sources.list.d/newrelic-infra.list
 
-newrelic-infrastructure:
-    pkg.installed:
-        - name: newrelic-infra
-        - refresh: True
-        - require:
-            - newrelic-infrastructure-repository
-            - newrelic-infrastructure-configuration
-
-    service.running:
-        - name: newrelic-infra
-        - enable: True
-        - require:
-            - pkg: newrelic-infrastructure
-        - watch:
-            - newrelic-infrastructure-configuration
+#newrelic-infrastructure-repository:
+#    cmd.run:
+#        - name: "printf \"deb [arch=amd64] http://download.newrelic.com/infrastructure_agent/linux/apt {{ salt['grains.get']('oscodename') }} main\" | tee /etc/apt/sources.list.d/newrelic-infra.list"
+#        - require:
+#            - newrelic-infrastructure-repository-key
+#
+#newrelic-infrastructure:
+#    pkg.installed:
+#        - name: newrelic-infra
+#        - refresh: True
+#        - require:
+#            - newrelic-infrastructure-repository
+#            - newrelic-infrastructure-configuration
+#
+#    service.running:
+#        - name: newrelic-infra
+#        - enable: True
+#        - require:
+#            - pkg: newrelic-infrastructure
+#        - watch:
+#            - newrelic-infrastructure-configuration
