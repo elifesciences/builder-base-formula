@@ -5,9 +5,10 @@ services:
         image: {{ image }}:${IMAGE_TAG}
         networks:
             - sidecars
+        {% if port %}
         ports:
-            # TODO: make target port customizable
             - {{ port }}:8080
+        {% endif %}
         restart: always
 
 networks:
