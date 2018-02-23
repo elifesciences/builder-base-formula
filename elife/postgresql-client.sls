@@ -10,7 +10,7 @@ postgresql-deb:
         - require:
             - cmd: postgresql-deb
 
-postgresql:
+postgresql-client:
     pkg.installed:
         - pkgs:
             - postgresql-client-9.4
