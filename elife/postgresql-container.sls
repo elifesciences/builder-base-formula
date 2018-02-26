@@ -35,6 +35,7 @@ docker-compose-postgres-up:
         - require: 
             - docker-compose-postgres
             - docker-compose-postgres-.env
+            - docker-network-databases
 
 postgresql-ready:
     cmd.run:
