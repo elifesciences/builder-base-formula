@@ -30,6 +30,7 @@ docker-compose-postgres-up:
     cmd.run:
         - name: |
             /etc/init.d/postgresql stop || true  # if anything's running locally
+            rm -f /lib/systemd/system/postgresql*
             /usr/local/bin/docker-compose -f docker-compose.yml up --force-recreate -d
         - cwd: /home/{{ pillar.elife.deploy_user.username }}/postgres
         - require: 
