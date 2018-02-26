@@ -1,11 +1,3 @@
-docker-network-databases:
-    cmd.run:
-        - name: docker network create databases
-        - unless:
-            - docker network inspect databases
-        - require:
-            - docker-ready
-
 docker-compose-postgres:
     file.managed:
         - name: /home/{{ pillar.elife.deploy_user.username }}/postgres/docker-compose.yml
