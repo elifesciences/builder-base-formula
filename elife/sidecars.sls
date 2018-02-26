@@ -17,7 +17,7 @@ docker-compose-{{ configuration['name'] }}:
         - context:
             name: {{ configuration['name'] }}
             image: {{ configuration['image'] }}
-            port: {{ configuration['port'] }}
+            port: {{ configuration.get('port') }}
         - makedirs: True
         - require: 
             - deploy-user
