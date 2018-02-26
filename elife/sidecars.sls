@@ -13,6 +13,7 @@ docker-compose-{{ configuration['name'] }}:
     file.managed:
         - name: /home/{{ pillar.elife.deploy_user.username }}/{{ configuration['name'] }}/docker-compose.yml
         - source: salt://elife/config/home-deploy-user-configuration-name-docker-compose.yml
+        - user: {{ pillar.elife.deploy_user.username }}
         - template: jinja
         - context:
             name: {{ configuration['name'] }}
@@ -27,6 +28,7 @@ docker-compose-{{ configuration['name'] }}-.env:
     file.managed:
         - name: /home/{{ pillar.elife.deploy_user.username }}/{{ configuration['name'] }}/.env
         - source: salt://elife/config/home-deploy-user-configuration-name-.env
+        - user: {{ pillar.elife.deploy_user.username }}
         - template: jinja
         - context:
             main: {{ pillar.elife.sidecars.main }}
