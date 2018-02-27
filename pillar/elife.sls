@@ -207,6 +207,8 @@ elife:
         host: localhost
         queues:
             - hello-world
+        topics:
+            - some-events
 
     sidecars:
         # main image that will be used to extract labels 

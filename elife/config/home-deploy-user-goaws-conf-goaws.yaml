@@ -5,4 +5,8 @@ Local:
     {% for queue_name in pillar.elife.goaws.queues %}
     - Name: {{ queue_name }}
     {% endfor %}
+  Topics:
+    {% for topic_name in pillar.elife.goaws.topics %}
+    - Name: {{ topic_name }}
+    {% endfor %}
 
