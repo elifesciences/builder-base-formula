@@ -1,6 +1,6 @@
 # apache + php7
 # out of the box on 14.04 installing apache will also get you php-mod5
-# this was fine
+# this state file disables mod_php5, installs+enables mod_php7 and reloads apache
 
 extend:
     apache2-php5-mod:
@@ -20,3 +20,5 @@ apache-php7:
         - require:
             - apache2-php5-mod # ensure mod php5 is disabled first
             - pkg: apache-php7
+        - watch_in:
+            - service: apache2-server
