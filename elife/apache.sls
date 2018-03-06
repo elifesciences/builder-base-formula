@@ -53,12 +53,15 @@ apache2-php5-mod:
     cmd.run:
         - name: a2enmod php5.6
         - require:
-            - apache2
+            - file: apache2 # file prefix required to avoid recursive dependency
 
 apache2-server:
     service.running:
         - name: apache2
         - require:
             - apache2-php5-mod
-            - apache2
+            # file prefix required to avoid recursive dependency. this is because 
+            # `require:` uses `name:` as a sort of pseudo-id for convenient reference
+            # https://github.com/saltstack/salt/issues/5667
+            - file: apache2 
 
