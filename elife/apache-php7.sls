@@ -16,7 +16,7 @@ apache-php7:
             - php # php7.sls
 
     apache_module.enabled:
-        - php7.0
+        - name: php7.0
         - require:
             - apache2-php5-mod # ensure mod php5 is disabled first
             - pkg: apache-php7
