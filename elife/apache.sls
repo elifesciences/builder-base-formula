@@ -46,15 +46,19 @@ add-deploy-user-to-apache-group:
 
 #
 # if you want apache you also get mod php5
+# see apache-php7.sls for php7 support
 #
-            
-enable-php5-mod:
+
+apache2-php5-mod:
     cmd.run:
         - name: a2enmod php5.6
+        - require:
+            - apache2
 
 apache2-server:
     service.running:
         - name: apache2
-        - require: 
-            - file: apache2
+        - require:
+            - apache2-php5-mod
+            - apache2
 
