@@ -6,6 +6,9 @@ extend:
     apache2-php5-mod:
         cmd.run:
             - name: a2dismod php5.6
+            - onlyif:
+                # mod_php for 5.6 is installed/available
+                - test -e /etc/apache2/mods-available/php5.6.conf
 
 # install and enable mod_php7 for apache
 apache-php7:
