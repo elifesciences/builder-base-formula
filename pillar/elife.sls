@@ -183,6 +183,8 @@ elife:
                 #    command: /srv/annotations/bin/console queue:watch
                 #    number: 1
                 #    [require: some-state]
+    proofreader_php:
+        version: 0.1
 
     php_dummies: {}
         #orcid_dummy:
