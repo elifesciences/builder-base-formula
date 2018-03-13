@@ -5,3 +5,8 @@ pypi-credentials:
         - template: jinja
         - require:
             - deploy-user
+
+twine:
+    pip.installed:
+        - pkgs:
+            - twine
