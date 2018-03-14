@@ -2,7 +2,7 @@ proofreader-php-repository:
     builder.git_latest:
         - name: git@github.com:elifesciences/proofreader-php.git
         - identity: {{ pillar.elife.projects_builder.key or '' }}
-        - rev: 0.1
+        - rev: {{ pillar.elife.proofreader_php.version }}
         - branch: master
         - target: /srv/proofreader-php
         - force_fetch: True
@@ -23,7 +23,7 @@ proofreader-php-repository:
 
     cmd.run:
         - name: |
-            composer --no-interaction install --no-suggest --classmap-authoritative --no-dev
+            composer --no-interaction update --no-suggest --classmap-authoritative --no-dev
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/proofreader-php
         - require:
