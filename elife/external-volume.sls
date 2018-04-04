@@ -36,6 +36,19 @@ mount-external-volume:
             # mount point already has a volume mounted
             - cat /proc/mounts | grep --quiet --no-messages {{ pillar.elife.external_volume.directory }}
 
+# in case the volume has been expanded
+# only supports volumes with no partitions,
+# which is what builder creates
+# https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html
+resize-external-volume-if-needed:
+    cmd.run:
+        - name: resize2fs {{ pillar.elife.external_volume.device }}
+        - onlyif:
+            # disk exists
+            - test -b {{ pillar.elife.external_volume.device }}
+        - require:
+            - mount-external-volume
+
 tmp-directory-on-external-volume:
     file.directory:
         - name: /ext/tmp
