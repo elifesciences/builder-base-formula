@@ -7,6 +7,7 @@ srv-directory:
         - name: /ext/srv
         - require:
             - mount-external-volume
+            - resize-external-volume-if-needed
         #- require_in:
         #    - file: new-ubr-config
 
