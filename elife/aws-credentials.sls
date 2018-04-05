@@ -23,6 +23,6 @@ aws-credentials-www-data-user:
         - makedirs: True
         - template: jinja
         - onlyif:
-            # if user exists
-            - id www-data
+            # if user home folder exists
+            - test -d /var/www
         # no clear require, since webserver user could be created by uwsgi, php-fpm, nginx...
