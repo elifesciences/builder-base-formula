@@ -22,4 +22,7 @@ aws-credentials-www-data-user:
         - group: {{ pillar.elife.webserver.username }}
         - makedirs: True
         - template: jinja
+        - onlyif:
+            # if user home folder exists
+            - test -d /var/www
         # no clear require, since webserver user could be created by uwsgi, php-fpm, nginx...
