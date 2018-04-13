@@ -134,6 +134,7 @@ elife:
         enabled: False
         license: 1234567890123456789012345678901234567890
         rest_api_key: null
+        insights_api_key: null
 
     # postfix using AWS SES as a backend
     postfix_ses_mail:

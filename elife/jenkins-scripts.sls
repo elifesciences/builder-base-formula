@@ -17,6 +17,9 @@ github-token:
             echo 'export GITHUB_TOKEN={{ pillar.elife.jenkins.github.token }}' > /etc/profile.d/jenkins-github-token.sh
 
 new-relic-rest-api-key:
-    cmd.run:
-        - name: echo 'export NEW_RELIC_REST_API_KEY={{ pillar.elife.newrelic.rest_api_key }}' > /etc/profile.d/new-relic-rest-api-key.sh
+    file.managed:
+        - name: /etc/profile.d/new-relic-rest-api-key.sh
+        - contents: |
+            export NEW_RELIC_REST_API_KEY={{ pillar.elife.newrelic.rest_api_key }}
+            export NEW_RELIC_INSIGHTS_API_KEY={{ pillar.elife.newrelic.insights_api_key }}
 
