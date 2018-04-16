@@ -17,6 +17,7 @@ known-hosts-{{ key }}:
     ssh_known_hosts.present:
         - name: {{ pillar.elife.known_hosts[key].host }}
         - fingerprint: {{ pillar.elife.known_hosts[key].fingerprint }}
+        - fingerprint_hash_type: md5
         - enc: {{ pillar.elife.known_hosts[key].get("enc", "ssh-rsa") }}
         - timeout: {{ pillar.elife.known_hosts[key].get("timeout", 10) }}
         - unless:
