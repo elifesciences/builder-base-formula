@@ -10,4 +10,4 @@ fi
 image="${1}"
 label="${2}"
 docker pull "${image}" 1>&2
-docker inspect "${image}" | jq -r ".[0].Config.Labels.\"${label}\""
+docker inspect "${image}" | jq -r ".[0].Config.Labels[\"${label}\"]"
