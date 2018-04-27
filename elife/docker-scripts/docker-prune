@@ -7,4 +7,4 @@ docker volume prune
 #docker images prune
 echo "Clean up all images not used in the last 14 days"
 # https://github.com/moby/moby/issues/9054#issuecomment-227920187
-docker images | grep -v REPOSITORY | awk \'{print $3}\' | xargs -n 1 docker history | grep -v missing | grep -v "^IMAGE" | egrep -v "day|hour|minute|second" | awk \'{print $1}\' | sort | uniq | xargs -n 1 docker inspect | jq -r .[0].RepoTags[] | xargs docker rmi
+docker images | grep -v REPOSITORY | awk '{print $3}' | xargs -n 1 docker history | grep -v missing | grep -v "^IMAGE" | egrep -v "day|hour|minute|second" | awk '{print $1}' | sort | uniq | xargs -n 1 docker inspect | jq -r .[0].RepoTags[] | xargs docker rmi
