@@ -13,7 +13,6 @@ unique_id=$(uuidgen)
 temp_file="github-commit-status-${unique_id}.log"
 
 status_code=$(curl \
-    -v \
     -s \
     -o "${temp_file}" \
     -w '%{http_code}' \
@@ -27,6 +26,7 @@ if [[ $status_code -eq 201 ]]; then
     exit 0
 fi
 
+cat "HTTP ${status_code}"
 cat "${temp_file}"
 rm "${temp_file}"
 exit 22 # standard curl -f exit code
