@@ -9,7 +9,7 @@ web-certificates-dir:
         - name: /etc/certificates
         - user: root
         - group: {{ pillar.elife.certificates.username }}
-        - mode: 640
+        - mode: 750
         - recurse:
             - user
             - group
