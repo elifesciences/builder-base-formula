@@ -4,6 +4,10 @@
 # in this directory. 
 #
 
+web-certificates-group:
+    group.present:
+        - name: {{ pillar.elife.certificates.username }}
+
 web-certificates-dir:
     file.directory:
         - name: /etc/certificates
@@ -14,6 +18,8 @@ web-certificates-dir:
             - user
             - group
             - mode
+        - require:
+            - web-certificates-group
 
 {% if salt['elife.cfg']('cfn.outputs.DomainName') %}
 web-certificate-file:
