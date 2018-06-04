@@ -22,7 +22,7 @@ daily-system-update-log-rotater:
         - source: salt://elife/config/etc-logrotate.d-daily-system-update
 
 daily-system-updates:
-    {% if not pillar.elife.env in environments_managed_through_alfred %}
+    {% if not pillar.elife.env in environments_managed_through_alfred and pillar.elife.daily_system_updates.enabled %}
     cron.present:
         - identifier: daily-system-update
         - name: /usr/local/bin/daily-system-update
@@ -50,7 +50,7 @@ daily-system-updates:
     {% endif %}
 
 
-{% if pillar.elife.env in environments_managed_through_alfred %}
+{% if pillar.elife.env in environments_managed_through_alfred or not pillar.elife.daily_system_updates.enabled %}
 # managed through Alfred
 daily-security-updates-cron-disable:
     file.absent:
