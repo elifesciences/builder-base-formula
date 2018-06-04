@@ -64,6 +64,9 @@ elife:
         s3_access: null 
         s3_secret: null
 
+    daily_system_updates:
+        enabled: True
+
     webserver:
         username: www-data
 
