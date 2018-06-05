@@ -56,11 +56,11 @@ daily-security-updates-cron-disable:
     file.absent:
         - name: /etc/cron.daily/apt-compat
 
-    {% if salt['grains.get']('osrelease') == "16.04" %}
-    systemd-unattended-upgrades-disable:
-        cmd.run:
-            - name: |
-                systemctl disable apt-daily.timer
-                systemctl disable apt-daily-upgrade.timer
-    {% endif %}
+{% if salt['grains.get']('osrelease') == "16.04" %}
+systemd-unattended-upgrades-disable:
+    cmd.run:
+        - name: |
+            systemctl disable apt-daily.timer
+            systemctl disable apt-daily-upgrade.timer
+{% endif %}
 {% endif %}
