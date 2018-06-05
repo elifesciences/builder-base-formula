@@ -171,6 +171,10 @@ elife:
         filesystem: ext4
         directory: /ext
 
+    swap:
+        path: /var/swap.1
+        size: 2048 # MB
+
     # these will be created as system users
     # but they will only have permissions for their empty home directory
     ftp_users:
