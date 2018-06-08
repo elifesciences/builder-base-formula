@@ -6,7 +6,7 @@ postfix-mailserver:
 
     # mailserver only runs in production env to prevent accidental mailouts
     # why is mailserver running in ci ... ?
-    {% if pillar.elife.env in ['prod', 'ci'] %}
+    {% if pillar.elife.env in ['prod', 'ci', 'demo'] %}
     service.running:
     {% else %}
     service.dead:
