@@ -71,11 +71,12 @@ docker-compose:
         - require:
             - file: docker-compose
 
-docker-deploy-user-in-group:
+docker-users-in-group:
     group.present:
         - name: docker
         - addusers:
             - {{ pillar.elife.deploy_user.username }}
+            - ubuntu
         - require:
             - docker-packages
 
@@ -98,6 +99,6 @@ docker-ready:
         - name: docker version
         - require:
             - docker-compose
-            - docker-deploy-user-in-group
+            - docker-users-in-group
             - docker-scripts
             - docker-scripts-path
