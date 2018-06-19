@@ -11,14 +11,16 @@ libraries-runner-directory:
 # to get all environment variables like PATH
 # when executing commands over SSH (which is what Jenkins does
 # to start the slave)
-jenkins-bashrc-sourcing-profile:
+{% for user in [pillar.elife.deploy_user.username, 'ubuntu'] %}
+jenkins-bashrc-sourcing-profile-user-{{ user }}:
     file.prepend:
-        - name: /home/{{ pillar.elife.deploy_user.username }}/.bashrc
+        - name: /home/{{ user }}/.bashrc
         - text:
             - "# to load PATH and env variables in all ssh commands"
             - source /etc/profile
         - require:
             - deploy-user
+{% endfor %}
 
 jenkins-slave-node-folder:
     file.symlink:
