@@ -1,3 +1,4 @@
+{% for username in [pillar.elife.deploy_user.username, 'ubuntu'] %}
 docker-login:
     cmd.run:
         {% if pillar.elife.env != 'dev' %}
@@ -6,6 +7,7 @@ docker-login:
         - name: echo Simulated 'docker login'
         {% endif %}
         - stdin: {{ pillar.elife.docker.password }}
-        - user: {{ pillar.elife.deploy_user.username }}
+        - user: {{ username }}
         - require:
             - docker-ready
+{% endfor %}
