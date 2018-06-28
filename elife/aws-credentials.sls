@@ -26,3 +26,12 @@ aws-credentials-www-data-user:
             # if user home folder exists
             - test -d /var/www
         # no clear require, since webserver user could be created by uwsgi, php-fpm, nginx...
+
+aws-credentials-ubuntu-user:
+    file.managed:
+        - name: /home/ubuntu/.aws/credentials
+        - source: salt://elife/config/home-deploy-user-.aws-credentials
+        - user: ubuntu
+        - group: ubuntu
+        - makedirs: True
+        - template: jinja
