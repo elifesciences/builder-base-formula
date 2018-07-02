@@ -255,6 +255,8 @@ elife:
                     silent_corrections: null
                     packaging: null
                     configuration: null
+                    ejp_ftp: null
+                    ejp_poa_delivery: null
                 queue:
                     workflow_starter: null
                 host: null
@@ -297,6 +299,8 @@ elife:
                     silent_corrections: null
                     packaging: null
                     configuration: null
+                    ejp_ftp: null
+                    ejp_poa_delivery: null
                 queue:
                     workflow_starter: null
                 host: null
