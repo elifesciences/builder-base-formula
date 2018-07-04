@@ -5,7 +5,8 @@
 # on the same device as `/`
 
 format-external-volume:
-    cmd.run: 
+    # ll: mkfs -t ext4 /dev/xvdh
+    cmd.run:
         - name: mkfs -t {{ pillar.elife.external_volume.filesystem }} {{ pillar.elife.external_volume.device }}
         - onlyif:
             # disk exists
@@ -15,10 +16,12 @@ format-external-volume:
             - file --special-files {{ pillar.elife.external_volume.device }} | grep {{ pillar.elife.external_volume.filesystem }}
 
 mount-point-external-volume:
+    # ll: mkdir /mnt/xvdh
     file.directory:
         - name: {{ pillar.elife.external_volume.directory }}
 
 mount-external-volume:
+    # ll: mount /dev/xvdh /mnt/xvdh
     mount.mounted:
         - name: {{ pillar.elife.external_volume.directory }}
         - device: {{ pillar.elife.external_volume.device }}
