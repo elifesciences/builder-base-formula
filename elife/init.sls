@@ -8,6 +8,7 @@ include:
     - .dhcp
     - .known-hosts
     - .deploy-user
+    - .cron
     - .time-correction
     - .backups
     - .coveralls
