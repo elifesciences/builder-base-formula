@@ -2,6 +2,7 @@
 set -e
 
 if [ "$#" -ne "1" ]; then
+    echo "Set the branch or commit of the project to be used for the next Salt highstate on this node. Works in both Vagrant and AWS"
     echo "Usage: set_local_revision BRANCH|COMMIT"
     echo "Example: set_local_revision develop"
     echo "Example: set_local_revision 964a28d97275ceebfe15e87b8ce86f90228ae3a0"
@@ -9,4 +10,17 @@ if [ "$#" -ne "1" ]; then
 fi
 
 revision="$1"
-echo '{"revision":"'"$revision"'"}' | base64 | sudo tee /etc/build-vars.json.b64
+build_vars="/etc/build-vars.json.b64"
+
+# Vagrant: create empty build vars if not present
+if [ ! -f "${build_vars}" ]; then
+    echo '{}' | base64 | sudo tee "${build_vars}"
+fi
+
+# preserve any existing build vars like `rds_username` to allow usage on AWS
+cat "${build_vars}" \
+    | base64 -d \
+    | jq ".revision = \"$revision\"" \
+    | base64 \
+    | sudo tee "${build_vars}.new"
+sudo mv "${build_vars}.new" "${build_vars}"
