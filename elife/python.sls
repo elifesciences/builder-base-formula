@@ -83,41 +83,48 @@ python-dev:
             - libssl-dev
 
 # https://github.com/saltstack/salt/issues/28036
-#python-pip:
-#    pkg.installed
-
 python-pip:
-    pkg.removed:
-        - pkgs:
-            - python-pip
-            - python-pip-whl
-        - require_in:
-            - pkg: pip-shim
-
-pip-shim:
-    pkg.installed:
-        - pkgs:
-            - python-setuptools
-
+    #pkg.installed
     cmd.run:
-        # issue with newer versions of pip
-        # https://github.com/saltstack/salt/issues/33163
-        - name: easy_install "pip<=8.1.1"
-        - require:
-            - pkg: pip-shim
-    # https://github.com/saltstack/salt/issues/28036
-    # sacrificial state that does nothing except reload modules + fail silently
-    pip.installed:
-        - name: "pip<=8.1.1"
-        - reload_modules: True
-        - check_cmd:
-            # fail silently
-            - /bin/true
-        - require:
-            - cmd: pip-shim
+        - name: |
+            curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" && python get-pip.py
+
+#python-pip:
+#    pkg.removed:
+#        - pkgs:
+#            - python-pip
+#            - python-pip-whl
+#        - require_in:
+#            - pkg: pip-shim
+
+#pip-shim:
+#    pip.installed:
+#        - pkgs:
+#            - setuptools
+#
+    #cmd.run:
+    #    # issue with newer versions of pip
+    #    # https://github.com/saltstack/salt/issues/33163
+    #    - name: |
+    #        easy_install "pip<=8.1.1"
+    #        pip install --upgrade setuptools
+    #    - require:
+    #        - pkg: pip-shim
+    ## https://github.com/saltstack/salt/issues/28036
+    ## sacrificial state that does nothing except reload modules + fail silently
+    #pip.installed:
+    #    - name: pip
+    #        #- "setuptools"
+    #    - reload_modules: True
+    #    - check_cmd:
+    #        # fail silently
+    #        - /bin/true
+    #    - require:
+    #        - cmd: pip-shim
 
 
 global-python-requisites:
+
     pip.installed:
         - pkgs:
             - virtualenv>=13
@@ -126,19 +133,6 @@ global-python-requisites:
             - "git+https://github.com/elifesciences/rmrf_enter.git@master#egg=rmrf_enter" 
         - require:
             - pkg: base
-            - pkg: python-pip
-
-# pkgrepo for 2.7.12, should already be configured by builder's Salt bootstrap
-# officially abandoned
-python-2.7+:
-    pkgrepo.managed:
-        - humanname: Python 2.7 Updates
-        - ppa: fkrull/deadsnakes-python2.7
-        - require:
-            - python-2.7
-            - python-dev
-            - global-python-requisites
-        - unless:
-            - test -e /etc/apt/sources.list.d/fkrull-deadsnakes-python2_7-trusty.list
+            - python-pip
 
 {% endif %}
