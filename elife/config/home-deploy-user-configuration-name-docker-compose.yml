@@ -9,6 +9,12 @@ services:
         ports:
             - {{ port }}:8080
         {% endif %}
+        {% if ports %}
+        ports:
+            {% for source, target in ports.items() %}
+            - {{ source }}:{{ target }}
+            {% endfor %}
+        {% endif %}
         restart: always
 
 networks:

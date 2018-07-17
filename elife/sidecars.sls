@@ -19,6 +19,7 @@ docker-compose-{{ configuration['name'] }}:
             name: {{ configuration['name'] }}
             image: {{ configuration['image'] }}
             port: {{ configuration.get('port') }}
+            ports: {{ configuration.get('ports', {}) }}
         - makedirs: True
         - require: 
             - deploy-user
@@ -31,7 +32,7 @@ docker-compose-{{ configuration['name'] }}-.env:
         - user: {{ pillar.elife.deploy_user.username }}
         - template: jinja
         - context:
-            main: {{ pillar.elife.sidecars.main }}
+            main: {{ pillar.elife.sidecars.get('main') }}
             configuration: {{ configuration }}
         - makedirs: True
         - require: 
