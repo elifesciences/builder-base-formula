@@ -75,6 +75,10 @@ python-dev:
             - libffi-dev 
             - libssl-dev
 
+python-pip:
+    cmd.run:
+        - name: echo Managed by builder. Remove when no other formulas depend on it
+
 global-python-requisites:
     cmd.run:
         # rmrf_enter is DEPRECATED
