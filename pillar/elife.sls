@@ -169,7 +169,9 @@ elife:
     kubectl:
         directory: /home/elife/.kube/
         username: elife
-        kubeconfigs: {}
+
+    gcloud:
+        accounts: {} # name to path to JSON credentials
 
     external_volume:
         device: /dev/xvdh
