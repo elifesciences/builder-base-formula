@@ -66,7 +66,8 @@ global-python-requisites:
 
 # DEPRECATED. removed after switch to 16.04
 
-# WARN: assumes python 2.7.12+ are already installed via bootstrap script
+# WARN: assumes python 2.7.12+, pip and setuptools are already installed and 
+# updated via bootstrap script
 
 python-dev:
     pkg.installed:
@@ -74,6 +75,10 @@ python-dev:
             - python-dev
             - libffi-dev 
             - libssl-dev
+
+python-2.7:
+    cmd.run:
+        - name: echo Managed by builder. Remove when no other formulas depend on it
 
 python-pip:
     cmd.run:
