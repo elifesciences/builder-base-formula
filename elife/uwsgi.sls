@@ -21,8 +21,7 @@ uwsgi-pkg:
     pip.installed:
         - name: uwsgi >= 2.0.8
         - require:
-            - pkg: python-pip
-            - pkg: python-dev
+            - python-dev
         - reload_modules: True
 {% endif %}
 
