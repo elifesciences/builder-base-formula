@@ -166,6 +166,11 @@ elife:
         username: elifealfreduser
         password: null
 
+    kubectl:
+        directory: /home/elife/.kube/
+        username: elife
+        kubeconfigs: {}
+
     external_volume:
         device: /dev/xvdh
         filesystem: ext4
