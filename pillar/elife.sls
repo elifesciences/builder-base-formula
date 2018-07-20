@@ -167,7 +167,7 @@ elife:
         password: null
 
     gcloud:
-        directory: /home/elife/
+        directory: /home/elife
         username: elife
         accounts: {} # name to path to JSON credentials
         # accounts: 
