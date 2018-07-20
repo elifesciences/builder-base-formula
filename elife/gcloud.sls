@@ -19,7 +19,7 @@ gcloud-package:
         - require:
             - google-cloud-packages-repo
 
-{% for account, configuration in pillar.elife.gcloud.accounts %}
+{% for account, configuration in pillar.elife.gcloud.accounts.items() %}
 {% set key_file = pillar.elife.gcloud.directory + '/' + account + '/gcp.json' %}
 gcloud-login-{{ account }}:
     # provision private key somewhere in home folder (pillar-configurable)
