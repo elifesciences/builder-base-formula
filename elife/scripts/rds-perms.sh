@@ -16,6 +16,7 @@ pass={{ pass }}
 user={{ user }}
 
 rootuser={{ salt['elife.cfg']('project.rds_username') }}
+rootpass={{ salt['elife.cfg']('project.rds_password') }}
 
 PGPASSWORD=$pass psql -U $user -h $host -p $port $db -c "
 -- possibly redundant
@@ -29,8 +30,7 @@ ALTER DEFAULT PRIVILEGES GRANT ALL ON TABLES TO rds_superuser;"
 # in some instances where the database has been destroyed and recreated, it's 
 # been done so as the application user. this re-assigns ownership back to the
 # root user who is in possession of the 'rds_superuser' role.
-# 2017-11-09: disabled temporarily so failures on lax and elife-dash can be debugged
-#PGPASSWORD=$pass psql -U $user -h $host -p $port postgres -c "ALTER DATABASE $db OWNER TO $rootuser;"
+PGPASSWORD=$rootpass psql -U $rootuser -h $host -p $port postgres -c "ALTER DATABASE $db OWNER TO $rootuser;"
 
 echo "rds_superuser permissions set"
 
