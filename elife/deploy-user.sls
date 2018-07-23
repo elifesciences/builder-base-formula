@@ -7,6 +7,10 @@ sudo-group:
     group.present:
         - name: sudo
         - system: True
+        - addusers:
+            - ubuntu
+        - require:
+            - ubuntu-user
 
 deploy-user:
     user.present: 
