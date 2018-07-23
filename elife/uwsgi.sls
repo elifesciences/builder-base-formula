@@ -25,15 +25,8 @@ uwsgi-pkg:
         - reload_modules: True
 {% endif %}
 
-uwsgi-params:
-    file.managed:
-        - name: /etc/uwsgi/params
-        - makedirs: True
-        - source: salt://elife/config/etc-uwsgi-params
-        {% if not salt['grains.get']('osrelease') == "16.04" %}
-        - require:
-            - pip: uwsgi-pkg
-        {% endif %}
+include:
+    - .uwsgi-params
 
 uwsgi-logrotate-def:
     file.managed:
