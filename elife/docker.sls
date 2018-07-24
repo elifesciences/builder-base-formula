@@ -79,6 +79,7 @@ docker-users-in-group:
             - ubuntu
         - require:
             - docker-packages
+            - ubuntu-user
 
 docker-scripts:
     file.recurse:

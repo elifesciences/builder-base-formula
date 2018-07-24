@@ -50,3 +50,10 @@ systemd-dir-exists:
     file.directory:
         - name: /lib/systemd/system/
         - makedirs: True
+
+ubuntu-user:
+    user.present: 
+        - name: ubuntu
+        - shell: /bin/bash
+        - groups:
+            - sudo
