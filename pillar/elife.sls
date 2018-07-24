@@ -173,6 +173,7 @@ elife:
         # accounts: 
         #     data-pipeline:
         #         credentials: "salt://elife/config/.../service-account.json"
+        #         project: elife-data-pipeline
         #         cluster: data-pipeline
         #         zone: us-east4-a
 

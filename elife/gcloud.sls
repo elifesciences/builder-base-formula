@@ -41,7 +41,7 @@ gcloud-login-{{ account }}:
 gcloud-kubectl-{{ account }}:
     # take out credentials 
     cmd.run:
-        - name: gcloud container clusters get-credentials {{ configuration['cluster'] }} --zone {{ configuration['zone'] }}
+        - name: gcloud container clusters get-credentials {{ configuration['cluster'] }} --project {{ configuration['project'] }} --zone {{ configuration['zone'] }}
         - require:
             - gcloud-login-{{ account }}
 {% endfor %}
