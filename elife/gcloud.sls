@@ -35,6 +35,7 @@ gcloud-login-{{ account }}:
     # authenticate
     cmd.run:
         - name: gcloud auth activate-service-account --key-file={{ key_file }}
+        - user: {{ pillar.elife.gcloud.username }}
         - require:
             - file: gcloud-login-{{ account }}
 
@@ -42,6 +43,7 @@ gcloud-kubectl-{{ account }}:
     # take out credentials 
     cmd.run:
         - name: gcloud container clusters get-credentials {{ configuration['cluster'] }} --project {{ configuration['project'] }} --zone {{ configuration['zone'] }}
+        - user: {{ pillar.elife.gcloud.username }}
         - require:
             - gcloud-login-{{ account }}
 {% endfor %}
