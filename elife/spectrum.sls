@@ -53,20 +53,36 @@ spectrum-project:
         - require:
             - file: spectrum-project
 
-
     # provides xmllint for beautifying imported XML
     pkg.installed:
         - pkgs:
           - libxml2-utils
 
+{% if salt['elife.only_on_aws']() %}
 spectrum-project-install:
-    cmd.run:
-        - name: ./install.sh
+    # for elife-spectrum-private
+    file.managed:
+        # null locally:
+        - name: /tmp/elife-projects-builder.key
+        - source: {{ pillar.elife.projects_builder.key or '' }}
         - user: {{ pillar.elife.deploy_user.username }}
-        - cwd: /srv/elife-spectrum
+        - group: {{ pillar.elife.deploy_user.username }}
+        - mode: 600
         - require:
             - spectrum-project
 
+    cmd.run:
+        - name: |
+            ./install.sh
+            rm /tmp/elife-projects-builder.key
+        - user: {{ pillar.elife.deploy_user.username }}
+        - cwd: /srv/elife-spectrum
+        - env:
+            - GIT_IDENTITY: /tmp/elife-projects-builder.key
+        - require:
+            - file: spectrum-project-install
+{% endif %}
+            
 spectrum-log-directory:
     file.directory:
         - name: /var/log/elife-spectrum
