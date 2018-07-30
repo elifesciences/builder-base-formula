@@ -73,8 +73,7 @@ spectrum-project-install:
 
     cmd.run:
         - name: |
-            ./install.sh
-            rm /tmp/elife-projects-builder.key
+            ./install.sh && rm /tmp/elife-projects-builder.key
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-spectrum
         - env:
