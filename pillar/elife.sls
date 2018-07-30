@@ -166,6 +166,17 @@ elife:
         username: elifealfreduser
         password: null
 
+    gcloud:
+        directory: /home/elife
+        username: elife
+        accounts: {} # name to path to JSON credentials
+        # accounts: 
+        #     data-pipeline:
+        #         credentials: "salt://elife/config/.../service-account.json"
+        #         project: elife-data-pipeline
+        #         cluster: data-pipeline
+        #         zone: us-east4-a
+
     external_volume:
         device: /dev/xvdh
         filesystem: ext4
