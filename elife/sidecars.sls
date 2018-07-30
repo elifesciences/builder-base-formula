@@ -16,10 +16,10 @@ docker-compose-{{ configuration['name'] }}:
         - user: {{ pillar.elife.deploy_user.username }}
         - template: jinja
         - context:
-            name: {{ configuration['name'] }}
-            image: {{ configuration['image'] }}
-            port: {{ configuration.get('port') }}
-            ports: {{ configuration.get('ports', {}) }}
+            name: {{ configuration['name']|yaml }}
+            image: {{ configuration['image']|yaml }}
+            port: {{ configuration.get('port')|yaml }}
+            ports: {{ configuration.get('ports', {})|yaml }}
         - makedirs: True
         - require: 
             - deploy-user
