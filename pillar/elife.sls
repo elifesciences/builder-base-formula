@@ -259,6 +259,7 @@ elife:
             bot:
                 bucket:
                     input: null
+                    digests_input: null
                     eif: null
                     cdn: null
                     archive: null
@@ -303,6 +304,7 @@ elife:
             bot:
                 bucket:
                     input: null
+                    digests_input: null
                     eif: null
                     cdn: null
                     archive: null
