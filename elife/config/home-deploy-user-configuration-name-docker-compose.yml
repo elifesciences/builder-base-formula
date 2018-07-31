@@ -5,10 +5,15 @@ services:
         image: {{ image }}:${IMAGE_TAG}
         networks:
             - sidecars
-        {% if port %}
+        {%- if port %}
         ports:
             - {{ port }}:8080
-        {% endif %}
+        {%- elif ports %}
+        ports:
+            {%- for p in ports %}
+            - {{ p }}
+            {%- endfor %}
+        {%- endif %}
         restart: always
 
 networks:
