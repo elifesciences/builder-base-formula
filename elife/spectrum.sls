@@ -84,6 +84,7 @@ spectrum-project-install-ssh-configuration:
         - makedirs: True
         - require: 
             - deploy-user
+{% endif %}
 
 spectrum-project-install:
     cmd.run:
@@ -94,7 +95,6 @@ spectrum-project-install:
         - require:
             - spectrum-project-install-ssh-key
             - spectrum-project-install-ssh-configuration
-{% endif %}
             
 spectrum-log-directory:
     file.directory:
