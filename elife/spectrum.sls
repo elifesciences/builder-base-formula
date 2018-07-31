@@ -78,7 +78,7 @@ spectrum-project-install-ssh-configuration:
             Host github.com
               User git
               Hostname github.com
-              IdentityFile /home/{{ pillar.elife.deploy_user.username }}/elife-projects-builder.key
+              IdentityFile /home/{{ pillar.elife.deploy_user.username }}/.ssh/elife-projects-builder.key
         - user: {{ pillar.elife.deploy_user.username }}
         - group: {{ pillar.elife.deploy_user.username }}
         - makedirs: True
