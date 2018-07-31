@@ -59,7 +59,7 @@ spectrum-project:
           - libxml2-utils
 
 {% if salt['elife.only_on_aws']() %}
-spectrum-project-install:
+spectrum-project-install-ssh-key:
     # for elife-spectrum-private
     file.managed:
         # null locally:
@@ -71,6 +71,21 @@ spectrum-project-install:
         - require:
             - spectrum-project
 
+spectrum-project-install-ssh-configuration:
+    file.managed:
+        - name: /home/{{ pillar.elife.deploy_user.username }}/.ssh/config
+        - contents: |
+          Host github.com
+            User git
+            Hostname github.com
+            IdentityFile /tmp/elife-projects-builder.key
+        - user: {{ pillar.elife.deploy_user.username }}
+        - group: {{ pillar.elife.deploy_user.username }}
+        - makedirs: True
+        - require: 
+            - deploy-user
+
+spectrum-project-install:
     cmd.run:
         - name: |
             ./install.sh && rm /tmp/elife-projects-builder.key
@@ -79,7 +94,8 @@ spectrum-project-install:
         - env:
             - GIT_IDENTITY: /tmp/elife-projects-builder.key
         - require:
-            - file: spectrum-project-install
+            - spectrum-project-install-ssh-key
+            - spectrum-project-install-ssh-configuration
 {% endif %}
             
 spectrum-log-directory:
