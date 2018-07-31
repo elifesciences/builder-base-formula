@@ -63,7 +63,7 @@ spectrum-project-install-ssh-key:
     # for elife-spectrum-private
     file.managed:
         # null locally:
-        - name: /home/{{ pillar.elife.deploy_user.username }}/.ssh/projects-builder.key
+        - name: /home/{{ pillar.elife.deploy_user.username }}/.ssh/elife-projects-builder.key
         - source: {{ pillar.elife.projects_builder.key or '' }}
         - user: {{ pillar.elife.deploy_user.username }}
         - group: {{ pillar.elife.deploy_user.username }}
