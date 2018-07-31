@@ -63,7 +63,7 @@ spectrum-project-install-ssh-key:
     # for elife-spectrum-private
     file.managed:
         # null locally:
-        - name: /tmp/elife-projects-builder.key
+        - name: /home/{{ pillar.elife.deploy_user.username }}/.ssh/projects-builder.key
         - source: {{ pillar.elife.projects_builder.key or '' }}
         - user: {{ pillar.elife.deploy_user.username }}
         - group: {{ pillar.elife.deploy_user.username }}
@@ -78,7 +78,7 @@ spectrum-project-install-ssh-configuration:
           Host github.com
             User git
             Hostname github.com
-            IdentityFile /tmp/elife-projects-builder.key
+            IdentityFile /home/{{ pillar.elife.deploy_user.username }}/elife-projects-builder.key
         - user: {{ pillar.elife.deploy_user.username }}
         - group: {{ pillar.elife.deploy_user.username }}
         - makedirs: True
@@ -88,11 +88,9 @@ spectrum-project-install-ssh-configuration:
 spectrum-project-install:
     cmd.run:
         - name: |
-            ./install.sh && rm /tmp/elife-projects-builder.key
+            ./install.sh
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-spectrum
-        - env:
-            - GIT_IDENTITY: /tmp/elife-projects-builder.key
         - require:
             - spectrum-project-install-ssh-key
             - spectrum-project-install-ssh-configuration
