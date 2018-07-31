@@ -92,9 +92,6 @@ spectrum-project-install:
             ./install.sh
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-spectrum
-        - require:
-            - spectrum-project-install-ssh-key
-            - spectrum-project-install-ssh-configuration
             
 spectrum-log-directory:
     file.directory:
