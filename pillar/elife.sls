@@ -272,6 +272,7 @@ elife:
                 queue:
                     workflow_starter: null
                 host: null
+                mailcatcher: null
             dashboard:
                 host: null
                 user: null
@@ -317,6 +318,7 @@ elife:
                 queue:
                     workflow_starter: null
                 host: null
+                mailcatcher: null
             dashboard:
                 host: null
                 user: null
