@@ -11,15 +11,13 @@ disable-salt-minion:
 # deny access to all except those in allow.all and allow.master-server
 # necessary to ensure those with access don't inadvertently grant access to others
 
-{% set stackname = salt['elife.cfg']('project.stackname') | replace('-', '\-') %}
-
 # zero out all allowed keys
 deny_all_access:
     cmd.run:
         - name: |
             set -e
             echo > /home/elife/.ssh/authorized_keys
-            cat /home/ubuntu/.ssh/authorized_keys | grep "{{ stackname }}" > tmp
+            cat /home/ubuntu/.ssh/authorized_keys | grep -E "{{ salt['elife.cfg']('project.stackname') }}|basebox" > tmp
             mv tmp /home/ubuntu/.ssh/authorized_keys
         - require:
             - ssh-access-set # regular permissions configured
