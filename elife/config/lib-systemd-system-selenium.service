@@ -1,8 +1,0 @@
-[Unit]
-Description="Selenium server"
-
-[Install]
-WantedBy=multi-user.target
-
-[Service]
-ExecStart=/usr/bin/java -client -Xmx500m -Xss1024k -jar /usr/bin/selenium-server-standalone.jar -log /var/log/selenium.log
