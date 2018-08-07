@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+timeout="${1:-120}"
+socket="/var/run/docker.sock"
+
+echo "Waiting for socket $socket to be writable"
+# similar to elife/utils/wait_for_port,
+# poll until a connection to the docker daemon can be established
+# - connect and time out after 1 seconds (-w)
+# - wait for 0 seconds (-q)
+# - use Unix sockets rather than hosts and ports (-U)
+# - silence stdout and stderr
+timeout "$timeout" sh -c "while ! nc -q0 -w1 -U $socket </dev/null >/dev/null 2>&1; do sleep 1; done"
+echo "Connection was established on $socket"
