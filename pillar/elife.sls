@@ -261,7 +261,6 @@ elife:
                     input: null
                     digests_input: null
                     eif: null
-                    cdn: null
                     archive: null
                     published: null
                     silent_corrections: null
@@ -307,7 +306,6 @@ elife:
                     input: null
                     digests_input: null
                     eif: null
-                    cdn: null
                     archive: null
                     published: null
                     silent_corrections: null
