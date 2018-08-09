@@ -2,6 +2,7 @@
 set -e
 
 docker container prune -f
+docker network prune -f
 docker volume prune -f
 
 echo "Clean up all images not used in the last 14 days"
