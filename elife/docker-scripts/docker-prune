@@ -6,7 +6,7 @@ docker network prune -f
 docker volume prune -f
 
 echo "Clean up all images not used in the last 14 days"
-limit=$($ date +%Y:%m:%d -d "1 day ago")
+limit=$(date +%Y-%m-%d -d "14 days ago")
 docker image prune -a --filter "until=$limit" -f
 
 # https://github.com/moby/moby/issues/9054#issuecomment-227920187
