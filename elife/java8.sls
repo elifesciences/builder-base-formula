@@ -1,3 +1,11 @@
+{% set osver = salt['grains.get']('osrelease') %} # "14.04", "16.04", "18.04"
+
+{% if osver == "14.04" %}
+
+# we're stuck with oracle java8 in 14.04
+# https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/1706442
+
+
 # Add the oracle jvm ppa, and install java8
 # https://launchpad.net/~webupd8team/+archive/ubuntu/java
 
@@ -38,4 +46,46 @@ oracle-java8-installer:
         - require:
             - pkgrepo: oracle-ppa
             - oracle-license-select
-            
+           
+java8:
+    cmd.run:
+        - name: echo "java8 installed"
+        - require:
+            - oracle-java8-installer
+           
+{% else %}
+
+# only 14.04, 16.04 supported
+# both 16.04 and 18.04 have a "openjdk-8-jre-headless" package
+
+
+# remove oracle java
+
+oracle-ppa-removal:
+    pkgrepo.absent:
+        # https://docs.saltstack.com/en/latest/ref/states/all/salt.states.pkgrepo.html#salt.states.pkgrepo.absent
+        - ppa: webupd8team/java # no idea if this is correct
+
+oracle-java8-installer-removal:
+    pkg.purged:
+        - name: oracle-java8-installer
+        - require:
+            - oracle-ppa-removal
+
+
+# native openjdk 8 packages
+
+java8:
+    pkg.installed:
+        - pkgs: 
+            - openjdk-8-jre-headless
+        - refresh: True # necessary?
+        - require:
+            - oracle-java8-installer-removal
+        
+    cmd.run:
+        - name: echo "java8 installed"
+        - require:
+            - pkg: java8
+
+{% endif %}

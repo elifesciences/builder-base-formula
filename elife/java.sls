@@ -1,5 +1,6 @@
 {% if salt['grains.get']('osrelease') == "16.04" %}
 
+# note: we might want to treat this java.sls as 'java7.sls' and remove this state
 openjdk-jre:
     pkg.installed:
         - pkgs:
