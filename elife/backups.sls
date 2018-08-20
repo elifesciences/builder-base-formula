@@ -44,3 +44,7 @@ monitor-backup-logs:
         - require:
             - pkg: syslog-ng
 
+rotate-backup-logs:
+    file.managed:
+        - name: /etc/logrotate.d/ubr
+        - source: salt://elife/config/etc-logrotate.d-ubr
