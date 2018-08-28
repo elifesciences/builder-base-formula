@@ -34,12 +34,12 @@ python-2.7:
         - require:
             - third-party-python-repos-absent
 
-python-3.5:
+python-3:
     pkg.installed:
         - pkgs:
-            - python3.5
+            - python3
             - python3-pip
-            - python3.5-venv
+            - python3-venv
         - require:
             - third-party-python-repos-absent
 
@@ -47,7 +47,7 @@ python-dev:
     pkg.installed:
         - pkgs:
             - python2.7-dev
-            - python3.5-dev
+            - python3-dev
             - libffi-dev 
             - libssl-dev
         - require:
