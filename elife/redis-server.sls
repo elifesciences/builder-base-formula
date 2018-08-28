@@ -9,6 +9,7 @@ redis-packages-install:
             - redis-server
             - redis-tools
 
+    # .bionic version: adapted from https://packages.ubuntu.com/bionic/amd64/redis-server/download
     file.managed:
         - name: /etc/redis/redis.conf
         - source: salt://elife/config/etc-redis-redis.conf.{{ distro }}
