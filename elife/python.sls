@@ -52,7 +52,7 @@ python-dev:
             - libssl-dev
         - require:
             - python-2.7
-            - python-3.5
+            - python-3
 
 global-python-requisites:
     pip.installed:
