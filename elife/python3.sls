@@ -6,7 +6,8 @@
 
 # installs the latest version of python 3 (3.6)
 
-{% if not salt['grains.get']('osrelease') == "16.04" %}
+{% set osrelease = salt['grains.get']('osrelease') %}
+{% if not osrelease == "16.04" and not osrelease == "18.04" %}
 
 python-3:
     cmd.run:

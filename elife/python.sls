@@ -1,4 +1,5 @@
-{% if salt['grains.get']('osrelease') == "16.04" %}
+{% set osrelease = salt['grains.get']('osrelease') %}
+{% if osrelease == "16.04" or osrelease == "18.04" %}
 
 #
 # these states are temporary and occur when switching between 
