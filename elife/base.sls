@@ -1,3 +1,5 @@
+{% set codename = salt['grains.get']('oscodename') %}
+
 base:
     pkg.installed:
         - pkgs:
@@ -16,7 +18,11 @@ base:
             # a nicer 'top'
             - htop
             # provides add-apt-repository binary needed to install a new ppa easily
+            {% if codename == 'bionic' %}
+            - software-properties-common # renamed in 18.04
+            {% else %}
             - python-software-properties
+            {% endif %}
             # find which files are taking up space on filesystem
             - ncdu
             # diagnosing disk IO 
