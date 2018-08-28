@@ -8,7 +8,7 @@ git-lfs:
     # https://packagecloud.io/github/git-lfs/install#manual
     pkgrepo.managed:
         - humanname: packagecloud
-        - name: deb https://packagecloud.io/github/git-lfs/ubuntu/ trusty main
+        - name: deb https://packagecloud.io/github/git-lfs/ubuntu/ {{ grains['oscodename'] }} main
         - file: /etc/apt/sources.list.d/github_git-lfs.list
         - require:
             - cmd: git-lfs
