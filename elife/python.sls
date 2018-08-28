@@ -1,9 +1,10 @@
-{% if salt['grains.get']('osrelease') == "16.04" %}
+{% set osrelease = salt['grains.get']('osrelease') %}
+{% if osrelease != "14.04" %}
 
 #
 # these states are temporary and occur when switching between 
-# builder-base-formula for 14.04 and 16.04. 
-# TODO: remove when all projects are using 16.04
+# builder-base-formula for 14.04 and 16.04/18.04. 
+# TODO: remove when all projects are using 16.04 or 18.04
 #
 
 dead-snakes-are-dead:
@@ -33,12 +34,12 @@ python-2.7:
         - require:
             - third-party-python-repos-absent
 
-python-3.5:
+python-3:
     pkg.installed:
         - pkgs:
-            - python3.5
+            - python3
             - python3-pip
-            - python3.5-venv
+            - python3-venv
         - require:
             - third-party-python-repos-absent
 
@@ -46,12 +47,12 @@ python-dev:
     pkg.installed:
         - pkgs:
             - python2.7-dev
-            - python3.5-dev
+            - python3-dev
             - libffi-dev 
             - libssl-dev
         - require:
             - python-2.7
-            - python-3.5
+            - python-3
 
 global-python-requisites:
     pip.installed:
