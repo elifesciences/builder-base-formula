@@ -1,4 +1,4 @@
-# DEPRECATED. replaced with python.sls for 16.04
+# DEPRECATED. replaced with python.sls for 18.04
 
 # pkgrepo for 3.5+, should already be configured by builder's Salt bootstrap
 # officially abandoned, but unofficially being updated
@@ -7,7 +7,7 @@
 # installs the latest version of python 3 (3.6)
 
 {% set osrelease = salt['grains.get']('osrelease') %}
-{% if not osrelease == "16.04" and not osrelease == "18.04" %}
+{% if osrelease == "14.04" %}
 
 python-3:
     cmd.run:

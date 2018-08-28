@@ -1,10 +1,10 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
-{% if osrelease == "16.04" or osrelease == "18.04" %}
+{% if osrelease != "14.04" %}
 
 #
 # these states are temporary and occur when switching between 
-# builder-base-formula for 14.04 and 16.04. 
-# TODO: remove when all projects are using 16.04
+# builder-base-formula for 14.04 and 16.04/18.04. 
+# TODO: remove when all projects are using 16.04 or 18.04
 #
 
 dead-snakes-are-dead:
