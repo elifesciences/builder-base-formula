@@ -9,7 +9,10 @@ base:
             - daemon
             - curl
             - git
+            {% if codename == "trusty" %}
             - realpath # resolves symlinks in paths for shell
+            {% endif %}
+            - coreutils # includes realpath
             # Ubuntu 14.04 bundles with X11 :(
             # - mercurial
             - vim
