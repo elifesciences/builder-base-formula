@@ -1,4 +1,4 @@
-{% if salt['grains.get']('oscodename') == 'trusty' or salt['grains.get']('oscodename') == 'xenial' %}
+{% if salt['grains.get']('oscodename') == 'trusty' %}
 php-ppa-gearman:
     pkgrepo.managed:
         - humanname: Ondřej Surý PHP GEARMAN PPA
