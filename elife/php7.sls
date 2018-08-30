@@ -4,13 +4,15 @@
 
 {% if osrelease == "18.04" %}
 
+{% set php_version = '7.2' %}
+
 php-ppa:
     cmd.run:
         - name: echo "Nothing to do, PHP 7.2 is available in official repositories"
 
-{% set php_version = '7.2' %}
-
 {% elif osrelease == "16.04" %}
+
+{% set php_version = '7.0' %}
 
 php-ppa:
       pkgrepo.managed:
@@ -23,9 +25,9 @@ php-ppa:
         - unless:
             - test -e /etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list
 
-{% set php_version = '7.0' %}
-
 {% else %}
+
+{% set php_version = '7.0' %}
 
 # still problematic in 16.04:
 # https://github.com/saltstack/salt/issues/32294
@@ -49,7 +51,6 @@ php-ppa:
         - unless:
             - test -e /etc/apt/sources.list.d/ondrej-php-trusty.list
 
-{% set php_version = '7.0' %}
 
 {% endif %}
 

@@ -4,6 +4,7 @@
 # 
 #
 {% set osrelease = salt['grains.get']('osrelease') %}
+
 {% if osrelease == "18.04" %}
 {% set php_version = '7.2' %}
 {% else %}
