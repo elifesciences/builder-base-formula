@@ -1,10 +1,8 @@
-{% set osver = salt['grains.get']('osrelease') %} # "14.04", "16.04", "18.04"
-
-{% if osver == "14.04" %}
-
+# both 16.04 and 18.04 have a "openjdk-8-jre-headless" package
 # we're stuck with oracle java8 in 14.04
 # https://bugs.launchpad.net/ubuntu/+source/ca-certificates-java/+bug/1706442
 
+{% if salt['grains.get']('osrelease') == "14.04" %}
 
 # Add the oracle jvm ppa, and install java8
 # https://launchpad.net/~webupd8team/+archive/ubuntu/java
@@ -53,13 +51,11 @@ java8:
         - require:
             - oracle-java8-installer
            
+
 {% else %}
 
-# only 14.04, 16.04 supported
-# both 16.04 and 18.04 have a "openjdk-8-jre-headless" package
 
-
-# remove oracle java
+# remove oracle java (if it exists)
 
 oracle-ppa-removal:
     pkgrepo.absent:
