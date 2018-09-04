@@ -114,13 +114,6 @@ elife:
         maxmemory: 256
 
     logging:
-        collectd:
-            enabled: False
-            # where collectd should send it's stats
-            # unencrypted! make sure this is internal traffic or tunnelled
-            send_host: 192.168.1.2
-            send_port: 25826
-
         # loggly destination for syslog-ng logs
         # https://www.loggly.com/
         loggly: 
