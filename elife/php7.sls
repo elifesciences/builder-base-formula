@@ -61,6 +61,8 @@ php:
             - php{{ php_version }}-xsl
             - php{{ php_version }}-gd
             - php{{ php_version }}-curl
+            # required by proofreader-php, provides 'ext-dom', required by 'theseer/fdomdocument'
+            - php{{ php_version }}-xml
             {% if osrelease != '18.04' %}
             # php-mcrypt deprecated in 7.1 and removed in 7.2
             - php{{ php_version }}-mcrypt
