@@ -1,18 +1,17 @@
 # base php installation
-#
+
 {% set osrelease = salt['grains.get']('osrelease') %}
+{% set php_version = '7.0' %}
 
 {% if osrelease == "18.04" %}
 
-{% set php_version = '7.2' %}
+    {% set php_version = '7.2' %}
 
 php-ppa:
     cmd.run:
-        - name: echo "Nothing to do, PHP 7.2 is available in official repositories"
+        - name: echo "WARNING: state 'php-ppa' is deprecated. use 'php' instead."
 
 {% elif osrelease == "16.04" %}
-
-{% set php_version = '7.0' %}
 
 php-ppa:
       pkgrepo.managed:
@@ -26,8 +25,6 @@ php-ppa:
             - test -e /etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list
 
 {% else %}
-
-{% set php_version = '7.0' %}
 
 # still problematic in 16.04:
 # https://github.com/saltstack/salt/issues/32294
@@ -64,10 +61,11 @@ php:
             - php{{ php_version }}-gd
             - php{{ php_version }}-curl
             {% if osrelease != '18.04' %}
+            # php-mcrypt deprecated in 7.1 and removed in 7.2
             - php{{ php_version }}-mcrypt
             {% endif %}
         - require:
-            - php-ppa
+            - php-ppa # DEPRECATED
             - pkg: base
 
 php-log:
