@@ -2,6 +2,11 @@
 # out of the box on 14.04 installing apache will also get you php-mod5
 # this state file disables mod_php5, installs+enables mod_php7 and reloads apache
 
+{% set php_version = '7.0' %}
+{% if salt['grains.get']('osrelease') != "16.04" %}
+{% set php_version = '7.2' %}
+{% endif %}
+
 extend:
     apache2-php5-mod:
         cmd.run:
@@ -14,16 +19,12 @@ extend:
 apache-php7:
     pkg.installed:
         - pkgs:
-            - libapache2-mod-php # covers 7.0 and 7.2
+            - libapache2-mod-php{{ php_version }}
         - require:
             - php # php7.sls
 
     apache_module.enabled:
-        {% if salt['grains.get']('osrelease') == "16.04" %}
-        - name: php7.0
-        {% else %}
-        - name: php7.2
-        {% endif %}
+        - name: php{{ php_version }}
         - require:
             - apache2-php5-mod # ensure mod php5 is disabled first
             - pkg: apache-php7
