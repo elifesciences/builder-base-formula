@@ -1,13 +1,6 @@
-{% if salt['grains.get']('osrelease') == "16.04" %}
+# DEPRECATED, use java8.sls instead
 
-# note: we might want to treat this java.sls as 'java7.sls' and remove this state
-openjdk-jre:
-    pkg.installed:
-        - pkgs:
-            - openjdk-8-jre-headless
-        - refresh: True
-
-{% else %}
+{% if salt['grains.get']('osrelease') == "14.04" %}
 
 openjdk7-jre:
     pkg.installed:
