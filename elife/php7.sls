@@ -9,7 +9,8 @@
 
 php-ppa:
     cmd.run:
-        - name: echo "WARNING: state 'php-ppa' is deprecated. use 'php' instead."
+        - name: |
+            echo "WARNING: state 'php-ppa' is deprecated. use 'php' instead."
 
 {% elif osrelease == "16.04" %}
 
