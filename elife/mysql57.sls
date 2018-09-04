@@ -2,8 +2,9 @@
 
 # mysql57.sls is deprecated
 # ubuntu 16.04 comes packaged with mysql 5.7.19
+# ubuntu 18.04 comes packaged with mysql 5.7.23
 
-{% if salt['grains.get']('oscodename') == 'xenial' %}
+{% if salt['grains.get']('oscodename') != 'trusty' %}
 
 
 
