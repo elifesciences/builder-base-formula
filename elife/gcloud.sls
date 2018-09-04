@@ -1,3 +1,5 @@
+{% set oscodename = salt['grains.get']('oscodename') %}
+
 google-cloud-packages-repo:
     cmd.run:
         - name: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -6,7 +8,7 @@ google-cloud-packages-repo:
 
     pkgrepo.managed:
         - humanname: Kubernetes tooling
-        - name: deb http://apt.kubernetes.io/ cloud-sdk-xenial main
+        - name: deb http://apt.kubernetes.io/ cloud-sdk-{{ oscodename }} main
         - file: /etc/apt/sources.list.d/google-cloud.list
         - require:
             - cmd: google-cloud-packages-repo
