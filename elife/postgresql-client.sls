@@ -1,3 +1,5 @@
+{% set oscodename = salt['grains.get']('oscodename') %}
+
 # http://www.postgresql.org/download/linux/ubuntu/
 postgresql-deb:
     cmd.run:
@@ -6,7 +8,7 @@ postgresql-deb:
     pkgrepo.managed:
         # http://www.postgresql.org/download/linux/ubuntu/
         - humanname: Official Postgresql Ubuntu LTS
-        - name: deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main
+        - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         - require:
             - cmd: postgresql-deb
 
