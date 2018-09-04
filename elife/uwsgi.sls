@@ -10,7 +10,7 @@
 # -- may contain a newrelic.ini file
 #
 
-{% if salt['grains.get']('osrelease') == "16.04" %}
+{% if salt['grains.get']('osrelease') != "14.04" %}
 uwsgi-pkg:
     pkg.installed:
         - pkgs:
@@ -44,7 +44,7 @@ uwsgi-syslog-conf:
         - watch_in:
             - service: syslog-ng
 
-{% if not salt['grains.get']('osrelease') == "16.04" %}
+{% if salt['grains.get']('osrelease') == "14.04" %}
 uwsgi-sock-dir:
     file.directory:
         - name: /run/uwsgi/
@@ -53,7 +53,8 @@ uwsgi-sock-dir:
             - pip: uwsgi-pkg
 {% endif %}
 
-{% if salt['grains.get']('osrelease') == "16.04" %}
+# systemd, Ubuntu 16.04+ only
+{% if salt['grains.get']('osrelease') != "14.04" %}
 {% for name, configuration in pillar.elife.uwsgi.services.items() %}
 uwsgi-service-{{ name }}:
     file.managed:
