@@ -56,7 +56,7 @@ daily-security-updates-cron-disable:
     file.absent:
         - name: /etc/cron.daily/apt-compat
 
-{% if salt['grains.get']('osrelease') == "16.04" %}
+{% if salt['grains.get']('osrelease') != "14.04" %}
 systemd-unattended-upgrades-disable:
     cmd.run:
         - name: |
