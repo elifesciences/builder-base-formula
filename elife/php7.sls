@@ -1,5 +1,9 @@
 # base php installation
 
+# 14.04 has php5.5 and requires a ppa for 7.0
+# 16.04 has php7.0
+# 18.04 has php7.2
+
 {% set osrelease = salt['grains.get']('osrelease') %}
 {% set php_version = '7.0' %}
 
