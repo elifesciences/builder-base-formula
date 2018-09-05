@@ -8,7 +8,7 @@ git-lfs:
     # https://packagecloud.io/github/git-lfs/install#manual
     pkgrepo.managed:
         - humanname: packagecloud
-        - name: deb https://packagecloud.io/github/git-lfs/ubuntu/ trusty main
+        - name: deb https://packagecloud.io/github/git-lfs/ubuntu/ {{ grains['oscodename'] }} main
         - file: /etc/apt/sources.list.d/github_git-lfs.list
         - require:
             - cmd: git-lfs
@@ -84,7 +84,6 @@ spectrum-project-install-ssh-configuration:
         - makedirs: True
         - require: 
             - deploy-user
-{% endif %}
 
 spectrum-project-install:
     cmd.run:
@@ -92,6 +91,16 @@ spectrum-project-install:
             ./install.sh
         - user: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-spectrum
+
+spectrum-configuration:
+    file.managed:
+        - name: /srv/elife-spectrum/app.cfg
+        - source: salt://elife/config/srv-elife-spectrum-app.cfg
+        - template: jinja
+        - user: {{ pillar.elife.deploy_user.username }}
+        - require:
+            - spectrum-project
+{% endif %}
             
 spectrum-log-directory:
     file.directory:
@@ -115,15 +124,6 @@ spectrum-cleanup-logrotate:
         - source: salt://elife/config/etc-logrotate.d-spectrum
         - require:
             - file: spectrum-cleanup-log
-
-spectrum-configuration:
-    file.managed:
-        - name: /srv/elife-spectrum/app.cfg
-        - source: salt://elife/config/srv-elife-spectrum-app.cfg
-        - template: jinja
-        - user: {{ pillar.elife.deploy_user.username }}
-        - require:
-            - spectrum-project
 
 spectrum-temporary-folder:
     file.directory:

@@ -1,5 +1,5 @@
 # install this way rather than with `pkg.installed` as mercurial for 
-# Ubuntu 14.04 comes with a transistive dependency on X11
+# Ubuntu 14.04 comes with a transitive dependency on X11
 
 mercurial:
     cmd.run:

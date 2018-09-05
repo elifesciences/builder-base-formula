@@ -1,6 +1,22 @@
 # base php installation
 
-{% if salt['grains.get']('osrelease') == "16.04" %}
+# 14.04 has php5.5 and requires a ppa for 7.0
+# 16.04 has php7.0
+# 18.04 has php7.2
+
+{% set osrelease = salt['grains.get']('osrelease') %}
+{% set php_version = '7.0' %}
+
+{% if osrelease == "18.04" %}
+
+    {% set php_version = '7.2' %}
+
+php-ppa:
+    cmd.run:
+        - name: |
+            echo "WARNING: state 'php-ppa' is deprecated. use 'php' instead."
+
+{% elif osrelease == "16.04" %}
 
 php-ppa:
       pkgrepo.managed:
@@ -27,7 +43,7 @@ php-ppa:
     # https://launchpad.net/~ondrej/+archive/ubuntu/php
     pkgrepo.managed:
         - humanname: Ondřej Surý PHP PPA
-        # there was a name change from "php-7.0" to just "php"
+        # there was a name change from "php-{{ php_version }}" to just "php"
         - ppa: ondrej/php
         #- keyid: E5267A6C # 2016-11-11, LSH: doesn't seem to work
         - keyserver: keyserver.ubuntu.com
@@ -37,20 +53,26 @@ php-ppa:
         - unless:
             - test -e /etc/apt/sources.list.d/ondrej-php-trusty.list
 
+
 {% endif %}
 
 php:
     pkg.installed:
         - pkgs:
-            - php7.0-cli
-            - php7.0-mbstring
-            - php7.0-mysql
-            - php7.0-xsl
-            - php7.0-gd
-            - php7.0-curl
-            - php7.0-mcrypt
+            - php{{ php_version }}-cli
+            - php{{ php_version }}-mbstring
+            - php{{ php_version }}-mysql
+            - php{{ php_version }}-xsl
+            - php{{ php_version }}-gd
+            - php{{ php_version }}-curl
+            # required by proofreader-php, provides 'ext-dom', required by 'theseer/fdomdocument'
+            - php{{ php_version }}-xml
+            {% if osrelease != '18.04' %}
+            # php-mcrypt deprecated in 7.1 and removed in 7.2
+            - php{{ php_version }}-mcrypt
+            {% endif %}
         - require:
-            - pkgrepo: php-ppa
+            - php-ppa # DEPRECATED
             - pkg: base
 
 php-log:
@@ -63,8 +85,8 @@ php-log:
 
 php-cli-config:
     file.managed:
-        - name: /etc/php/7.0/cli/php.ini
-        - source: salt://elife/config/etc-php-7.0-cli-php.ini
+        - name: /etc/php/{{ php_version }}/cli/php.ini
+        - source: salt://elife/config/etc-php-{{ php_version }}-cli-php.ini
         - template: jinja
         - require:
             - php

@@ -1,4 +1,4 @@
-# DEPRECATED. replaced with python.sls for 18.04
+# DEPRECATED, 14.04 only. replaced with python.sls
 
 # pkgrepo for 3.5+, should already be configured by builder's Salt bootstrap
 # officially abandoned, but unofficially being updated
@@ -25,11 +25,12 @@ python-3:
             
     pkg.installed:
         - pkgs:
-            # nothing uses python 3.4 or 3.6
-            # django has/had issues with 3.6 when last tested so we settled on 3.5
-            # 3.6 is expected to be available in 18.04 but not as default
+            # TODO: nothing is using (or should be using) python3.4, consider removing
             - python3.4
             - python3.4-dev
+
+            # 3.5 is available in 16.04, but not as default ('python3')
+            # 3.6 is available in 18.04, but not as default ('python3')
             - python3.5
             - python3.5-dev
             - python3.6

@@ -1,9 +1,11 @@
 {% set on_rds = salt['elife.cfg']('cfn.outputs.RDSHost') %}
 
 # mysql57.sls is deprecated
+# ubuntu 14.04 comes packaged with mysql 5.5.6
 # ubuntu 16.04 comes packaged with mysql 5.7.19
+# ubuntu 18.04 comes packaged with mysql 5.7.23
 
-{% if salt['grains.get']('oscodename') == 'xenial' %}
+{% if salt['grains.get']('oscodename') != 'trusty' %}
 
 
 

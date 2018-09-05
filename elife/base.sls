@@ -9,23 +9,26 @@ base:
             - daemon
             - curl
             - git
+
             {% if codename == "trusty" %}
             - realpath # resolves symlinks in paths for shell
             {% endif %}
             - coreutils # includes realpath
-            # Ubuntu 14.04 bundles with X11 :(
-            # - mercurial
+
             - vim
             # also provides 'unzip'
             - zip
             # a nicer 'top'
             - htop
+
             # provides add-apt-repository binary needed to install a new ppa easily
-            {% if codename == 'bionic' %}
-            - software-properties-common # renamed in 18.04
-            {% else %}
+            # renamed in 18.04
+            {% if codename != 'bionic' %}
             - python-software-properties
+            {% else %}
+            - software-properties-common 
             {% endif %}
+
             # find which files are taking up space on filesystem
             - ncdu
             # diagnosing disk IO 

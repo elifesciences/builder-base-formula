@@ -2,9 +2,9 @@
 {% if osrelease != "14.04" %}
 
 #
-# these states are temporary and occur when switching between 
+# these three states are temporary and occur when switching between 
 # builder-base-formula for 14.04 and 16.04/18.04. 
-# TODO: remove when all projects are using 16.04 or 18.04
+# TODO: remove when all projects are using 16.04+
 #
 
 dead-snakes-are-dead:
@@ -34,6 +34,8 @@ python-2.7:
         - require:
             - third-party-python-repos-absent
 
+# 3.5 in 16.04
+# 3.6 in 18.04
 python-3:
     pkg.installed:
         - pkgs:
@@ -65,7 +67,8 @@ global-python-requisites:
 
 {% else %}
 
-# DEPRECATED. removed after switch to 16.04
+# 14.04
+# DEPRECATED. remove after switch to 16.04+
 
 # WARN: assumes python 2.7.12+, pip and setuptools are already installed and 
 # updated via bootstrap script
