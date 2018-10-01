@@ -1,7 +1,11 @@
 smoke.sh-repository:
     git.latest:
+        {% if pillar.elife.projects_builder.key %}
         - name: git@github.com:asm89/smoke.sh
-        - identity: {{ pillar.elife.projects_builder.key or '' }}
+        - identity: {{ pillar.elife.projects_builder.key }}
+        {% else %}
+        - name: https://github.com/asm89/smoke.sh
+        {% endif %}
         # updated to 2016-11-30
         - rev: 34ba26aa28279dceaacd16e2b38f51cda6398853
         - branch: master
