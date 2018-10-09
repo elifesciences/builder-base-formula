@@ -1,14 +1,22 @@
-smoke.sh-repository:
-    git.latest:
-        - name: git@github.com:asm89/smoke.sh
-        - identity: {{ pillar.elife.projects_builder.key or '' }}
-        # updated to 2016-11-30
-        - rev: 34ba26aa28279dceaacd16e2b38f51cda6398853
-        - branch: master
-        - target: /opt/smoke.sh
-        - force_fetch: True
-        - force_checkout: True
-        - force_reset: True
+{% set smoke_sh_version = '34ba26aa28279dceaacd16e2b38f51cda6398853' %}
+{% set smoke_sh_hash = '39a6913a5a6808ad62a84c994b86ff07' %}
+
+smoke.sh-library:
+    file.managed:
+        - name: /opt/smoke.sh/smoke.sh
+        - source: https://raw.githubusercontent.com/asm89/smoke.sh/{{ smoke_sh_version }}/smoke.sh
+        - source_hash: md5={{ smoke_sh_hash }}
+        - user: root
+        - group: root
+        - mode: 755
+
+smoke.sh-repository-removal:
+    cmd.run:
+        - name: |
+            rm -rf .git
+            rm -f LICENSE
+            rm -f README.md
+        - cwd: /opt/smoke.sh
 
 # ensure something is always able to run even if a project has no smoke-tests.sh script
 smoke-tests-wrapper-script:
