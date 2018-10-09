@@ -11,6 +11,7 @@ smoke.sh-library:
         - group: root
         - mode: 755
 
+# deprecated: removed once executed everywhere
 smoke.sh-repository-removal:
     cmd.run:
         - name: |
