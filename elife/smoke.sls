@@ -6,6 +6,7 @@ smoke.sh-library:
         - name: /opt/smoke.sh/smoke.sh
         - source: https://raw.githubusercontent.com/asm89/smoke.sh/{{ smoke_sh_version }}/smoke.sh
         - source_hash: md5={{ smoke_sh_hash }}
+        - makedirs: True
         - user: root
         - group: root
         - mode: 755
