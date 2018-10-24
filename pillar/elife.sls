@@ -164,6 +164,7 @@ elife:
     docker:
         username: elifealfreduser
         password: null
+        prune_days: 14
 
     gcloud:
         directory: /home/elife
