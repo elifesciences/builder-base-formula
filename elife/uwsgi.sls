@@ -50,7 +50,7 @@ uwsgi-sock-dir:
         - name: /run/uwsgi/
         - user: {{ pillar.elife.webserver.username }}
         - require:
-            - pip: uwsgi-pkg
+            - uwsgi-pkg
 {% endif %}
 
 # systemd, Ubuntu 16.04+ only
