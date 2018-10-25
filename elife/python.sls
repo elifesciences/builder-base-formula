@@ -34,11 +34,9 @@ python-dev:
             - python-3
 
 global-python-requisites:
-    pip.installed:
-        #- pip_bin: /usr/bin/python2.7
-        - pkgs:
-            # DEPRECATED. installed for any remaining python 2 apps creating virtualenvs
-            - virtualenv>=13
+    cmd.run:
+        # DEPRECATED. installed for any remaining python 2 apps creating virtualenvs
+        - name: pip install "virtualenv>=13"
         - require:
             - python-2.7
 
