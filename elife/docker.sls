@@ -103,3 +103,11 @@ docker-ready:
             - docker-users-in-group
             - docker-scripts
             - docker-scripts-path
+
+# frees disk space from old images/containers/volumes/...
+# older than last X days hours and not in use
+docker-prune-last-days:
+    cmd.run:
+        - name: /usr/local/docker-scripts/docker-prune {{ 24 * pillar.elife.docker.prune_days }}
+        - require:
+            - docker-ready

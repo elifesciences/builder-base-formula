@@ -15,6 +15,5 @@ pypi-credentials-ubuntu-user:
             - deploy-user
 
 twine:
-    pip.installed:
-        - pkgs:
-            - twine
+    cmd.run:
+        - name: pip install twine

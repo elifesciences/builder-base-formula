@@ -56,6 +56,12 @@ elife:
             project1: 
                 - example-user
 
+    ssh_credentials: {}
+        #some_identifier:
+        #    username: ubuntu
+        #    home: /home/ubuntu
+        #    private_key: salt://elife/ssh-credentials/sample.id_rsa
+
     known_hosts: {}
 
     backups:
@@ -158,6 +164,7 @@ elife:
     docker:
         username: elifealfreduser
         password: null
+        prune_days: 14
 
     gcloud:
         directory: /home/elife

@@ -7,32 +7,11 @@
 # TODO: remove when all projects are using 16.04+
 #
 
-dead-snakes-are-dead:
-    pkgrepo.absent:
-        - ppa: fkrull/deadsnakes-python2.7
-
-jonothonf-is-missing:
-    pkgrepo.absent:
-        - ppa: jonathonf/python-2.7
-
-third-party-python-repos-absent:
-    cmd.run:
-        - name: echo 'third party python repositories purged'
-        - require:
-            - dead-snakes-are-dead
-            - jonothonf-is-missing
-
-#
-#
-#
-
 python-2.7:
     pkg.installed:
         - pkgs: 
             - python2.7
             - python-pip
-        - require:
-            - third-party-python-repos-absent
 
 # 3.5 in 16.04
 # 3.6 in 18.04
@@ -42,8 +21,6 @@ python-3:
             - python3
             - python3-pip
             - python3-venv
-        - require:
-            - third-party-python-repos-absent
 
 python-dev:
     pkg.installed:
@@ -57,11 +34,9 @@ python-dev:
             - python-3
 
 global-python-requisites:
-    pip.installed:
-        #- pip_bin: /usr/bin/python2.7
-        - pkgs:
-            # DEPRECATED. installed for any remaining python 2 apps creating virtualenvs
-            - virtualenv>=13
+    cmd.run:
+        # DEPRECATED. installed for any remaining python 2 apps creating virtualenvs
+        - name: pip install "virtualenv>=13"
         - require:
             - python-2.7
 

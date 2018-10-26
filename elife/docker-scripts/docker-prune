@@ -1,9 +1,12 @@
 #!/bin/bash
 set -e
 
+# default: 14 days
+hours_limit="${1:-336}"
+
 docker container prune --force
 docker network prune --force
 docker volume prune --force
 
-echo "Clean up all images not used in the last 14 days"
-docker image prune --all --filter "until=336h" --force
+echo "Clean up all images not used in the last $hours_limit hours"
+docker image prune --all --filter "until=${hours_limit}h" --force
