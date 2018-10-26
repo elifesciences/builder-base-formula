@@ -18,8 +18,8 @@ uwsgi-pkg:
 {% else %}
 # apps should be installing and using their own version of uwsgi
 uwsgi-pkg:
-    pip.installed:
-        - name: uwsgi >= 2.0.8
+    cmd.run:
+        - name: pip install "uwsgi>=2.0.8"
         - require:
             - python-dev
         - reload_modules: True
@@ -50,7 +50,7 @@ uwsgi-sock-dir:
         - name: /run/uwsgi/
         - user: {{ pillar.elife.webserver.username }}
         - require:
-            - pip: uwsgi-pkg
+            - uwsgi-pkg
 {% endif %}
 
 # systemd, Ubuntu 16.04+ only
