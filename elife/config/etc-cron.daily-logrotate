@@ -11,9 +11,13 @@ done >> status.clean
 mv status.clean status
 
 test -x /usr/sbin/logrotate || exit 0
-capture_file=/tmp/daily-logrotate.out
-/usr/sbin/logrotate /etc/logrotate.conf --verbose &> "$capture_file" || {
-    status=$?
-    logger "logrotate failed with $status on $(hostname): $capture_file"
-    exit $status
-}
+capture_file=/var/log/daily-logrotate.log
+
+# note: sh redirection differs slightly from bash redirection. 
+# this sends stderr to stdout and stdout to the capture file
+/usr/sbin/logrotate /etc/logrotate.conf --verbose > "$capture_file" 2>&1 
+
+# logrotate doesn't appear to exit with a non-zero status when there is a 
+# problem rotating a logfile so we have to grep the output.
+# failing to find a problem (|| true) is ok as well
+grep --quiet -i "error:" "$capture_file" && logger "logrotate encountered an error on $(hostname): $capture_file" || true
