@@ -21,6 +21,7 @@ kubectl-package:
         - require:
             - kubernetes-packages-repo
 
+# allows kubectl to use AWS IAM users/roles
 {% set aws_iam_authenticator_hash = 'c7867c698a38acb3e0a2976cb7b3d0f9' %}
 {% set aws_iam_authenticator_url = 'https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator' %}
 aws-iam-authenticator-binary:
@@ -29,3 +30,6 @@ aws-iam-authenticator-binary:
         - source: {{ aws_iam_authenticator_url }}
         - source_hash: md5={{ aws_iam_authenticator_hash }}
         - mode: 555
+
+# TODO: add `AWS_DEFAULT_REGION=us-east-1 aws eks update-kubeconfig --name kubernetes--demo` configured via pillars
+
