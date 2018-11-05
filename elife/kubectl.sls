@@ -36,7 +36,7 @@ aws-eks-update-kube-config-{{ cluster_name }}:
     cmd.run:
         - name: aws eks update-kubeconfig --name {{ cluster_name }}
         - env:
-            - AWS_DEFAULT_REGION=us-east-1
+            - AWS_DEFAULT_REGION: us-east-1
         - require:
             - kubectl-package
             - aws-iam-authenticator-binary
