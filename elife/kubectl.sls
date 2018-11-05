@@ -37,6 +37,7 @@ aws-eks-update-kube-config-{{ cluster_name }}:
         - name: aws eks update-kubeconfig --name {{ cluster_name }}
         - env:
             - AWS_DEFAULT_REGION: us-east-1
+        - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - kubectl-package
             - aws-iam-authenticator-binary
