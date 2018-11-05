@@ -20,3 +20,24 @@ kubectl-package:
         - name: kubectl
         - require:
             - kubernetes-packages-repo
+
+# allows kubectl to use AWS IAM users/roles
+{% set aws_iam_authenticator_hash = 'c7867c698a38acb3e0a2976cb7b3d0f9' %}
+{% set aws_iam_authenticator_url = 'https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator' %}
+aws-iam-authenticator-binary:
+    file.managed:
+        - name: /usr/local/bin/aws-iam-authenticator
+        - source: {{ aws_iam_authenticator_url }}
+        - source_hash: md5={{ aws_iam_authenticator_hash }}
+        - mode: 555
+
+{% for cluster_name, cluster_configuration in pillar.elife.eks.clusters.items() %}
+aws-eks-update-kube-config-{{ cluster_name }}:
+    cmd.run:
+        - name: aws eks update-kubeconfig --name {{ cluster_name }}
+        - env:
+            - AWS_DEFAULT_REGION=us-east-1
+        - require:
+            - kubectl-package
+            - aws-iam-authenticator-binary
+{% endfor %}

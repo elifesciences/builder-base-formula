@@ -177,6 +177,12 @@ elife:
         #         cluster: data-pipeline
         #         zone: us-east4-a
 
+    eks:
+        clusters: {} # name to dict of configurations
+        #clusters:
+        #    kubernetes--demo:
+        #        region: us-east-1 
+
     external_volume:
         device: /dev/xvdh
         filesystem: ext4
