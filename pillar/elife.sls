@@ -182,6 +182,7 @@ elife:
         #clusters:
         #    kubernetes--demo:
         #        region: us-east-1 
+        #        role: arn:aws:iam::512686554592:role/kubernetes--demo--AmazonEKSUserRole 
 
     external_volume:
         device: /dev/xvdh
