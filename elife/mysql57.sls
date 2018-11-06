@@ -71,7 +71,8 @@ mysql-server:
             #- mysql-server: 5.7.20-1ubuntu14.04
             #- mysql-server: 5.7.21-1ubuntu14.04
             #- mysql-server: 5.7.22-1ubuntu14.04
-            - mysql-server: 5.7.23-1ubuntu14.04
+            #- mysql-server: 5.7.23-1ubuntu14.04
+            - mysql-server: 5.7.24-1ubuntu14.04
 
         # not necessary, done in mysql-clients
         # - refresh: True
