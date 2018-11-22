@@ -252,6 +252,10 @@ elife:
             #    port: 8001
             #    enabled: True
 
+    mockserver:
+        expectations: {}
+            #elife_bot: salt://elife-bot/config/mockserver.sh
+
     forced_dns: {}
 
     coveralls:
