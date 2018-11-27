@@ -2,9 +2,13 @@
 set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-owner_and_repo=$("$DIR/github_owner_and_repo.sh")
 
-if [ -z $commit ]
+if [ -z "$owner_and_repo" ]
+then
+    owner_and_repo=$("$DIR/github_owner_and_repo.sh")
+fi
+
+if [ -z "$commit" ]
 then
     commit=$(git rev-parse HEAD)
 fi
