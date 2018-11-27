@@ -3,9 +3,9 @@ set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-if [ -z "$owner_and_repo" ]
+if [ -z "$repository" ]
 then
-    owner_and_repo=$("$DIR/github_owner_and_repo.sh")
+    repository=$("$DIR/github_owner_and_repo.sh")
 fi
 
 if [ -z "$commit" ]
@@ -20,7 +20,7 @@ status_code=$(curl \
     -s \
     -o "${temp_file}" \
     -w '%{http_code}' \
-    "https://api.github.com/repos/$owner_and_repo/statuses/$commit?access_token=$GITHUB_TOKEN" \
+    "https://api.github.com/repos/$repository/statuses/$commit?access_token=$GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
     -X POST \
     -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$target_url\"}")
