@@ -9,9 +9,9 @@ map $remote_addr/$http_authorization $consumer_groups_filtered {
     # base case: do not allow header
     default "";
     # local requests case, don't check authentication
-    ~^127.0.0.1/.*$ $http_x_consumer_groups;
-    {%- for i, user in users.items() -%}
-    ~^.*/Basic {{ salt['hashutil.base64_b64encode'](user['username'] ~ ':' ~ user['password']) }}$ $http_x_consumer_groups;
+    "~^127.0.0.1/.*$" $http_x_consumer_groups;
+    {% for i, user in users.items() -%}
+    "~^.*/Basic {{ salt['hashutil.base64_b64encode'](user['username'] ~ ':' ~ user['password']) }}$" $http_x_consumer_groups;
     {% endfor -%}
 }
 {%- endmacro -%}
