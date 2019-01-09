@@ -7,8 +7,9 @@ These are the standard keys that are sent with each log:
 - `syslog.host` is the hostname being resolved to the machine(s) generating the log (e.g. `end2end--journal.elifesciences.org`)
 
 These are the tags that are attached to each log:
-- `env--{environment}` describes which environment the log has been generated in (e.g. `env--end2end`)
 - `project--{project}` described the project that is deployed on the machine where the log has been generated (e.g. `project--journal`)
+- `env--{environment}` describes which environment the log has been generated in (e.g. `env--end2end`)
+- `node--{node}` described the numbering of the machine where the log has been generated (e.g. `node--1`, `node--2`)
 
 Additional tags can be set by a syslog-ng source with the following snippet:
 ```
