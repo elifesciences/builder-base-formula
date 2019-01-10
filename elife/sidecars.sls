@@ -18,6 +18,7 @@ docker-compose-{{ configuration['name'] }}:
         - context:
             name: {{ configuration['name']|yaml }}
             image: {{ configuration['image']|yaml }}
+            command: {{ configuration.get('command')|yaml }}
             port: {{ configuration.get('port')|yaml }}
             ports: {{ configuration.get('ports', {})|yaml }}
         - makedirs: True

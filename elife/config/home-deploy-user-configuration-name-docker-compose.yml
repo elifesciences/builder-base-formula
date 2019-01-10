@@ -3,6 +3,9 @@ services:
     {{ name|replace("-", "_") }}:
         container_name: {{ name|replace("-", "_") }}
         image: {{ image }}:${IMAGE_TAG}
+        {% if command %}
+        command: {{ command }}
+        {% endif %}
         networks:
             - sidecars
         {%- if port %}
@@ -11,7 +14,7 @@ services:
         {%- elif ports %}
         ports:
             {%- for p in ports %}
-            - {{ p }}
+            - {{ p|yaml }}
             {%- endfor %}
         {%- endif %}
         restart: always
