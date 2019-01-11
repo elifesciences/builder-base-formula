@@ -17,6 +17,12 @@ services:
             - {{ p|yaml }}
             {%- endfor %}
         {%- endif %}
+        {%- if volumes %}
+        volumes:
+            {%- for v in volumes %}
+            - {{ v|yaml }}
+            {%- endfor %}
+        {%- endif %}
         restart: always
 
 networks:
