@@ -307,6 +307,8 @@ elife:
                 host: null
             observer:
                 host: null
+            xpub:
+                meca_url: null
         continuumtest:
             aws:
                 access_key_id: null
@@ -352,6 +354,8 @@ elife:
                 host: null
             observer:
                 host: null
+            xpub:
+                meca_url: null
         prod:
             api_gateway:
                 host: null
