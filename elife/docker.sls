@@ -1,3 +1,8 @@
+
+salt-docker packages:
+    pip.installed:
+        - name: docker-py>=1.4.0
+
 # fails on AWS, perhaps due to the package name
 #docker-recommended-extra-packages:
 #    cmd.run:
