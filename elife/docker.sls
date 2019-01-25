@@ -111,3 +111,11 @@ docker-prune-last-days:
         - name: /usr/local/docker-scripts/docker-prune {{ 24 * pillar.elife.docker.prune_days }}
         - require:
             - docker-ready
+
+docker-prune-last-days-cron:
+    cron.present:
+        - identifier: docker-prune-last-days
+        - name: /usr/local/docker-scripts/docker-prune {{ 24 * pillar.elife.docker.prune_days }}
+        - minute: random
+        - require:
+            - docker-ready
