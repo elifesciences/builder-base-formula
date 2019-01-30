@@ -50,6 +50,10 @@ web-complete-cert:
     cmd.run:
         - name: cat certificate.crt fullchain.pem > certificate.chained.crt && chgrp {{ pillar.elife.certificates.username }} certificate.chained.crt
         - cwd: /etc/certificates/
+        # only trigger state if either of these two files have changed
+        - onchanges:
+            - web-fullchain-key
+            - web-certificate-file
         - require:
             - web-fullchain-key
             - web-certificate-file

@@ -94,6 +94,11 @@ nginx-server-service:
             # this sounds like a good thing, but some conf files reference external files that may not be 
             # ready when they appear in here. explicit requisites/watches are better.
             #- file: /etc/nginx/sites-enabled/*
+{% if salt['elife.cfg']('cfn.outputs.DomainName') %}
+        - listen:
+            # schedule a restart when there is a modified certificate
+            - web-complete-cert
+{% endif %}
 
 #
 # BASIC auth 
