@@ -16,4 +16,7 @@ pypi-credentials-ubuntu-user:
 
 twine:
     cmd.run:
-        - name: pip install twine
+        # TODO: try to remove this workaround on 16.04
+        # ignore-installed because of a conflict with the chardet Python package
+        # https://stackoverflow.com/questions/50130004/installing-twine-fails-because-cannot-uninstall-pkginfo#comment96655925_50132754
+        - name: pip install twine --ignore-installed

@@ -26,12 +26,16 @@ mysql-ppa-key:
 
 mysql-ppa:
     cmd.run:
-        - name: apt-key add /root/mysql-ppa.key
-        - require:
-            - mysql-ppa-key
-        #- name: apt-key adv --keyserver pgp.mit.edu --recv-keys 5072E1F5 
-        #- unless:
-        #    - apt-key list | grep 5072E1F5
+        #- name: apt-key add /root/mysql-ppa.key
+        #- require:
+        #    - mysql-ppa-key
+        # expired key
+        # -# name: apt-key adv --keyserver pgp.mit.edu --recv-keys 5072E1F5 
+        #- name: apt-key adv --keyserver pgp.mit.edu --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5
+        # https://serverfault.com/questions/955299/mysql-repository-key-expired
+        - name: apt-key adv --recv-keys --keyserver ha.pool.sks-keyservers.net 5072E1F5
+        - unless:
+            - apt-key list | grep 5072E1F5
 
     pkgrepo.managed:
         - humanname: Python 2.7 Updates
@@ -57,9 +61,11 @@ mysql-custom-init-script:
 mysql-clients:
     pkg.installed:
         - pkgs:
+            - mysql-common
             - mysql-client
             - python-mysqldb
         - refresh: True
+        - pkg_verify: False
         - require:
             - mysql-ppa
     
@@ -72,7 +78,8 @@ mysql-server:
             #- mysql-server: 5.7.21-1ubuntu14.04
             #- mysql-server: 5.7.22-1ubuntu14.04
             #- mysql-server: 5.7.23-1ubuntu14.04
-            - mysql-server: 5.7.24-1ubuntu14.04
+            #- mysql-server: 5.7.24-1ubuntu14.04
+            - mysql-server: 5.7.25-1ubuntu14.04
 
         # not necessary, done in mysql-clients
         # - refresh: True
