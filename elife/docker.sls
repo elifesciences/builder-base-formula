@@ -9,7 +9,7 @@ docker-folder:
         - name: /ext/docker
         - makedirs: True
         - mode: 711
-    
+
 docker-folder-linking:
     cmd.run:
         - name: |
@@ -48,7 +48,12 @@ docker-repository:
 docker-packages:
     pkg.installed:
         - pkgs: 
+            # poorly-patched vulnerability 'fix' breaks 3.3 kernels, like the one in the Ubuntu Trusty 14.04 LTS
+            {% if salt['grains.get']('oscodename') == 'trusty' %}
+            - docker-ce: 18.06.1~ce~3-0~ubuntu
+            {% else %}
             - docker-ce
+            {% endif %}
         - refresh: True
         - require:
             - docker-repository
