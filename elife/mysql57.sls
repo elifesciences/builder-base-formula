@@ -82,8 +82,8 @@ mysql-server:
             #- mysql-server: 5.7.24-1ubuntu14.04
             - mysql-server: 5.7.25-1ubuntu14.04
 
-        # not necessary, done in mysql-clients
-        # - refresh: True
+        # mysql-clients would only do this if the packages have to be installed
+        - refresh: True
         - require:
             - mysql-ppa
             - mysql-clients
