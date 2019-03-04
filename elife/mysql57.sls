@@ -34,8 +34,9 @@ mysql-ppa:
         #- name: apt-key adv --keyserver pgp.mit.edu --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5
         # https://serverfault.com/questions/955299/mysql-repository-key-expired
         - name: apt-key adv --recv-keys --keyserver ha.pool.sks-keyservers.net 5072E1F5
-        - unless:
-            - apt-key list | grep 5072E1F5
+        # can't skip because the key with this id may be expired
+        #- unless:
+        #    - apt-key list | grep 5072E1F5
 
     pkgrepo.managed:
         - humanname: Python 2.7 Updates
