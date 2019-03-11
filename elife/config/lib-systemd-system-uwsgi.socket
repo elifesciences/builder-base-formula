@@ -1,0 +1,11 @@
+[Unit]
+Description=Socket for uwsgi-{{ name }}.service
+
+[Socket]
+ListenStream=/var/run/uwsgi/{{ name }}.socket
+SocketUser={{ pillar.elife.webserver.username }}
+SocketGroup={{ pillar.elife.webserver.username }}
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target
