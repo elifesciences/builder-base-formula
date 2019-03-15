@@ -13,3 +13,20 @@ nodejs6:
         - name: nodejs
         - require:
             - pkgrepo: nodejs6
+
+# 14.04 and 16.04 both come with npm, 18.04 (bionic) does not
+{% if distro not in ["trusty", "xenial"] %}
+nodejs6-npm:
+    # ideal, but 'npm' is apparently a 'virtual package' and salt says it's consituent packages are all installed,
+    # when they're not. this is probably the reason virtual package support is being removed in later salt versions
+    #pkg.installed:
+    #    - name: npm
+    #    - require:
+    #        - nodejs6
+    
+    cmd.run:
+        - name: apt-get install npm -y --no-install-recommends
+        - require:
+            - nodejs6
+
+{% endif %}
