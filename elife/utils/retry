@@ -4,6 +4,7 @@ set -e
 if [ "$#" -lt 1 ]; then
     echo "Usage: retry SCRIPT_PATH [MAXIMUM_TIMES] [INTERVAL]"
     echo "Example: retry ./script.sh 3 30"
+    echo "Executes ./script.sh up to 3 times, with intervals of 30 seconds"
     exit 11 # avoid overlap with `exit $attempt`
 fi
 
