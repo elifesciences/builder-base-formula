@@ -9,7 +9,8 @@ nodejs6:
         #- key_url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
         - file: /etc/apt/sources.list.d/nodesource.list
 
-    pkg.latest:
+    pkg.installed:
         - name: nodejs
+        - version: '6.*' # latest 6.x version, differs by OS release
         - require:
             - pkgrepo: nodejs6
