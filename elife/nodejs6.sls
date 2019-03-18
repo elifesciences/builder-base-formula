@@ -9,24 +9,8 @@ nodejs6:
         #- key_url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
         - file: /etc/apt/sources.list.d/nodesource.list
 
-    pkg.latest:
+    pkg.installed:
         - name: nodejs
+        - version: '6.*' # latest 6.x version, differs by OS release
         - require:
             - pkgrepo: nodejs6
-
-# 14.04 and 16.04 both come with npm, 18.04 (bionic) does not
-{% if distro not in ["trusty", "xenial"] %}
-nodejs6-npm:
-    # ideal, but 'npm' is apparently a 'virtual package' and salt says it's consituent packages are all installed,
-    # when they're not. this is probably the reason virtual package support is being removed in later salt versions
-    #pkg.installed:
-    #    - name: npm
-    #    - require:
-    #        - nodejs6
-    
-    cmd.run:
-        - name: apt-get install npm -y --no-install-recommends
-        - require:
-            - nodejs6
-
-{% endif %}
