@@ -2,18 +2,21 @@
 set -e
 
 if [ "$#" -lt 1 ]; then
-    echo "Usage: retry SCRIPT_PATH [MAXIMUM_TIMES]"
-    echo "Example: retry ./script.sh 3"
+    echo "Usage: retry SCRIPT_PATH [MAXIMUM_TIMES] [INTERVAL]"
+    echo "Example: retry ./script.sh 3 30"
+    echo "Executes ./script.sh up to 3 times, with intervals of 30 seconds"
     exit 11 # avoid overlap with `exit $attempt`
 fi
 
 script=${1}
 maximum=${2:-3}
+interval=${3:-0}
 
 for attempt in $(seq 1 "$maximum"); do
     echo "Attempt: $attempt"
     if ! $script; then
-        echo "Script failure, retrying"
+        echo "Script failure, waiting $interval seconds and retrying"
+        sleep "$interval"
         continue
     else
         echo "Script succeeded"
