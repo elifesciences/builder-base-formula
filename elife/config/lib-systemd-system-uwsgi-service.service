@@ -16,5 +16,5 @@ Environment="LANG=en_US.UTF-8"
 Environment="NEW_RELIC_CONFIG_FILE={{ folder }}/newrelic.ini"
 ExecStart={{ folder }}/venv/bin/newrelic-admin run-program {{ folder }}/venv/bin/uwsgi --enable-threads --ini {{ folder }}/uwsgi.ini
 {% else %}
-ExecStart={{ folder }}/venv/bin/uwsgi --ini {{ folder }}/uwsgi.ini --logto /var/log/uwsgi.log
+ExecStart={{ folder }}/venv/bin/uwsgi --ini {{ folder }}/uwsgi.ini  --socket /var/run/uwsgi/{{ name }}.socket --logto /var/log/uwsgi.log
 {% endif %}
