@@ -52,7 +52,7 @@ docker-packages:
             {% if salt['grains.get']('oscodename') == 'trusty' %}
             - docker-ce: 18.06.1~ce~3-0~ubuntu
             {% else %}
-            - docker-ce
+            - docker-ce: 18.09.3~3-0~ubuntu
             {% endif %}
         - refresh: True
         - require:
