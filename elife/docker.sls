@@ -51,8 +51,11 @@ docker-packages:
             # poorly-patched vulnerability 'fix' breaks 3.3 kernels, like the one in the Ubuntu Trusty 14.04 LTS
             {% if salt['grains.get']('oscodename') == 'trusty' %}
             - docker-ce: 18.06.1~ce~3-0~ubuntu
+            {% elif salt['grains.get']('oscodename') == 'xenial' %}
+            - docker-ce: 18.09.3~3-0~ubuntu-xenial
             {% else %}
-            - docker-ce: 18.09.3~3-0~ubuntu
+            # TODO: pin
+            - docker-ce: 18.09.3
             {% endif %}
         - refresh: True
         - require:
