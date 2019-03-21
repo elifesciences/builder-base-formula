@@ -1,11 +1,14 @@
 #!/bin/bash
 set -e
 
-if [ "$#" -ne 1 ]; then
-    echo "Usage: notify_slack.sh TEXT"
-    echo "Example: notify_slack.sh 'Interesting text'"
+if [ "$#" -lt 1 ]; then
+    echo "Usage: notify_slack.sh TEXT [CHANNEL]"
+    echo "Example: notify_slack.sh 'Interesting text' '#deployments'"
     exit 1
 fi
 
-curl -v -d "{\"text\":\"$1\", \"username\":\"alfred\", \"icon_url\":\"http://ci--alfred.elifesciences.org/favicon.ico\"}" $SLACK_CHANNEL_HOOK
+text="$1"
+channel="${2:-#deployments}"
+
+curl -v -d "{\"text\":\"${text}\", \"channel\":\"${channel}\", \"username\":\"alfred\", \"icon_url\":\"https://alfred.elifesciences.org/favicon.ico\"}" "$SLACK_CHANNEL_HOOK"
 
