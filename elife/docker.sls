@@ -40,6 +40,7 @@ docker-gpg-key:
 
 docker-repository:
     cmd.run:
+        # https://docs.docker.com/install/linux/docker-ce/ubuntu/
         - name: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
         - require:
             - docker-gpg-key
@@ -47,19 +48,24 @@ docker-repository:
 
 docker-packages:
     pkg.installed:
-        - pkgs: 
-            # poorly-patched vulnerability 'fix' breaks 3.3 kernels, like the one in the Ubuntu Trusty 14.04 LTS
+        - pkgs:
             {% if salt['grains.get']('oscodename') == 'trusty' %}
+            # poorly-patched vulnerability 'fix' breaks 3.3 kernels, like the one in the Ubuntu Trusty 14.04 LTS
             - docker-ce: 18.06.1~ce~3-0~ubuntu
-            {% elif salt['grains.get']('oscodename') == 'xenial' %}
-            - docker-ce: 18.09.3
             {% else %}
-            # TODO: pin
-            - docker-ce: 18.09.3
+            - docker-ce
             {% endif %}
         - refresh: True
         - require:
             - docker-repository
+
+    # hack. 16.04 and 18.04 are affected by a bug that disappears after a service restart
+    {% if salt['grains.get']('oscodename') != 'trusty' %}
+    cmd.run:
+        - name: systemctl stop docker || echo "failed to restart (which is fine)"
+        - require_in:
+            - service: docker-packages
+    {% endif %}
 
     service.running:
         - name: docker
