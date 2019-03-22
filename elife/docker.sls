@@ -60,11 +60,14 @@ docker-packages:
             - docker-repository
 
     # hack. 16.04 and 18.04 are affected by a bug that disappears after a service restart
+    # https://github.com/moby/moby/issues/38249#issuecomment-474795342
     {% if salt['grains.get']('oscodename') != 'trusty' %}
     cmd.run:
-        - name: systemctl stop docker || echo "failed to restart (which is fine)"
+        - name: systemctl stop docker
         - require_in:
             - service: docker-packages
+        #- onlyif:
+        #    older version present. are we ok restarting docker on every highstate until this bug is fixed?
     {% endif %}
 
     service.running:
