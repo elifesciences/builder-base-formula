@@ -69,3 +69,10 @@ ubuntu-user:
         - shell: /bin/bash
         - groups:
             - sudo
+
+# unnecessary always-on new container service in 18.04 that nothing uses
+snapd:
+    service.dead:
+        - enable: False
+        - onlyif:
+            - hash snap
