@@ -34,14 +34,6 @@ uwsgi-pkg:
 include:
     - .uwsgi-params
 
-# owned by root:www-data and writeable by both
-var-log-uwsgi.log:
-    file.managed:
-        - name: /var/log/uwsgi.log
-        - user: root
-        - group: {{ pillar.elife.webserver.username }}
-        - mode: 664
-
 uwsgi-logrotate-def:
     file.managed:
         - name: /etc/logrotate.d/uwsgi
@@ -75,6 +67,14 @@ uwsgi-sock-dir:
 {% if salt['grains.get']('osrelease') != "14.04" %}
 
 {% for name, configuration in pillar.elife.uwsgi.services.items() %}
+# owned by root:www-data and writeable by both
+uwsgi-{{ name }}.log:
+    file.managed:
+        - name: /var/log/uwsgi-{{ name }}.log
+        - user: root
+        - group: {{ pillar.elife.webserver.username }}
+        - mode: 664
+
 uwsgi-service-{{ name }}:
     file.managed:
         - name: /lib/systemd/system/uwsgi-{{ name }}.service
@@ -83,9 +83,12 @@ uwsgi-service-{{ name }}:
         - context:
             name: {{ name }}
             folder: {{ configuration.folder }}
+            # newrelic is considered available if it hasn't been explicitly disabled
+            disable_newrelic: {{ configuration.get('disable_newrelic', False) }}
         - require:
             - uwsgi-pkg
             - uwsgi-params
+            - uwsgi-{{ name }}.log
         - require_in:
             - cmd: uwsgi-services
 
@@ -97,6 +100,7 @@ uwsgi-socket-{{ name }}:
         - require:
             - uwsgi-pkg
             - uwsgi-params
+            - uwsgi-{{ name }}.log
         - context:
             name: {{ name }}
         # necessary?
