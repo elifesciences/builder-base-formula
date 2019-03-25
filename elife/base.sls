@@ -1,4 +1,4 @@
-{% set codename = salt['grains.get']('oscodename') %}
+{% set osrelease = salt['grains.get']('osrelease') %}
 
 base:
     pkg.installed:
@@ -10,7 +10,7 @@ base:
             - curl
             - git
 
-            {% if codename == "trusty" %}
+            {% if osrelease == "14.04" %}
             - realpath # resolves symlinks in paths for shell
             {% endif %}
             - coreutils # includes realpath
@@ -23,7 +23,7 @@ base:
 
             # provides add-apt-repository binary needed to install a new ppa easily
             # renamed in 18.04
-            {% if codename != 'bionic' %}
+            {% if osrelease in ['14.04', '16.04'] %}
             - python-software-properties
             {% else %}
             - software-properties-common 
@@ -69,3 +69,12 @@ ubuntu-user:
         - shell: /bin/bash
         - groups:
             - sudo
+
+{% if osrelease not in ['14.04', '16.04'] %}
+# unnecessary always-on new container service in 18.04 that nothing uses
+snapd:
+    service.dead:
+        - enable: False
+        - onlyif:
+            - hash snap
+{% endif %}
