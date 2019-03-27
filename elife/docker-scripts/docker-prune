@@ -5,7 +5,8 @@ set -e
 hours_limit="${1:-336}"
 
 docker container prune --force
-docker network prune --force
+# disabled due to race condition with `docker-compose up`
+# docker network prune --force
 docker volume prune --force
 
 echo "Clean up all images not used in the last $hours_limit hours"
