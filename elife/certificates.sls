@@ -22,18 +22,20 @@ web-certificates-dir:
             - web-certificates-group
 
 {% if salt['elife.cfg']('cfn.outputs.DomainName') %}
+{% set app = pillar.elife.certificates.app or 'elife' %}
+
 web-certificate-file:
     file.managed:
         - name: /etc/certificates/certificate.crt
         - group: {{ pillar.elife.certificates.username }}
-        - source: salt://elife/config/etc-certificates-certificate.crt
+        - source: salt://{{ app }}/config/etc-certificates-certificate.crt
         - require:
             - file: web-certificates-dir
 
 web-private-key:
     file.managed:
         - name: /etc/certificates/privkey.pem
-        - source: salt://elife/config/etc-certificates-privkey.pem
+        - source: salt://{{ app }}/config/etc-certificates-privkey.pem
         - group: {{ pillar.elife.certificates.username }}
         - require:
             - file: web-certificates-dir
@@ -41,7 +43,7 @@ web-private-key:
 web-fullchain-key:
     file.managed:
         - name: /etc/certificates/fullchain.pem
-        - source: salt://elife/config/etc-certificates-fullchain.pem
+        - source: salt://{{ app }}/config/etc-certificates-fullchain.pem
         - group: {{ pillar.elife.certificates.username }}
         - require:
             - file: web-certificates-dir

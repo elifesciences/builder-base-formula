@@ -74,8 +74,6 @@ redirect-nginx-http-to-https:
 include:
     - .certificates
 
-
-
 #
 # service
 #
