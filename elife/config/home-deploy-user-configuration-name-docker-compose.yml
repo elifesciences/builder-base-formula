@@ -17,11 +17,21 @@ services:
             - {{ p|yaml }}
             {%- endfor %}
         {%- endif %}
+        {%- if environment %}
+        environment:
+            {%- for e in environment %}
+            - "{{ e }}"
+            {%- endfor %}
+        {%- endif %}
         {%- if volumes %}
         volumes:
             {%- for v in volumes %}
             - {{ v|yaml }}
             {%- endfor %}
+        {%- endif %}
+        {%- if healthcheck %}
+        healthcheck: 
+            test: {{ healthcheck }}
         {%- endif %}
         restart: always
 
