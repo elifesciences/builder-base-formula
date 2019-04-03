@@ -31,8 +31,10 @@ php-ppa:
 
 {% else %}
 
-# still problematic in 16.04:
+# note: still problematic in 16.04:
 # https://github.com/saltstack/salt/issues/32294
+
+# note: see nginx-php7.sls for /var/php-fpm.sock configuration
 
 php-ppa:
     cmd.run:
