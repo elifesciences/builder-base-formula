@@ -29,6 +29,10 @@ services:
             - {{ v|yaml }}
             {%- endfor %}
         {%- endif %}
+        {%- if healthcheck %}
+        healthcheck: 
+            test: {{ healthcheck }}
+        {%- endif %}
         restart: always
 
 networks:
