@@ -3,6 +3,20 @@ set -e
 
 # default: 14 days
 hours_limit="${1:-336}"
+# default: 80%
+usage_limit="${2:-80}"
+
+if [ -z "$FORCE" ]; then
+    echo "Usage limit: ${usage_limit}%"
+    disk_space_used=$(df --output=pcent /var/lib/docker | sed 1d | sed -e 's/%//g')
+    echo "Disk space used: ${disk_space_used}%"
+    disk_inodes_used=$(df --output=ipcent /var/lib/docker | sed 1d | sed -e 's/%//g')
+    echo "Disk inodes used: ${disk_inodes_used}%"
+    if [ "$disk_space_used" -lt "$usage_limit" -a "$disk_inodes_used" -lt "$usage_limit" ]; then
+        echo "Not necessary to run because of low usage"
+        exit 0
+    fi
+fi
 
 echo "Clean up all stopped containers older than the last $hours_limit hours"
 docker container prune --filter "until=${hours_limit}h" --force
