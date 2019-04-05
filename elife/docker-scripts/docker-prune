@@ -7,6 +7,7 @@ hours_limit="${1:-336}"
 docker container prune --filter "until=${hours_limit}h" --force
 docker network prune --filter "until=${hours_limit}h" --force
 # doesn't support --filter "until=..."
+# but should only be unused volumes anyway
 docker volume prune --force
 
 echo "Clean up all images not used in the last $hours_limit hours"
