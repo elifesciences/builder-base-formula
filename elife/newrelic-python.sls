@@ -9,7 +9,7 @@
 # - pillar.elife.newrelic_python.service 
 #     the name of a service.running state that should be restarted
 
-{% if pillar.elife.newrelic.enabled %}
+{% if pillar.elife.newrelic.enabled and pillar.elife.newrelic_python %}
 newrelic-python-license-configuration:
     cmd.run:
         - name: venv/bin/newrelic-admin generate-config {{ pillar.elife.newrelic.license }} newrelic.ini
