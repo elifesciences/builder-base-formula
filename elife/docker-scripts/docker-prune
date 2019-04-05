@@ -4,8 +4,13 @@ set -e
 # default: 14 days
 hours_limit="${1:-336}"
 
+echo "Clean up all stopped containers older than the last $hours_limit hours"
 docker container prune --filter "until=${hours_limit}h" --force
+
+echo "Clean up all unused networks older than the last $hours_limit hours"
 docker network prune --filter "until=${hours_limit}h" --force
+
+echo "Clean up all unused volumes"
 # doesn't support --filter "until=..."
 # but should only be unused volumes anyway
 docker volume prune --force
