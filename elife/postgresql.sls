@@ -24,9 +24,11 @@ pgpass-rds-entry:
             pass: {{ salt['elife.cfg']('project.rds_password') }}
             host: {{ salt['elife.cfg']('cfn.outputs.RDSHost') }}
             port: {{ salt['elife.cfg']('cfn.outputs.RDSPort') }}
+        - require:
+            - pgpass-file
 {% endif %}
 
-postgresql:
+install-postgresql:
     pkg.installed:
         - pkgs:
             - postgresql-9.4
@@ -34,42 +36,44 @@ postgresql:
         - require:
             - pkgrepo: postgresql-deb
 
-{% if not salt['elife.cfg']('cfn.outputs.RDSHost') %}
-    service.running:
-        - enable: True
-        - require:
-            - pkg: postgresql
-            - pgpass-file
-{% else %}
-    service.dead:
-        - enable: False
-        - require:
-            - pkg: postgresql
-            - pgpass-file
-{% endif %}
-
-# TODO: remove this, not used in 16.04+, uncertain about 14.04
-{% if not salt['elife.cfg']('cfn.outputs.RDSHost') %}
 postgresql-init:
     file.managed:
         - name: /etc/init.d/postgresql
         - source: salt://elife/config/etc-init.d-postgresql
         - require:
-            - pkg: postgresql
-        - require_in:
-            - cmd: postgresql-ready
-{% endif %}
+            - install-postgresql
 
 postgresql-config:
     file.managed:
         - name: /etc/postgresql/9.4/main/pg_hba.conf
         - source: salt://elife/config/etc-postgresql-9.4-main-pg_hba.conf
         - require:
-            - pkg: postgresql
+            - install-postgresql
         - watch_in:
             - service: postgresql
-        - require_in:
-            - cmd: postgresql-ready
+
+postgresql:
+    service.running:
+        - enable: True
+        - require:        
+            - install-postgresql
+            - postgresql-init
+            - postgresql-config
+            - pgpass-file
+
+postgresql-user:
+    postgres_user.present:
+        - name: {{ pillar.elife.db_root.username }}
+        - password: {{ pillar.elife.db_root.password }}
+        - refresh_password: True
+        - db_password: {{ pillar.elife.db_root.password }}
+
+        # doesn't work on RDS instances
+        - superuser: True
+
+        - login: True
+        - require:
+            - postgresql
 
 {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
 # create the not-quite-super RDS user
@@ -83,26 +87,16 @@ rds-postgresql-user:
         - db_port: {{ salt['elife.cfg']('cfn.outputs.RDSPort') }}
         - login: True
         - require:
-            - pkg: postgresql
+            - install-postgresql
         - require_in:
             - cmd: postgresql-ready
-{% else %}
-postgresql-user:
-    postgres_user.present:
-        - name: {{ pillar.elife.db_root.username }}
-        - password: {{ pillar.elife.db_root.password }}
-        - refresh_password: True
-        - db_password: {{ pillar.elife.db_root.password }}
-        
-        # doesn't work on RDS instances
-        - superuser: True
+{% endif %}
 
-        - login: True
+{% if salt['elife.cfg']('cfn.outputs.RDSHost') and not pillar.elife.postgresql.get('allow_local_and_remote', False) %}
+local-postgresql:
+    service.dead:
         - require:
-            - pkg: postgresql
-            - service: postgresql
-        - require_in:
-            - cmd: postgresql-ready
+            - postgresql
 {% endif %}
 
 postgresql-ready:
