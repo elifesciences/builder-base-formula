@@ -48,6 +48,7 @@ postgresql:
             - pgpass-file
 {% endif %}
 
+# TODO: remove this, not used in 16.04+, uncertain about 14.04
 {% if not salt['elife.cfg']('cfn.outputs.RDSHost') %}
 postgresql-init:
     file.managed:
@@ -57,6 +58,7 @@ postgresql-init:
             - pkg: postgresql
         - require_in:
             - cmd: postgresql-ready
+{% endif %}
 
 postgresql-config:
     file.managed:
@@ -68,7 +70,6 @@ postgresql-config:
             - service: postgresql
         - require_in:
             - cmd: postgresql-ready
-{% endif %}
 
 {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
 # create the not-quite-super RDS user
