@@ -57,6 +57,7 @@ postgresql-init:
             - pkg: postgresql
         - require_in:
             - cmd: postgresql-ready
+{% endif %}
 
 postgresql-config:
     file.managed:
@@ -68,7 +69,6 @@ postgresql-config:
             - service: postgresql
         - require_in:
             - cmd: postgresql-ready
-{% endif %}
 
 {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
 # create the not-quite-super RDS user
