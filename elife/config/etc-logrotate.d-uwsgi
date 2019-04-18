@@ -1,4 +1,8 @@
+{% if appname is defined %}
+/var/log/uwsgi-{{ appname }}.log {
+{% else %}
 /var/log/uwsgi.log {
+{% endif %}
     daily
     rotate 7
     notifempty
