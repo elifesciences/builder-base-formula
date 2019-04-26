@@ -19,6 +19,8 @@ oracle-java8-installer-removal:
 openjdk8 ppa:
     pkgrepo.managed:
         - ppa: jonathonf/openjdk
+        - require_in:
+            - pkg: java8
         
 {% endif %}
 
