@@ -97,5 +97,5 @@ snapd:
         - require:
             - service: snapd
         - require_in:
-            - base-purging
+            - pkg: base-purging
 {% endif %}
