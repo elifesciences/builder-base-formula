@@ -1,8 +1,10 @@
 # run the 'salt-call state.highstate' command once a day to bring the machine
 # in-line with it's configuration. removes uncertainty, stops pesky tinkerers.
 
-# TODO: exclude elife-alfred--prod if you add prod here?
-{% set environments_managed_through_alfred = ['ci', 'end2end', 'demo', 'continuumtest', 'continuumtestpreview'] %}
+# environments that are typically in a stopped state have their daily updates 
+# managed by Jenkins
+
+{% set environments_managed_through_alfred = ['ci', 'end2end', 'demo'] %}
 
 daily-system-update-command:
     file.managed:
@@ -51,12 +53,15 @@ daily-system-updates:
 
 
 {% if pillar.elife.env in environments_managed_through_alfred or not pillar.elife.daily_system_updates.enabled %}
+# unattended upgrades
 # managed through Alfred
 daily-security-updates-cron-disable:
     file.absent:
         - name: /etc/cron.daily/apt-compat
 
 {% if salt['grains.get']('osrelease') != "14.04" %}
+# introduced in 16.04, this service performs various APT-related tasks like refreshing the list 
+# of available packages, performing unattended upgrades if needed, etc.
 systemd-unattended-upgrades-disable:
     cmd.run:
         - name: |
