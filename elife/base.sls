@@ -39,6 +39,9 @@ base-purging:
     pkg.purged:
         - pkgs:
             - puppet
+            - snapd
+        - require:
+            - base
 
 base-vim-config:
     file.managed:
@@ -71,10 +74,28 @@ ubuntu-user:
             - sudo
 
 {% if osrelease not in ['14.04', '16.04'] %}
-# unnecessary always-on new container service in 18.04 that nothing uses
+
+# unnecessary always-on new container service introduced in 18.04
+# used by a new and unasked-for instance monitoring agent from AWS
+
+amazon-ssm-agent-snap-removal:
+    cmd.run:
+        - name: snap remove amazon-ssm-agent
+        - onlyif:
+            - hash snap
+
 snapd:
     service.dead:
         - enable: False
         - onlyif:
             - hash snap
+        - require:
+            - amazon-ssm-agent-snap-removal
+
+    cmd.run:
+        - name: rm -rf /var/cache/snapd
+        - require:
+            - service: snapd
+        - require_in:
+            - pkg: base-purging
 {% endif %}
