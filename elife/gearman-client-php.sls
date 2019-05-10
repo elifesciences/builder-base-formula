@@ -18,8 +18,8 @@ php-ppa-gearman:
             
 {% elif salt['grains.get']('osrelease') == '16.04' %}
 
-# the above ppa is partially included in the ppa in the php7 sls file
-# that ppa references php-gearman but does not include it's dependencies:
+# the ppa in the php7 sls file references php-gearman but does not 
+# include php-gearman's dependencies:
 # * https://github.com/oerdnj/deb.sury.org/issues/711
 # * https://www.patreon.com/posts/gearman-now-in-14627464
 #
@@ -28,9 +28,15 @@ php-ppa-gearman:
 # * https://packages.ubuntu.com/bionic/php-gearman
 
 php-ppa-gearman:
-    pkgrepo.managed:
-        - ppa: ondrej/pkg-gearman
-        - key_text: 1024R/14AA40EC0831756756D7F66C4F4EA0AAE5267A6C
+    cmd.run:
+        - name: |
+            # will successfully install key but also fails (on 16.04 only) with 
+            # "'ascii' codec can't decode byte 0xc5 in position 92: ordinal not in range(128)"
+            # this is a Ubuntu problem, not Salt
+            apt-add-repository -y ppa:ondrej/pkg-gearman
+            apt-get update
+        - unless:
+            - test -e /etc/apt/sources.list.d/ondrej-ubuntu-pkg-gearman-xenial.list
         - require_in:
             - pkg: gearman-php-extension
 {% endif %}
