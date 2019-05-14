@@ -1,0 +1,12 @@
+[Unit]
+Description="{{ process }}"
+After=network.target
+PartOf={{ process }}-controller.target
+#RefuseManualStart=, # mght be useful as well
+
+[Install]
+WantedBy={{ process }}-controller.target
+
+[Service]
+RestartSec=10
+ExecStart=/usr/bin/python3 /opt/{{ process }}.py $I
