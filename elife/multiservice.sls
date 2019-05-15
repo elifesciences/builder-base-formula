@@ -5,7 +5,7 @@
 # 2. the pool of processes can be grown or shrunk
 # 3. broken processes fail highstate as they ordinarily would
 
-{% for process, opts in pillar.elife.multiservice.process_list.items() %}
+{% for process, opts in pillar.elife.multiservice.services.items() %}
     {% set num_processes = opts["num_processes"] %}
 
 # ensure the target state is available and running

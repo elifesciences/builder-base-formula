@@ -234,8 +234,8 @@ elife:
             #    folder: /srv/profiles
 
     multiservice:
-        process_list: {}
-            #journal-cms-article-update-listener:
+        services: {}
+            #whatever:
             ## use '0' to disable
             #   num_processes:
             
