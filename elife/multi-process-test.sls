@@ -5,26 +5,8 @@
 # 2. the pool of processes can be grown or shrunk
 # 3. broken processes fail highstate as they ordinarily would
 
-{% set process = "test" %}
-{% set num_processes = 0 %}
-
-/opt/{{ process }}.py:
-    file.managed:
-        - source: salt://elife/scripts/test.py
-
-{{ process }}-template:
-    file.managed:
-        - name: /lib/systemd/system/{{ process }}@.service
-        - source: salt://elife/config/lib-systemd-system-test.service
-        - template: jinja
-        - context:
-            process: {{ process }}
-        - require:
-            - /opt/{{ process }}.py
-
-#
-#
-#
+{% for process, opts in pillar.elife.multiservice.process_list.items() %}
+    {% set num_processes = opts["num_processes"] %}
 
 # ensure the target state is available and running
 {{ process }}-controller.target:
@@ -49,7 +31,7 @@
             systemctl enable {{ process }}@{0..{{ num_processes - 1}}} # enable just the range we're after. implicit reload
             {% endif %}
         - require:
-            - file: {{ process }}-template
+            - file: {{ opts["service_template"] }} # name of state that manages the systemd service template file
         - onlyif:
             # only run command when the expected number of processes (enabled and running) is not equal to the intended 
             # number of processes. 
@@ -68,4 +50,6 @@
         - require:
             - {{ process }}-set-enabled
             - {{ process }}-controller.target
+{% endfor %}
+
 {% endfor %}

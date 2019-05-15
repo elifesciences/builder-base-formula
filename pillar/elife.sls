@@ -233,6 +233,15 @@ elife:
             #profiles:  
             #    folder: /srv/profiles
 
+    multiservice:
+        process_list: {}
+            #journal-cms-article-update-listener:
+            ## use '0' to disable
+            #   num_processes:
+            
+            ## state that manages the "/lib/systemd/system/whatever@.service" template file
+            #   service_template_file:
+
     aws:
         # projects should provide this
         #access_key_id: AKIAFAKE
