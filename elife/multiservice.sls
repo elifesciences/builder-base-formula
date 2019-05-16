@@ -16,15 +16,12 @@
 
 # ensure precisely N processes are enabled. restart controller if N has changed
 # enabled processes are started when the controller state changes
-{{ process }}-set-enabled:
+{{ process }}-set-disabled:
     cmd.run:
         - name: |
             set -e
             systemctl stop {{ process }}@{0..99} # stop any running instances of this service.
             systemctl disable {{ process }}@ # disable *everything*. implicit reload
-            {% if num_processes > 0 %}
-            systemctl enable {{ process }}@{0..{{ num_processes - 1}}} # enable just the range we're after. implicit reload
-            {% endif %}
         - require:
             - file: {{ opts["service_template"] }} # name of state that manages the systemd service template file
         - onlyif:
@@ -34,6 +31,16 @@
             # use 'show' and grep for the pid for running units. it conveniently returns MainPID=0 for enabled-but-not-running units
             - test {{ num_processes }} != $(systemctl is-enabled {{ process }}@{0..99} | grep 'enabled' | wc -l) || \
               test {{ num_processes }} != $(systemctl show {{ process }}@{0..99} | grep '^MainPID=[^0]' | wc -l)
+
+{{ process }}-set-enabled:
+    cmd.run:
+        - name: |
+            set -e
+            {% if num_processes > 0 %}
+            systemctl enable {{ process }}@{0..{{ num_processes - 1}}} # enable just the range we're after. implicit reload
+            {% endif %}
+        - require:
+            - {{ process }}-set-disabled
 
 {{ process }}-controller.target-restart:
     cmd.run:
