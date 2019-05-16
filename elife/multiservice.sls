@@ -14,11 +14,6 @@
         - name: /lib/systemd/system/{{ process }}-controller.target
         - source: salt://elife/templates/process-controller.target
 
-    service.running:
-        - enable: true
-        - require:
-            - file: {{ process }}-controller.target
-
 # ensure precisely N processes are enabled. restart controller if N has changed
 # enabled processes are started when the controller state changes
 {{ process }}-set-enabled:
@@ -39,17 +34,12 @@
             # use 'show' and grep for the pid for running units. it conveniently returns MainPID=0 for enabled-but-not-running units
             - test {{ num_processes }} != $(systemctl is-enabled {{ process }}@{0..99} | grep 'enabled' | wc -l) || \
               test {{ num_processes }} != $(systemctl show {{ process }}@{0..99} | grep '^MainPID=[^0]' | wc -l)
-        - watch_in:
-            - service: {{ process }}-controller.target
 
-# ensure N processes are running 
-{% for i in range(0, num_processes) %}
-{{ process }}@{{ i }}:
-    service.running:
-        - enable: true # redundant, but can't hurt
+{{ process }}-controller.target-restart:
+    cmd.run:
+        - name: systemctl restart {{ process }}-controller.target
         - require:
-            - {{ process }}-set-enabled
             - {{ process }}-controller.target
-{% endfor %}
+            - {{ process }}-set-enabled
 
 {% endfor %}
