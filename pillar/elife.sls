@@ -235,11 +235,11 @@ elife:
 
     multiservice:
         services: {}
-            #whatever:
+            #myservice:
             ## use '0' to disable
             #   num_processes:
             
-            ## state that manages the "/lib/systemd/system/whatever@.service" template file
+            ## state that manages the "/lib/systemd/system/myservice@.service" template file
             #   service_template_file:
 
     aws:
