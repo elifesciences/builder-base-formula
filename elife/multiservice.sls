@@ -27,6 +27,7 @@
             {% endif %}
             systemctl start {{ process }}-controller.target
         - require:
+            - {{ process }}-controller.target
             - file: {{ opts["service_template"] }} # name of state that manages the systemd service template file
 
 # 3. broken processes fail highstate as they ordinarily would
