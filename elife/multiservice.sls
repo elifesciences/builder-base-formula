@@ -24,8 +24,8 @@
             systemctl disable {{ process }}@ # disable *everything*. implicit reload
             {% if num_processes > 0 %}
             systemctl enable {{ process }}@{0..{{ num_processes - 1}}} # enable just the range we're after. implicit reload
-            {% endif %}
             systemctl start {{ process }}-controller.target
+            {% endif %}
         - require:
             - {{ process }}-controller.target
             - file: {{ opts["service_template"] }} # name of state that manages the systemd service template file
