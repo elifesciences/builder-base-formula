@@ -63,7 +63,7 @@ web-complete-cert:
 better-dhe:
     cmd.run:
         - cwd: /etc/ssl/certs
-        - name: openssl dhparam -out dhparam.pem 2048
+        - name: openssl dhparam -dsaparam -out dhparam.pem 2048
         - unless:
             - test -e /etc/ssl/certs/dhparam.pem
 

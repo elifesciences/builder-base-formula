@@ -63,8 +63,14 @@ jenkins-workspaces-cleanup-cron:
         - hour: 5
         - minute: 0
 
-add-jenkins-gitconfig:
+add-jenkins-gitconfig-deploy-user:
     file.managed:
         - name: /home/{{ pillar.elife.deploy_user.username }}/.gitconfig
+        - source: salt://elife/config/home-deploy-user-.gitconfig
+        - mode: 664
+
+add-jenkins-gitconfig-ubuntu-user:
+    file.managed:
+        - name: /home/ubuntu/.gitconfig
         - source: salt://elife/config/home-deploy-user-.gitconfig
         - mode: 664

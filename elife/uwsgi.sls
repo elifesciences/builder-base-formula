@@ -38,6 +38,7 @@ uwsgi-logrotate-def:
     file.managed:
         - name: /etc/logrotate.d/uwsgi
         - source: salt://elife/config/etc-logrotate.d-uwsgi
+        - template: jinja
 
 uwsgi-syslog-conf:
     file.managed:
@@ -74,6 +75,28 @@ uwsgi-{{ name }}.log:
         - user: root
         - group: {{ pillar.elife.webserver.username }}
         - mode: 664
+
+uwsgi-{{ name }}-logrotate-def:
+    file.managed:
+        - name: /etc/logrotate.d/uwsgi-{{ name }}
+        - source: salt://elife/config/etc-logrotate.d-uwsgi
+        - template: jinja
+        - context:
+            # don't use 'name' in template! it's already passed to jinja with the value of the current state name
+            appname: {{ name }}
+
+uwsgi-{{ name }}-syslog-conf:
+    file.managed:
+        - name: /etc/syslog-ng/conf.d/uwsgi.conf
+        - source: salt://elife/config/etc-syslog-ng-conf.d-uwsgi.conf
+        - template: jinja
+        - context:
+            appname: {{ name }}
+        - require:
+            - pkg: syslog-ng
+            - file: uwsgi-logrotate-def
+        - watch_in:
+            - service: syslog-ng
 
 uwsgi-service-{{ name }}:
     file.managed:

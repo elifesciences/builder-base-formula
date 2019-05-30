@@ -233,6 +233,18 @@ elife:
             #profiles:  
             #    folder: /srv/profiles
 
+    multiservice:
+        services: {}
+            #myservice:
+            ## use '0' to disable
+            #   num_processes:
+            
+            ## state that manages the "/lib/systemd/system/myservice@.service" template file
+            #   service_template_file:
+
+            ## optional pause after starting service to ensure it didn't die N seconds later
+            #   init_delay:
+
     aws:
         # projects should provide this
         #access_key_id: AKIAFAKE

@@ -1,4 +1,5 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
+{% set oscodename = salt['grains.get']('oscodename') %}
 
 # fails on AWS, perhaps due to the package name
 #docker-recommended-extra-packages:
@@ -36,14 +37,18 @@ docker-folder-linking:
         - require:
             - cmd: docker-folder-linking
 
+# https://docs.docker.com/install/linux/docker-ce/ubuntu/
+
 docker-gpg-key:
     cmd.run:
-        - name: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        - name: |
+            set -e
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+            apt-key fingerprint 0EBFCD88
 
 docker-repository:
-    cmd.run:
-        # https://docs.docker.com/install/linux/docker-ce/ubuntu/
-        - name: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    pkgrepo.managed:
+        - name: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ oscodename }} stable
         - require:
             - docker-gpg-key
             - docker-folder-linking
