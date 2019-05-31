@@ -10,6 +10,13 @@
 #     the name of a service.running state that should be restarted
 
 {% if pillar.elife.newrelic.enabled %}
+    {% if not pillar.elife.newrelic_python %}
+
+newrelic_python misconfigured:
+    cmd.run:
+        - name: echo "pillar data misconfigured, could not find 'pillar.elife.newrelic_python'" && false
+
+    {% else %}
 newrelic-python-license-configuration:
     cmd.run:
         - name: venv/bin/newrelic-admin generate-config {{ pillar.elife.newrelic.license }} newrelic.ini
@@ -56,4 +63,5 @@ newrelic-python-logfile-agent-in-ini-configuration:
         - listen_in:
             - service: {{ pillar.elife.newrelic_python.service }}
         {% endif %}
+    {% endif %}
 {% endif %}
