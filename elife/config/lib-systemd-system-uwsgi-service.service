@@ -6,8 +6,8 @@ After=network.target
 WantedBy=multi-user.target
 
 [Service]
-User={{ pillar.elife.webserver.username }}
-Group={{ pillar.elife.webserver.username }}
+User={{ pillar.elife.uwsgi.username }}
+Group={{ pillar.elife.uwsgi.username }}
 KillSignal=SIGQUIT
 Type=notify
 Restart=on-failure

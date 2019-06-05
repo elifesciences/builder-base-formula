@@ -73,6 +73,9 @@ elife:
     daily_system_updates:
         enabled: True
 
+    uwsgi:
+        username: www-data
+
     webserver:
         username: www-data
 
