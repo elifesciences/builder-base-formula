@@ -55,7 +55,7 @@ uwsgi-syslog-conf:
 uwsgi-sock-dir:
     file.directory:
         - name: /run/uwsgi/
-        - user: {{ pillar.elife.webserver.username }}
+        - user: {{ pillar.elife.uwsgi.username }}
         - require:
             - uwsgi-pkg
 {% endif %}
@@ -73,7 +73,7 @@ uwsgi-{{ name }}.log:
     file.managed:
         - name: /var/log/uwsgi-{{ name }}.log
         - user: root
-        - group: {{ pillar.elife.webserver.username }}
+        - group: {{ pillar.elife.uwsgi.username }}
         - mode: 664
 
 uwsgi-{{ name }}-logrotate-def:
