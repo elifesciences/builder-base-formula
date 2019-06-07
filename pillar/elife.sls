@@ -73,9 +73,6 @@ elife:
     daily_system_updates:
         enabled: True
 
-    uwsgi:
-        username: www-data
-
     webserver:
         username: www-data
 
@@ -232,8 +229,9 @@ elife:
         #    port: 8081 # will add 1 to get an HTTPS port too
         
     uwsgi:
+        username: www-data
         services: {}
-            #profiles:  
+            #profiles:
             #    folder: /srv/profiles
 
     multiservice:
