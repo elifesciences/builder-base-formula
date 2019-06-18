@@ -10,3 +10,33 @@ helm:
     cmd.run:
         - name: tar -xvzf {{ helm_archive }} && mv linux-amd64/helm linux-amd64/tiller /usr/local/bin/
         - cwd: /root
+
+helm-init:
+    cmd.run:
+        - name: helm init --client-only
+        - user: {{ pillar.elife.deploy_user.username }}
+        - require:
+            - helm
+
+make-dependency:
+    pkg.installed:
+        - name: make
+
+helm-s3-plugin:
+    cmd.run:
+        - name: helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.7.0
+        - user: {{ pillar.elife.deploy_user.username }}
+        - unless:
+            -  helm plugin list | grep '^s3 '
+        - require:
+            - make-dependency
+            - helm-init
+
+{% if salt['elife.only_on_aws']() %}
+helm-s3-charts-repository:
+    cmd.run:
+        - name: helm repo add alfred s3://prod-elife-alfred/helm-charts
+        - user: {{ pillar.elife.deploy_user.username }}
+        - require:
+            - helm-s3-plugin
+{% endif %}
