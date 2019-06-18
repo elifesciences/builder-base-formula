@@ -25,9 +25,11 @@ helm-s3-plugin:
         - require:
             - helm-init
 
+{% if salt['elife.only_on_aws']() %}
 helm-s3-charts-repository:
     cmd.run:
         - name: helm repo add alfred s3://prod-elife-alfred/helm-charts
         - user: {{ pillar.elife.deploy_user.username }}
         - require:
             - helm-s3-plugin
+{% endif %}
