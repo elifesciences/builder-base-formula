@@ -10,3 +10,17 @@ helm:
     cmd.run:
         - name: tar -xvzf {{ helm_archive }} && mv linux-amd64/helm linux-amd64/tiller /usr/local/bin/
         - cwd: /root
+
+helm-s3-plugin:
+    cmd.run:
+        - name: helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.7.0
+        - user: {{ pillar.elife.deploy_user.username }}
+        - require:
+            - helm
+
+helm-s3-charts-repository:
+    cmd.run:
+        - name: helm repo add alfred s3://prod-elife-alfred/helm-charts
+        - user: {{ pillar.elife.deploy_user.username }}
+        - require:
+            - helm-s3-plugin
