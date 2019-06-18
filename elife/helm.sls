@@ -18,6 +18,10 @@ helm-init:
         - require:
             - helm
 
+make-dependency:
+    pkg.installed:
+        - name: make
+
 helm-s3-plugin:
     cmd.run:
         - name: helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.7.0
@@ -25,6 +29,7 @@ helm-s3-plugin:
         - unless:
             -  helm plugin list | grep '^s3 '
         - require:
+            - make-dependency
             - helm-init
 
 {% if salt['elife.only_on_aws']() %}
