@@ -22,6 +22,8 @@ helm-s3-plugin:
     cmd.run:
         - name: helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.7.0
         - user: {{ pillar.elife.deploy_user.username }}
+        - unless:
+            -  helm plugin list | grep '^s3 '
         - require:
             - helm-init
 
