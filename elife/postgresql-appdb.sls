@@ -34,7 +34,7 @@ db-perms-to-rds_superuser:
             app_user_name: {{ app_user_name }}
             app_user_pass: {{ app_user_pass }}
         - require:
-            - postgresql-ready # builder-base-formula.postgresql
+            - postgresql-ready # postgresql.sls
 
 psql-app-db:
     postgres_database.present:
@@ -47,7 +47,7 @@ psql-app-db:
         - db_host: {{ host }}
         - db_port: {{ port }}
         - require:
-            - postgresql-ready # builder-base-formula.postgresql
+            - postgresql-ready # postgresql.sls
             - db-perms-to-rds_superuser
 
     postgres_user.present:
