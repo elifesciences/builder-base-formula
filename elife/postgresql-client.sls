@@ -13,3 +13,5 @@ postgresql-client:
         - pkgs:
             - postgresql-client-9.4
         - refresh: True
+        - require:
+            - pkgrepo: postgresql-deb
