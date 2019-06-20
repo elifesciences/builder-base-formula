@@ -390,3 +390,6 @@ elife:
             observer:
                 host: null
         tmp: /ext/spectrum-tmp
+
+    helm:
+        username: elife
