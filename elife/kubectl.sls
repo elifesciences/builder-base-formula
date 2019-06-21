@@ -37,7 +37,7 @@ aws-eks-update-kube-config-{{ cluster_name }}:
         - name: aws eks update-kubeconfig --name {{ cluster_name }} --role-arn {{ cluster_configuration['role'] }}
         - env:
             - AWS_DEFAULT_REGION: {{ cluster_configuration['region'] }}
-        - user: {{ pillar.elife.deploy_user.username }}
+        - user: {{ pillar.elife.kubectl.username }}
         - require:
             - kubectl-package
             - aws-iam-authenticator-binary

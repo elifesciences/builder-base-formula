@@ -393,3 +393,6 @@ elife:
 
     helm:
         username: elife
+        
+    kubectl:
+        username: elife
