@@ -20,4 +20,8 @@ capture_file=/var/log/daily-logrotate.log
 # logrotate doesn't appear to exit with a non-zero status when there is a 
 # problem rotating a logfile so we have to grep the output.
 # failing to find a problem (|| true) is ok as well
-grep --quiet -i "error:" "$capture_file" && logger "logrotate encountered an error on $(hostname): $capture_file" || true
+#grep --quiet -i "error:" "$capture_file" && logger "logrotate encountered an error on $(hostname): $capture_file" || true
+
+# same as above, but we're filtering out a bogus case logrotate is letting through in Ubuntu 18.04
+set pipefail
+cat "$capture_file" | python3 /usr/local/bin/logrotate_noise_filter.py && logger "logrotate encountered an error on $(hostname): $capture_file" || true
