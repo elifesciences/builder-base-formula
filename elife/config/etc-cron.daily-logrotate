@@ -24,4 +24,4 @@ capture_file=/var/log/daily-logrotate.log
 
 # same as above, but we're filtering out a bogus case logrotate is letting through in Ubuntu 18.04
 set pipefail
-cat "$capture_file" | python /usr/local/bin/logrotate_noise_filter.py && logger "logrotate encountered an error on $(hostname): $capture_file" || true
+cat "$capture_file" | python3 /usr/local/bin/logrotate_noise_filter.py && logger "logrotate encountered an error on $(hostname): $capture_file" || true
