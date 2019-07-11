@@ -79,8 +79,8 @@ docker-packages:
 docker-compose:
     file.managed:
         - name: /usr/local/bin/docker-compose 
-        - source: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-Linux-x86_64
-        - source_hash: sha256=8a11713e11ed73abcb3feb88cd8b5674b3320ba33b22b2ba37915b4ecffdf042
+        - source: https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64
+        - source_hash: sha256=bee6460f96339d5d978bb63d17943f773e1a140242dfa6c941d5e020a302c91b
         - require:
             - docker-packages
     
