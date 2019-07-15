@@ -65,9 +65,7 @@ python-pip:
 
 global-python-requisites:
     cmd.run:
-        # rmrf_enter is DEPRECATED
-        # elife's delete script for stuff that accumulates
-        - name: /usr/bin/python2.7 -m pip install "virtualenv>=13" "git+https://github.com/elifesciences/rmrf_enter.git@master#egg=rmrf_enter" --no-cache-dir
+        - name: /usr/bin/python2.7 -m pip install "virtualenv>=13" --no-cache-dir
         - require:
             - pkg: base
 
