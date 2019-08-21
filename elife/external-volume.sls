@@ -24,6 +24,7 @@ mount-point-external-volume-existing-data-move-out:
     cmd.run:
         - name: |
             touch {{ pillar.elife.external_volume.directory }}/ping
+            if test -e /etc/init.d/docker; then stop docker; fi
             if systemctl is-enabled --quiet docker; then systemctl stop docker; fi
             mkdir -p /tmp-ext-contents && mv -v {{ pillar.elife.external_volume.directory }}/* /tmp-ext-contents
         #- onlyif:
@@ -70,6 +71,7 @@ mount-point-external-volume-existing-data-move-in:
     cmd.run:
         - name: |
             mv -v /tmp-ext-contents/* {{ pillar.elife.external_volume.directory }}/ && rm -r /tmp-ext-contents
+            if test -e /etc/init.d/docker; then start docker; fi
             if systemctl is-enabled --quiet docker; then systemctl start docker; fi
         - onlyif:
             - test -d /tmp-ext-contents
