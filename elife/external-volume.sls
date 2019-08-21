@@ -23,6 +23,7 @@ mount-point-external-volume:
 mount-point-external-volume-existing-data-move-out:
     cmd.run:
         - name: |
+            touch {{ pillar.elife.external_volume.directory }}/ping
             mkdir -p /tmp-ext-contents && mv -v {{ pillar.elife.external_volume.directory }}/* /tmp-ext-contents
         #- onlyif:
         #    # volume exists
