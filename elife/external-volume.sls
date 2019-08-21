@@ -23,7 +23,7 @@ mount-point-external-volume:
 mount-point-external-volume-existing-data-move-out:
     cmd.run:
         - name: |
-            mkdir -p /tmp-ext-contents && mv {{ pillar.elife.external_volume.directory }}/* /tmp-ext-contents
+            mkdir -p /tmp-ext-contents && mv -v {{ pillar.elife.external_volume.directory }}/* /tmp-ext-contents
         #- onlyif:
         #    # volume exists
         #    - test -b {{ pillar.elife.external_volume.device }}
@@ -67,7 +67,7 @@ resize-external-volume-if-needed:
 mount-point-external-volume-existing-data-move-in:
     cmd.run:
         - name: |
-            mv /tmp-ext-contents/* {{ pillar.elife.external_volume.directory }}/* && rm -r /tmp-ext-contents
+            mv -v /tmp-ext-contents/* {{ pillar.elife.external_volume.directory }}/ && rm -r /tmp-ext-contents
         - onlyif:
             - test -d /tmp-ext-contents
         - require:
