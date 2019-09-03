@@ -82,8 +82,7 @@ php-dev:
         - pkgs:
             - php{{ php_version }}-dev
         - require:
-            - php-ppa # DEPRECATED
-            - pkg: base
+            - php
 
 php-log:
     file.managed:
