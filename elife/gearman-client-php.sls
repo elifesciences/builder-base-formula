@@ -56,8 +56,6 @@ php-ppa-gearman:
     pkg.purged:
         - pkgs:
             - php-gearman
-        - require_in:
-            - gearman-php-extension
 
 gearman-php-extension:
     git.latest:
@@ -69,17 +67,23 @@ gearman-php-extension:
         - force_clone: true
         - force_reset: true
         - force_checkout: true
+
     pkg.installed:
         - pkgs:
             - libgearman-dev
+        - require:
+            - php-ppa-gearman
+
     file.managed:
         - name: /etc/php/7.2/mods-available/gearman.ini
         - contents: extension=gearman.so
         - require:
             - php
+
     cmd.run:
         - cwd: /opt/pecl-gearman
         - name: |
+            set -e
             phpize
             ./configure
             make -j$(nproc)
