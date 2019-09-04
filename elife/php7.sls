@@ -77,6 +77,13 @@ php:
             - php-ppa # DEPRECATED
             - pkg: base
 
+php-dev:
+    pkg.installed:
+        - pkgs:
+            - php{{ php_version }}-dev
+        - require:
+            - php
+
 php-log:
     file.managed:
         - name: /var/log/php_errors.log
