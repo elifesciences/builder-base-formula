@@ -67,16 +67,24 @@ postgresql:
 {% if not salt['elife.cfg']('cfn.outputs.RDSHost') %}
 # 12.04/14.04 legacy file, to be removed with postgresql.sls (psql 9.4)
 # systemd service/target is being used in 16.04+
-# TODO: file.absent?
-#postgresql-init:
-#    file.managed:
-#        - name: /etc/init.d/postgresql
-#        - source: salt://elife/config/etc-init.d-postgresql
-#        - require:
-#            - pkg: postgresql
-#        - require_in:
-#            - cmd: postgresql-ready
+postgresql-init:
+    file.absent:
+        - name: /etc/init.d/postgresql
+#        - source: salt://elife/config/etc-init.d-postgresql # remove with postgresql.sls
 {% endif %}
+
+
+# runs pg_upgrade on 9.4 data and then purge postgresql-9.4 
+psql-9.4 to psql-10 migration:
+    file.managed:
+        - name: /root/upgrade-postgresql-9.4-to-10.sh
+        - source: salt://elife/scripts/root-upgrade-postgresql-9.4-to-10.sh
+
+    cmd.script:
+        - name: salt://elife/scripts/root-upgrade-postgresql-9.4-to-10.sh
+        - require:
+            - pkg: postgresql
+            - file: psql-9.4 to psql-10 migration
 
 postgresql-config:
     file.managed:
@@ -84,6 +92,22 @@ postgresql-config:
         - source: salt://elife/config/etc-postgresql-10-main-pg_hba.conf
         - require:
             - pkg: postgresql
+        - watch_in:
+            - service: postgresql
+        - require_in:
+            - cmd: postgresql-ready
+
+# managing this file is necessary because of the migration
+# psql 10 default config is port 5433 and not 5432 when another psql is present
+more-postgresql-config:
+    file.managed:
+        - name: /etc/postgresql/10/main/postgresql.conf
+        - source: salt://elife/config/etc-postgresql-10-main-postgresql.conf
+        - require:
+            - pkg: postgresql
+            # run the migration first, which will purge the old 9.x postgresql, then 
+            # enforce new config with port 5432 here
+            - cmd: psql-9.4 to psql-10 migration
         - watch_in:
             - service: postgresql
         - require_in:
