@@ -79,7 +79,7 @@ echo "using: $pg_upgrade"
         --old-bindir "/usr/lib/postgresql/9.4/bin" \
         --new-bindir "/usr/lib/postgresql/10/bin" \
         --old-options "-c config_file=/etc/postgresql/9.4/main/postgresql.conf" \
-        --new-options "-c config_file=/etc/postgresql/10/main/postgresql.conf"
+        --new-options "-c config_file=/etc/postgresql/10/main/postgresql.conf" \
     && {
         # pg_upgrade succeeded
         
@@ -96,7 +96,7 @@ echo "using: $pg_upgrade"
         # remove postgresql-9.4
         echo "removing postgresql-9.4 including data and configuration"
         DEBIAN_FRONTEND=noninteractive apt-get purge postgresql-9.4 -y
-    }
+    } \
     || {
         # pg upgrade failed
 
