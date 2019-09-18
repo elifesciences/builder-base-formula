@@ -101,8 +101,8 @@ postgresql-config:
 # psql 10 default config is port 5433 and not 5432 when another psql is present
 more-postgresql-config:
     file.managed:
-        - name: /etc/postgresql/10/main/postgresql.conf
-        - source: salt://elife/config/etc-postgresql-10-main-postgresql.conf
+        - name: /etc/postgresql/10/main/conf.d/port.conf
+        - source: salt://elife/config/etc-postgresql-10-main-conf.d-port.conf
         - require:
             - pkg: postgresql
             # run the migration first, which will purge the old 9.x postgresql, then 
