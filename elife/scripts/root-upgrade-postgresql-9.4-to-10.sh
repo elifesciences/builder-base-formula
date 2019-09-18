@@ -84,14 +84,12 @@ echo "using: $pg_upgrade"
         # pg_upgrade succeeded
         
         # create a backup of the data
-        bdir=/tmp/var-lib-postgresql-9.4--backup/
-        mkdir -p "$bdir"
+        #bdir=/tmp/var-lib-postgresql-9.4--backup/
+        #mkdir -p "$bdir"
+        #rsync -av /var/lib/postgresql/9.4/ "$bdir"
+        #tar czf "/tmp/$bdir.tar.gz" "$bdir"
         
-        # copy *and* tarball? revisit this
-        rsync -av /var/lib/postgresql/9.4/ "$bdir"
-        tar czf "/tmp/$bdir.tar.gz" "$bdir"
-        
-        echo "wrote backup: $bdir.tar.gz"
+        #echo "wrote backup: $bdir.tar.gz"
         
         # remove postgresql-9.4
         echo "removing postgresql-9.4 including data and configuration"
