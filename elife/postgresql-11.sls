@@ -73,6 +73,16 @@ postgresql-init:
 #        - source: salt://elife/config/etc-init.d-postgresql # remove with postgresql.sls
 {% endif %}
 
+postgresql-config:
+    file.managed:
+        - name: /etc/postgresql/11/main/pg_hba.conf
+        - source: salt://elife/config/etc-postgresql-11-main-pg_hba.conf
+        - require:
+            - pkg: postgresql
+        - watch_in:
+            - service: postgresql
+        - require_in:
+            - cmd: postgresql-ready
 
 # runs pg_upgrade on 9.4 data and then purge postgresql-9.4 
 psql-9.4 to psql-11 migration:
@@ -84,18 +94,9 @@ psql-9.4 to psql-11 migration:
         - name: salt://elife/scripts/root-upgrade-postgresql-9.4-to-11.sh
         - require:
             - pkg: postgresql
+            - pgpass-file
+            - postgresql-config
             - file: psql-9.4 to psql-11 migration
-
-postgresql-config:
-    file.managed:
-        - name: /etc/postgresql/11/main/pg_hba.conf
-        - source: salt://elife/config/etc-postgresql-11-main-pg_hba.conf
-        - require:
-            - pkg: postgresql
-        - watch_in:
-            - service: postgresql
-        - require_in:
-            - cmd: postgresql-ready
 
 # managing this file is necessary because of the migration
 # psql 11 default config is port 5433 and not 5432 when another psql is present
