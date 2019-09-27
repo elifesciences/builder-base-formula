@@ -1,4 +1,4 @@
-# postgresql-10.sls is intended to be a drop-in replacement for postgresql.sls (psql 9.4)
+# postgresql-11.sls is intended to be a drop-in replacement for postgresql.sls (psql 9.4)
 # the two are mutually exclusive and share many of the same state names
 
 # copied from postgresql-client.sls
@@ -45,7 +45,7 @@ pgpass-rds-entry:
 postgresql:
     pkg.installed:
         - pkgs:
-            - postgresql-10
+            - postgresql-11
             - libpq-dev # headers for building the libraries to them
         - require:
             - pkgrepo: postgresql-deb
@@ -75,21 +75,21 @@ postgresql-init:
 
 
 # runs pg_upgrade on 9.4 data and then purge postgresql-9.4 
-psql-9.4 to psql-10 migration:
+psql-9.4 to psql-11 migration:
     file.managed:
-        - name: /root/upgrade-postgresql-9.4-to-10.sh
-        - source: salt://elife/scripts/root-upgrade-postgresql-9.4-to-10.sh
+        - name: /root/upgrade-postgresql-9.4-to-11.sh
+        - source: salt://elife/scripts/root-upgrade-postgresql-9.4-to-11.sh
 
     cmd.script:
-        - name: salt://elife/scripts/root-upgrade-postgresql-9.4-to-10.sh
+        - name: salt://elife/scripts/root-upgrade-postgresql-9.4-to-11.sh
         - require:
             - pkg: postgresql
-            - file: psql-9.4 to psql-10 migration
+            - file: psql-9.4 to psql-11 migration
 
 postgresql-config:
     file.managed:
-        - name: /etc/postgresql/10/main/pg_hba.conf
-        - source: salt://elife/config/etc-postgresql-10-main-pg_hba.conf
+        - name: /etc/postgresql/11/main/pg_hba.conf
+        - source: salt://elife/config/etc-postgresql-11-main-pg_hba.conf
         - require:
             - pkg: postgresql
         - watch_in:
@@ -98,16 +98,16 @@ postgresql-config:
             - cmd: postgresql-ready
 
 # managing this file is necessary because of the migration
-# psql 10 default config is port 5433 and not 5432 when another psql is present
+# psql 11 default config is port 5433 and not 5432 when another psql is present
 more-postgresql-config:
     file.managed:
-        - name: /etc/postgresql/10/main/conf.d/port.conf
-        - source: salt://elife/config/etc-postgresql-10-main-conf.d-port.conf
+        - name: /etc/postgresql/11/main/conf.d/port.conf
+        - source: salt://elife/config/etc-postgresql-11-main-conf.d-port.conf
         - require:
             - pkg: postgresql
             # run the migration first, which will purge the old 9.x postgresql, then 
             # enforce new config with port 5432 here
-            - cmd: psql-9.4 to psql-10 migration
+            - cmd: psql-9.4 to psql-11 migration
         - watch_in:
             - service: postgresql
         - require_in:
