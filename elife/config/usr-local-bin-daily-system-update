@@ -12,7 +12,7 @@ fi
 
 log_file=/var/log/daily-system-update.log
 set -o pipefail
-sudo salt-call --force-color state.highstate -l info --retcode-passthrough | tee $log_file || {
+sudo timeout 60m salt-call --force-color state.highstate -l info --retcode-passthrough | tee $log_file || {
     status=$?
     echo "Error in daily-system-update, state.highstate returned: ${status}"
     logger "Salt highstate failure: $log_file on $(hostname)"
