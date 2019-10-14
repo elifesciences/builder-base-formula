@@ -173,6 +173,9 @@ elife:
         password: null
         prune_days: 14
 
+    docker_postgresql:
+        image_tag: 9.4.16
+
     gcloud:
         directory: /home/elife
         username: elife
