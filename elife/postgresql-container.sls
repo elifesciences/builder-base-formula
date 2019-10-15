@@ -1,5 +1,5 @@
 # temporary, remove once all postgresql-container projects are upgraded to 11+
-{% set psql9 = pillar.elife.docker_postgresql.image_tag.startswith("9.") %}
+{% set psql9 = (pillar.elife.docker_postgresql.image_tag|string).startswith("9.") %}
 
 # copied from postgresql-client.sls
 
@@ -84,7 +84,7 @@ stop-remove-postgresql9-process:
                 echo "docker postgres 9.x process not found"
             }
         - require_in:
-            - cmd: stop-remove-postgresql9-process
+            - cmd: docker-compose-postgres-up
 {% endif %}
 
 docker-compose-postgres-up:
