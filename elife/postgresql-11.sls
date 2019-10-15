@@ -13,7 +13,7 @@ postgresql-deb:
         - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
 
-# copied from 
+# /copied from
 
 pgpass-file:
     file.managed:
