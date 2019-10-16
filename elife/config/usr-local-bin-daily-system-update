@@ -15,7 +15,7 @@ set -o pipefail
 # timeout requires --foreground to safely run outside of a shell
 # to avoid putting the wrapped process in the background
 # https://github.com/elifesciences/issues/issues/5163
-sudo timeout --foreground salt-call --force-color state.highstate -l info --retcode-passthrough | tee $log_file || {
+sudo timeout --foreground 60m salt-call --force-color state.highstate -l info --retcode-passthrough | tee $log_file || {
     status=$?
     echo "Error in daily-system-update, state.highstate returned: ${status}"
     logger "Salt highstate failure: $log_file on $(hostname)"
