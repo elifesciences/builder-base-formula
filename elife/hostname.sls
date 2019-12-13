@@ -15,7 +15,9 @@ set-hostname:
 
 set-hosts:
     host.present:
-        - ip: 127.0.0.1
+        - ip: 
+            - 127.0.0.1
+            - ::1
         - names:
             - localhost
             - {{ hostname }}
