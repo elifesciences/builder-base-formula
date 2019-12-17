@@ -14,7 +14,7 @@ class TestVerifyJunitXml(unittest.TestCase):
             17,
             subprocess.call(
                 [
-                    "python",
+                    "python3",
                     "verifyjunitxml.py",
                     "tests/failed-test-suite.junit.xml"
                 ]

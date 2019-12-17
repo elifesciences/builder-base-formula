@@ -4,5 +4,4 @@ mysql-package-list:
     pkg.installed:
         - pkgs:
             - mysql-client
-            - python-mysqldb # py2, to be removed
-            - python3-mysqldb # py3
+            - python3-mysqldb
