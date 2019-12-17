@@ -1,9 +1,13 @@
 {% set root = pillar.elife.db_root %}
 {% set oscodename = salt['grains.get']('oscodename') %}
 
+# `salt.states.mysql_*` require the `python3-mysqldb` library to be installed
+
 mysql-server:
-    pkg:
-        - installed
+    pkg.installed:
+        - pkgs:
+            - mysql-server
+            - python3-mysqldb
 
     file.managed:
         - name: /etc/mysql/my.cnf

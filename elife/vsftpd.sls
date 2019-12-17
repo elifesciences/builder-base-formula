@@ -17,7 +17,7 @@ vsftpd-service:
         - watch:
             - vsftpd-configuration
 
-{% for user, info in pillar.elife.ftp_users.iteritems() %}
+{% for user, info in pillar.elife.ftp_users.items() %}
 # https://www.digitalocean.com/community/tutorials/how-to-set-up-vsftpd-for-a-user-s-directory-on-ubuntu-16-04
 create-ftp-user-{{ user }}:
     user.present: 
