@@ -4,6 +4,7 @@
 include:
     - .base
     - .python
+    - .systemd
     - .hostname
     - .dhcp
     - .known-hosts
