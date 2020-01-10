@@ -7,6 +7,7 @@
 # TODO: remove when all projects are using 16.04+
 #
 
+# DEPRECATED: to be removed (eventually) without replacement
 python-2.7:
     pkg.installed:
         - pkgs: 
@@ -35,8 +36,7 @@ python-dev:
 
 global-python-requisites:
     cmd.run:
-        # DEPRECATED. installed for any remaining python 2 apps creating virtualenvs
-        - name: pip install "virtualenv>=13"
+        - name: python3 -m pip install "virtualenv>=13"
         - require:
             - python-2.7
 
