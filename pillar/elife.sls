@@ -223,7 +223,7 @@ elife:
                 #    number: 1
                 #    [require: some-state]
     proofreader_php:
-        version: 0.1
+        version: 0.2
 
     php_dummies: {}
         #orcid_dummy:
