@@ -1,4 +1,3 @@
 aws-cli:
     cmd.run:
-        - name: pip install --upgrade 'awscli~=1.16'
-
+        - name: python3 -m pip install --upgrade 'awscli~=1.16'

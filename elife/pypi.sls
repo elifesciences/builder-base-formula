@@ -19,4 +19,5 @@ twine:
         # TODO: try to remove this workaround on 16.04
         # ignore-installed because of a conflict with the chardet Python package
         # https://stackoverflow.com/questions/50130004/installing-twine-fails-because-cannot-uninstall-pkginfo#comment96655925_50132754
-        - name: pip install twine --ignore-installed
+        # lsh@2020-01-13: changed from 'pip' to 'python3 -m pip'
+        - name: python3 -m pip install twine --ignore-installed

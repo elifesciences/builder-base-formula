@@ -1,5 +1,4 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
-{% if osrelease != "14.04" %}
 
 #
 # these three states are temporary and occur when switching between 
@@ -40,33 +39,3 @@ global-python-requisites:
         - require:
             - python-2.7
 
-{% else %}
-
-# 14.04
-# DEPRECATED. remove after switch to 16.04+
-
-# WARN: assumes python 2.7.12+, pip and setuptools are already installed and 
-# updated via bootstrap script
-
-python-dev:
-    pkg.installed:
-        - pkgs:
-            - python-dev
-            - libffi-dev 
-            - libssl-dev
-
-python-2.7:
-    cmd.run:
-        - name: echo Managed by builder. Remove when no other formulas depend on it
-
-python-pip:
-    cmd.run:
-        - name: echo Managed by builder. Remove when no other formulas depend on it
-
-global-python-requisites:
-    cmd.run:
-        - name: /usr/bin/python2.7 -m pip install "virtualenv>=13" --no-cache-dir
-        - require:
-            - pkg: base
-
-{% endif %}
