@@ -4,17 +4,15 @@ base:
     pkg.installed:
         - pkgs:
             - logrotate
+
+            # todo@2019-12: obsolete, remove
             # deprecating. moving to upstart for 14.04
             # http://libslack.org/daemon/
             - daemon
+
             - curl
             - git
-
-            {% if osrelease == "14.04" %}
-            - realpath # resolves symlinks in paths for shell
-            {% endif %}
-            - coreutils # includes realpath
-
+            - coreutils # includes 'realpath'
             - vim
             # also provides 'unzip'
             - zip
@@ -23,9 +21,13 @@ base:
 
             # provides add-apt-repository binary needed to install a new ppa easily
             # renamed in 18.04
-            {% if osrelease in ['14.04', '16.04'] %}
+            {% if osrelease in ['16.04'] %}
+            # depends on py2
+            # https://packages.ubuntu.com/xenial/python-software-properties
             - python-software-properties
             {% else %}
+            # depends on py3
+            # https://packages.ubuntu.com/bionic/software-properties-common
             - software-properties-common 
             {% endif %}
 
@@ -73,7 +75,7 @@ ubuntu-user:
         - groups:
             - sudo
 
-{% if osrelease not in ['14.04', '16.04'] %}
+{% if osrelease not in ['16.04'] %}
 
 # unnecessary always-on new container service introduced in 18.04
 # used by a new and unasked-for instance monitoring agent from AWS

@@ -4,5 +4,5 @@ mysql-package-list:
     pkg.installed:
         - pkgs:
             - mysql-client
-            - python-mysqldb # py2, to be removed
-            - python3-mysqldb # py3
+            - python-mysqldb # py2, Salt 2017.7.x
+            - python3-mysqldb # py3, Salt 2018.3+

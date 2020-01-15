@@ -10,26 +10,11 @@
 # -- may contain a newrelic.ini file
 #
 
-{% if salt['grains.get']('osrelease') == "14.04" %}
-
 # warning: apps should be installing and using their own version of uwsgi
-# this is here for legacy reasons only
-
-uwsgi-pkg:
-    cmd.run:
-        - name: pip install "uwsgi>=2.0.8"
-        - require:
-            - python-dev
-        - reload_modules: True
-
-{% else %} # 16.04, 18.04, ...
-
 uwsgi-pkg:
     pkg.installed:
         - pkgs:
             - gcc # needed for building uwsgi
-
-{% endif %}
 
 include:
     - .uwsgi-params
@@ -51,21 +36,11 @@ uwsgi-syslog-conf:
         - watch_in:
             - service: syslog-ng
 
-{% if salt['grains.get']('osrelease') == "14.04" %}
-uwsgi-sock-dir:
-    file.directory:
-        - name: /run/uwsgi/
-        - user: {{ pillar.elife.uwsgi.username }}
-        - require:
-            - uwsgi-pkg
-{% endif %}
-
 # systemd (Ubuntu 16.04+ only)
 # application formula must still:
 # * extend the pillar data with elife.uwsgi.services: appname: config
 # * install and configure the application
 # * declare the service and socket and ensure they are running
-{% if salt['grains.get']('osrelease') != "14.04" %}
 
 {% for name, configuration in pillar.elife.uwsgi.services.items() %}
 # owned by root:www-data and writeable by both
@@ -136,4 +111,3 @@ uwsgi-services:
     cmd.run:
         - name: systemctl daemon-reload
 
-{% endif %}
