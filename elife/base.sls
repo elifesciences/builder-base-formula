@@ -37,6 +37,9 @@ base:
             - sysstat # provides iostat
             - iotop
 
+            # useful for smoke testing the JSON output
+            - jq
+
 base-purging:
     pkg.purged:
         - pkgs:
