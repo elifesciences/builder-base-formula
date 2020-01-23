@@ -15,4 +15,3 @@ utils-scripts:
 utils-scripts-path:
     file.absent:
         - name: /etc/profile.d/utils-path.sh
-        - source: salt://elife/config/etc-profile.d-utils-path.sh
