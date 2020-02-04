@@ -1,6 +1,5 @@
 # base php installation
 
-# 14.04 has php5.5 and requires a ppa for 7.0
 # 16.04 has php7.0
 # 18.04 has php7.2
 
@@ -28,34 +27,6 @@ php-ppa:
         - refresh_db: true
         - unless:
             - test -e /etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list
-
-{% else %}
-
-# note: still problematic in 16.04:
-# https://github.com/saltstack/salt/issues/32294
-
-# note: see nginx-php7.sls for /var/php-fpm.sock configuration
-
-php-ppa:
-    cmd.run:
-        - name: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C
-        - unless:
-            - apt-key list | grep E5267A6C
-
-    # https://launchpad.net/~ondrej/+archive/ubuntu/php
-    pkgrepo.managed:
-        - humanname: Ondřej Surý PHP PPA
-        # there was a name change from "php-{{ php_version }}" to just "php"
-        - ppa: ondrej/php
-        #- keyid: E5267A6C # 2016-11-11, LSH: doesn't seem to work
-        - keyserver: keyserver.ubuntu.com
-        - file: /etc/apt/sources.list.d/ondrej-php-trusty.list
-        - require:
-            - cmd: php-ppa
-        - unless:
-            - test -e /etc/apt/sources.list.d/ondrej-php-trusty.list
-
-
 {% endif %}
 
 php:
