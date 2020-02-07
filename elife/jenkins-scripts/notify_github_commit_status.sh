@@ -20,7 +20,8 @@ status_code=$(curl \
     -s \
     -o "${temp_file}" \
     -w '%{http_code}' \
-    "https://api.github.com/repos/$repository/statuses/$commit?access_token=$GITHUB_TOKEN" \
+    "https://api.github.com/repos/$repository/statuses/$commit" \
+    -H "Authorization: token $GITHUB_TOKEN" \
     -H "Content-Type: application/json" \
     -X POST \
     -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$target_url\"}")
