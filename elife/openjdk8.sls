@@ -1,5 +1,4 @@
-# 14.04, 16.04 and 18.04 have a "openjdk-8-jre-headless" package
-# 14.04 requires a ppa
+# 16.04 and 18.04 have a "openjdk-8-jre-headless" package
 
 # remove oracle java (if it exists)
 
@@ -13,16 +12,6 @@ oracle-java8-installer-removal:
         - name: oracle-java8-installer
         - require:
             - oracle-ppa-removal
-
-{% if salt['grains.get']('osrelease') == "14.04" %}
-
-openjdk8 ppa:
-    pkgrepo.managed:
-        - ppa: jonathonf/openjdk
-        - require_in:
-            - pkg: java8
-        
-{% endif %}
 
 java8:
     pkg.installed:
