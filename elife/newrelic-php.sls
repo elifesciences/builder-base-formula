@@ -43,7 +43,7 @@ newrelic-install-script:
             #- newrelic-php-extension-headless-configuration
 
 
-{% if osrelease == "18.04" %}
+{% if salt['grains.get']('osrelease') == "18.04" %}
 {% set php_version = '7.2' %}
 {% else %}
 {% set php_version = '7.0' %}
