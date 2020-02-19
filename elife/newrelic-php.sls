@@ -42,7 +42,14 @@ newrelic-install-script:
             - newrelic-php-extension-package
             #- newrelic-php-extension-headless-configuration
 
-{% for ini_file in ['/etc/php/5.6/apache2/conf.d/newrelic.ini', '/etc/php/5.6/cli/conf.d/newrelic.ini', '/etc/php/7.0/cli/conf.d/newrelic.ini', '/etc/php/7.0/fpm/conf.d/newrelic.ini'] %}
+
+{% if osrelease == "18.04" %}
+{% set php_version = '7.2' %}
+{% else %}
+{% set php_version = '7.0' %}
+{% endif %}
+
+{% for ini_file in ['/etc/php/' + php_version + '/cli/conf.d/newrelic.ini', '/etc/php/' + php_version + '/fpm/conf.d/newrelic.ini'] %}
 newrelic-ini-for-{{ ini_file }}:
     file.managed:
         - name: {{ ini_file }}
