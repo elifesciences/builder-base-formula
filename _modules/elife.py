@@ -88,7 +88,7 @@ def read_json(path):
         contents = open(path, 'r').read()
         if path.endswith('.b64'):
             # file is base64 encoded
-            contents = base64.b64decode(contents)
+            contents = base64.b64decode(contents).decode('utf-8')
         try:
             return json.loads(contents)
         except ValueError:
