@@ -28,7 +28,7 @@ deny_all_access:
 
 {% set allowed = ssh.allowed.get('master-server', []) + ssh.allowed.get("all", []) %}
 {% for username in allowed %}
-    {% if pillar.elife.ssh_users.has_key(username) %}
+    {% if username in pillar.elife.ssh_users %}
 
 masterless-ssh-access-for-{{ username }}:
     ssh_auth.present:
@@ -51,7 +51,7 @@ masterless-ssh-access:
 {% set denied = ssh.denied.get("master-server", []) + ssh.denied.get("all", []) %}
 
 {% for username in denied %}
-    {% if pillar.elife.ssh_users.has_key(username) %}
+    {% if username in pillar.elife.ssh_users %}
 
 masterless-ssh-denial-for-{{ username }}:
     ssh_auth.absent:

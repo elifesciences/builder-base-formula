@@ -13,7 +13,7 @@ def first(x):
 
 def firstnn(lst):
     "returns first non-nil value in lst or None"
-    return first(filter(None, lst))
+    return first([_f for _f in lst if _f])
     
 def lookup(data, path, default=0xDEADBEEF):
     try:
@@ -88,7 +88,7 @@ def read_json(path):
         contents = open(path, 'r').read()
         if path.endswith('.b64'):
             # file is base64 encoded
-            contents = base64.b64decode(contents)
+            contents = base64.b64decode(contents).decode('utf-8')
         try:
             return json.loads(contents)
         except ValueError:
@@ -115,7 +115,7 @@ def cfg(*paths):
         'cfn': cfn() # stack 'creation' time data
     }
     # don't raise exceptions if path value not found. very django-like
-    return firstnn(map(lambda path: lookup(data, path, default=None), paths)) or default 
+    return firstnn([lookup(data, path, default=None) for path in paths]) or default 
 
 def b64encode(string):
     # used by the salt/elife-website/load-tester.sh:21
