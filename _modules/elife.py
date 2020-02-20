@@ -13,7 +13,7 @@ def first(x):
 
 def firstnn(lst):
     "returns first non-nil value in lst or None"
-    return first(filter(None, lst))
+    return first([_f for _f in lst if _f])
     
 def lookup(data, path, default=0xDEADBEEF):
     try:
