@@ -115,7 +115,7 @@ def cfg(*paths):
         'cfn': cfn() # stack 'creation' time data
     }
     # don't raise exceptions if path value not found. very django-like
-    return firstnn(map(lambda path: lookup(data, path, default=None), paths)) or default 
+    return firstnn([lookup(data, path, default=None) for path in paths]) or default 
 
 def b64encode(string):
     # used by the salt/elife-website/load-tester.sh:21
