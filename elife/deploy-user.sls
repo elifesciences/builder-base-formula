@@ -63,7 +63,7 @@ vagrant-user:
 {% set allowed = ssh.allowed.get(pname, []) + ssh.allowed.get("all", []) %}
 
 {% for username in allowed %}
-    {% if pillar.elife.ssh_users.has_key(username) %}
+    {% if username in pillar.elife.ssh_users %}
 
 {{ pname }}-ssh-access-for-{{ username }}:
     ssh_auth.present:
@@ -97,7 +97,7 @@ vagrant-user:
 {% set denied = ssh.denied.get(pname, []) + ssh.denied.get("all", []) %}
 
 {% for username in denied %}
-    {% if pillar.elife.ssh_users.has_key(username) %}
+    {% if username in pillar.elife.ssh_users %}
 
 {{ pname }}-ssh-denial-for-{{ username }}:
     ssh_auth.absent:
