@@ -21,7 +21,7 @@ newrelic-python-license-configuration:
     cmd.run:
         - name: venv/bin/newrelic-admin generate-config {{ pillar.elife.newrelic.license }} newrelic.ini
         - cwd: {{ pillar.elife.newrelic_python.application_folder }}
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - unless:
             - grep -r {{ pillar.elife.newrelic.license }} newrelic.ini
         - require: 

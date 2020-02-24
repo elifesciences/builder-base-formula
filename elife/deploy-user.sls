@@ -29,7 +29,7 @@ deploy-user:
         - dir_mode: 755
 
     cmd.run:
-        - user: {{ user }}
+        - runas: {{ user }}
         # the empty double quote is the "no passphrase" switch
         - name: ssh-keygen -t rsa -f /home/{{ user }}/.ssh/id_rsa -N ""
         - unless:

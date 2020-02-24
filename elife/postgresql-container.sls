@@ -101,6 +101,6 @@ docker-compose-postgres-up:
 postgresql-ready:
     cmd.run:
         - name: wait_for_port 5432
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - require:
             - docker-compose-postgres-up
