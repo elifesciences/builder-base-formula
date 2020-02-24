@@ -8,7 +8,7 @@ remove-old-drush:
 
 drush:
     cmd.run:
-        - user: {{ user }}
+        - runas: {{ user }}
         # 2016-01-08: registry_rebuild doesn't work/exist yet for drush ~8.0
         #- name: composer global require --no-interaction drush/drush:~7.0\|~8.0
         - name: composer global require --no-interaction drush/drush:~7.0
@@ -22,7 +22,7 @@ drush-aliases-folder:
 
 drush-registry-rebuild:
     cmd.run:
-        - user: {{ user }}
+        - runas: {{ user }}
         - name: drush @none pm-download registry_rebuild
         - unless:
             - test -d /home/{{ user }}/.drush/registry_rebuild
@@ -41,7 +41,7 @@ drush-node-access-rebuild:
 
 drush-clear-cache:
     cmd.run:
-        - user: {{ user }}
+        - runas: {{ user }}
         - name: drush cache-clear drush
         - listen:
             - cmd: drush-registry-rebuild

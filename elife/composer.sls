@@ -89,7 +89,7 @@ update-composer:
 composer:
     cmd.run:
         - name: composer --version
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - require:
             - install-composer
             - composer-global-paths

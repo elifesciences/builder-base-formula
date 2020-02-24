@@ -8,7 +8,7 @@
     # stderr: fatal: could not set upstream of HEAD to origin/master when it does not point to any branch.
     cmd.run:
         - name: cd /srv/{{ name }} && git checkout master
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - onlyif:
             - test -d /srv/{{ name }}
 
@@ -37,7 +37,7 @@
     cmd.run:
         - name: git checkout $(cat {{ configuration['pinned_revision_file'] }})
         - cwd: /srv/{{ name }}
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - require:
             - file: {{ name }}-repository
 
@@ -49,7 +49,7 @@
         - name: composer --no-interaction install --no-suggest
         {% endif %}
         - cwd: /srv/{{ name }}/
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - env:
           - COMPOSER_DISCARD_CHANGES: 'true'
         - require:

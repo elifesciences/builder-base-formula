@@ -16,7 +16,7 @@ yamldiff:
 
     cmd.run:
         - name: composer install
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - cwd: /opt/yamldiff
         - require:
             - composer
