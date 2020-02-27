@@ -75,11 +75,16 @@ def image_label(image, label, image_tag='latest'):
     output, error = p.communicate()
     if p.returncode != 0: 
         raise RuntimeError("Command: %s\nExit status: %s\nSTDOUT: %s\nSTDERR: %s\n" % (command, p.returncode, output, error))
+    if isinstance(output, bytes):
+        # output may be a string OR bytes in python3:
+        # - https://docs.python.org/3/library/subprocess.html#subprocess.Popen.communicate
+        output = output.decode('utf-8')
     value = output.strip()
     if value == 'null':
         raise RuntimeError("`%s` returned a null label" % command)
     if value == '':
         raise RuntimeError("`%s` returned a empty string label" % command)
+    
     return value
 
 def read_json(path):
