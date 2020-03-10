@@ -35,7 +35,9 @@ python-dev:
 
 global-python-requisites:
     cmd.run:
-        - name: python3 -m pip install "virtualenv>=13"
+        # lsh@2020-03: temporary upper bound until this issue is fixed:
+        # - https://github.com/saltstack/salt/issues/56238
+        - name: python3 -m pip install "virtualenv<20.0.0" --upgrade
         - require:
             - python-2.7
 
