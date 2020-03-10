@@ -63,7 +63,6 @@ autoremove-orphans:
         - name: |
             set -e 
             apt-get autoremove -y
-            apt-get clean -y
             apt-get autoclean -y
         - env:
             - DEBIAN_FRONTEND: noninteractive
