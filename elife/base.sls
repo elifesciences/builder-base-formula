@@ -60,7 +60,10 @@ base-updatedb-config:
 
 autoremove-orphans:
     cmd.run:
-        - name: apt-get autoremove -y
+        - name: |
+            set -e 
+            apt-get autoremove -y
+            apt-get autoclean -y
         - env:
             - DEBIAN_FRONTEND: noninteractive
         - require:
