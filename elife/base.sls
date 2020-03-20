@@ -40,6 +40,10 @@ base:
             # useful for smoke testing the JSON output
             - jq
 
+            # for tab-completion of bash commands
+            # present on EC2 AMIs but not Vagrant bento images. this makes it consistent
+            - bash-completion
+
 base-purging:
     pkg.purged:
         - pkgs:
@@ -74,12 +78,39 @@ systemd-dir-exists:
         - name: /lib/systemd/system/
         - makedirs: True
 
+.bashrc-template:
+    file.managed:
+        - name: /etc/skel/.bashrc
+        - source: salt://elife/config/etc-skel-.bashrc
+        - template: jinja
+
+# lsh@2020-03: the root user's .bashrc file isn't sourced from /etc/skel/.bashrc like 
+# regular users. The two are very very similar with no functional differences but at 
+# some point they started diverging. This is *not* a temporary state.
+root-user:
+    file.managed:
+        - name: /root/.bashrc
+        - source: salt://elife/config/etc-skel-.bashrc
+        - template: jinja
+
 ubuntu-user:
     user.present: 
         - name: ubuntu
         - shell: /bin/bash
         - groups:
             - sudo
+        - require:
+            - .bashrc-template
+
+    # lsh@2020-03: temporary state, remove when:
+    # - all users on all machines (stopped and running) have been updated, or
+    # - all ec2 instances have been replaced
+    file.managed:
+        - name: /home/ubuntu/.bashrc
+        - source: salt://elife/config/etc-skel-.bashrc
+        - template: jinja
+        - require:
+            - user: ubuntu-user
 
 {% if osrelease not in ['16.04'] %}
 

@@ -21,6 +21,17 @@ deploy-user:
             - mail
         - require:
             - group: sudo-group
+            - .bashrc-template # base.sls
+
+    # lsh@2020-03: temporary state, remove when:
+    # - all users on all machines (stopped and running) have been updated, or
+    # - all ec2 instances have been replaced
+    file.managed:
+        - name: /home/{{ user }}/.bashrc
+        - source: salt://elife/config/etc-skel-.bashrc
+        - template: jinja
+        - require:
+            - user: deploy-user
 
 /home/{{ user }}/.ssh/:
     file.directory:
