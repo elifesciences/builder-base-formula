@@ -1,3 +1,32 @@
+# temporary, remove once all postgresql-container projects are upgraded to 11+
+{% set psql9 = (pillar.elife.docker_postgresql.image_tag|string).startswith("9.") %}
+
+# copied from postgresql-client.sls
+
+{% set oscodename = salt['grains.get']('oscodename') %}
+
+# http://www.postgresql.org/download/linux/ubuntu/
+postgresql-deb:
+    pkgrepo.managed:
+        # http://www.postgresql.org/download/linux/ubuntu/
+        - humanname: Official Postgresql Ubuntu LTS
+        - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+postgresql-client:
+    pkg.installed:
+        - pkgs:
+            {% if psql9 %}
+            - postgresql-client-9.4
+            {% else %}
+            - postgresql-client-11
+            {% endif %}
+        - refresh: True
+        - require:
+            - pkgrepo: postgresql-deb
+
+# /copied from
+
 docker-compose-postgres:
     file.managed:
         - name: /home/{{ pillar.elife.deploy_user.username }}/postgres/docker-compose.yml
@@ -39,6 +68,25 @@ stop-disable-host-postgresql:
             # don't do this, messes with systemctl, can mess with apt, doesn't stop postgresql from running
             #rm -f /lib/systemd/system/postgresql*
 
+{% if not psql9 %}
+
+# stops any postgres:9 docker processes and removes them
+# image is then rebuilt using postgres-11 and started in docker-compose-postgres-up
+stop-remove-postgresql9-process:
+    cmd.run:
+        - name: |
+            set -e
+            psid=$(docker ps -a | grep "postgres:9" | awk '{ print $1 }')
+            test ! -z "$psid" && {
+                docker stop "$psid"
+                docker rm "$psid"
+            } || {
+                echo "docker postgres 9.x process not found"
+            }
+        - require_in:
+            - cmd: docker-compose-postgres-up
+{% endif %}
+
 docker-compose-postgres-up:
     cmd.run:
         - name: |
@@ -53,6 +101,6 @@ docker-compose-postgres-up:
 postgresql-ready:
     cmd.run:
         - name: wait_for_port 5432
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - require:
             - docker-compose-postgres-up

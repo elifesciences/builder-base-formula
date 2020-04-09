@@ -14,7 +14,7 @@ helm:
 helm-init:
     cmd.run:
         - name: helm init --client-only
-        - user: {{ pillar.elife.helm.username }}
+        - runas: {{ pillar.elife.helm.username }}
         - require:
             - helm
 
@@ -25,7 +25,7 @@ make-dependency:
 helm-s3-plugin:
     cmd.run:
         - name: helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.7.0
-        - user: {{ pillar.elife.helm.username }}
+        - runas: {{ pillar.elife.helm.username }}
         - unless:
             -  helm plugin list | grep '^s3 '
         - require:
@@ -36,7 +36,7 @@ helm-s3-plugin:
 helm-s3-charts-repository:
     cmd.run:
         - name: helm repo add alfred s3://prod-elife-alfred/helm-charts
-        - user: {{ pillar.elife.helm.username }}
+        - runas: {{ pillar.elife.helm.username }}
         - require:
             - helm-s3-plugin
 {% endif %}

@@ -49,7 +49,7 @@ spectrum-project:
     cmd.run:
         - name: git lfs install
         - cwd: /srv/elife-spectrum
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - require:
             - file: spectrum-project
 
@@ -89,7 +89,7 @@ spectrum-project-install:
     cmd.run:
         - name: |
             ./install.sh
-        - user: {{ pillar.elife.deploy_user.username }}
+        - runas: {{ pillar.elife.deploy_user.username }}
         - cwd: /srv/elife-spectrum
 
 spectrum-configuration:

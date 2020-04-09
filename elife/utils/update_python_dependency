@@ -17,6 +17,8 @@ cd "$clone_folder"
 dependency_sha1=$(git rev-parse HEAD)
 cd - 1>&2
 sed -i -e "s;.*${remote}.*;git+${remote}@${dependency_sha1}#egg=${name};g" requirements.txt
+# Execute inside your virtualenv!
+# 'pip' here should refer to the python3 version of pip
 pip uninstall -y "$name" 1>&2
 pip install -r requirements.txt 1>&2
 echo "$dependency_sha1"

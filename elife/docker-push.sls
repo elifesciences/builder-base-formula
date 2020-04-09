@@ -7,7 +7,7 @@ docker-login-{{ username }}:
         - name: echo Simulated 'docker login'
         {% endif %}
         - stdin: {{ pillar.elife.docker.password }}
-        - user: {{ username }}
+        - runas: {{ username }}
         - require:
             - docker-ready
 {% endfor %}

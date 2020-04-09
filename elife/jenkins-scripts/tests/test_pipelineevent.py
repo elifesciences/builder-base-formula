@@ -29,7 +29,7 @@ class TestPipelineEvent(unittest.TestCase):
 
     def test_running_script_passing_in_parameters(self):
         parameters = [
-            "python",
+            "python3",
             "pipelineevent.py",
             "--directory",
             "/tmp",

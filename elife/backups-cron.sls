@@ -8,7 +8,7 @@ daily-backups:
     {% endif %}
         - user: root
         - identifier: daily-app-backups
-        - name: cd /opt/ubr/ && ./ubr.sh > /var/log/ubr-cron.log
+        - name: cd /opt/ubr/ && ./ubr.sh --no-progress-bar > /var/log/ubr-cron.log
         - minute: 0
         - hour: 23
         - require:
