@@ -23,7 +23,7 @@ docker-compose-{{ configuration['name'] }}:
             ports: {{ configuration.get('ports', {})|yaml }}
             environment: {{ configuration.get('environment', {})|yaml }}
             volumes: {{ configuration.get('volumes', [])|yaml }}
-            healthcheck: {{ configuration.get('healthcheck') }}
+            healthcheck: {{ configuration.get('healthcheck')|yaml }}
         - makedirs: True
         - require: 
             - deploy-user
