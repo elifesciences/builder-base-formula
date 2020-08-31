@@ -9,7 +9,7 @@ for line in fileinput.input():
         buffer.append(line)
         continue
     if buffer \
-       and line.startswith('switching euid to') \
+       and (line.startswith('switching euid to') or line.startswith('switching uid to')) \
        and buffer[-1].startswith('error: Compressing program wrote following message to stderr'):
         buffer.pop() # remove last entry
 # if errors remain after filtering the noise out, exit successfully
