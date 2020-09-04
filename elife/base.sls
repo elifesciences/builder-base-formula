@@ -138,3 +138,10 @@ snapd:
         - require_in:
             - pkg: base-purging
 {% endif %}
+
+disable-ubuntu-motd-news:
+    file.managed:
+        - name: /etc/default/motd-news
+        - source: salt://elife/config/etc-default-motd-news
+        - mode: 0644
+
