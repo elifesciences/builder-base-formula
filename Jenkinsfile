@@ -1,1 +1,1 @@
-elifeFormula('heavybox', '', 'builder-base-formula', ['s1804'])
+elifeFormula('heavybox', '', 'builder-base-formula')
