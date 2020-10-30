@@ -62,7 +62,7 @@ install-composer:
             - which composer
     cmd.run:
         - cwd: {{ composer_home }}
-        - name: php setup.php --install-dir=/usr/local/bin --filename=composer
+        - name: php setup.php --install-dir=/usr/local/bin --filename=composer --version=1.10.16
         - require:
             - php
             - file: install-composer
