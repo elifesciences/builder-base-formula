@@ -13,7 +13,7 @@ helm:
 
 helm-init:
     cmd.run:
-        - name: helm init --client-only
+        - name: helm init --client-only --stable-repo-url=https://charts.helm.sh/stable
         - runas: {{ pillar.elife.helm.username }}
         - require:
             - helm
