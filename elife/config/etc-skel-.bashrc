@@ -52,7 +52,16 @@ fi
 if [ "$color_prompt" = yes ]; then
     {% if pillar.elife.env == "prod" %}
     # flashing yellow-on-black with blue path
-    PS1='${debian_chroot:+($debian_chroot)}\033[33;5;7m\u@\h\033[0m:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    # broken (somehow) - some unclosed escape sequence I can't see and it eats history
+    #PS1='${debian_chroot:+($debian_chroot)}\033[33;5;7m\u@\h\033[0m:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+    # this however is both legible and *works*
+    RESET="\[$(tput sgr0)\]"
+    BLINK="\[$(tput blink)\]"
+    YELLOWBG="\[$(tput setab 3)\]"
+    BLACKFG="\[$(tput setaf 0)\]"
+    PS1="${debian_chroot:+($debian_chroot)}${BLINK}${BLACKFG}${YELLOWBG}\u@\h${RESET}:\w \$ "
+
     {% else %}
     # regular green with blue path
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
