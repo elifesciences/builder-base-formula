@@ -37,9 +37,13 @@ alias_database = hash:/etc/aliases
 mydestination = {{ salt['elife.cfg']('cfn.outputs.DomainName') }}, localhost.localdomain, localhost
 relayhost = [{{ mail.smtp }}]:{{ mail.port }}
 
-# we have a 14/second send rate with amazon. 
+# we have a 14/second send rate with SES.
 # this *may* cause us to have fewer "454 Throttled" type errors
-# https://forums.aws.amazon.com/message.jspa?messageID=448174
+#   https://forums.aws.amazon.com/message.jspa?messageID=448174
+# update 2021-03-08: as civicrm is no longer in our care and we no longer do bulk mailouts.
+# I've had AWS revert our sending limits back to the (non-sandbox) defaults.
+# We now have a 1/second send rate with SES:
+#   https://console.aws.amazon.com/ses/home?region=us-east-1#dashboard:
 default_destination_concurrency_limit = 12
 max_use = 1
 
@@ -57,3 +61,12 @@ recipient_delimiter =
 inet_interfaces = all
 inet_protocols = all
 smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+# 2021-03-08: fixes the error in /var/log/mail.log:
+#   "fatal: in parameter smtpd_relay_restrictions or smtpd_recipient_restrictions, specify at least one working instance of: reject_unauth_destination, defer_unauth_destination, reject, defer, defer_if_permit or check_relay_domains"
+# and the warnings in "journalctl -u postfix":
+#   "Postfix is running with backwards-compatible default settings"
+#   "See http://www.postfix.org/COMPATIBILITY_README.html for details"
+#   "To disable backwards compatibility use "postconf compatibility_level=2" and "postfix reload"
+# also appears to have been preventing mail from being sent by Jenkins on elife-alfred--prod.
+compatibility_level=2
