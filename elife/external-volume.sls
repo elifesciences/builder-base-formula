@@ -1,7 +1,7 @@
 # In case there is an external EBS volume available, 
 # this state file will format it and make it available on /ext
 # (customizable with pillar.elife.external_volume.directory)
-# In Vagrant, this falls back to just be an empty /ext directory
+# In Vagrant this falls back to just an empty /ext directory
 # on the same device as `/`
 
 format-external-volume:
@@ -39,10 +39,9 @@ mount-external-volume:
             # mount point already has a volume mounted
             - cat /proc/mounts | grep --quiet --no-messages {{ pillar.elife.external_volume.directory }}
 
-# in case the volume has been expanded
-# only supports volumes with no partitions,
-# which is what builder creates
-# https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html
+# in case the volume has been expanded.
+# only supports volumes with no partitions (which is what builder creates)
+# - https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/recognize-expanded-volume-linux.html
 resize-external-volume-if-needed:
     cmd.run:
         - name: resize2fs {{ pillar.elife.external_volume.device }}
@@ -60,5 +59,6 @@ tmp-directory-on-external-volume:
         - require:
             - mount-external-volume
         - require_in:
+            # put backups on the ext volume
             - file: new-ubr-config # builder-base-formula.backups
 

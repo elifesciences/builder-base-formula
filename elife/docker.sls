@@ -23,10 +23,12 @@ docker-folder-linking:
             mv /var/lib/docker/* /ext/docker
             rmdir /var/lib/docker
         - onlyif:
+            # dir exists (also true if path is a symlink)
+            - test -d /var/lib/docker
+            # is not a symlink already (also true if path doesn't exist)
+            - test ! -L /var/lib/docker
             # has something in it to move
             - ls -l /var/lib/docker/ | grep -v 'total 0'
-            # is not a symlink already
-            - test ! -L /var/lib/docker
         - require:
             - docker-folder
 
