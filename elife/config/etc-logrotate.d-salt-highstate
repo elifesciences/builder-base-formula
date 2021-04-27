@@ -1,0 +1,11 @@
+/var/log/salt/salt-highstate-*.log {
+    # rotate the logs daily
+    daily
+    # no logs to rotate is fine
+    missingok
+    # keep rotating the logs for 7 days
+    rotate 7
+    compress
+    # deletes files older than 14 days but only if they are being rotated
+    maxage 14
+}
