@@ -22,8 +22,12 @@ test-php-mail-script:
     file.managed:
         - name: /opt/send-test-email.php
         - source: salt://elife/config/opt-send-test-email.php
+        - mode: 755
+        - template: jinja
 
 test-bash-mail-script:
     file.managed:
         - name: /opt/send-test-email.sh
         - source: salt://elife/config/opt-send-test-email.sh
+        - mode: 755
+        - template: jinja
