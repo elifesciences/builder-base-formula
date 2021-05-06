@@ -1,4 +1,11 @@
 #!/bin/bash
+# called with envvars:
+#   repository=[...] 
+#   commit=[...]
+#   status=[...] 
+#   context=[...] 
+#   description='[...]' 
+#   target_url='[...]'
 set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -17,14 +24,14 @@ unique_id=$(uuidgen)
 temp_file="github-commit-status-${unique_id}.log"
 
 status_code=$(curl \
-    -s \
-    -o "${temp_file}" \
-    -w '%{http_code}' \
+    --silent \
+    --output "${temp_file}" \
+    --write-out '%{http_code}' \
     "https://api.github.com/repos/$repository/statuses/$commit" \
-    -H "Authorization: token $GITHUB_TOKEN" \
-    -H "Content-Type: application/json" \
-    -X POST \
-    -d "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$target_url\"}")
+    --header "Authorization: token $GITHUB_TOKEN" \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --data "{\"state\": \"$status\", \"description\": \"$description\", \"context\": \"$context\", \"target_url\": \"$target_url\"}")
 
 if [[ $status_code -eq 201 ]]; then
     rm "${temp_file}"
@@ -34,4 +41,4 @@ fi
 echo "HTTP ${status_code}"
 cat "${temp_file}"
 rm "${temp_file}"
-exit 22 # standard curl -f exit code
+exit 22 # standard curl --fail exit code
