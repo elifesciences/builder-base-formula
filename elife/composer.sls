@@ -50,6 +50,8 @@ composer-auth:
         - value: ''
 {% endif %}
 
+{% set composer_version="1.10.21" %}
+
 install-composer:
     file.managed:
         - name: {{ composer_home }}/setup.php
@@ -62,13 +64,14 @@ install-composer:
             - which composer
     cmd.run:
         - cwd: {{ composer_home }}
-        - name: php setup.php --install-dir=/usr/local/bin --filename=composer --version=1.10.16
+        - name: php setup.php --install-dir=/usr/local/bin --filename=composer --version={{ composer_version }}
         - require:
             - php
             - file: install-composer
             - composer-auth
         - unless:
-            - which composer
+            # composer is installed and it's version matches the intended version
+            - which composer && composer --version | grep {{ composer_version }}
 
 composer-global-paths:
     file.managed:
@@ -77,6 +80,9 @@ composer-global-paths:
         - require:
             - file: composer-home-dir
 
+# lsh@2021-05-25: requisites would seem to preclude this from running:
+# 'run before composer is installed' and 'only if composer is installed'
+# todo: fix or remove
 update-composer:
     cmd.script:
         - name: salt://elife/scripts/update-composer.sh
