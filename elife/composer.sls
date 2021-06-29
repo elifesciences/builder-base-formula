@@ -78,16 +78,6 @@ composer-global-paths:
         - require:
             - file: composer-home-dir
 
-update-composer:
-    cmd.script:
-        - name: salt://elife/scripts/update-composer.sh
-        # "only if composer is already installed"
-        - onlyif:
-            - which composer
-        # "and requires 'install-composer' to come first"
-        - require:
-            - cmd: install-composer
-
 # useful to depend on
 composer:
     cmd.run:
