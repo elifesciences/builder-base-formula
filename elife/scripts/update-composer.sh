@@ -10,7 +10,7 @@ if ! composer self-update --1 2>&1 | tee "$log_file"; then
         echo "Retrying update..."
         composer self-update
     else
-        echo "Failure does not seem retriable."
+        echo "Failure does not seem retryable."
         exit 2
     fi
 fi
