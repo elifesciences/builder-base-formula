@@ -29,6 +29,7 @@ mount-external-volume:
         - mkmnt: True
         - opts:
             - defaults
+        - pass_num: 2 # fsck ext volume on reboot
         - require:
             - format-external-volume
             - mount-point-external-volume
