@@ -1,25 +1,28 @@
-# git extension for managing large files like .tif images
+git-lfs-ppa-purged:
+    pkgrepo.absent:
+        - name: packagecloud
+    
+    file.absent:
+        - name: /etc/apt/sources.list.d/github_git-lfs.list
+        - require:
+            - pkgrepo: git-lfs-ppa-purged
+
 git-lfs:
     cmd.run:
-        - name: curl -L https://packagecloud.io/github/git-lfs/gpgkey | sudo apt-key add -
+        - cwd: /tmp
+        - name: |
+            set -ex
+            rm -rf ./git-lfs git-lfs.tar.gz
+            wget https://github.com/git-lfs/git-lfs/releases/download/v2.10.0/git-lfs-linux-amd64-v2.10.0.tar.gz \
+                --quiet \
+                --output-document git-lfs.tar.gz
+            sha256sum git-lfs.tar.gz | grep ec1513069f2679c4c95d9d7c54fdb4b9d7007cc568578a25e2b2ff30edd93cfd
+            mkdir git-lfs
+            tar xvzf git-lfs.tar.gz -C git-lfs
+            cd git-lfs
+            PREFIX=/usr ./install.sh
         - unless:
-            - apt-key list | grep D59097AB
-
-    # https://packagecloud.io/github/git-lfs/install#manual
-    pkgrepo.managed:
-        - humanname: packagecloud
-        - name: deb https://packagecloud.io/github/git-lfs/ubuntu/ {{ grains['oscodename'] }} main
-        - file: /etc/apt/sources.list.d/github_git-lfs.list
-        - require:
-            - cmd: git-lfs
-        - unless:
-            - test -e /etc/apt/sources.list.d/github_git-lfs.list
-
-    pkg.installed:
-        - name: git-lfs
-        - refresh: True
-        - require:
-            - pkgrepo: git-lfs
+            - test -e /usr/bin/git-lfs
 
 # repository of end2end tests
 spectrum-project:

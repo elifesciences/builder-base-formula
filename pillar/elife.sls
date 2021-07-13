@@ -56,6 +56,9 @@ elife:
             project1: 
                 - example-user
 
+    composer:
+        version: 1.10.21
+
     ssh_credentials: {}
         #some_identifier:
         #    username: ubuntu
