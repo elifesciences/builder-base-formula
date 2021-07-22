@@ -1,5 +1,6 @@
 #
 # only included for masterless instances
+# see `deploy-user.sls` for non-masterless version.
 #
 
 # when running salt masterless, minion doesn't need to run as a daemon
@@ -12,6 +13,8 @@ disable-salt-minion:
 # necessary to ensure those with access don't inadvertently grant access to others
 
 # zero out all allowed keys
+# lsh@2018-07-31: "adds basebox to list of authorized ubuntu keys. 
+# this may resolve the new permission error I'm seeing in CI. this may also not be a good idea."
 deny_all_access:
     cmd.run:
         - name: |
@@ -24,9 +27,10 @@ deny_all_access:
 
 # allow
 
+{% set pname = salt['elife.project_name']() %}
 {% set ssh = pillar.elife.ssh_access %}
 
-{% set allowed = ssh.allowed.get('master-server', []) + ssh.allowed.get("all", []) %}
+{% set allowed = ssh.allowed.get('master-server', []) + ssh.allowed.get("all", []) + ssh.allowed_masterless.get(pname, []) %}
 {% for username in allowed %}
     {% if username in pillar.elife.ssh_users %}
 
@@ -47,8 +51,9 @@ masterless-ssh-access:
         - name: echo "masterless ssh access set"
 
 # deny 
+# users explicitly denied access
 
-{% set denied = ssh.denied.get("master-server", []) + ssh.denied.get("all", []) %}
+{% set denied = ssh.denied.get("master-server", []) + ssh.denied.get("all", []) + ssh.denied_masterless.get(pname, []) %}
 
 {% for username in denied %}
     {% if username in pillar.elife.ssh_users %}

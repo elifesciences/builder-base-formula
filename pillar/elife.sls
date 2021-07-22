@@ -43,7 +43,6 @@ elife:
             all: []
 
             # per-user, per-project access
-
             project1:
                 - example-user
 
@@ -55,6 +54,15 @@ elife:
             # per-user, per-project denied access
             project1: 
                 - example-user
+
+        # masterless instances only allow access to those in `ssh.allowed.all` because
+        # they contain a copy of builder-private.
+        # in certain cases we can grant trusted individuals access.
+        # masterless instances are *temporary* and shouldn't hang around for very long.
+        allowed_masterless: {}
+
+        # when masterless instances exist but user has been denied access.
+        denied_masterless: {}
 
     composer:
         version: 1.10.21
