@@ -35,9 +35,11 @@ python-dev:
 
 global-python-requisites:
     cmd.run:
-        # lsh@2020-03: temporary upper bound until this issue is fixed:
-        # - https://github.com/saltstack/salt/issues/56238
-        - name: python3 -m pip install "virtualenv<20.0.0" --upgrade
+        # lsh@2021-07-22: pinned to version 16.7.10 as 16.7.11 released overnight has a bug that breaks
+        # installation of builder on elife-alfred by attempting to use a newer version of pip that relies 
+        # on typing: https://github.com/pypa/virtualenv/issues/2153
+        # todo: remove pin altogether once we're wholly on python3
+        - name: python3 -m pip install "virtualenv==16.7.10" --upgrade
         - require:
             - python-2.7
 
