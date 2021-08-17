@@ -4,7 +4,7 @@
 helm:
     file.managed:
         - name: /root/{{ helm_archive }}
-        - source: https://storage.googleapis.com/kubernetes-helm/{{ helm_archive }}
+        - source: https://get.helm.sh/{{ helm_archive }}
         - source_hash: md5={{ helm_hash }}
 
     cmd.run:
