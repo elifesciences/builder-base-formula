@@ -1,11 +1,11 @@
 {% set helm_version = '2.11.0' %}
-{% set helm_hash = '0093f1f1c4590d7c4655883909948082' %}
+{% set helm_hash = '02a4751586d6a80f6848b58e7f6bd6c973ffffadc52b4c06652db7def02773a1' %}
 {% set helm_archive = 'helm-v' + helm_version + '-linux-amd64.tar.gz' %}
 helm:
     file.managed:
         - name: /root/{{ helm_archive }}
         - source: https://get.helm.sh/{{ helm_archive }}
-        - source_hash: md5={{ helm_hash }}
+        - source_hash: sha256={{ helm_hash }}
 
     cmd.run:
         - name: tar -xvzf {{ helm_archive }} && mv linux-amd64/helm linux-amd64/tiller /usr/local/bin/
