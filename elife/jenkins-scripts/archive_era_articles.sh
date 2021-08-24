@@ -13,7 +13,7 @@ TriggerWorkflows()
       ARTICLE="{ \"id\": \"${BASH_REMATCH[1]}\""
 
       while [ ! -z "$LINE" ]; do
-        read -r LINE
+        read -r LINE || true # returns non-zero for EOF
         if [[ "$LINE" =~ $REGEX_ERA_ARTICLE_PROPERTY ]]; then
           ARTICLE+=" \"${BASH_REMATCH[1]}\": \"${BASH_REMATCH[2]}\""
         fi
