@@ -15,7 +15,7 @@ TriggerWorkflows()
       while [ ! -z "$LINE" ]; do
         read -r LINE || true # returns non-zero for EOF
         if [[ "$LINE" =~ $REGEX_ERA_ARTICLE_PROPERTY ]]; then
-          ARTICLE+=" \"${BASH_REMATCH[1]}\": \"${BASH_REMATCH[2]}\""
+          ARTICLE+=", \"${BASH_REMATCH[1]}\": \"${BASH_REMATCH[2]}\""
         fi
       done;
 
