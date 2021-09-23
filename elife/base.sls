@@ -1,7 +1,14 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
 
+# salt regularly drops support for older salt releases. this makes apt fail.
+remove-salt-source-file:
+    file.absent:
+        - name: /etc/apt/sources.list.d/saltstack.list
+
 base:
     pkg.installed:
+        - require:
+            - remove-salt-source-file
         - pkgs:
             - logrotate
 
@@ -64,8 +71,14 @@ base-updatedb-config:
 
 autoremove-orphans:
     cmd.run:
+        # 'clean' clears out the local repository of retrieved package files.
+        # 'autoclean' clears out the local repository of retrieved package files. 
+        # The difference is that it only removes package files that can no longer be downloaded
+        # 'autoremove' is used to remove packages that were automatically installed to satisfy dependencies 
+        # for other packages and are now no longer needed.
         - name: |
-            set -e 
+            set -e
+            apt-get clean -y
             apt-get autoremove -y
             apt-get autoclean -y
         - env:

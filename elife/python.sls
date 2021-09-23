@@ -38,8 +38,21 @@ global-python-requisites:
         # lsh@2021-07-22: pinned to version 16.7.10 as 16.7.11 released overnight has a bug that breaks
         # installation of builder on elife-alfred by attempting to use a newer version of pip that relies 
         # on typing: https://github.com/pypa/virtualenv/issues/2153
+        # lsh@2021-09-23: this was fixed quickly upstream and pin can probably be removed if it's causing problems.
         # todo: remove pin altogether once we're wholly on python3
-        - name: python3 -m pip install "virtualenv==16.7.10" --upgrade
+        - name: python3 -m pip install pip wheel "virtualenv==16.7.10" --upgrade
         - require:
             - python-2.7
 
+# At 12:00 AM, on day 1 of the month
+monthly-pip-cache-purge:
+    cron.present:
+        - user: root
+        - identifier: cache-purge
+        - name: pip3 cache purge
+        - minute: 0
+        - hour: 0
+        - daymonth: 1
+        - month: '*'
+        - require:
+            - install-ubr
