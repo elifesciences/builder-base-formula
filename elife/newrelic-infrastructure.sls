@@ -19,7 +19,7 @@ newrelic-infrastructure-repository:
             - newrelic-infrastructure-repository-key
 
 newrelic-infrastructure:
-    pkg.installed:
+    pkg.latest:
         - name: newrelic-infra
         - refresh: True
         - require:
