@@ -1,4 +1,3 @@
-{% set osrelease = salt['grains.get']('osrelease') %}
 {% set oscodename = salt['grains.get']('oscodename') %}
 
 # fails on AWS, perhaps due to the package name
@@ -56,19 +55,11 @@ docker-repository:
             - docker-folder-linking
 
 docker-packages:
-    {% if osrelease == '14.04' %}
-    pkg.installed:
-        - pkgs:
-            # bug1
-            # poorly-patched vulnerability 'fix' breaks 3.3 kernels, like the one in the Ubuntu Trusty 14.04 LTS
-            - docker-ce: 18.06.1~ce~3-0~ubuntu
-    {% else %}
     # bug2
     # we need a version greater than '18.09.3' but can't specify that with a wildcard (*).
     # https://github.com/moby/moby/issues/38249#issuecomment-474795342
     pkg.latest:
         - name: docker-ce
-    {% endif %}
         - refresh: True
         - require:
             - docker-repository

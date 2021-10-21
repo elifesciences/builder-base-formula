@@ -1,5 +1,6 @@
 {% set on_elasticache = salt['elife.cfg']('cfn.outputs.ElastiCacheHost1') %}
 
+# 'bionic' (18.04), 'xenial' (16.04)
 {% set distro = salt['grains.get']('oscodename') %}
 
 {% if not on_elasticache %}
@@ -9,7 +10,7 @@ redis-packages-install:
             - redis-server
             - redis-tools
 
-    # .bionic version: adapted from https://packages.ubuntu.com/bionic/amd64/redis-server/download
+    # 18.04 version: adapted from https://packages.ubuntu.com/bionic/amd64/redis-server/download
     file.managed:
         - name: /etc/redis/redis.conf
         - source: salt://elife/config/etc-redis-redis.conf.{{ distro }}

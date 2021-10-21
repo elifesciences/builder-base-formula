@@ -1,11 +1,3 @@
-{% set osrelease = salt['grains.get']('osrelease') %}
-
-#
-# these three states are temporary and occur when switching between 
-# builder-base-formula for 14.04 and 16.04/18.04. 
-# TODO: remove when all projects are using 16.04+
-#
-
 # DEPRECATED: to be removed (eventually) without replacement
 python-2.7:
     pkg.installed:
@@ -15,6 +7,7 @@ python-2.7:
 
 # 3.5 in 16.04
 # 3.6 in 18.04
+# 3.8 in 20.04
 python-3:
     pkg.installed:
         - pkgs:
@@ -35,12 +28,7 @@ python-dev:
 
 global-python-requisites:
     cmd.run:
-        # lsh@2021-07-22: pinned to version 16.7.10 as 16.7.11 released overnight has a bug that breaks
-        # installation of builder on elife-alfred by attempting to use a newer version of pip that relies 
-        # on typing: https://github.com/pypa/virtualenv/issues/2153
-        # lsh@2021-09-23: this was fixed quickly upstream and pin can probably be removed if it's causing problems.
-        # todo: remove pin altogether once we're wholly on python3
-        - name: python3 -m pip install pip wheel "virtualenv==16.7.10" --upgrade
+        - name: python3 -m pip install pip wheel --upgrade
         - require:
             - python-2.7
 

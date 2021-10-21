@@ -3,31 +3,7 @@
 # 16.04 has php7.0
 # 18.04 has php7.2
 
-{% set osrelease = salt['grains.get']('osrelease') %}
-{% set php_version = '7.0' %}
-
-{% if osrelease == "18.04" %}
-
-    {% set php_version = '7.2' %}
-
-php-ppa:
-    cmd.run:
-        - name: |
-            echo "WARNING: state 'php-ppa' is deprecated. use 'php' instead."
-
-{% elif osrelease == "16.04" %}
-
-php-ppa:
-      pkgrepo.managed:
-        - name: deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main
-        - dist: xenial
-        - file: /etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list
-        - keyserver: keyserver.ubuntu.com
-        - keyid: E5267A6C
-        - refresh_db: true
-        - unless:
-            - test -e /etc/apt/sources.list.d/ondrej-ubuntu-php-xenial.list
-{% endif %}
+{% set php_version = '7.2' %}
 
 php:
     pkg.installed:
@@ -40,10 +16,6 @@ php:
             - php{{ php_version }}-curl
             # required by proofreader-php, provides 'ext-dom', required by 'theseer/fdomdocument'
             - php{{ php_version }}-xml
-            {% if osrelease != '18.04' %}
-            # php-mcrypt deprecated in 7.1 and removed in 7.2
-            - php{{ php_version }}-mcrypt
-            {% endif %}
         - require:
             - php-ppa # DEPRECATED
             - pkg: base

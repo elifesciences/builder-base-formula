@@ -27,16 +27,9 @@ base:
             - htop
 
             # provides add-apt-repository binary needed to install a new ppa easily
-            # renamed in 18.04
-            {% if osrelease in ['16.04'] %}
-            # depends on py2
-            # https://packages.ubuntu.com/xenial/python-software-properties
-            - python-software-properties
-            {% else %}
             # depends on py3
-            # https://packages.ubuntu.com/bionic/software-properties-common
-            - software-properties-common 
-            {% endif %}
+            # - https://packages.ubuntu.com/bionic/software-properties-common
+            - software-properties-common
 
             # find which files are taking up space on filesystem
             - ncdu
@@ -125,10 +118,9 @@ ubuntu-user:
         - require:
             - user: ubuntu-user
 
-{% if osrelease not in ['16.04'] %}
-
-# unnecessary always-on new container service introduced in 18.04
-# used by a new and unasked-for instance monitoring agent from AWS
+# snap is an unnecessary, always-on, new container service introduced in 18.04.
+# it's used by a new and unasked-for instance monitoring agent from AWS.
+# remove both.
 
 amazon-ssm-agent-snap-removal:
     cmd.run:
@@ -144,13 +136,12 @@ snapd:
         - require:
             - amazon-ssm-agent-snap-removal
 
-    cmd.run:
-        - name: rm -rf /var/cache/snapd
+    file.absent:
+        - name: /var/cache/snapd
         - require:
             - service: snapd
         - require_in:
             - pkg: base-purging
-{% endif %}
 
 disable-ubuntu-motd-news:
     file.managed:

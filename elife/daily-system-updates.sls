@@ -59,7 +59,6 @@ daily-security-updates-cron-disable:
     file.absent:
         - name: /etc/cron.daily/apt-compat
 
-{% if salt['grains.get']('osrelease') != "14.04" %}
 # introduced in 16.04, this service performs various APT-related tasks like refreshing the list 
 # of available packages, performing unattended upgrades if needed, etc.
 systemd-unattended-upgrades-disable:
@@ -67,5 +66,4 @@ systemd-unattended-upgrades-disable:
         - name: |
             systemctl disable apt-daily.timer
             systemctl disable apt-daily-upgrade.timer
-{% endif %}
 {% endif %}
