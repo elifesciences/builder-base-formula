@@ -17,7 +17,6 @@ php:
             # required by proofreader-php, provides 'ext-dom', required by 'theseer/fdomdocument'
             - php{{ php_version }}-xml
         - require:
-            - php-ppa # DEPRECATED
             - pkg: base
 
 php-dev:
