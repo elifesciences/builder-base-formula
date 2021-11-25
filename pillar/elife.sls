@@ -141,13 +141,6 @@ elife:
             port: 514
             token: null
 
-        tick:
-            enabled: False
-            influx_host: http://localhost:8086
-            influx_db: telegraf
-            influx_user: null
-            influx_password: null
-
     newrelic:
         enabled: False
         license: 1234567890123456789012345678901234567890
