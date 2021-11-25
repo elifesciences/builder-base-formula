@@ -5,9 +5,6 @@
 # 2. the pool of processes can be grown or shrunk
 # 3. broken processes fail highstate as they ordinarily would
 
-# 16.04+
-{% if salt['grains.get']('osrelease') != '14.04' %}
-
 {% for process, opts in pillar.elife.multiservice.services.items() %}
     {% set num_processes = opts["num_processes"] %}
 
@@ -53,5 +50,3 @@
 {% endfor %}
 
 {% endfor %}
-
-{% endif %}
