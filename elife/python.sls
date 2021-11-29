@@ -35,12 +35,9 @@ python-dev:
 
 global-python-requisites:
     cmd.run:
-        # lsh@2021-07-22: pinned to version 16.7.10 as 16.7.11 released overnight has a bug that breaks
-        # installation of builder on elife-alfred by attempting to use a newer version of pip that relies 
-        # on typing: https://github.com/pypa/virtualenv/issues/2153
-        # lsh@2021-09-23: this was fixed quickly upstream and pin can probably be removed if it's causing problems.
-        # todo: remove pin altogether once we're wholly on python3
-        - name: python3 -m pip install pip wheel "virtualenv==16.7.10" --upgrade
+        # lsh@2021-11-29: adds pipenv to globally available python tools.
+        # it needs to live outside of the 'update-dependencies.sh' script otherwise it becomes part of the requirements file.
+        - name: python3 -m pip install pip wheel virtualenv pipenv --upgrade
         - require:
             - python-2.7
 
