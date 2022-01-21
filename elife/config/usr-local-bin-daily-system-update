@@ -1,4 +1,16 @@
 #!/bin/bash
+# run automatically as root by cron for always-running instances.
+# - see `builder-base-formula/salt/elife/daily-system-updates.sls`
+
+# run manually as sudo-root by Jenkins for 'ci', 'end2end', 'demo' environments that are typically stopped.
+# - see `elife-alfred-formula/jenkinsfiles/Jenkinsfile.daily-updates`
+
+# run as sudo-root by Jenkins for journal--preview and journal--prod (why ???)
+# - see `elife-alfred-formula/jenkinsfiles/Jenkinsfile.daily-updates-prod`
+
+# similar logic is used during ec2 and vagrant bootstrap
+# - see `builder/scripts/highstate.sh`
+
 set -e # everything must pass
 set -u # no unbound variables
 
@@ -15,11 +27,15 @@ set -o pipefail
 # timeout requires --foreground to safely run outside of a shell
 # to avoid putting the wrapped process in the background
 # https://github.com/elifesciences/issues/issues/5163
-sudo timeout --foreground 60m salt-call --force-color state.highstate -l info --retcode-passthrough | tee $log_file || {
+sudo timeout --foreground 60m salt-call --force-color state.highstate -l info --retcode-passthrough | tee "$log_file" || {
     status=$?
+
+    # this snippet is copied from builder/scripts/highstate.sh where we can't guarantee '/etc/build-vars.json.b64', 'jq' or the 
+    # 'build_vars' script exists when the script is run. It's probably unnecessarily safe but it's also proven to work.
+    node_name=$( (test -f /etc/build-vars.json.b64 && sudo cat /etc/build-vars.json.b64 | base64 -d - | python -c 'import json; import sys; print(json.loads(sys.stdin.read())["nodename"])') || hostname)
+
     echo "Error in daily-system-update, state.highstate returned: ${status}"
-    logger "Salt highstate failure: $log_file on $(hostname)"
+    logger "Salt highstate failure: $log_file on $node_name"
     exit $status
 }
 touch "${created_file}"
-
