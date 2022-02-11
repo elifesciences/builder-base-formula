@@ -4,6 +4,7 @@
 # copied from postgresql-client.sls
 
 {% set oscodename = salt['grains.get']('oscodename') %}
+{% set leader = salt['elife.cfg']('project.node', 1) == 1 %}
 
 # http://www.postgresql.org/download/linux/ubuntu/
 postgresql-deb:
@@ -116,6 +117,11 @@ more-postgresql-config:
 
 {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
 # create the not-quite-super RDS user
+
+# lsh@2022-02-11: occasional problems when running this state in parallel:
+# - https://github.com/elifesciences/issues/issues/7224
+{% if leader %}
+
 rds-postgresql-user:
     postgres_user.present:
         - name: {{ pillar.elife.db_root.username }}
@@ -129,6 +135,9 @@ rds-postgresql-user:
             - pkg: postgresql
         - require_in:
             - cmd: postgresql-ready
+
+{% endif %} # ends leader
+
 {% else %}
 postgresql-user:
     postgres_user.present:
