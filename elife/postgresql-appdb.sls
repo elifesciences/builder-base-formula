@@ -1,4 +1,4 @@
-# creates a generic database, user and set of privileges
+# creates a database, user and set of privileges
 # this state obviates a chunk of boilerplate code in app formulas and makes 
 # testing more convenient.
 

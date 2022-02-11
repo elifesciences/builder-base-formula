@@ -1,3 +1,5 @@
+{% set leader = salt['elife.cfg']('project.node', 1) == 1 %}
+
 include:
     - .postgresql-client 
 
@@ -71,6 +73,11 @@ postgresql-config:
             - cmd: postgresql-ready
 
 {% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
+
+# lsh@2022-02-11: occasional problems when running this state in parallel:
+# - https://github.com/elifesciences/issues/issues/7224
+{% if leader %}
+
 # create the not-quite-super RDS user
 rds-postgresql-user:
     postgres_user.present:
@@ -85,6 +92,9 @@ rds-postgresql-user:
             - pkg: postgresql
         - require_in:
             - cmd: postgresql-ready
+
+{% endif %} # ends leader
+
 {% else %}
 postgresql-user:
     postgres_user.present:
