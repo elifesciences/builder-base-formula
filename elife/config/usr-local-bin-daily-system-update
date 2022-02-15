@@ -32,7 +32,7 @@ sudo timeout --foreground 60m salt-call --force-color state.highstate -l info --
 
     # this snippet is copied from builder/scripts/highstate.sh where we can't guarantee '/etc/build-vars.json.b64', 'jq' or the 
     # 'build_vars' script exists when the script is run. It's probably unnecessarily safe but it's also proven to work.
-    node_name=$( (test -f /etc/build-vars.json.b64 && sudo cat /etc/build-vars.json.b64 | base64 -d - | python -c 'import json; import sys; print(json.loads(sys.stdin.read())["nodename"])') || hostname)
+    node_name=$( (test -f /etc/build-vars.json.b64 && sudo cat /etc/build-vars.json.b64 | base64 -d - | python3 -c 'import json; import sys; print(json.loads(sys.stdin.read())["nodename"])') || hostname)
 
     echo "Error in daily-system-update, state.highstate returned: ${status}"
     logger "Salt highstate failure: $log_file on $node_name"
