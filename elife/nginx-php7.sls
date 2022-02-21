@@ -1,16 +1,12 @@
-#
 # bridges Nginx and PHP 7
 # depends on elife/php7.sls
-# 
-#
+
 {% set osrelease = salt['grains.get']('osrelease') %}
+{% set php_version = '7.4' %}
 
 {% if osrelease == "18.04" %}
-{% set php_version = '7.2' %}
-{% else %}
-{% set php_version = '7.0' %}
+    {% set php_version = '7.2' %}
 {% endif %}
-
 
 php-nginx-deps:
     pkg.installed:
