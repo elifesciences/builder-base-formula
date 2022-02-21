@@ -40,7 +40,13 @@ mysql-root-user:
     mysql_user.present:
         - name: {{ root.username }}
         - password: {{ root.password }}
+        {% if pillar.elife.env == 'dev' %}
+        # allow the root user to connect from outside the virtual machine.
+        # '%' is access from ANY host. only use in dev env.
+        - host: "%"
+        {% else %}
         - host: localhost
+        {% endif %}
         - require:
             - mysql-server
 
@@ -53,16 +59,7 @@ mysql-root-user:
             - mysql_user: mysql-root-user
 
 {% if pillar.elife.env == 'dev' %}
-# within a dev environment the root user can connect from outside the machine
 mysql-root-user-dev-perms:
-    mysql_user.present:
-        - name: {{ root.username }}
-        - password: {{ root.password }} 
-        - connection_pass: {{ root.password }}
-        - host: "%" # access from ANYWHERE. not to be used in production
-        - require:
-            - mysql-server
-
     mysql_grants.present:
         - user: {{ root.username }}
         - grant: all privileges
@@ -70,7 +67,7 @@ mysql-root-user-dev-perms:
         - connection_pass: {{ root.password }}
         - host: "%" # important! host+database+user constitute another root user
         - require:
-            - mysql_user: mysql-root-user-dev-perms
+            - mysql_user: mysql-root-user
         - require_in:
             - cmd: mysql-ready
 {% endif %}
