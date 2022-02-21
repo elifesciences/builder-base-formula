@@ -66,7 +66,8 @@
 # IF YOU ARE SURE YOU WANT YOUR INSTANCE TO LISTEN TO ALL THE INTERFACES
 # JUST COMMENT THE FOLLOWING LINE.
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-bind 127.0.0.1 ::1
+##bind 127.0.0.1 ::1
+bind {{ pillar.elife.redis.host }}
 
 # Protected mode is a layer of security protection, in order to avoid that
 # Redis instances left open on the internet are accessed and exploited.
@@ -89,7 +90,8 @@ protected-mode yes
 
 # Accept connections on the specified port, default is 6379 (IANA #815344).
 # If port 0 is specified Redis will not listen on a TCP socket.
-port 6379
+##port 6379
+port {{ pillar.elife.redis.port }}
 
 # TCP listen() backlog.
 #
@@ -215,9 +217,17 @@ always-show-logo yes
 #
 #   save ""
 
-save 900 1
-save 300 10
-save 60 10000
+##save 900 1
+##save 300 10
+##save 60 10000
+
+{% if pillar.elife.redis.persistent %}
+## after 60 sec if at least 1000 keys changed
+save 60 1000
+{% else %}
+## after 60 sec if at least 10000 keys changed
+# save 60 10000
+{% endif %}
 
 # By default Redis will stop accepting writes if RDB snapshots are enabled
 # (at least one save point) and the latest background save failed.
@@ -564,6 +574,7 @@ replica-priority 100
 # output buffers (but this is not needed if the policy is 'noeviction').
 #
 # maxmemory <bytes>
+maxmemory {{ pillar.elife.redis.maxmemory }}mb
 
 # MAXMEMORY POLICY: how Redis will select what to remove when maxmemory
 # is reached. You can select among five behaviors:
@@ -595,6 +606,11 @@ replica-priority 100
 # The default is:
 #
 # maxmemory-policy noeviction
+{% if pillar.elife.redis.persistent %}
+maxmemory-policy noeviction
+{% else %}
+maxmemory-policy allkeys-lru
+{% endif %}
 
 # LRU, LFU and minimal TTL algorithms are not precise algorithms but approximated
 # algorithms (in order to save memory), so you can tune it for speed or
@@ -696,7 +712,17 @@ replica-lazy-flush no
 #
 # Please check http://redis.io/topics/persistence for more information.
 
+{% if pillar.elife.redis.persistent %}
+# AOF (Append-Only File)
+appendonly yes
+# where the .aof file will live
+dir /var/lib/redis/
+{% else %}
+# AOF (Append-Only File)
 appendonly no
+# where the .aof file will live
+# dir /var/lib/redis/
+{% endif %}
 
 # The name of the append only file (default: "appendonly.aof")
 
