@@ -38,8 +38,6 @@ case "$1" in
 	for v in $versions; do
 	    $1 $v || EXIT=$?
 	done
-    # hook for Upstart services depending on this
-    initctl emit postgresql-ready
 	exit ${EXIT:-0}
         ;;
     status)

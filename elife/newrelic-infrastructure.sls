@@ -10,7 +10,7 @@ newrelic-infrastructure-configuration:
 
 newrelic-infrastructure-repository-key:
     cmd.run:
-        - name: "curl https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | apt-key add -"
+        - name: "curl --silent https://download.newrelic.com/infrastructure_agent/gpg/newrelic-infra.gpg | apt-key add -"
 
 newrelic-infrastructure-repository:
     cmd.run:
