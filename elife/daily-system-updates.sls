@@ -29,7 +29,7 @@ daily-system-updates:
         - identifier: daily-system-update
         - name: /usr/local/bin/daily-system-update
         # stagger updates to so clusters don't step on each other and the salt-master isn't overwhelmed.
-        - minute: random
+        - minute: {{ range(0,59)|random }}
         - hour: 21
         - dayweek: '0-4'
         - require:
