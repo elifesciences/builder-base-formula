@@ -83,6 +83,10 @@ elife:
 
     daily_system_updates:
         enabled: True
+        # Mon-Fri, 9pm UTC at a random minute within the hour.
+        dayweek: '0-4'
+        hour: 21
+        minute: random
 
     webserver:
         username: www-data
