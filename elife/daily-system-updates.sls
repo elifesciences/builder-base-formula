@@ -5,6 +5,7 @@
 # managed by Jenkins
 
 {% set environments_managed_through_alfred = ['ci', 'end2end', 'demo'] %}
+{% set crontab = pillar.elife.daily_system_updates %}
 
 daily-system-update-command:
     file.managed:
@@ -24,14 +25,14 @@ daily-system-update-log-rotater:
         - source: salt://elife/config/etc-logrotate.d-daily-system-update
 
 daily-system-updates:
-    {% if not pillar.elife.env in environments_managed_through_alfred and pillar.elife.daily_system_updates.enabled %}
+    {% if crontab.enabled and not pillar.elife.env in environments_managed_through_alfred %}
     cron.present:
         - identifier: daily-system-update
         - name: /usr/local/bin/daily-system-update
         # stagger updates to so clusters don't step on each other and the salt-master isn't overwhelmed.
-        - minute: {{ range(0,59)|random }}
-        - hour: 21
-        - dayweek: '0-4'
+        - minute: {% if crontab.minute == 'random' %}{{ range(0,59)|random }}{% else %}{{ crontab.minute }}{% endif %}
+        - hour: {{ crontab.hour }}
+        - dayweek: {{ crontab.dayweek }}
         - require:
             - file: daily-system-update-log-rotater
             - daily-system-update-command
@@ -46,7 +47,7 @@ daily-system-updates:
     {% endif %}
 
 
-{% if pillar.elife.env in environments_managed_through_alfred or not pillar.elife.daily_system_updates.enabled %}
+{% if not crontab.enabled or pillar.elife.env in environments_managed_through_alfred %}
 # unattended upgrades
 # managed through Alfred
 daily-security-updates-cron-disable:
