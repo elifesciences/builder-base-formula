@@ -90,12 +90,21 @@ uwsgi-service-{{ name }}:
         - require_in:
             - cmd: uwsgi-services
 
+# lsh@2022-03-08: wasn't a problem in 18.04, not sure what has changed to make it a problem in 20.04
+uwsgi-socket-dir-perms:
+    file.directory:
+        - name: /var/run/uwsgi
+        - user: root
+        - group: {{ pillar.elife.uwsgi.username }}
+        - dir_mode: 774 # www-data (uwsgi) is allowed to remove the socket file
+
 uwsgi-socket-{{ name }}:
     file.managed:
         - name: /lib/systemd/system/uwsgi-{{ name }}.socket
         - source: salt://elife/config/lib-systemd-system-uwsgi.socket
         - template: jinja
         - require:
+            - uwsgi-socket-dir-perms
             - uwsgi-pkg
             - uwsgi-params
             - uwsgi-{{ name }}.log
