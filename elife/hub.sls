@@ -5,7 +5,7 @@
 hub:
     cmd.run:
         - name: |
-            wget -c https://github.com/github/hub/releases/download/v{{ hub_version }}/hub-linux-amd64-{{ hub_version }}.tgz
+            wget --quiet --continue https://github.com/github/hub/releases/download/v{{ hub_version }}/hub-linux-amd64-{{ hub_version }}.tgz
             tar zvxf hub-linux-amd64-{{ hub_version }}.tgz
             ln -sf /opt/hub-linux-amd64-{{ hub_version }}/bin/hub /usr/local/bin/hub
         - cwd: /opt

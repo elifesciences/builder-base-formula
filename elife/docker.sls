@@ -45,7 +45,7 @@ docker-gpg-key:
     cmd.run:
         - name: |
             set -e
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+            curl --fail --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg | apt-key add -
             apt-key fingerprint 0EBFCD88
 
 docker-repository:
