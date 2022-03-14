@@ -1,6 +1,6 @@
 kubernetes-packages-repo:
     cmd.run:
-        - name: curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+        - name: curl --silent https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
         - unless:
             - apt-key list | grep BA07F4FB
 

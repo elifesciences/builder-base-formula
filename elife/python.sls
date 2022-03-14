@@ -22,7 +22,7 @@ global-python-requisites:
     cmd.run:
         # lsh@2021-11-29: adds pipenv to globally available python tools.
         # it needs to live outside of the 'update-dependencies.sh' script otherwise it becomes part of the requirements file.
-        - name: python3 -m pip install pip wheel virtualenv pipenv --upgrade
+        - name: python3 -m pip install pip wheel virtualenv pipenv --upgrade --quiet
 
 # At 12:00 AM, on day 1 of the month
 monthly-pip-cache-purge:
