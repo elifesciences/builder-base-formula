@@ -62,14 +62,19 @@ install-composer:
             - which composer
     cmd.run:
         - cwd: {{ composer_home }}
-        - name: php setup.php --install-dir=/usr/local/bin --filename=composer --version={{ pillar.elife.composer.version }}
+        - name: |
+            php setup.php \
+                --install-dir=/usr/local/bin \
+                --filename=composer \
+                --version={{ pillar.elife.composer.version }} \
+                --no-interaction
         - require:
             - php
             - file: install-composer
             - composer-auth
         - unless:
             # composer is installed and it's version matches the intended version
-            - which composer && composer --version | grep {{ pillar.elife.composer.version }}
+            - which composer && composer --version --no-interaction | grep {{ pillar.elife.composer.version }}
 
 composer-global-paths:
     file.managed:
