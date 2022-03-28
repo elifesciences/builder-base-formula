@@ -27,22 +27,21 @@ base:
             - htop
 
             # provides add-apt-repository binary needed to install a new ppa easily
-            # renamed in 18.04
-            {% if osrelease in ['16.04'] %}
-            # depends on py2
-            # https://packages.ubuntu.com/xenial/python-software-properties
-            - python-software-properties
-            {% else %}
-            # depends on py3
-            # https://packages.ubuntu.com/bionic/software-properties-common
-            - software-properties-common 
-            {% endif %}
+            # - https://packages.ubuntu.com/bionic/software-properties-common
+            - software-properties-common
 
             # find which files are taking up space on filesystem
             - ncdu
             # diagnosing disk IO 
             - sysstat # provides iostat
             - iotop
+            
+            {% if osrelease != "18.04" %}
+            
+            - ripgrep # aka 'rg'
+            - fd-find # aka 'fd'
+            
+            {% endif %}
 
             # useful for smoke testing the JSON output
             - jq
@@ -56,6 +55,13 @@ base-purging:
         - pkgs:
             - puppet
             - snapd
+        - require:
+            - base
+
+symlink fdfind to fd:
+    file.symlink:
+        - name: /usr/bin/fd
+        - target: /usr/bin/fdfind
         - require:
             - base
 
@@ -125,8 +131,6 @@ ubuntu-user:
         - require:
             - user: ubuntu-user
 
-{% if osrelease not in ['16.04'] %}
-
 # unnecessary always-on new container service introduced in 18.04
 # used by a new and unasked-for instance monitoring agent from AWS
 
@@ -150,7 +154,6 @@ snapd:
             - service: snapd
         - require_in:
             - pkg: base-purging
-{% endif %}
 
 disable-ubuntu-motd-news:
     file.managed:
