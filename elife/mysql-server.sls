@@ -34,6 +34,8 @@ mysql-server:
 
 {% set root = pillar.elife.db_root %}
 
+{% if osrelease == "18.04" %}
+
 # the 'root' db user that has access to *everything*
 # untested with RDS
 mysql-root-user:
@@ -58,7 +60,7 @@ mysql-root-user:
         - require:
             - mysql_user: mysql-root-user
 
-{% if pillar.elife.env == 'dev' %}
+{% if pillar.elife.env == 'dev' and osrelease == "18.04" %}
 mysql-root-user-dev-perms:
     mysql_grants.present:
         - user: {{ root.username }}
@@ -73,10 +75,36 @@ mysql-root-user-dev-perms:
 {% endif %}
 
 
+{% else %}
+
+# lsh@2022-03-28: salt seems to choke in mysql 8+ when multiple root users with different 'host' values exist.
+# I think. It's confusing. Disabling this other root user in 20.04 temporarily.
+
+{% set database = "*.*" %}
+{% set host = "localhost" if pillar.elife.env != "dev" else "%" %}
+{% set grants = "all privileges" %}
+
+#mysql-root-user:
+#    cmd.script:
+#        - name: salt://elife/scripts/mysql-auth.sh
+#        - template: jinja
+#        - defaults:
+#            user: "{{ root.username }}"
+#            pass: "{{ root.password }}"
+#            host: "{{ host }}"
+#            db: "{{ database }}"
+#            grants: "{{ grants }}"
+#        - require:
+#            - mysql-server
+
+{% endif %}
+
 mysql-ready:
     cmd.run:
         - name: echo "MySQL is ready"
         - require:
             - mysql-server
+            {% if osrelease == "18.04" %}
             - mysql-root-user
+            {% endif %}
 
