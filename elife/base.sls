@@ -58,12 +58,16 @@ base-purging:
         - require:
             - base
 
+{% if osrelease != "18.04" %}
+
+# make 'fdfind' just 'fd'
 symlink fdfind to fd:
     file.symlink:
         - name: /usr/bin/fd
         - target: /usr/bin/fdfind
         - require:
             - base
+{% endif %}
 
 base-vim-config:
     file.managed:
