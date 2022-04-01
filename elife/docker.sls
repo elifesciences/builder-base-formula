@@ -16,8 +16,6 @@ docker-folder:
 docker-folder-linking:
     cmd.run:
         - name: |
-            # to be compatible with both upstart and systemd
-            stop docker || true
             systemctl stop docker || true
             # move files onto the volume
             mv /var/lib/docker/* /ext/docker
