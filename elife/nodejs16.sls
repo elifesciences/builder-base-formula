@@ -19,4 +19,4 @@ nodejs16:
     pkg.latest:
         - name: nodejs
         - require:
-            - pkgrepo: nodejs
+            - pkgrepo: nodejs16
