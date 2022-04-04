@@ -18,7 +18,6 @@ include:
     {% endif %}
     - .security
     - .logging
-    - .upstart-monitoring
     {% if salt['elife.only_on_aws']() %}
     - .daily-system-updates
     {% endif %}
