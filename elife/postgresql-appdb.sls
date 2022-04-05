@@ -53,7 +53,7 @@ psql-app-db:
     postgres_user.present:
         - name: {{ app_user_name }}
         - password: {{ app_user_pass }}
-        - encrypted: True
+        - encrypted: scram-sha-256
         - refresh_password: True
         - createdb: {% if pillar.elife.env in ['prod', 'end2end'] %}False{% else %}True{% endif %}
 
