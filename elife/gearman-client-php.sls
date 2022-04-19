@@ -1,8 +1,4 @@
-{% set php_version = '7.4' %}
 {% if salt['grains.get']('osrelease') == '18.04' %}
-    {% set php_version = '7.2' %}
-{% endif %}
-
 gearman-php-extension:
     git.latest:
         - name: https://github.com/wcgallego/pecl-gearman
@@ -19,7 +15,7 @@ gearman-php-extension:
             - libgearman-dev
 
     file.managed:
-        - name: /etc/php/{{ php_version }}/mods-available/gearman.ini
+        - name: /etc/php/7.2/mods-available/gearman.ini
         - contents: extension=gearman.so
         - require:
             - php
@@ -38,4 +34,12 @@ gearman-php-extension:
             - git: gearman-php-extension
             - pkg: gearman-php-extension
             - php-dev
+{% else %}
 
+gearman-php-extension:
+    pkg.installed:
+        - pkgs:
+            #- libgearman-dev # possibly not necessary
+            - php-gearman # 2.0.6
+
+{% endif %}
