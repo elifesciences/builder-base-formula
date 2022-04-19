@@ -1,9 +1,7 @@
+{% set php_version = '7.4' %}
 {% if salt['grains.get']('osrelease') == '18.04' %}
-
-php-ppa-gearman:
-    pkg.purged:
-        - pkgs:
-            - php-gearman
+    {% set php_version = '7.2' %}
+{% endif %}
 
 gearman-php-extension:
     git.latest:
@@ -19,11 +17,9 @@ gearman-php-extension:
     pkg.installed:
         - pkgs:
             - libgearman-dev
-        - require:
-            - php-ppa-gearman
 
     file.managed:
-        - name: /etc/php/7.2/mods-available/gearman.ini
+        - name: /etc/php/{{ php_version }}/mods-available/gearman.ini
         - contents: extension=gearman.so
         - require:
             - php
@@ -43,4 +39,3 @@ gearman-php-extension:
             - pkg: gearman-php-extension
             - php-dev
 
-{% endif %}
