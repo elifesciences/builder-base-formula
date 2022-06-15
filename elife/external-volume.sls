@@ -53,7 +53,7 @@ resize-external-volume-if-needed:
 
 tmp-directory-on-external-volume:
     file.directory:
-        - name: /ext/tmp
+        - name: {{ pillar.elife.external_volume.directory }}/tmp
         - user: {{ pillar.elife.deploy_user.username }}
         - group: {{ pillar.elife.deploy_user.username }}
         - require:
