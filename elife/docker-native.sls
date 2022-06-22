@@ -11,11 +11,12 @@
 purge-docker-ce:
     cmd.run:
         - name: |
+            export DEBIAN_FRONTEND=noninteractive
             systemctl stop docker
             apt purge docker-ce -y
             sed --in-place '/download.docker.com/d' /etc/apt/sources.list
             apt update
-            apt autoremove
+            apt autoremove -y
             # destroy any (aufs) containers
             rm -rf /var/lib/docker/aufs
             rm -rf /ext/docker/aufs
