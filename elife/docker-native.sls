@@ -12,6 +12,7 @@ purge-docker-ce:
     cmd.run:
         - name: |
             export DEBIAN_FRONTEND=noninteractive
+            systemctl stop docker.socket
             systemctl stop docker
             apt purge docker-ce -y
             sed --in-place '/download.docker.com/d' /etc/apt/sources.list
@@ -33,7 +34,8 @@ docker-folder:
 docker-folder-linking:
     cmd.run:
         - name: |
-            systemctl stop docker || true
+            systemctl stop docker.socket
+            systemctl stop docker
             # move files onto the volume
             mv /var/lib/docker/* /ext/docker
             rmdir /var/lib/docker
