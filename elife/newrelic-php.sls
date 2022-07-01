@@ -46,7 +46,7 @@ newrelic-install-script:
 {% if salt['grains.get']('osrelease') == "18.04" %}
 {% set php_version = '7.2' %}
 {% else %}
-{% set php_version = '7.0' %}
+{% set php_version = '7.4' %}
 {% endif %}
 
 {% for ini_file in ['/etc/php/' + php_version + '/cli/conf.d/newrelic.ini', '/etc/php/' + php_version + '/fpm/conf.d/newrelic.ini'] %}
