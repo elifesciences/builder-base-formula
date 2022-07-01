@@ -1,4 +1,4 @@
-# postgresql-11.sls is intended to be a drop-in replacement for postgresql.sls (psql 9.4)
+# postgresql-11.sls is intended to be a drop-in replacement for postgresql.sls (psql 9.4 in 18.04)
 # the two are mutually exclusive and share many of the same state names
 
 # copied from postgresql-client.sls
