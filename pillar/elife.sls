@@ -210,7 +210,7 @@ elife:
         #        role: arn:aws:iam::512686554592:role/kubernetes--demo--AmazonEKSUserRole 
 
     external_volume:
-        device: /dev/xvdh
+        device: /dev/nvme1n1
         filesystem: ext4
         directory: /ext
 
