@@ -10,7 +10,7 @@ set -eu
 
 # check that 9.4 still exists as this script will purge it after the data has been upgraded
 test -d /var/lib/postgresql/9.4 || {
-    echo "postgreql 9.4 not detected, nothing to upgrade"
+    echo "postgresql 9.4 not detected, nothing to upgrade"
     exit 0
 }
 
@@ -55,7 +55,7 @@ echo "using: $pg_upgrade"
 # we'll stick with the default (copy)
 
 # the 'datadir' on Ubuntu can be found by issuing:
-# psql -U username dbname -c "SHOW data_directory"
+# psql -U root postgres -c "SHOW data_directory"
 #        data_directory        
 #------------------------------
 # /var/lib/postgresql/9.4/main
