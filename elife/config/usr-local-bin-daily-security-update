@@ -10,5 +10,20 @@ if [ -e "${created_file}" ]; then
     exit 0
 fi
 
+# there is no guarantee that `apt-daily` covers the programs in 
+# `/etc/cron.daily`, so continue to call run-parts on them.
 run-parts /etc/cron.daily
+
+# lsh@2022-10-25, more context here:
+# - https://github.com/elifesciences/issues/issues/7823
+
+# downloads updates (among other things). 
+# this is a 'one-shot' script and not a daemon that stays running.
+# see: /usr/lib/apt/apt.systemd.daily
+systemctl start apt-daily
+
+# applies updates. 
+# same script as above, but called with different args.
+systemctl start apt-daily-upgrade
+
 touch "${created_file}"
