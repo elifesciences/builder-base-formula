@@ -10,5 +10,16 @@ if [ -e "${created_file}" ]; then
     exit 0
 fi
 
+# for machines that are turned off most of the time.
 run-parts /etc/cron.daily
+
+# downloads updates (among other things).
+# this is a 'one-shot' script and not a daemon that stays running.
+# see: /usr/lib/apt/apt.systemd.daily
+systemctl start apt-daily
+
+# applies updates. 
+# same script as above, but called with different args.
+systemctl start apt-daily-upgrade
+
 touch "${created_file}"
