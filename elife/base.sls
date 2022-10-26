@@ -63,6 +63,11 @@ symlink fdfind to fd:
             - base
 {% endif %}
 
+system-git-config:
+    file.managed:
+        - name: /etc/gitconfig
+        - source: salt://elife/config/etc-gitconfig
+
 base-vim-config:
     file.managed:
         - name: /etc/vim/vimrc
