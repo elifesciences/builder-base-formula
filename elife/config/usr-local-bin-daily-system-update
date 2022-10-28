@@ -21,7 +21,7 @@ set -u # no unbound variables
 # - https://github.com/elifesciences/issues/issues/7830
 # and was not reverted when it broke when called by cron:
 # - https://github.com/elifesciences/issues/issues/7850
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 current_date=$(date -I)
 created_file="/root/highstate-${current_date}"
