@@ -5,7 +5,7 @@
 # run manually as sudo-root by Jenkins for 'ci', 'end2end', 'demo' environments that are typically stopped.
 # - see `elife-alfred-formula/jenkinsfiles/Jenkinsfile.daily-updates`
 
-# run as sudo-root by Jenkins for journal--preview and journal--prod (why ???)
+# run as sudo-root by Jenkins for journal--preview and journal--prod
 # - see `elife-alfred-formula/jenkinsfiles/Jenkinsfile.daily-updates-prod`
 
 # similar logic is used during ec2 and vagrant bootstrap
@@ -13,6 +13,15 @@
 
 set -e # everything must pass
 set -u # no unbound variables
+
+# lsh@2022-10-28: PATH copied from the /etc/sudoers 'secure_path' value.
+# this script has been calling `salt-call` as `sudo salt-call`, despite executed as root,
+# and had access to the full set of paths.
+# The `sudo` was removed as it appeared to fix a git issue:
+# - https://github.com/elifesciences/issues/issues/7830
+# and was not reverted when it broke when called by cron:
+# - https://github.com/elifesciences/issues/issues/7850
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 current_date=$(date -I)
 created_file="/root/highstate-${current_date}"
