@@ -1,5 +1,4 @@
-# temporary, remove once all postgresql-container projects are upgraded to 11+
-{% set psql9 = (pillar.elife.docker_postgresql.image_tag|string).startswith("9.") %}
+{% set psql11 = (pillar.elife.docker_postgresql.image_tag|string).startswith("11") %}
 
 # copied from postgresql-client.sls
 
@@ -16,11 +15,7 @@ postgresql-deb:
 postgresql-client:
     pkg.installed:
         - pkgs:
-            {% if psql9 %}
-            - postgresql-client-9.4
-            {% else %}
             - postgresql-client-11
-            {% endif %}
         - refresh: True
         - require:
             - pkgrepo: postgresql-deb
@@ -65,27 +60,6 @@ stop-disable-host-postgresql:
             set -e
             /etc/init.d/postgresql stop || systemctl stop postgresql || true  # if anything's running locally
             systemctl disable postgresql || true # service units already deleted or postgresql never installed
-            # don't do this, messes with systemctl, can mess with apt, doesn't stop postgresql from running
-            #rm -f /lib/systemd/system/postgresql*
-
-{% if not psql9 %}
-
-# stops any postgres:9 docker processes and removes them
-# image is then rebuilt using postgres-11 and started in docker-compose-postgres-up
-stop-remove-postgresql9-process:
-    cmd.run:
-        - name: |
-            set -e
-            psid=$(docker ps -a | grep "postgres:9" | awk '{ print $1 }')
-            test ! -z "$psid" && {
-                docker stop "$psid"
-                docker rm "$psid"
-            } || {
-                echo "docker postgres 9.x process not found"
-            }
-        - require_in:
-            - cmd: docker-compose-postgres-up
-{% endif %}
 
 docker-compose-postgres-up:
     cmd.run:

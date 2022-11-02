@@ -189,7 +189,7 @@ elife:
         prune_days: 14
 
     docker_postgresql:
-        image_tag: 9.4.16
+        image_tag: 11
 
     gcloud:
         directory: /home/elife
