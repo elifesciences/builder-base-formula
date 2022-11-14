@@ -7,6 +7,24 @@
 #        - name: |
 #            sudo apt-get -y install linux-image-extra-$(uname -r) linux-image-extra-virtual
 
+
+purge-docker-ce:
+    cmd.run:
+        - name: |
+            export DEBIAN_FRONTEND=noninteractive
+            systemctl stop docker.socket
+            systemctl stop docker
+            apt purge docker-ce -y
+            sed --in-place '/download.docker.com/d' /etc/apt/sources.list
+            apt update
+            apt autoremove -y
+            # destroy any (aufs) containers
+            rm -rf /var/lib/docker/aufs
+            rm -rf /ext/docker/aufs
+        - onlyif:
+            # the presence of docker-ce is detected
+            - cat /etc/apt/sources.list | grep download.docker.com
+
 docker-folder:
     file.directory:
         - name: /ext/docker
@@ -16,7 +34,8 @@ docker-folder:
 docker-folder-linking:
     cmd.run:
         - name: |
-            systemctl stop docker || true
+            systemctl stop docker.socket
+            systemctl stop docker
             # move files onto the volume
             mv /var/lib/docker/* /ext/docker
             rmdir /var/lib/docker
@@ -28,6 +47,7 @@ docker-folder-linking:
             # has something in it to move
             - ls -l /var/lib/docker/ | grep -v 'total 0'
         - require:
+            - purge-docker-ce
             - docker-folder
 
     file.symlink:
@@ -37,30 +57,14 @@ docker-folder-linking:
         - require:
             - cmd: docker-folder-linking
 
-# https://docs.docker.com/install/linux/docker-ce/ubuntu/
-
-docker-gpg-key:
-    cmd.run:
-        - name: |
-            set -e
-            curl --fail --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-            apt-key fingerprint 0EBFCD88
-
-docker-repository:
-    pkgrepo.managed:
-        - name: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ oscodename }} stable
-        - require:
-            - docker-gpg-key
-            - docker-folder-linking
-
 docker-packages:
     # we need a version greater than '18.09.3' but can't specify that with a wildcard (*).
     # https://github.com/moby/moby/issues/38249#issuecomment-474795342
-    pkg.latest:
-        - name: docker-ce
+    pkg.installed:
+        - name: docker.io
         - refresh: True
         - require:
-            - docker-repository
+            - docker-folder-linking
 
     service.running:
         - name: docker

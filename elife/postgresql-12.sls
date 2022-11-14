@@ -1,5 +1,5 @@
-# postgresql-11.sls is intended to be a drop-in replacement for postgresql.sls (psql 9.4 in 18.04)
-# the two are mutually exclusive and share many of the same state names.
+# postgresql-12.sls is intended to be a drop-in replacement for postgresql.sls (psql 9.4 in 18.04) and postgresql-11.sls
+# all are mutually exclusive and share many of the same state names
 
 # copied from postgresql-client.sls
 
@@ -46,7 +46,7 @@ pgpass-rds-entry:
 postgresql:
     pkg.installed:
         - pkgs:
-            - postgresql-11
+            - postgresql-12
             - libpq-dev # headers for building the libraries to them
         - require:
             - pkgrepo: postgresql-deb
@@ -76,8 +76,8 @@ postgresql-init:
 
 postgresql-config:
     file.managed:
-        - name: /etc/postgresql/11/main/pg_hba.conf
-        - source: salt://elife/config/etc-postgresql-11-main-pg_hba.conf
+        - name: /etc/postgresql/12/main/pg_hba.conf
+        - source: salt://elife/config/etc-postgresql-12-main-pg_hba.conf
         - require:
             - pkg: postgresql
         - watch_in:
@@ -85,31 +85,31 @@ postgresql-config:
         - require_in:
             - cmd: postgresql-ready
 
-# runs pg_upgrade on 9.4 data and then purge postgresql-9.4 
-psql-9.4 to psql-11 migration:
+# runs pg_upgrade on 11 data and then purges postgresql-11
+psql-11 to psql-12 migration:
     file.managed:
-        - name: /root/upgrade-postgresql-9.4-to-11.sh
-        - source: salt://elife/scripts/root-upgrade-postgresql-9.4-to-11.sh
+        - name: /root/upgrade-postgresql-11-to-12.sh
+        - source: salt://elife/scripts/root-upgrade-postgresql-11-to-12.sh
 
     cmd.script:
-        - name: salt://elife/scripts/root-upgrade-postgresql-9.4-to-11.sh
+        - name: salt://elife/scripts/root-upgrade-postgresql-11-to-12.sh
         - require:
             - pkg: postgresql
             - pgpass-file
             - postgresql-config
-            - file: psql-9.4 to psql-11 migration
+            - file: psql-11 to psql-12 migration
 
 # managing this file is necessary because of the migration
-# psql 11 default config is port 5433 and not 5432 when another psql is present
+# psql 12 default config is port 5433 and not 5432 when another psql is present
 more-postgresql-config:
     file.managed:
-        - name: /etc/postgresql/11/main/conf.d/port.conf
-        - source: salt://elife/config/etc-postgresql-11-main-conf.d-port.conf
+        - name: /etc/postgresql/12/main/conf.d/port.conf
+        - source: salt://elife/config/etc-postgresql-12-main-conf.d-port.conf
         - require:
             - pkg: postgresql
-            # run the migration first, which will purge the old 9.x postgresql, then 
+            # run the migration first, which will purge the old 11 postgresql, then 
             # enforce new config with port 5432 here
-            - cmd: psql-9.4 to psql-11 migration
+            - cmd: psql-11 to psql-12 migration
         - watch_in:
             - service: postgresql
         - require_in:
@@ -126,7 +126,6 @@ rds-postgresql-user:
     postgres_user.present:
         - name: {{ pillar.elife.db_root.username }}
         - password: {{ salt['elife.cfg']('project.rds_password') }}
-        - encrypted: scram-sha-256
         - refresh_password: True
         - db_password: {{ salt['elife.cfg']('project.rds_password') }}
         - db_host: {{ salt['elife.cfg']('cfn.outputs.RDSHost') }}
@@ -144,7 +143,6 @@ postgresql-user:
     postgres_user.present:
         - name: {{ pillar.elife.db_root.username }}
         - password: {{ pillar.elife.db_root.password }}
-        - encrypted: scram-sha-256
         - refresh_password: True
         - db_password: {{ pillar.elife.db_root.password }}
         

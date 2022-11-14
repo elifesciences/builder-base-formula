@@ -2,6 +2,9 @@
 set -e # everything must pass
 set -u # no unbound variables
 
+# lsh@2022-11-08: added some unnecessary output so Jenkins doesn't kill script.
+# - https://github.com/elifesciences/issues/issues/7889
+
 current_date=$(date -I)
 created_file="/root/updated-${current_date}"
 
@@ -10,5 +13,19 @@ if [ -e "${created_file}" ]; then
     exit 0
 fi
 
+# for machines that are turned off most of the time.
+echo "Running cron"
 run-parts /etc/cron.daily
+
+# downloads updates (among other things).
+# this is a 'one-shot' script and not a daemon that stays running.
+# see: /usr/lib/apt/apt.systemd.daily
+echo "Running apt-daily"
+systemctl start apt-daily
+
+# applies updates. 
+# same script as above, but called with different args.
+echo "Running apt-daily-upgrade"
+systemctl start apt-daily-upgrade
+
 touch "${created_file}"

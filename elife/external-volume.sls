@@ -5,7 +5,7 @@
 # on the same device as `/`
 
 format-external-volume:
-    # ll: mkfs -t ext4 /dev/xvdh
+    # ll: mkfs -t ext4 /dev/nvme1n1
     cmd.run:
         - name: mkfs -t {{ pillar.elife.external_volume.filesystem }} {{ pillar.elife.external_volume.device }}
         - onlyif:
@@ -16,12 +16,12 @@ format-external-volume:
             - file --special-files {{ pillar.elife.external_volume.device }} | grep {{ pillar.elife.external_volume.filesystem }}
 
 mount-point-external-volume:
-    # ll: mkdir /mnt/xvdh
+    # ll: mkdir /mnt/nvme1n1
     file.directory:
         - name: {{ pillar.elife.external_volume.directory }}
 
 mount-external-volume:
-    # ll: mount /dev/xvdh /mnt/xvdh
+    # ll: mount /dev/nvme1n1 /mnt/nvme1n1
     mount.mounted:
         - name: {{ pillar.elife.external_volume.directory }}
         - device: {{ pillar.elife.external_volume.device }}
@@ -53,7 +53,7 @@ resize-external-volume-if-needed:
 
 tmp-directory-on-external-volume:
     file.directory:
-        - name: /ext/tmp
+        - name: {{ pillar.elife.external_volume.directory }}/tmp
         - user: {{ pillar.elife.deploy_user.username }}
         - group: {{ pillar.elife.deploy_user.username }}
         - require:

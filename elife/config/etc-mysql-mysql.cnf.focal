@@ -76,3 +76,6 @@ log_error = /var/log/mysql/error.log
 max_binlog_size   = 100M
 # binlog_do_db		= include_database_name
 # binlog_ignore_db	= include_database_name
+
+# lsh@2022-07-01: added. binary log files not needed, we don't do replication and the log files just accumulate.
+disable-log-bin
