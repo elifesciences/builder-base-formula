@@ -126,6 +126,7 @@ rds-postgresql-user:
     postgres_user.present:
         - name: {{ pillar.elife.db_root.username }}
         - password: {{ salt['elife.cfg']('project.rds_password') }}
+        - encrypted: scram-sha-256
         - refresh_password: True
         - db_password: {{ salt['elife.cfg']('project.rds_password') }}
         - db_host: {{ salt['elife.cfg']('cfn.outputs.RDSHost') }}
@@ -143,6 +144,7 @@ postgresql-user:
     postgres_user.present:
         - name: {{ pillar.elife.db_root.username }}
         - password: {{ pillar.elife.db_root.password }}
+        - encrypted: scram-sha-256
         - refresh_password: True
         - db_password: {{ pillar.elife.db_root.password }}
         
