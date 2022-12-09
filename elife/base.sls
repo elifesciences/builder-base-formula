@@ -152,7 +152,8 @@ snapd:
             - amazon-ssm-agent-snap-removal
 
     cmd.run:
-        - name: rm -rf /var/cache/snapd
+        - name: |
+            rm -rf /var/cache/snapd /tmp/snap-private-tmp
         - require:
             - service: snapd
         - require_in:
