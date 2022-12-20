@@ -85,6 +85,18 @@ postgresql-config:
         - require_in:
             - cmd: postgresql-ready
 
+# lsh@2022-12-20: allow docker containers to access host psql
+postgresql-docker-config:
+    file.managed:
+        - name: /etc/postgresql/11/main/conf.d/docker.conf
+        - source: salt://elife/config/etc-postgresql-11-conf.d-docker.conf
+        - require:
+            - pkg: postgresql
+        - watch_in:
+            - service: postgresql
+        - require_in:
+            - cmd: postgresql-ready
+
 # runs pg_upgrade on 9.4 data and then purge postgresql-9.4 
 psql-9.4 to psql-11 migration:
     file.managed:
