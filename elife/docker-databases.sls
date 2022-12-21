@@ -14,8 +14,6 @@ postgresql-11-docker-config:
     file.managed:
         - name: /etc/postgresql/11/main/conf.d/docker.conf
         - source: salt://elife/config/etc-postgresql-conf.d-docker.conf
-        - require:
-            - pkg: postgresql
         - require_in:
             - cmd: postgresql-ready
         - onlyif:
@@ -25,8 +23,6 @@ postgresql-12-docker-config:
     file.managed:
         - name: /etc/postgresql/12/main/conf.d/docker.conf
         - source: salt://elife/config/etc-postgresql-conf.d-docker.conf
-        - require:
-            - pkg: postgresql
         - require_in:
             - cmd: postgresql-ready
         - onlyif:
