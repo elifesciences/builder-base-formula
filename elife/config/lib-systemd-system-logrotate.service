@@ -23,5 +23,7 @@ PrivateTmp=true
 ProtectControlGroups=true
 ProtectKernelModules=true
 ProtectSystem=full
+# lsh@2023-01-16: ProtectSystem=full is otherwise preventing logs in /usr/ from being rotated.
+# https://www.freedesktop.org/software/systemd/man/systemd.exec.html#ReadWritePaths=
+ReadWritePaths=/usr/local/kong/logs
 RestrictRealtime=true
-
