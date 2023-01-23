@@ -1,8 +1,6 @@
 # postgresql-12.sls is intended to be a drop-in replacement for postgresql.sls (psql 9.4 in 18.04) and postgresql-11.sls
 # all are mutually exclusive and share many of the same state names
 
-# copied from postgresql-client.sls
-
 {% set oscodename = salt['grains.get']('oscodename') %}
 {% set leader = salt['elife.cfg']('project.node', 1) == 1 %}
 
@@ -13,8 +11,6 @@ postgresql-deb:
         - humanname: Official Postgresql Ubuntu LTS
         - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
-
-# /copied from
 
 pgpass-file:
     file.managed:
