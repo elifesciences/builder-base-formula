@@ -25,7 +25,6 @@ docker-folder-linking:
             # has something in it to move
             - ls -l /var/lib/docker/ | grep -v 'total 0'
         - require:
-            - purge-docker-ce
             - docker-folder
 
     file.symlink:
