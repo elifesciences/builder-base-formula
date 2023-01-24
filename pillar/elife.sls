@@ -209,6 +209,7 @@ elife:
     external_volume:
         device: /dev/nvme1n1
         filesystem: ext4
+        # no trailing slash
         directory: /ext
 
     swap:
