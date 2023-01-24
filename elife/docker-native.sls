@@ -1,33 +1,11 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
 {% set oscodename = salt['grains.get']('oscodename') %}
-
-# fails on AWS, perhaps due to the package name
-#docker-recommended-extra-packages:
-#    cmd.run:
-#        - name: |
-#            sudo apt-get -y install linux-image-extra-$(uname -r) linux-image-extra-virtual
-
-
-purge-docker-ce:
-    cmd.run:
-        - name: |
-            export DEBIAN_FRONTEND=noninteractive
-            systemctl stop docker.socket
-            systemctl stop docker
-            apt purge docker-ce -y
-            sed --in-place '/download.docker.com/d' /etc/apt/sources.list
-            apt update
-            apt autoremove -y
-            # destroy any (aufs) containers
-            rm -rf /var/lib/docker/aufs
-            rm -rf /ext/docker/aufs
-        - onlyif:
-            # the presence of docker-ce is detected
-            - cat /etc/apt/sources.list | grep download.docker.com
+{% set ext_path = pillar.elife.external_volume.directory %}
 
 docker-folder:
     file.directory:
-        - name: /ext/docker
+        # "/ext/docker", "/bot-tmp/docker"
+        - name: {{ ext_path }}/docker
         - makedirs: True
         - mode: 711
 
@@ -37,7 +15,7 @@ docker-folder-linking:
             systemctl stop docker.socket
             systemctl stop docker
             # move files onto the volume
-            mv /var/lib/docker/* /ext/docker
+            mv /var/lib/docker/* {{ ext_path }}/docker
             rmdir /var/lib/docker
         - onlyif:
             # dir exists (also true if path is a symlink)
@@ -47,12 +25,11 @@ docker-folder-linking:
             # has something in it to move
             - ls -l /var/lib/docker/ | grep -v 'total 0'
         - require:
-            - purge-docker-ce
             - docker-folder
 
     file.symlink:
         - name: /var/lib/docker
-        - target: /ext/docker
+        - target: {{ ext_path }}/docker
         - force: True
         - require:
             - cmd: docker-folder-linking
