@@ -60,7 +60,7 @@
 # - https://github.com/elifesciences/issues/issues/7980
 stop-disable-bogus-process--{{ process }}:
     service.dead:
-        - name: "{{ process }}@\x7b0..{{ num_processes - 1 }}\x7d"
+        - name: '{{ process }}@\x7b0..{{ num_processes - 1 }}\x7d'
         - enable: false
 
 {% endfor %}
