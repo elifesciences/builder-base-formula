@@ -5,9 +5,6 @@
 # 2. the pool of processes can be grown or shrunk
 # 3. broken processes fail highstate as they ordinarily would
 
-# 16.04+
-{% if salt['grains.get']('osrelease') != '14.04' %}
-
 {% for process, opts in pillar.elife.multiservice.services.items() %}
     {% set num_processes = opts["num_processes"] %}
 
@@ -26,7 +23,12 @@
             #systemctl stop {{ process }}-controller.target # would also work, but wouldn't catch services outside controller group
             systemctl disable {{ process }}@ # disable *everything*. implicit reload
             {% if num_processes > 0 %}
-            systemctl enable {{ process }}@{0..{{ num_processes - 1}}} # enable just the range we're after. implicit reload
+            # lsh@2023-02-01: something caused, or is causing, systemd to create an escaped version of the process.
+            # switched to a for-loop because I don't know what is causing it.
+            #systemctl enable {{ process }}@{0..{{ num_processes - 1}}} # enable just the range we're after. implicit reload
+            {% for i in range(0, num_processes) %}
+            systemctl enable {{ process }}@{{ i }}
+            {% endfor %}
             {% endif %}
         - require:
             - {{ process }}-controller.target
@@ -52,6 +54,13 @@
             - {{ process }}-set-restart
 {% endfor %}
 
-{% endfor %}
+# lsh@2023-02-01: a weird looking process was discovered and tracked to here multiservice.sls
+# something in the 'systemctl enable process@{0..N}' caused, or is causing, systemd to create an escaped version of the process.
+# this stops and disables those processes, if they exist.
+# - https://github.com/elifesciences/issues/issues/7980
+stop-disable-bogus-process--{{ process }}:
+    service.dead:
+        - name: "{{ process }}@\x7b0..{{ num_processes - 1 }}\x7d"
+        - enable: false
 
-{% endif %}
+{% endfor %}
