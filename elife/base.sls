@@ -52,8 +52,6 @@ base-purging:
         - require:
             - base
 
-{% if osrelease != "18.04" %}
-
 # make 'fdfind' just 'fd'
 symlink fdfind to fd:
     file.symlink:
@@ -61,7 +59,6 @@ symlink fdfind to fd:
         - target: /usr/bin/fdfind
         - require:
             - base
-{% endif %}
 
 system-git-config:
     file.managed:
@@ -156,6 +153,15 @@ snapd:
             rm -rf /var/cache/snapd /tmp/snap-private-tmp
         - require:
             - service: snapd
+        - require_in:
+            - pkg: base-purging
+
+prevent-installation:
+    cmd.run:
+        - name: |
+            apt-mark hold apache2
+            apt-mark hold snap
+            apt-mark hold snapd
         - require_in:
             - pkg: base-purging
 
