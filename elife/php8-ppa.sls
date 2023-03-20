@@ -21,7 +21,7 @@ php-ppa:
         - env:
             - LC_ALL: 'en_US.UTF-8'
         - unless:
-            - 'apt-key list | grep "Ondřej Surý"'
+            - test -f /etc/apt/sources.list.d/ondrej-ubuntu-php-focal.list
 
 php:
     pkg.installed:
