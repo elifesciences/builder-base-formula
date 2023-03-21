@@ -21,7 +21,7 @@ php-fpm-config:
     file.managed:
         - name: /etc/php/{{ php_version }}/fpm/php.ini
         - source: salt://elife/config/etc-php-{{ php_version }}-fpm-php.ini
-        #- template: jinja
+        - template: jinja
         - require:
             - php-nginx-deps
             - php-log
@@ -30,7 +30,7 @@ php-fpm-pool:
     file.managed:
         - name: /etc/php/{{ php_version }}/fpm/pool.d/www.conf
         - source: salt://elife/config/etc-php-{{ php_version }}-fpm-pool.d-www.conf
-        #- template: jinja
+        - template: jinja
         - require:
             - php-nginx-deps
 
