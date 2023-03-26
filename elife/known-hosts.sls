@@ -2,14 +2,13 @@
 # SSH system-wide known hosts
 #
 
+# https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
 github.com:
     ssh_known_hosts.present:
-        - fingerprint: 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48
+        - key: uNiVztksCsDhcc0u9e8BujQXVUpKZIDTMczCvj3tD2s
         - enc: ssh-rsa
-        - fingerprint_hash_type: md5
         - unless:
-            # BUG: doesn't seem to be working, entries are accumulating
-            - grep -r "^github.com," /etc/ssh/ssh_known_hosts
+            - grep "ssh-rsa uNiVztksCsDhcc0u9e8BujQXVUpKZIDTMczCvj3tD2s" /etc/ssh/ssh_known_hosts
 
 
 {% for key in pillar.elife.known_hosts %}
