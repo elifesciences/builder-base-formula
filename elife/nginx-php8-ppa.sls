@@ -1,12 +1,15 @@
 # bridges Nginx and PHP 7
-# depends on elife/php7.sls
+# depends on elife/php8-ppa.sls
 
-{% set osrelease = salt['grains.get']('osrelease') %}
-{% set php_version = '7.4' %}
+{% set php_version = '8.1' %}
 
-{% if osrelease == "18.04" %}
-    {% set php_version = '7.2' %}
-{% endif %}
+php-nginx-ppa:
+    cmd.run:
+        - name: "apt-add-repository -y ppa:ondrej/nginx-mainline"
+        - env:
+            - LC_ALL: 'en_US.UTF-8'
+        - unless:
+            - test -f /etc/apt/sources.list.d/ondrej-ubuntu-nginx-mainline-focal.list
 
 php-nginx-deps:
     pkg.installed:

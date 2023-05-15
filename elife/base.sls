@@ -1,15 +1,16 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
 
+# salt regularly drops support for older salt releases. this makes apt fail.
+remove-salt-source-file:
+    file.absent:
+        - name: /etc/apt/sources.list.d/saltstack.list
+
 base:
     pkg.installed:
+        - require:
+            - remove-salt-source-file
         - pkgs:
             - logrotate
-
-            # todo@2019-12: obsolete, remove
-            # deprecating. moving to upstart for 14.04
-            # http://libslack.org/daemon/
-            - daemon
-
             - curl
             - git
             - coreutils # includes 'realpath'
@@ -20,22 +21,21 @@ base:
             - htop
 
             # provides add-apt-repository binary needed to install a new ppa easily
-            # renamed in 18.04
-            {% if osrelease in ['16.04'] %}
-            # depends on py2
-            # https://packages.ubuntu.com/xenial/python-software-properties
-            - python-software-properties
-            {% else %}
-            # depends on py3
-            # https://packages.ubuntu.com/bionic/software-properties-common
-            - software-properties-common 
-            {% endif %}
+            # - https://packages.ubuntu.com/bionic/software-properties-common
+            - software-properties-common
 
             # find which files are taking up space on filesystem
             - ncdu
             # diagnosing disk IO 
             - sysstat # provides iostat
             - iotop
+            
+            {% if osrelease != "18.04" %}
+            
+            - ripgrep # aka 'rg'
+            - fd-find # aka 'fd'
+            
+            {% endif %}
 
             # useful for smoke testing the JSON output
             - jq
@@ -52,6 +52,22 @@ base-purging:
         - require:
             - base
 
+{% if osrelease != "18.04" %}
+
+# make 'fdfind' just 'fd'
+symlink fdfind to fd:
+    file.symlink:
+        - name: /usr/bin/fd
+        - target: /usr/bin/fdfind
+        - require:
+            - base
+{% endif %}
+
+system-git-config:
+    file.managed:
+        - name: /etc/gitconfig
+        - source: salt://elife/config/etc-gitconfig
+
 base-vim-config:
     file.managed:
         - name: /etc/vim/vimrc
@@ -64,8 +80,14 @@ base-updatedb-config:
 
 autoremove-orphans:
     cmd.run:
+        # 'clean' clears out the local repository of retrieved package files.
+        # 'autoclean' clears out the local repository of retrieved package files. 
+        # The difference is that it only removes package files that can no longer be downloaded
+        # 'autoremove' is used to remove packages that were automatically installed to satisfy dependencies 
+        # for other packages and are now no longer needed.
         - name: |
-            set -e 
+            set -e
+            apt-get clean -y
             apt-get autoremove -y
             apt-get autoclean -y
         - env:
@@ -112,8 +134,6 @@ ubuntu-user:
         - require:
             - user: ubuntu-user
 
-{% if osrelease not in ['16.04'] %}
-
 # unnecessary always-on new container service introduced in 18.04
 # used by a new and unasked-for instance monitoring agent from AWS
 
@@ -132,12 +152,12 @@ snapd:
             - amazon-ssm-agent-snap-removal
 
     cmd.run:
-        - name: rm -rf /var/cache/snapd
+        - name: |
+            rm -rf /var/cache/snapd /tmp/snap-private-tmp
         - require:
             - service: snapd
         - require_in:
             - pkg: base-purging
-{% endif %}
 
 disable-ubuntu-motd-news:
     file.managed:

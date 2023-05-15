@@ -1,0 +1,50 @@
+#!/bin/bash
+# self-contained awscli wrapper.
+# creates a virtualenv at "~/.aws-cli-venv".
+# run as any user.
+
+set -e
+
+venv_path="$(realpath ~/.aws-cli-venv)"
+
+# echo to stderr.
+# output of this script shouldn't interfere with output of awscli.
+function errcho { echo "$@" >&2; }
+
+# mkvenv.sh boilerplate
+
+python=''
+pybinlist=("python3.8" "python3")
+
+for pybin in "${pybinlist[@]}"; do
+    which "$pybin" &> /dev/null || continue
+    python=$pybin
+    break
+done
+
+if [ -z "$python" ]; then
+    errcho "no usable python found, exiting"
+    exit 1
+fi
+
+if [ ! -e "$venv_path/bin/$python" ]; then
+    errcho "could not find $venv_path/bin/$python, recreating venv"
+    rm -rf "$venv_path"
+    $python -m venv "$venv_path"
+fi
+
+# activate
+
+source "$venv_path"/bin/activate
+
+# install, but only if aws-cli not detected
+
+if [ ! -e "$venv_path/bin/aws" ]; then
+    errcho "could not find $venv_path/bin/awscli, installing"
+    pip install pip wheel --upgrade >&2
+    pip install awscli >&2
+fi
+
+# wrap
+
+"$venv_path"/bin/aws "$@"

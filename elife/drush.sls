@@ -32,7 +32,7 @@ drush-registry-rebuild:
 drush-node-access-rebuild:
     git.latest:
         - user: {{ user }}
-        - name: git://github.com/dafeder/node_access_rebuild.git
+        - name: https://github.com/dafeder/node_access_rebuild.git
         - rev: c7d7b0ddb244f317752cdcf883682ecb8b76335d
         - force_checkout: True
         - target: /home/{{ user }}/.drush/node_access_rebuild

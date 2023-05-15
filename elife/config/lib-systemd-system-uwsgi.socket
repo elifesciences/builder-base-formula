@@ -2,6 +2,8 @@
 Description=Socket for uwsgi-{{ name }}.service
 
 [Socket]
+# lsh@2022-06-14: directory group permissions behaviour changed between 18.04 and 20.04, requiring this.
+ExecStartPre=/usr/bin/install --owner={{ pillar.elife.webserver.username }} --group={{ pillar.elife.webserver.username }} --directory /var/run/uwsgi
 ListenStream=/var/run/uwsgi/{{ name }}.socket
 SocketUser={{ pillar.elife.webserver.username }}
 SocketGroup={{ pillar.elife.webserver.username }}

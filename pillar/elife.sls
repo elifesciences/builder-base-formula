@@ -43,7 +43,6 @@ elife:
             all: []
 
             # per-user, per-project access
-
             project1:
                 - example-user
 
@@ -55,6 +54,18 @@ elife:
             # per-user, per-project denied access
             project1: 
                 - example-user
+
+        # masterless instances only allow access to those in `ssh.allowed.all` because
+        # they contain a copy of builder-private.
+        # in certain cases we can grant trusted individuals access.
+        # masterless instances are *temporary* and shouldn't hang around for very long.
+        allowed_masterless: {}
+
+        # when masterless instances exist but user has been denied access.
+        denied_masterless: {}
+
+    composer:
+        version: 1.10.21
 
     ssh_credentials: {}
         #some_identifier:
@@ -72,6 +83,10 @@ elife:
 
     daily_system_updates:
         enabled: True
+        # Mon-Fri, 9pm UTC at a random minute within the hour.
+        dayweek: '0-4'
+        hour: 21
+        minute: random
 
     webserver:
         username: www-data
@@ -173,9 +188,6 @@ elife:
         password: null
         prune_days: 14
 
-    docker_postgresql:
-        image_tag: 9.4.16
-
     gcloud:
         directory: /home/elife
         username: elife
@@ -195,8 +207,9 @@ elife:
         #        role: arn:aws:iam::512686554592:role/kubernetes--demo--AmazonEKSUserRole 
 
     external_volume:
-        device: /dev/xvdh
+        device: /dev/nvme1n1
         filesystem: ext4
+        # no trailing slash
         directory: /ext
 
     swap:
@@ -280,9 +293,6 @@ elife:
             #elife_bot: salt://elife-bot/config/mockserver.sh
 
     forced_dns: {}
-
-    coveralls:
-        tokens: {}
 
     spectrum:
         end2end:

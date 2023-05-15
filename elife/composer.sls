@@ -62,13 +62,19 @@ install-composer:
             - which composer
     cmd.run:
         - cwd: {{ composer_home }}
-        - name: php setup.php --install-dir=/usr/local/bin --filename=composer --version=1.10.16
+        - name: |
+            php setup.php \
+                --install-dir=/usr/local/bin \
+                --filename=composer \
+                --version={{ pillar.elife.composer.version }} \
+                --no-interaction
         - require:
             - php
             - file: install-composer
             - composer-auth
         - unless:
-            - which composer
+            # composer is installed and it's version matches the intended version
+            - which composer && composer --version --no-interaction | grep {{ pillar.elife.composer.version }}
 
 composer-global-paths:
     file.managed:
@@ -76,14 +82,6 @@ composer-global-paths:
         - contents: export PATH={{ composer_home }}/vendor/bin:$PATH
         - require:
             - file: composer-home-dir
-
-update-composer:
-    cmd.script:
-        - name: salt://elife/scripts/update-composer.sh
-        - onlyif:
-            - which composer
-        - require_in:
-            - cmd: install-composer
 
 # useful to depend on
 composer:

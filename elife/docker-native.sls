@@ -1,26 +1,21 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
 {% set oscodename = salt['grains.get']('oscodename') %}
-
-# fails on AWS, perhaps due to the package name
-#docker-recommended-extra-packages:
-#    cmd.run:
-#        - name: |
-#            sudo apt-get -y install linux-image-extra-$(uname -r) linux-image-extra-virtual
+{% set ext_path = pillar.elife.external_volume.directory %}
 
 docker-folder:
     file.directory:
-        - name: /ext/docker
+        # "/ext/docker", "/bot-tmp/docker"
+        - name: {{ ext_path }}/docker
         - makedirs: True
         - mode: 711
 
 docker-folder-linking:
     cmd.run:
         - name: |
-            # to be compatible with both upstart and systemd
-            stop docker || true
-            systemctl stop docker || true
+            systemctl stop docker.socket
+            systemctl stop docker
             # move files onto the volume
-            mv /var/lib/docker/* /ext/docker
+            mv /var/lib/docker/* {{ ext_path }}/docker
             rmdir /var/lib/docker
         - onlyif:
             # dir exists (also true if path is a symlink)
@@ -34,44 +29,19 @@ docker-folder-linking:
 
     file.symlink:
         - name: /var/lib/docker
-        - target: /ext/docker
+        - target: {{ ext_path }}/docker
         - force: True
         - require:
             - cmd: docker-folder-linking
 
-# https://docs.docker.com/install/linux/docker-ce/ubuntu/
-
-docker-gpg-key:
-    cmd.run:
-        - name: |
-            set -e
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-            apt-key fingerprint 0EBFCD88
-
-docker-repository:
-    pkgrepo.managed:
-        - name: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ oscodename }} stable
-        - require:
-            - docker-gpg-key
-            - docker-folder-linking
-
 docker-packages:
-    {% if osrelease == '14.04' %}
-    pkg.installed:
-        - pkgs:
-            # bug1
-            # poorly-patched vulnerability 'fix' breaks 3.3 kernels, like the one in the Ubuntu Trusty 14.04 LTS
-            - docker-ce: 18.06.1~ce~3-0~ubuntu
-    {% else %}
-    # bug2
     # we need a version greater than '18.09.3' but can't specify that with a wildcard (*).
     # https://github.com/moby/moby/issues/38249#issuecomment-474795342
-    pkg.latest:
-        - name: docker-ce
-    {% endif %}
+    pkg.installed:
+        - name: docker.io
         - refresh: True
         - require:
-            - docker-repository
+            - docker-folder-linking
 
     service.running:
         - name: docker

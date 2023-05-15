@@ -7,20 +7,18 @@ fail2ban:
         - require:
             - pkg: fail2ban
 
-
 sudo_config:
     file.managed:
         - name: /etc/sudoers
         - source: salt://elife/config/etc-sudoers
 
-    cmd.wait:
+    cmd.run:
         - name: sudo -k # 'restarts' sudo (invalidates sessions)
-        - watch:
+        - onchanges:
             - file: sudo_config
 
-
 # disable root login
-# disable password logins  
+# disable password logins
 sshd_config:
     file.managed:
         - name: /etc/ssh/sshd_config
