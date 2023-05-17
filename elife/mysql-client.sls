@@ -1,11 +1,11 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
 
-# lsh@2022-02-21: shouldn't this happen during salt bootstrap?
-# `salt.states.mysql_*` require the `python3-mysqldb` library to be installed
-
 mysql-package-list:
     pkg.installed:
         - pkgs:
             - mysql-client
-            - python3-mysqldb # py3, Salt 2018.3+
+            # lsh@2023-05-17: disabled. salt+mysql support is now installed during bootstrap.
+            # Have also switched from 'MySQLdb' to 'PyMYSQL'. Former is a C extension, latter is pure python and
+            # Salt supports both: https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.mysql.html
+            #- python3-mysqldb
 
