@@ -4,7 +4,7 @@ set -e
 # Parses specified YAML for all ERA articles and creates/posts jobs to the specified message queue.
 TriggerWorkflows()
 {
-  REGEX_ERA_ARTICLE_ID="^'([0-9]{5})':$" # note use of [0-9] to avoid \d which is not suppored in bash
+  REGEX_ERA_ARTICLE_ID="^'([0-9]{5,})':$" # note use of [0-9] to avoid \d which is not suppored in bash
   REGEX_ERA_ARTICLE_PROPERTY="(date|display|download): '?([^']+)"
   SQS_QUEUE_URL="https://sqs.us-east-1.amazonaws.com/512686554592/${WORKFLOW_ENVIRONMENT}-era-incoming-queue";
 

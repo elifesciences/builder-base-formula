@@ -1,7 +1,7 @@
 #!/bin/bash
 # run as *root*, script will switch to user *postgres* as necessary
 # upgrades a postgresql 11 database to 12
-# assumes 'postgres-11.sls' has been replaced with 'postgres-12.sls' and there are two installations present
+# assumes 'postgresql-11.sls' has been replaced with 'postgresql-12.sls' and there are two installations present
 
 # docs
 # https://www.postgresql.org/docs/12/pgupgrade.html

@@ -1,16 +1,21 @@
 kubernetes-packages-repo:
-    cmd.run:
-        - name: curl --silent https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-        - unless:
-            - apt-key list | grep BA07F4FB
+    # lsh@2023-02-27: disabled. 
+    # unpredictable http 500 responses to requests for this key today.
+    # also, 'apt-key' is now deprecated and is last available in 22.04.
+    # shifting key into config.
+    #cmd.run:
+    #    - name: curl --silent https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    #    - unless:
+    #        - apt-key list | grep BA07F4FB
 
     pkgrepo.managed:
         - humanname: Kubernetes tooling
         # lsh@2020-04: there is no kubernetes-bionic, only xenial. no explanation found.
         - name: deb https://apt.kubernetes.io/ kubernetes-xenial main
+        - key_url: salt://elife/config/packages.cloud.google.com--apt--doc--apt-key.gpg
         - file: /etc/apt/sources.list.d/kubernetes.list
-        - require:
-            - cmd: kubernetes-packages-repo
+        #- require:
+        #    - cmd: kubernetes-packages-repo
         - unless:
             - test -e /etc/apt/sources.list.d/kubernetes.list
 

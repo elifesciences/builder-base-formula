@@ -188,9 +188,6 @@ elife:
         password: null
         prune_days: 14
 
-    docker_postgresql:
-        image_tag: 11
-
     gcloud:
         directory: /home/elife
         username: elife
@@ -212,6 +209,7 @@ elife:
     external_volume:
         device: /dev/nvme1n1
         filesystem: ext4
+        # no trailing slash
         directory: /ext
 
     swap:

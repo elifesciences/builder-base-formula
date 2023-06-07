@@ -11,11 +11,11 @@ def verify(filename, logger=None):
     else:
         errors = 0
         failures = 0
-        for i in root.getchildren():
-            if 'errors' in i.attrib:
-                errors += int(i.attrib['errors'])
-            if 'failures' in i.attrib:
-                failures += int(i.attrib['failures'])
+        for child in root:
+            if 'errors' in child.attrib:
+                errors += int(child.attrib['errors'])
+            if 'failures' in child.attrib:
+                failures += int(child.attrib['failures'])
     if logger:
         logger("Errors: %d. Failures: %d\n" % (errors, failures))
     warning_test_cases = tree.findall('.//testcase[@name="Warning"]')
