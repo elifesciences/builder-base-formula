@@ -32,8 +32,9 @@ php:
             - php{{ php_version }}-xsl
             - php{{ php_version }}-gd
             - php{{ php_version }}-curl
+            # lsh@2023-06-7: disabled installation. only experimental journal-cms instances are using php8 right now.
             # required by proofreader-php, provides 'ext-dom', required by 'theseer/fdomdocument'
-            - php{{ php_version }}-xml
+            #- php{{ php_version }}-xml
         - require:
             - php-ppa
             - pkg: base
