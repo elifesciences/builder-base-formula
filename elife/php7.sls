@@ -18,6 +18,7 @@ php:
             - php{{ php_version }}-xsl
             - php{{ php_version }}-gd
             - php{{ php_version }}-curl
+            # lsh@2023-06-07: proofreader-php archived and unused, can this be removed?
             # required by proofreader-php, provides 'ext-dom', required by 'theseer/fdomdocument'
             - php{{ php_version }}-xml
         - require:
