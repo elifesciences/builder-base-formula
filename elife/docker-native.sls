@@ -35,11 +35,8 @@ docker-folder-linking:
             - cmd: docker-folder-linking
 
 docker-packages:
-    # we need a version greater than '18.09.3' but can't specify that with a wildcard (*).
-    # https://github.com/moby/moby/issues/38249#issuecomment-474795342
     pkg.installed:
         - name: docker.io
-        - refresh: True
         - require:
             - docker-folder-linking
 
@@ -48,16 +45,27 @@ docker-packages:
         - require:
             - pkg: docker-packages
 
-docker-compose:
-    file.managed:
-        - name: /usr/local/bin/docker-compose 
-        - source: https://github.com/docker/compose/releases/download/1.24.0/docker-compose-Linux-x86_64
-        - source_hash: sha256=bee6460f96339d5d978bb63d17943f773e1a140242dfa6c941d5e020a302c91b
+# lsh@2023-01: temporary state, remove once all docker-native.sls dependents updated
+non-native-docker-compose-removal:
+    file.absent:
+        - name: /usr/local/bin/docker-compose
+        - unless:
+            # "don't remove when file is a symlink"
+            - test -L /usr/local/bin/docker-compose
         - require:
             - docker-packages
-    
-    cmd.run:
-        - name: chmod +x /usr/local/bin/docker-compose 
+
+docker-compose:
+    # lsh@2023-01: temporary state, we have references in systemd service files to this path.
+    # remove once all paths updated
+    file.symlink:
+        - name: /usr/local/bin/docker-compose
+        - target: /usr/bin/docker-compose
+        - require:
+            - non-native-docker-compose-removal
+
+    pkg.installed:
+        - name: docker-compose
         - require:
             - file: docker-compose
 
