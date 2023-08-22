@@ -44,7 +44,7 @@ node_exporter-ownership:
 node_exporter-systemd-service:
     file.managed:
         - name: /lib/systemd/system/node_exporter.service
-        - source: salt://monitor/config/lib-systemd-system-node_exporter.service
+        - source: salt://elife/config/lib-systemd-system-node_exporter.service
 
     service.running:
         - name: node_exporter
