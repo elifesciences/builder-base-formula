@@ -16,6 +16,3 @@ github-token:
         - name: |
             echo 'export GITHUB_TOKEN={{ pillar.elife.jenkins.github.token }}' > /etc/profile.d/jenkins-github-token.sh
 
-new-relic-rest-api-key:
-    file.absent:
-        - name: /etc/profile.d/new-relic-rest-api-key.sh
