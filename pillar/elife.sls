@@ -89,6 +89,8 @@ elife:
         minute: random
 
     webserver:
+        # lsh@2023-10-18: added 'app'. almost everything assumes nginx however.
+        app: nginx # "nginx", "caddy"
         username: www-data
 
     nginx:
@@ -236,6 +238,7 @@ elife:
         services: {}
             #profiles:
             #    folder: /srv/profiles
+            #    protocol: socket # "socket", "http-socket". optional, default is "socket".
 
     multiservice:
         services: {}
