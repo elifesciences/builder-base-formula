@@ -116,6 +116,14 @@ caddy-log-dir:
             - group
             - mode
 
+caddy-logrotate-conf:
+    file.managed:
+        - name: /etc/logrotate.d/caddy
+        - source: salt://elife/config/etc-logrotate.d-caddy
+        - template: jinja
+        - require:
+            - caddy-log-dir
+
 caddy-server-service:
     file.managed:
         - name: /lib/systemd/system/caddy.service

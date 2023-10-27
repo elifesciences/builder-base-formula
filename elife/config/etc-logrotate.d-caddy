@@ -1,0 +1,12 @@
+# managed by elife-builder
+/var/log/caddy/*.log {
+    # rotate daily
+    daily
+    # keep 28 days of rotated logs
+    rotate 28
+    missingok
+    notifempty
+    compress
+    # group writeable.
+    create 0664
+}
