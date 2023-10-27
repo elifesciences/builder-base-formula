@@ -1,8 +1,11 @@
 include:
     - .certificates
 
-# typically created by the webserver package. caddy instead creates a user+group called 'caddy'.
-# uwsgi and php-fpm rely on a www-data user existing
+# traditionally created by apache/nginx, caddy instead creates a user+group called 'caddy'.
+# uwsgi and php-fpm rely on a www-data user existing,
+# and their socket files are owned by www-data.
+# caddy must run as www-data in order to seamlessly keep using socket.
+# socket permissions are currently affected by systemd, uwsgi and an 'ExecPreStart' hack in the serviced file.
 webserver-user-group:
     group.present:
         - name: {{ pillar.elife.webserver.username }}
@@ -48,6 +51,14 @@ caddy-pkg:
             - caddy-gpg-present
             - caddy-pkg-list-present
 
+caddy-user-in-www-user-group:
+    user.present:
+        - name: caddy
+        - groups:
+            - www-data
+        - require:
+            - webserver-user-group
+
 caddy-config:
     file.managed:
         - name: /etc/caddy/Caddyfile
@@ -91,6 +102,20 @@ caddy-validate-config:
             - caddy-metrics-config
             - caddy-metrics-site
 
+caddy-log-dir:
+    file.directory:
+        - name: /var/log/caddy
+        - makedirs: true
+        - user: caddy
+        # lsh@2023-10-27: caddy service is running as www-data and needs permissions to write logs.
+        - group: www-data
+        - dir_mode: 775
+        - file_mode: 664
+        - recurse:
+            - user
+            - group
+            - mode
+
 caddy-server-service:
     file.managed:
         - name: /lib/systemd/system/caddy.service
@@ -99,6 +124,8 @@ caddy-server-service:
         - require:
             - caddy-pkg
             - caddy-config
+            - caddy-user-in-www-user-group
+            - caddy-log-dir
 
     service.running:
         - name: caddy
