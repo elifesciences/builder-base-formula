@@ -107,6 +107,7 @@ elife:
             # useful for hiding from robots and randoms
             username: username
             password: password
+            caddy_password_hash: "$2a$14$2IuF2dAdFNA6.4fVPVNlJuK.XEY8WAwADhcvzivpLWA8WjryosyCG"
 
         crazy-:
             # the 'crazy' .htaccess file with a random user+pass
