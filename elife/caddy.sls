@@ -89,6 +89,7 @@ caddy-metrics-site:
     file.managed:
         - name: /etc/caddy/sites.d/metrics
         - source: salt://elife/config/etc-caddy-sites.d-metrics
+        - template: jinja
         - makedirs: true
         - require:
             - caddy-pkg
@@ -144,3 +145,6 @@ caddy-server-service:
             - caddy-validate-config
         - watch:
             - caddy-config
+            - caddy-tls-config
+            - caddy-metrics-config
+            - caddy-metrics-site
