@@ -89,6 +89,8 @@ elife:
         minute: random
 
     webserver:
+        # lsh@2023-10-18: added 'app'. almost everything assumes nginx however.
+        app: nginx # "nginx", "caddy"
         username: www-data
 
     nginx:
@@ -105,12 +107,15 @@ elife:
             # useful for hiding from robots and randoms
             username: username
             password: password
+            caddy_password_hash: "$2a$14$2IuF2dAdFNA6.4fVPVNlJuK.XEY8WAwADhcvzivpLWA8WjryosyCG"
 
         crazy-:
             # the 'crazy' .htaccess file with a random user+pass
             # useful for hiding stuff, even from yourselves
             username: ZWQ5YTZiNzRlZmExZDEzZmZhZDkzYzdm
             password: NjU5YTcyYThlM2Q5NWVlZjYwY2ZjMjRk
+            # created with `caddy hash-password`
+            caddy_password_hash: "$2a$14$WDX7hAODtywctxQs9OyrxOj/P..APssYyoZgrSIxTK4oCoV0CHaUG"
 
     # values that both mysql and psql use
     # 2017-08-04, 'db_root' is deprecated in favour of 'db.root'
@@ -236,6 +241,7 @@ elife:
         services: {}
             #profiles:
             #    folder: /srv/profiles
+            #    protocol: socket # "socket", "http-socket". optional, default is "socket".
 
     multiservice:
         services: {}

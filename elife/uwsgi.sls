@@ -79,6 +79,7 @@ uwsgi-service-{{ name }}:
         - context:
             name: {{ name }}
             folder: {{ configuration.folder }}
+            protocol: {{ configuration.get("protocol", "socket") }} # becomes "--socket", "--http-socket", etc
         - require:
             - uwsgi-pkg
             - uwsgi-params
@@ -97,7 +98,6 @@ uwsgi-socket-{{ name }}:
             - uwsgi-{{ name }}.log
         - context:
             name: {{ name }}
-        # necessary?
         - require_in:
             - cmd: uwsgi-services
 
