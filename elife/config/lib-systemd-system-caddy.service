@@ -24,7 +24,8 @@ Type=notify
 User={{ pillar.elife.webserver.username }}
 Group={{ pillar.elife.webserver.username }}
 ExecStart=/usr/bin/caddy run --environ --config /etc/caddy/Caddyfile
-ExecReload=/usr/bin/caddy reload --config /etc/caddy/Caddyfile --force
+# lsh@2023-11: disabled, depends on the (unused, unconfigured) caddy admin API
+#ExecReload=/usr/bin/caddy reload --config /etc/caddy/Caddyfile --force
 TimeoutStopSec=5s
 LimitNOFILE=1048576
 LimitNPROC=512

@@ -5,7 +5,7 @@ include:
 # uwsgi and php-fpm rely on a www-data user existing,
 # and their socket files are owned by www-data.
 # caddy must run as www-data in order to seamlessly keep using socket.
-# socket permissions are currently affected by systemd, uwsgi and an 'ExecPreStart' hack in the serviced file.
+# socket permissions are currently affected by systemd, uwsgi and it's 'ExecPreStart' hack in the service file.
 webserver-user-group:
     group.present:
         - name: {{ pillar.elife.webserver.username }}
@@ -67,10 +67,10 @@ caddy-config:
         - require:
             - caddy-pkg
 
-caddy-tls-config:
+caddy-auto-https-config:
     file.managed:
-        - name: /etc/caddy/conf.d/tls
-        - source: salt://elife/config/etc-caddy-conf.d-tls
+        - name: /etc/caddy/conf.d/auto_https
+        - source: salt://elife/config/etc-caddy-conf.d-auto_https
         - template: jinja
         - makedirs: True
         - require:
@@ -99,7 +99,7 @@ caddy-validate-config:
         - name: caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
         - require:
             - caddy-config
-            - caddy-tls-config
+            - caddy-auto-https-config
             - caddy-metrics-config
             - caddy-metrics-site
 
@@ -145,6 +145,6 @@ caddy-server-service:
             - caddy-validate-config
         - watch:
             - caddy-config
-            - caddy-tls-config
+            - caddy-auto-https-config
             - caddy-metrics-config
             - caddy-metrics-site
