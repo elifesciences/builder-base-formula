@@ -1,7 +1,3 @@
-{% if salt['elife.cfg']('cfn.outputs.DomainName') %}
-http://127.0.0.1:1234 http://localhost:1234 http://{{ salt['elife.cfg']('project.int_full_hostname') }}:1234 {
-{% else %}
-http://127.0.0.1:1234 http://localhost:1234 {
-{% endif %}
+:1234 {
     metrics
 }
