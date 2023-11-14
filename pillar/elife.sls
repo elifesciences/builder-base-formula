@@ -109,14 +109,6 @@ elife:
             password: password
             caddy_password_hash: "$2a$14$2IuF2dAdFNA6.4fVPVNlJuK.XEY8WAwADhcvzivpLWA8WjryosyCG"
 
-        crazy-:
-            # the 'crazy' .htaccess file with a random user+pass
-            # useful for hiding stuff, even from yourselves
-            username: ZWQ5YTZiNzRlZmExZDEzZmZhZDkzYzdm
-            password: NjU5YTcyYThlM2Q5NWVlZjYwY2ZjMjRk
-            # created with `caddy hash-password`
-            caddy_password_hash: "$2a$14$WDX7hAODtywctxQs9OyrxOj/P..APssYyoZgrSIxTK4oCoV0CHaUG"
-
     # values that both mysql and psql use
     # 2017-08-04, 'db_root' is deprecated in favour of 'db.root'
     db_root:
