@@ -93,6 +93,14 @@ caddy-metrics-site:
         - require:
             - caddy-pkg
 
+caddy-error-pages-site:
+    file.managed:
+        - name: /etc/caddy/sites.d/error-pages
+        - source: salt://elife/config/etc-caddy-sites.d-error-pages
+        - makedirs: True
+        - require:
+            - caddy-pkg
+
 caddy-validate-config:
     cmd.run:
         - name: caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
