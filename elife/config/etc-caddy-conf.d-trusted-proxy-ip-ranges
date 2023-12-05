@@ -1,0 +1,5 @@
+servers :443 {
+    trusted_proxies static {
+        import ../snippets/trusted-proxy-ip-ranges
+    }
+}
