@@ -187,7 +187,10 @@ caddy-server-service:
             - caddy-pkg
             - caddy-validate-config
         - watch:
+            - caddy-trusted-proxy-ip-ranges-snippet
             - caddy-config
             - caddy-auto-https-config
             - caddy-metrics-config
+            - caddy-trusted-proxy-ip-ranges-config
             - caddy-metrics-site
+            - caddy-error-pages-site
