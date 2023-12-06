@@ -87,6 +87,15 @@ caddy-trusted-proxy-ip-ranges-snippet:
             - fastly-ip-ranges
             - caddy-snippet-dir
 
+# use in concert with `nginx-error-pages.sls` (not nginx-specific)
+caddy-error-pages-snippet:
+    file.managed:
+        - name: /etc/caddy/snippets/error-pages
+        - source: salt://elife/config/etc-caddy-snippets-error-pages
+        - makedirs: True
+        - require:
+            - caddy-pkg
+
 caddy-config:
     file.managed:
         - name: /etc/caddy/Caddyfile
@@ -125,14 +134,6 @@ caddy-metrics-site:
         - name: /etc/caddy/sites.d/metrics
         - source: salt://elife/config/etc-caddy-sites.d-metrics
         - makedirs: true
-        - require:
-            - caddy-pkg
-
-caddy-error-pages-site:
-    file.managed:
-        - name: /etc/caddy/sites.d/error-pages
-        - source: salt://elife/config/etc-caddy-sites.d-error-pages
-        - makedirs: True
         - require:
             - caddy-pkg
 
@@ -188,9 +189,10 @@ caddy-server-service:
             - caddy-validate-config
         - watch:
             - caddy-trusted-proxy-ip-ranges-snippet
+            - caddy-error-pages-snippet
             - caddy-config
             - caddy-auto-https-config
             - caddy-metrics-config
             - caddy-trusted-proxy-ip-ranges-config
             - caddy-metrics-site
-            - caddy-error-pages-site
+
