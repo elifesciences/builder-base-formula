@@ -61,8 +61,10 @@ php-cachetool:
         - source: https://s3.amazonaws.com/elife-builder/packages/cachetool.phar # 3.0.0
         - source_hash: md5=fa7ce33b37dba2642329b9a6bdc720b1
 
-    cmd.run:
-        - name: chmod +x /usr/local/bin/cachetool
+php-cachetool-executable:
+    file.managed:
+        - name: /usr/local/bin/cachetool
+        - mode: 755
         - require:
             - file: php-cachetool
 
