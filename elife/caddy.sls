@@ -72,10 +72,12 @@ fastly-ip-ranges:
     cmd.run:
         - name: |
             set -eo pipefail
+            rm -f /tmp/fastly-ip-ranges
             curl --silent "https://api.fastly.com/public-ip-list" | jq -r '.[][]' | sed -z 's/\n/ /g' > /tmp/fastly-ip-ranges
 
 # caddy will replace the X-Forwarded-* headers with the *actual* values *unless* the request comes from a trusted proxy.
-# todo: journal and api-gateway are in front of Fastly, but do others downstream need to trust the api-gateway?
+# `journal` and `api-gateway` are in front of Fastly but other Caddy instances downstream may need to trust `api-gateway`.
+# nginx instances won't modify the X-Forwarded-* headers and should be fine.
 caddy-trusted-proxy-ip-ranges-snippet:
     file.managed:
         - name: /etc/caddy/snippets/trusted-proxy-ip-ranges
