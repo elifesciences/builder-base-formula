@@ -59,6 +59,45 @@ caddy-user-in-www-user-group:
         - require:
             - webserver-user-group
 
+# caddy can include the contents of a file with it's `import` directive.
+# - https://caddyserver.com/docs/caddyfile/directives/import
+caddy-snippet-dir:
+    file.directory:
+        - name: /etc/caddy/snippets
+        - makedirs: True
+        - require:
+            - caddy-pkg
+
+fastly-ip-ranges:
+    cmd.run:
+        - name: |
+            set -eo pipefail
+            rm -f /tmp/fastly-ip-ranges
+            curl --silent "https://api.fastly.com/public-ip-list" | jq -r '.[][]' | sed -z 's/\n/ /g' > /tmp/fastly-ip-ranges
+
+# caddy will replace the X-Forwarded-* headers with the *actual* values *unless* the request comes from a trusted proxy.
+# `journal` and `api-gateway` are in front of Fastly but other Caddy instances downstream may need to trust `api-gateway`.
+# nginx instances won't modify the X-Forwarded-* headers and should be fine.
+caddy-trusted-proxy-ip-ranges-snippet:
+    file.managed:
+        - name: /etc/caddy/snippets/trusted-proxy-ip-ranges
+        - source: /tmp/fastly-ip-ranges
+        - onlyif:
+            # file exists and is not empty
+            - test -s /tmp/fastly-ip-ranges
+        - require:
+            - fastly-ip-ranges
+            - caddy-snippet-dir
+
+# use in concert with `nginx-error-pages.sls` (not nginx-specific)
+caddy-error-pages-snippet:
+    file.managed:
+        - name: /etc/caddy/snippets/error-pages
+        - source: salt://elife/config/etc-caddy-snippets-error-pages
+        - makedirs: True
+        - require:
+            - caddy-pkg
+
 caddy-config:
     file.managed:
         - name: /etc/caddy/Caddyfile
@@ -85,6 +124,13 @@ caddy-metrics-config:
         - require:
             - caddy-pkg
 
+caddy-trusted-proxy-ip-ranges-config:
+    file.managed:
+        - name: /etc/caddy/conf.d/trusted-proxy-ip-ranges
+        - source: salt://elife/config/etc-caddy-conf.d-trusted-proxy-ip-ranges
+        - require:
+            - caddy-trusted-proxy-ip-ranges-snippet
+
 caddy-metrics-site:
     file.managed:
         - name: /etc/caddy/sites.d/metrics
@@ -100,6 +146,7 @@ caddy-validate-config:
             - caddy-config
             - caddy-auto-https-config
             - caddy-metrics-config
+            - caddy-trusted-proxy-ip-ranges-config
             - caddy-metrics-site
 
 caddy-log-dir:
@@ -143,7 +190,11 @@ caddy-server-service:
             - caddy-pkg
             - caddy-validate-config
         - watch:
+            - caddy-trusted-proxy-ip-ranges-snippet
+            - caddy-error-pages-snippet
             - caddy-config
             - caddy-auto-https-config
             - caddy-metrics-config
+            - caddy-trusted-proxy-ip-ranges-config
             - caddy-metrics-site
+
