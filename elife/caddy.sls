@@ -12,10 +12,26 @@ webserver-user-group:
 
     user.present:
         - name: {{ pillar.elife.webserver.username }}
+        - home: /var/www
+        - createhome: true
         - groups:
             - www-data
         - require:
             - group: webserver-user-group
+
+# lsh@2023-12-15: unnecessary on new machines as /var/www `webserver-user-group` *should* create writable /var/www. untested.
+# caddy depends on the webserver user's home dir (/var/www) to write:
+# * OCSP staple file
+# * ...
+webserver-user-can-write-var-www:
+    file.directory:
+        - name: /var/www
+        - user: {{ pillar.elife.webserver.username }}
+        - group: {{ pillar.elife.webserver.username }}
+        - require:
+            - webserver-user-group
+        - listen_in:
+            - caddy-server-service
 
 caddy-deps:
     pkg.installed:
