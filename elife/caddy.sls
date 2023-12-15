@@ -31,7 +31,7 @@ webserver-user-can-write-var-www:
         - require:
             - webserver-user-group
         - listen_in:
-            - caddy-server-service
+            - service: caddy-server-service
 
 caddy-deps:
     pkg.installed:
