@@ -9,10 +9,18 @@ node_exporter-user-group:
     user.present:
         - name: node_exporter
         - shell: /bin/false
+        - createhome: false
         - groups:
             - node_exporter
         - require:
             - group: node_exporter
+
+# lsh@2023-12-15: temporary, once all instances no longer have a /home/node_exporter dir
+node_exporter-home-absent:
+    file.absent:
+        - name: /home/node_exporter
+        - require:
+            - node_exporter-user-group
 
 node_exporter-installation:
     archive.extracted:
