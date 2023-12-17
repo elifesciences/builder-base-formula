@@ -85,11 +85,9 @@ caddy-snippet-dir:
             - caddy-pkg
 
 fastly-ip-ranges:
-    cmd.run:
-        - name: |
-            set -eo pipefail
-            rm -f /tmp/fastly-ip-ranges
-            curl --silent "https://api.fastly.com/public-ip-list" | jq -r '.[][]' | sed -z 's/\n/ /g' > /tmp/fastly-ip-ranges
+    cmd.script:
+        - source: salt://elife/scripts/fastly-ip-ranges.sh
+        - timeout: 60 # 1min
 
 # caddy will replace the X-Forwarded-* headers with the *actual* values *unless* the request comes from a trusted proxy.
 # `journal` and `api-gateway` are in front of Fastly but other Caddy instances downstream may need to trust `api-gateway`.
