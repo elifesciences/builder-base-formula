@@ -15,7 +15,7 @@ remove-old-github.com-key-in-{{ path }}:
         - mode: delete
         - match: {{ old_github_key }}
         - require_in:
-            - remove-old-github.com-key
+            - cmd: remove-old-github.com-key
         - onlyif:
             - test -f {{ path }}
 {% endfor %}

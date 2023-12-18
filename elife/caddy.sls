@@ -12,10 +12,26 @@ webserver-user-group:
 
     user.present:
         - name: {{ pillar.elife.webserver.username }}
+        - home: /var/www
+        - createhome: true
         - groups:
             - www-data
         - require:
             - group: webserver-user-group
+
+# lsh@2023-12-15: unnecessary on new machines as /var/www `webserver-user-group` *should* create writable /var/www. untested.
+# caddy depends on the webserver user's home dir (/var/www) to write:
+# * OCSP staple file
+# * ...
+webserver-user-can-write-var-www:
+    file.directory:
+        - name: /var/www
+        - user: {{ pillar.elife.webserver.username }}
+        - group: {{ pillar.elife.webserver.username }}
+        - require:
+            - webserver-user-group
+        - listen_in:
+            - service: caddy-server-service
 
 caddy-deps:
     pkg.installed:
@@ -69,11 +85,9 @@ caddy-snippet-dir:
             - caddy-pkg
 
 fastly-ip-ranges:
-    cmd.run:
-        - name: |
-            set -eo pipefail
-            rm -f /tmp/fastly-ip-ranges
-            curl --silent "https://api.fastly.com/public-ip-list" | jq -r '.[][]' | sed -z 's/\n/ /g' > /tmp/fastly-ip-ranges
+    cmd.script:
+        - source: salt://elife/scripts/fastly-ip-ranges.sh
+        - timeout: 60 # 1min
 
 # caddy will replace the X-Forwarded-* headers with the *actual* values *unless* the request comes from a trusted proxy.
 # `journal` and `api-gateway` are in front of Fastly but other Caddy instances downstream may need to trust `api-gateway`.
