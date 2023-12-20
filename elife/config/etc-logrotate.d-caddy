@@ -8,5 +8,6 @@
     notifempty
     compress
     # group writeable.
-    create 0664
+    create 0664 caddy www-data
+    su caddy www-data
 }
