@@ -11,15 +11,6 @@ smoke.sh-library:
         - group: root
         - mode: 755
 
-# deprecated: removed once executed everywhere
-smoke.sh-repository-removal:
-    cmd.run:
-        - name: |
-            rm -rf .git
-            rm -f LICENSE
-            rm -f README.md
-        - cwd: /opt/smoke.sh
-
 # ensure something is always able to run even if a project has no smoke-tests.sh script
 smoke-tests-wrapper-script:
     file.managed:
