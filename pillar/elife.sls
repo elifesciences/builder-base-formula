@@ -89,6 +89,8 @@ elife:
         minute: random
 
     webserver:
+        # lsh@2023-10-18: added 'app'. almost everything assumes nginx however.
+        app: nginx # "nginx", "caddy"
         username: www-data
 
     nginx:
@@ -105,12 +107,7 @@ elife:
             # useful for hiding from robots and randoms
             username: username
             password: password
-
-        crazy-:
-            # the 'crazy' .htaccess file with a random user+pass
-            # useful for hiding stuff, even from yourselves
-            username: ZWQ5YTZiNzRlZmExZDEzZmZhZDkzYzdm
-            password: NjU5YTcyYThlM2Q5NWVlZjYwY2ZjMjRk
+            caddy_password_hash: "$2a$14$2IuF2dAdFNA6.4fVPVNlJuK.XEY8WAwADhcvzivpLWA8WjryosyCG"
 
     # values that both mysql and psql use
     # 2017-08-04, 'db_root' is deprecated in favour of 'db.root'
@@ -151,17 +148,6 @@ elife:
             influx_db: telegraf
             influx_user: null
             influx_password: null
-
-    newrelic:
-        enabled: False
-        license: 1234567890123456789012345678901234567890
-        rest_api_key: null
-        insights_api_key: null
-
-    newrelic_python: {}
-        #application_folder: /srv/elife-metrics
-        #service: uwsgi-elife-metrics
-        #dependency_state: configure-elife-metrics
 
     # postfix using AWS SES as a backend
     postfix_ses_mail:
@@ -235,8 +221,6 @@ elife:
                 #    command: /srv/annotations/bin/console queue:watch
                 #    number: 1
                 #    [require: some-state]
-    proofreader_php:
-        version: 0.2
 
     php_dummies: {}
         #orcid_dummy:
@@ -249,6 +233,7 @@ elife:
         services: {}
             #profiles:
             #    folder: /srv/profiles
+            #    protocol: socket # "socket", "http-socket". optional, default is "socket".
 
     multiservice:
         services: {}

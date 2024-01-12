@@ -1,0 +1,28 @@
+handle_errors {
+    root * /srv/error-pages/public
+
+    # if a specific error page exists for an error status, use that.
+    # for example, this should match 404, 410 and 503 responses.
+    @custom_err file /{err.status_code}.html
+    handle @custom_err {
+        rewrite * {file_match.relative}
+        file_server
+    }
+
+    # otherwise, all other 4xx responses get the 4xx.html page
+    @4xx expression `{err.status_code} in [400, 401, 402, 403, 405, 406, 407, 408, 409, 411, 412, 413, 414, 415, 416, 417, 418, 421, 422, 423, 424, 426, 428, 429, 431, 444, 451, 495, 496, 497]`
+    handle @4xx {
+        rewrite * /4xx.html
+        file_server
+    }
+
+    # and all other 5xx responses get the 5xx.html page
+    @5xx expression `{err.status_code} in [500, 501, 502, 504, 505, 506, 507, 508, 510, 511]`
+    handle @5xx {
+        rewrite * /5xx.html
+        file_server
+    }
+
+    # unmatched errors
+    respond "{err.status_code} {err.status_text}"
+}

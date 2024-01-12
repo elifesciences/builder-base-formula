@@ -3,8 +3,8 @@ set -e
 
 # default: 14 days
 hours_limit="${1:-336}"
-# default: 80%
-usage_limit="${2:-80}"
+# default: 70%
+usage_limit="${2:-70}"
 
 if [ -z "$FORCE" ]; then
     echo "Usage limit: ${usage_limit}%"

@@ -12,9 +12,4 @@ KillSignal=SIGQUIT
 Type=notify
 Restart=on-failure
 Environment="LANG=en_US.UTF-8"
-{% if pillar.elife.newrelic.enabled and not disable_newrelic %}
-Environment="NEW_RELIC_CONFIG_FILE={{ folder }}/newrelic.ini"
-ExecStart={{ folder }}/venv/bin/newrelic-admin run-program {{ folder }}/venv/bin/uwsgi --enable-threads --ini {{ folder }}/uwsgi.ini --socket /var/run/uwsgi/{{ name }}.socket --logto /var/log/uwsgi-{{ name }}.log
-{% else %}
-ExecStart={{ folder }}/venv/bin/uwsgi --ini {{ folder }}/uwsgi.ini --socket /var/run/uwsgi/{{ name }}.socket --logto /var/log/uwsgi-{{ name }}.log
-{% endif %}
+ExecStart={{ folder }}/venv/bin/uwsgi --ini {{ folder }}/uwsgi.ini --{{ protocol }} /var/run/uwsgi/{{ name }}.socket --logto /var/log/uwsgi-{{ name }}.log

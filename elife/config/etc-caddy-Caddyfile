@@ -1,0 +1,7 @@
+{
+	import conf.d/*
+	# do not configure Caddy using it's admin API.
+	admin off
+}
+
+import sites.d/*

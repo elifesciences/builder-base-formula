@@ -6,8 +6,6 @@
 # - 'folder' should indicate the /srv/... folder containing the project, which
 # -- must contain a venv/bin/uwsgi binary
 # -- must contain a uwsgi.ini file
-# -- may contain a venv/bin/newrelic-admin binary
-# -- may contain a newrelic.ini file
 #
 
 # warning: apps should be installing and using their own version of uwsgi
@@ -81,8 +79,7 @@ uwsgi-service-{{ name }}:
         - context:
             name: {{ name }}
             folder: {{ configuration.folder }}
-            # newrelic is considered available if it hasn't been explicitly disabled
-            disable_newrelic: {{ configuration.get('disable_newrelic', False) }}
+            protocol: {{ configuration.get("protocol", "socket") }} # becomes "--socket", "--http-socket", etc
         - require:
             - uwsgi-pkg
             - uwsgi-params
@@ -101,7 +98,6 @@ uwsgi-socket-{{ name }}:
             - uwsgi-{{ name }}.log
         - context:
             name: {{ name }}
-        # necessary?
         - require_in:
             - cmd: uwsgi-services
 

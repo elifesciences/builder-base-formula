@@ -1,5 +1,0 @@
-license_key: {{ pillar.elife.newrelic.license }}
-display_name: {{ display_name }}
-custom_attributes:
-    project: {{ project }}
-    environment: {{ environment }}
