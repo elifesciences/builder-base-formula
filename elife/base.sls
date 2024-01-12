@@ -44,6 +44,13 @@ base:
             # present on EC2 AMIs but not Vagrant bento images. this makes it consistent
             - bash-completion
 
+# not only must these be present, they must be the latest available version
+base-latest-pkgs:
+    pkg.latest:
+        - pkgs:
+            - cloud-init # versions less than 22.x do not have the 'schema' option used to validate config.
+
+# these packages must not exist
 base-purging:
     pkg.purged:
         - pkgs:
@@ -51,8 +58,7 @@ base-purging:
             - snapd
         - require:
             - base
-
-{% if osrelease != "18.04" %}
+            - base-latest-pkgs
 
 # make 'fdfind' just 'fd'
 symlink fdfind to fd:
@@ -61,7 +67,6 @@ symlink fdfind to fd:
         - target: /usr/bin/fdfind
         - require:
             - base
-{% endif %}
 
 system-git-config:
     file.managed:
@@ -152,8 +157,9 @@ snapd:
             - amazon-ssm-agent-snap-removal
 
     cmd.run:
-        - name: |
-            rm -rf /var/cache/snapd /tmp/snap-private-tmp
+        - name: rm -rf /var/cache/snapd /tmp/snap-private-tmp
+        - onlyif:
+            - test -e /var/cache/snapd && test -e /tmp/snap-private-tmp
         - require:
             - service: snapd
         - require_in:
@@ -164,4 +170,18 @@ disable-ubuntu-motd-news:
         - name: /etc/default/motd-news
         - source: salt://elife/config/etc-default-motd-news
         - mode: 0644
+
+# dhcp support for IPv6
+# - https://github.com/elifesciences/issues/issues/8523
+cloud-init-dhcp-ipv6:
+    file.managed:
+        - name: /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.cfg
+        - source: salt://elife/config/etc-cloud-cloud.cfg.d-10_enable-dhcp-ipv6.cfg
+    
+    cmd.run:
+        - name: cloud-init schema -c /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.cfg
+        - creates: /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.valid
+        - require:
+            - base-latest-pkgs
+            - file: cloud-init-dhcp-ipv6
 
