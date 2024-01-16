@@ -28,18 +28,32 @@ sshd_config:
 #            - service: ssh
 
 
-# have the system keep itself updated with security patches
+# have the system keep itself updated with security patches in non-prod environments.
+# lsh@2024-01-16: disabled in dev because work is often paused while dpkg is locked because of this.
 unattended-upgrades:
+{% if pillar.elife.env == "dev" %}
+    pkg.purged:
+        - name: unattended-upgrades
+
+    file.absent:
+        - name: /etc/apt/apt.conf.d/10periodic
+{% else %}
     pkg.installed:
         - name: unattended-upgrades
 
     file.managed:
         - name: /etc/apt/apt.conf.d/10periodic
         - source: salt://elife/config/etc-apt-apt.conf.d-10periodic
+{% endif %}
 
 unattended-upgrades-config:
+{% if pillar.elife.env == "dev" %}
+    file.absent:
+        - name: /etc/apt/apt.conf.d/50unattended-upgrades
+{% else %}
     file.managed:
         - name: /etc/apt/apt.conf.d/50unattended-upgrades
         - source: salt://elife/config/etc-apt-apt.conf.d-50unattended-upgrades
         - require:
             - file: unattended-upgrades
+{% endif %}
