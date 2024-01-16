@@ -30,16 +30,16 @@ sshd_config:
 
 # have the system keep itself updated with security patches
 unattended-upgrades:
-    pkg.purged:
+    pkg.installed:
         - name: unattended-upgrades
 
-    file.absent:
+    file.managed:
         - name: /etc/apt/apt.conf.d/10periodic
-        #- source: salt://elife/config/etc-apt-apt.conf.d-10periodic
+        - source: salt://elife/config/etc-apt-apt.conf.d-10periodic
 
 unattended-upgrades-config:
-    file.absent:
+    file.managed:
         - name: /etc/apt/apt.conf.d/50unattended-upgrades
-        #- source: salt://elife/config/etc-apt-apt.conf.d-50unattended-upgrades
+        - source: salt://elife/config/etc-apt-apt.conf.d-50unattended-upgrades
         - require:
             - file: unattended-upgrades
