@@ -28,8 +28,8 @@ sshd_config:
 #            - service: ssh
 
 
-# have the system keep itself updated with security patches in non-prod environments.
-# lsh@2024-01-16: disabled in dev because work is often paused while dpkg is locked because of this.
+# have the system keep itself updated with security patches in non-dev environments.
+# lsh@2024-01-16: disabled in dev because work is often paused while dpkg is locked.
 unattended-upgrades:
 {% if pillar.elife.env == "dev" %}
     pkg.purged:
