@@ -180,13 +180,11 @@ caddy-log-dir:
             - group
             - mode
 
+# lsh@2024-01-19: removed in favour of Caddy doing it's own (by defalt) log rotation.
+# remove once all caddy projects updated.
 caddy-logrotate-conf:
-    file.managed:
+    file.absent:
         - name: /etc/logrotate.d/caddy
-        - source: salt://elife/config/etc-logrotate.d-caddy
-        - template: jinja
-        - require:
-            - caddy-log-dir
 
 caddy-server-service:
     file.managed:
