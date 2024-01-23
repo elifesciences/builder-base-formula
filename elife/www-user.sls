@@ -36,6 +36,4 @@ webserver-user-can-write-var-www:
         - group: {{ pillar.elife.webserver.username }}
         - require:
             - webserver-user-group
-        - listen_in:
-            - service: caddy-server-service
 
