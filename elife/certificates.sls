@@ -1,33 +1,33 @@
 #
 # certificates
-# your ssl-enabled application is responsible for depositing the certificate
-# in this directory. 
+# ssl-enabled applications should look for and add certificates to /etc/certificates
+# depends on 'www-user.sls'
 #
 
-web-certificates-group:
-    group.present:
-        - name: {{ pillar.elife.certificates.username }}
+{% if salt['elife.cfg']('cfn.outputs.DomainName') %}
+
+# why this usage of 'app'?
+# not all applications use this default certificate and need to provide their own (redirects).
+# using "salt://{{ app }}/config/path-to-some-config" is one way to do that.
+{% set app = pillar.elife.certificates.app or 'elife' %}
 
 web-certificates-dir:
     file.directory:
         - name: /etc/certificates
         - user: root
-        - group: {{ pillar.elife.certificates.username }}
+        - group: {{ pillar.elife.webserver.username }}
         - mode: 750
         - recurse:
             - user
             - group
             - mode
         - require:
-            - web-certificates-group
-
-{% if salt['elife.cfg']('cfn.outputs.DomainName') %}
-{% set app = pillar.elife.certificates.app or 'elife' %}
+            - webserver-user-group
 
 web-certificate-file:
     file.managed:
         - name: /etc/certificates/certificate.crt
-        - group: {{ pillar.elife.certificates.username }}
+        - group: {{ pillar.elife.webserver.username }}
         - source: salt://{{ app }}/config/etc-certificates-certificate.crt
         - require:
             - file: web-certificates-dir
@@ -36,7 +36,7 @@ web-private-key:
     file.managed:
         - name: /etc/certificates/privkey.pem
         - source: salt://{{ app }}/config/etc-certificates-privkey.pem
-        - group: {{ pillar.elife.certificates.username }}
+        - group: {{ pillar.elife.webserver.username }}
         - require:
             - file: web-certificates-dir
 
@@ -44,13 +44,13 @@ web-fullchain-key:
     file.managed:
         - name: /etc/certificates/fullchain.pem
         - source: salt://{{ app }}/config/etc-certificates-fullchain.pem
-        - group: {{ pillar.elife.certificates.username }}
+        - group: {{ pillar.elife.webserver.username }}
         - require:
             - file: web-certificates-dir
 
 web-complete-cert:
     cmd.run:
-        - name: cat certificate.crt fullchain.pem > certificate.chained.crt && chgrp {{ pillar.elife.certificates.username }} certificate.chained.crt
+        - name: cat certificate.crt fullchain.pem > certificate.chained.crt && chgrp {{ pillar.elife.webserver.username }} certificate.chained.crt
         - cwd: /etc/certificates/
         # only trigger state if either of these two files have changed
         - onchanges:

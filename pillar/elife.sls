@@ -99,7 +99,7 @@ elife:
     certificates:
         # allows per-application certificate overrides. see elife/certificates.sls
         app: elife # the builder-base 'elife' application root
-        username: www-data
+        username: www-data # deprecated, just use pillar.elife.webserver.username
 
     web_users:
         '':

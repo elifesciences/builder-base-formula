@@ -1,3 +1,7 @@
+include:
+    - .www-user
+    - .certificates
+
 {% set wwwuser = pillar.elife.webserver.username %}
 {% set user = pillar.elife.deploy_user.username %}
 
@@ -35,32 +39,11 @@ nginx-config-for-reuse:
         - listen_in:
             - service: nginx-server-service
 
-# created by the webserver. ensure the one created is the one we're expecting
-webserver-user-group:
-    group.present:
-        - name: {{ wwwuser }}
-
-    user.present:
-        - name: {{ wwwuser }}
-        - groups:
-            - www-data
-        - require:
-            - group: webserver-user-group
-
 disable-default-page:
     file.absent:
         - name: /etc/nginx/sites-enabled/default
         - require:
             - pkg: nginx-server
-
-add-deploy-user-to-nginx-group:
-    cmd.run:
-        - name: usermod -a -G {{ wwwuser }} {{ user }}
-        - require:
-            - pkg: nginx-server
-        - unless:
-            # TODO: test doesn't appear to work
-            - groups {{ user }} | grep {{ wwwuser }}
 
 # needs to be enabled/symlinked in
 redirect-nginx-http-to-https:
@@ -70,9 +53,6 @@ redirect-nginx-http-to-https:
         - template: jinja
         - require:
             - pkg: nginx-server
-
-include:
-    - .certificates
 
 #
 # service
