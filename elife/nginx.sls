@@ -1,3 +1,7 @@
+include:
+    - .www-user
+    - .certificates
+
 {% set wwwuser = pillar.elife.webserver.username %}
 {% set user = pillar.elife.deploy_user.username %}
 
@@ -70,9 +74,6 @@ redirect-nginx-http-to-https:
         - template: jinja
         - require:
             - pkg: nginx-server
-
-include:
-    - .certificates
 
 #
 # service
