@@ -8,7 +8,7 @@
 
 # why this usage of 'app'?
 # not all applications use this default certificate and need to provide their own (redirects).
-# using "salt://{{ app }}/config/path-to-some-config" is one way to do that.
+# using "salt://$appname/config/path-to-some-config" is one way to do that.
 {% set app = pillar.elife.certificates.app or 'elife' %}
 
 web-certificates-dir:
