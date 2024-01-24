@@ -1,0 +1,1 @@
+tls /etc/certificates/certificate.chained.crt /etc/certificates/privkey.pem

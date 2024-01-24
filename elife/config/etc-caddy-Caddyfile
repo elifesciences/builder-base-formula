@@ -1,7 +1,11 @@
 {
-	import conf.d/*
-	# do not configure Caddy using it's admin API.
-	admin off
+    # *global* config snippets: https://caddyserver.com/docs/caddyfile/options
+    import conf.d/*
+
+    # see snippets/* for reusable local config snippets
+
+    # do not configure Caddy using it's admin API.
+    admin off
 }
 
 import sites.d/*
