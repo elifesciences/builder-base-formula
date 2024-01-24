@@ -1,6 +1,4 @@
-# deprecated, use webserver-error-pages.sls instead
-
-nginx-error-pages:
+webserver-error-pages:
     file.directory:
         - name: /srv/error-pages
         - user: {{ pillar.elife.deploy_user.username }}
@@ -18,6 +16,12 @@ nginx-error-pages:
         - force_checkout: True
         - force_reset: True
         - require:
-            - file: nginx-error-pages
+            - file: webserver-error-pages
+        {% if pillar.elife.webserver.app == "caddy" %}
+        - watch_in:
+            - service: caddy-server-service
+        {% endif %}
+        {% if pillar.elife.webserver.app == "nginx" %}
         - watch_in:
             - service: nginx-server-service
+        {% endif %}
