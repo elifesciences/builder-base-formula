@@ -4,6 +4,10 @@
 # depends on 'www-user.sls'
 #
 
+etc-certificates-group:
+    group.present:
+        - name: {{ pillar.elife.certificates.username }}
+
 {% if salt['elife.cfg']('cfn.outputs.DomainName') %}
 
 # why this usage of 'app'?
@@ -11,54 +15,54 @@
 # using "salt://$appname/config/path-to-some-config" is one way to do that.
 {% set app = pillar.elife.certificates.app or 'elife' %}
 
-web-certificates-dir:
+etc-certificates-dir:
     file.directory:
         - name: /etc/certificates
         - user: root
-        - group: {{ pillar.elife.webserver.username }}
+        - group: {{ pillar.elife.certificates.username }}
         - mode: 750
         - recurse:
             - user
             - group
             - mode
         - require:
-            - webserver-user-group
+            - etc-certificates-group
 
-web-certificate-file:
+etc-certificates-cert:
     file.managed:
         - name: /etc/certificates/certificate.crt
-        - group: {{ pillar.elife.webserver.username }}
+        - group: {{ pillar.elife.certificates.username }}
         - source: salt://{{ app }}/config/etc-certificates-certificate.crt
         - require:
-            - file: web-certificates-dir
+            - etc-certificates-dir
 
-web-private-key:
+etc-certificates-private-key:
     file.managed:
         - name: /etc/certificates/privkey.pem
         - source: salt://{{ app }}/config/etc-certificates-privkey.pem
-        - group: {{ pillar.elife.webserver.username }}
+        - group: {{ pillar.elife.certificates.username }}
         - require:
-            - file: web-certificates-dir
+            - etc-certificates-dir
 
-web-fullchain-key:
+etc-certificates-fullchain-key:
     file.managed:
         - name: /etc/certificates/fullchain.pem
         - source: salt://{{ app }}/config/etc-certificates-fullchain.pem
-        - group: {{ pillar.elife.webserver.username }}
+        - group: {{ pillar.elife.certificates.username }}
         - require:
-            - file: web-certificates-dir
+            - etc-certificates-dir
 
-web-complete-cert:
+etc-certificates-complete-cert:
     cmd.run:
-        - name: cat certificate.crt fullchain.pem > certificate.chained.crt && chgrp {{ pillar.elife.webserver.username }} certificate.chained.crt
+        - name: cat certificate.crt fullchain.pem > certificate.chained.crt && chgrp {{ pillar.elife.certificates.username }} certificate.chained.crt
         - cwd: /etc/certificates/
         # only trigger state if either of these two files have changed
         - onchanges:
-            - web-fullchain-key
-            - web-certificate-file
+            - etc-certificates-fullchain-key
+            - etc-certificates-cert
         - require:
-            - web-fullchain-key
-            - web-certificate-file
+            - etc-certificates-fullchain-key
+            - etc-certificates-cert
 
 better-dhe:
     cmd.run:
@@ -72,10 +76,10 @@ web-ssl-enabled:
     cmd.run:
         - name: echo "ssl enabled"
         - require_in:
-            - file: web-fullchain-key
-            - file: web-private-key
-            - file: web-certificate-file
-            - cmd: web-complete-cert
+            - file: etc-certificates-fullchain-key
+            - file: etc-certificates-private-key
+            - file: etc-certificates-cert
+            - cmd: etc-certificates-complete-cert
             - cmd: better-dhe
 
 {% else %}
