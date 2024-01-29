@@ -97,9 +97,10 @@ elife:
         certificate_folder: /etc/certificates
 
     certificates:
-        # allows per-application certificate overrides. see elife/certificates.sls
+        # allows per-application certificate overrides, typically nginx or caddy, but also vault (master-server).
+        # see: elife/certificates.sls
         app: elife # the builder-base 'elife' application root
-        username: www-data # deprecated, just use pillar.elife.webserver.username
+        username: www-data
 
     web_users:
         '':
