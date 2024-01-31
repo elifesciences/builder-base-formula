@@ -81,6 +81,14 @@ caddy-error-pages-snippet:
         - require:
             - caddy-pkg
 
+caddy-certs-snippet:
+    file.managed:
+        - name: /etc/caddy/snippets/certs
+        - source: salt://elife/config/etc-caddy-snippets-certs
+        - makedirs: True
+        - require:
+            - caddy-pkg
+
 caddy-config:
     file.managed:
         - name: /etc/caddy/Caddyfile
