@@ -1,4 +1,3 @@
-#cloud-config
 network:
   version: 2
   ethernets:
