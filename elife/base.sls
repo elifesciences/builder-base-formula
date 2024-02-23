@@ -178,10 +178,12 @@ cloud-init-dhcp-ipv6:
         - name: /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.cfg
         - source: salt://elife/config/etc-cloud-cloud.cfg.d-10_enable-dhcp-ipv6.cfg
     
-    cmd.run:
-        - name: cloud-init schema -c /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.cfg
-        - creates: /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.valid
-        - require:
-            - base-latest-pkgs
-            - file: cloud-init-dhcp-ipv6
+    # lsh@2024-02-23: working in cloud-init 23.3, broken in cloud-init 23.4.3
+    # possibly a bug, doesn't appear to affect assignment of ipv6 addresses.
+    #cmd.run:
+    #    - name: cloud-init schema -c /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.cfg
+    #    - creates: /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.valid
+    #    - require:
+    #        - base-latest-pkgs
+    #        - file: cloud-init-dhcp-ipv6
 
