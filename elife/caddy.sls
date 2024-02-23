@@ -132,7 +132,7 @@ caddy-metrics-site:
 
 # note! further caddy configuration won't be validated unless the state does something like:
 #   require_in:
-#       - cmd: caddy-validate_config
+#       - cmd: caddy-validate-config
 caddy-validate-config:
     cmd.run:
         - name: caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
