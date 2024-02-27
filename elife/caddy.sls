@@ -189,4 +189,8 @@ caddy-server-service:
             - caddy-metrics-config
             - caddy-trusted-proxy-ip-ranges-config
             - caddy-metrics-site
-
+{% if salt['elife.cfg']('cfn.outputs.DomainName') %}
+        - listen:
+            # schedule caddy restart when certificate is modified
+            - etc-certificates-complete-cert
+{% endif %}

@@ -74,8 +74,8 @@ nginx-server-service:
             #- file: /etc/nginx/sites-enabled/*
 {% if salt['elife.cfg']('cfn.outputs.DomainName') %}
         - listen:
-            # schedule a restart when there is a modified certificate
-            - web-complete-cert
+            # schedule nginx restart when certificate is modified
+            - etc-certificates-complete-cert
 {% endif %}
 
 #
