@@ -20,6 +20,19 @@ mount-point-external-volume:
     file.directory:
         - name: {{ pillar.elife.external_volume.directory }}
 
+mount-point-external-volume-existing-data-move-out:
+    cmd.run:
+        - name: |
+            touch {{ pillar.elife.external_volume.directory }}/ping
+            if systemctl is-enabled --quiet docker; then systemctl stop docker; fi
+            mkdir -p /tmp-ext-contents && mv -v {{ pillar.elife.external_volume.directory }}/* /tmp-ext-contents
+        #- onlyif:
+        #    # volume exists
+        #    - test -b {{ pillar.elife.external_volume.device }}
+        #- unless:
+        #    # volume is already mounted
+        #    - cat /proc/mounts | grep --quiet --no-messages {{ pillar.elife.external_volume.directory }}
+
 mount-external-volume:
     # ll: mount /dev/nvme1n1 /mnt/nvme1n1
     mount.mounted:
@@ -32,6 +45,7 @@ mount-external-volume:
         - require:
             - format-external-volume
             - mount-point-external-volume
+            - mount-point-external-volume-existing-data-move-out
         - onlyif:
             # disk exists
             - test -b {{ pillar.elife.external_volume.device }}
@@ -49,6 +63,17 @@ resize-external-volume-if-needed:
             # disk exists
             - test -b {{ pillar.elife.external_volume.device }}
         - require:
+            - mount-external-volume
+
+mount-point-external-volume-existing-data-move-in:
+    cmd.run:
+        - name: |
+            mv -v /tmp-ext-contents/* {{ pillar.elife.external_volume.directory }}/ && rm -r /tmp-ext-contents
+            if systemctl is-enabled --quiet docker; then systemctl start docker; fi
+        - onlyif:
+            - test -d /tmp-ext-contents
+        - require:
+            - mount-point-external-volume-existing-data-move-out
             - mount-external-volume
 
 tmp-directory-on-external-volume:
