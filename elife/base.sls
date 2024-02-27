@@ -165,6 +165,15 @@ snapd:
         - require_in:
             - pkg: base-purging
 
+prevent-installation:
+    cmd.run:
+        - name: |
+            apt-mark hold apache2
+            apt-mark hold snap
+            apt-mark hold snapd
+        - require_in:
+            - pkg: base-purging
+
 disable-ubuntu-motd-news:
     file.managed:
         - name: /etc/default/motd-news
