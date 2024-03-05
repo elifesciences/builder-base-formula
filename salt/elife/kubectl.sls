@@ -12,8 +12,6 @@ kubernetes-packages-repo:
         - refresh: True
         - require:
             - cmd: kubernetes-packages-repo
-        - unless:
-            - test -e /etc/apt/sources.list.d/kubernetes.list
 
 kubectl-package:
     pkg.installed:
