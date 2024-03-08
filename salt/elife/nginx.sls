@@ -27,6 +27,7 @@ nginx-config:
         - listen_in:
             - service: nginx-server-service
 
+# note: 'traits.d' is not an nginx idiom. It is equivalent to 'conf.d'.
 nginx-config-for-reuse:
     file.recurse:
         - name: /etc/nginx/traits.d
