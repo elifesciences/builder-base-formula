@@ -5,10 +5,15 @@ remove-salt-source-file:
     file.absent:
         - name: /etc/apt/sources.list.d/saltstack.list
 
+# lsh@2024-04-04: caddy's ppa exceeded it's bandwidth and can't be trusted to be available anymore.
+# see: https://github.com/elifesciences/issues/issues/8688
+# see: caddy.sls
+remove-caddy-source-file:
+    file.absent:
+        - name: /etc/apt/sources.list.d/caddy-stable.list
+
 base:
     pkg.installed:
-        - require:
-            - remove-salt-source-file
         - pkgs:
             - logrotate
             - curl
@@ -43,12 +48,17 @@ base:
             # for tab-completion of bash commands
             # present on EC2 AMIs but not Vagrant bento images. this makes it consistent
             - bash-completion
+        - require:
+            - remove-salt-source-file
+            - remove-caddy-source-file
 
 # not only must these be present, they must be the latest available version
 base-latest-pkgs:
     pkg.latest:
         - pkgs:
             - cloud-init # versions less than 22.x do not have the 'schema' option used to validate config.
+        - require:
+            - base
 
 # these packages must not exist
 base-purging:
