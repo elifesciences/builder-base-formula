@@ -9,6 +9,12 @@ caddy-deps:
             - debian-archive-keyring
             - apt-transport-https
 
+{% if false %}
+
+# lsh@2024-04-04: caddy's ppa exceeded it's bandwidth and can't be trusted to be available anymore.
+# see: https://github.com/elifesciences/issues/issues/8688
+# see: base.sls
+
 caddy-gpg-present:
     cmd.run:
         - name: |
@@ -35,6 +41,30 @@ caddy-pkg:
             - caddy-deps
             - caddy-gpg-present
             - caddy-pkg-list-present
+
+{% else %}
+
+{% set CADDY_VERSION = "2.7.6" %}
+{% set CADDY_ZIP_HASH = "99587cf77c595f0bf62cc23c9ea101f9879fa016c7b689d498ce054904821f22" %}
+{% set CADDY_HASH = "db3bfc85bb93160f60fa6df9c3ebf2340dc11740e9a52c717d88a14c0430f229" %}
+
+caddy-pkg:
+    archive.extracted:
+        - name: /root/caddy-{{ CADDY_VERSION }}
+        - source: "https://github.com/caddyserver/caddy/releases/download/v{{ CADDY_VERSION }}/caddy_{{ CADDY_VERSION }}_linux_amd64.tar.gz"
+        - source_hash: {{ CADDY_ZIP_HASH }}
+        - enforce_toplevel: false
+        - if_missing: /root/caddy-{{ CADDY_VERSION }}/caddy
+
+    file.managed:
+        - name: /usr/bin/caddy
+        - source: /root/caddy-{{ CADDY_VERSION }}/caddy
+        - source_hash: {{ CADDY_HASH }}
+        - mode: 755
+        - require:
+            - archive: caddy-pkg
+
+{% endif %}
 
 caddy-user-in-www-user-group:
     user.present:
