@@ -6,7 +6,7 @@ elife:
     dev: True
 
     # another more fine grained approach to determining environment
-    # production is 'prod' by default 
+    # production is 'prod' by default
     # can be overriden per-project by pillar files
     env: dev
     domain: elifesciences.org
@@ -34,7 +34,7 @@ elife:
 
     # grants known users remote access to project systems
     ssh_access:
-        # ssh access is granted to the vagrant/ubuntu (bootstrap user) as well as 
+        # ssh access is granted to the vagrant/ubuntu (bootstrap user) as well as
         # the deploy user (elife).
         also_bootstrap_user: True
         # adds keys to deploy user's `~/.ssh/authorized_keys` file
@@ -52,7 +52,7 @@ elife:
             all: []
 
             # per-user, per-project denied access
-            project1: 
+            project1:
                 - example-user
 
         # masterless instances only allow access to those in `ssh.allowed.all` because
@@ -78,7 +78,7 @@ elife:
     backups:
         bucket: elife-app-backups
         # AWS credentials for uploading backups to S3
-        s3_access: null 
+        s3_access: null
         s3_secret: null
 
     daily_system_updates:
@@ -137,7 +137,7 @@ elife:
     logging:
         # loggly destination for syslog-ng logs
         # https://www.loggly.com/
-        loggly: 
+        loggly:
             enabled: False
             host: "logs-01.loggly.com"
             port: 514
@@ -179,7 +179,7 @@ elife:
         directory: /home/elife
         username: elife
         accounts: {} # name to path to JSON credentials
-        # accounts: 
+        # accounts:
         #     data-pipeline:
         #         credentials: "salt://elife/config/.../service-account.json"
         #         project: elife-data-pipeline
@@ -190,8 +190,8 @@ elife:
         clusters: {} # name to dict of configurations
         #clusters:
         #    kubernetes--demo:
-        #        region: us-east-1 
-        #        role: arn:aws:iam::512686554592:role/kubernetes--demo--AmazonEKSUserRole 
+        #        region: us-east-1
+        #        role: arn:aws:iam::512686554592:role/kubernetes--demo--AmazonEKSUserRole
 
     external_volume:
         device: /dev/nvme1n1
@@ -229,7 +229,7 @@ elife:
         #    repository: https://github.com/elifesciences/orcid-dummy
         #    pinned_revision_file: /srv/profiles/orcid-dummy.sha1
         #    port: 8081 # will add 1 to get an HTTPS port too
-        
+
     uwsgi:
         username: www-data
         services: {}
@@ -242,7 +242,7 @@ elife:
             #myservice:
             ## use '0' to disable
             #   num_processes:
-            
+
             ## state that manages the "/lib/systemd/system/myservice@.service" template file
             #   service_template_file:
 
@@ -265,7 +265,7 @@ elife:
             - some-events
 
     sidecars:
-        # main image that will be used to extract labels 
+        # main image that will be used to extract labels
         # indicating metadata about the sidecars such as their own tags
         # main: elifesciences/annotations_cli
         containers: {}
@@ -389,6 +389,6 @@ elife:
 
     helm:
         username: elife
-        
+
     kubectl:
         username: elife
