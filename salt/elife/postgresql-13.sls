@@ -103,7 +103,7 @@ more-postgresql-config:
         - source: salt://elife/config/etc-postgresql-13-main-conf.d-port.conf
         - require:
             - pkg: postgresql
-            # run the migration first, which will purge the old 11 postgresql, then 
+            # run the migration first, which will purge the old 12 postgresql, then 
             # enforce new config with port 5432 here
             - cmd: psql-12 to psql-13 migration
         - watch_in:
