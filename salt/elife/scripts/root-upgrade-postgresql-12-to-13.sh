@@ -1,16 +1,16 @@
 #!/bin/bash
 # run as *root*, script will switch to user *postgres* as necessary
-# upgrades a postgresql 11 database to 12
-# assumes 'postgresql-11.sls' has been replaced with 'postgresql-12.sls' and there are two installations present
+# upgrades a postgresql 12 database to 13
+# assumes 'postgresql-12.sls' has been replaced with 'postgresql-13.sls' and there are two installations present
 
 # docs
 # https://www.postgresql.org/docs/12/pgupgrade.html
 
 set -eu
 
-# check that 11 still exists as this script will purge it after the data has been upgraded
-test -d /var/lib/postgresql/11 || {
-    echo "postgresql 11 not detected, nothing to upgrade"
+# check that 12 still exists as this script will purge it after the data has been upgraded
+test -d /var/lib/postgresql/12 || {
+    echo "postgresql 12 not detected, nothing to upgrade"
     exit 0
 }
 
@@ -32,19 +32,19 @@ sleep 2 # give all psql services time to stop
 #trap finish EXIT
 
 # the actual services are:
+# postgresql@13-main.service
 # postgresql@12-main.service
-# postgresql@11-main.service
 
 # stopping the target (postgresql.service) will stop the services that depend upon it
 
 # "Always run the pg_upgrade binary of the new server"
-# - https://www.postgresql.org/docs/12/pgupgrade.html
+# - https://www.postgresql.org/docs/13/pgupgrade.html
 
 # $ locate pg_upgrade
 # ...?
-# /usr/lib/postgresql/12/bin/pg_upgrade
+# /usr/lib/postgresql/13/bin/pg_upgrade
 
-pg_upgrade="/usr/lib/postgresql/12/bin/pg_upgrade"
+pg_upgrade="/usr/lib/postgresql/13/bin/pg_upgrade"
 echo "using: $pg_upgrade"
 
 # we have two upgrade modes available to us: link and copy (default)
@@ -57,7 +57,7 @@ echo "using: $pg_upgrade"
 # psql -U root postgres -c "SHOW data_directory"
 #        data_directory        
 #------------------------------
-# /var/lib/postgresql/11/main
+# /var/lib/postgresql/12/main
 #(1 row)
 
 (
@@ -67,32 +67,32 @@ echo "using: $pg_upgrade"
     printf "\npg_upgrade: ---\n\n"
 
     # postgresql.conf doesn't live in /var/lib/postgresql/$version/main/ like it expects to:
-    # 'postgres cannot access the server configuration file "/var/lib/postgresql/11/main/postgresql.conf": No such file or directory'
-    # on Ubuntu it lives here: /etc/postgresql/11/main/postgresql.conf
+    # 'postgres cannot access the server configuration file "/var/lib/postgresql/12/main/postgresql.conf": No such file or directory'
+    # on Ubuntu it lives here: /etc/postgresql/12/main/postgresql.conf
     # so we need to pass in more parameters
 
     user=postgres
     sudo -u "$user" "$pg_upgrade" \
-        --old-datadir "/var/lib/postgresql/11/main" \
-        --new-datadir "/var/lib/postgresql/12/main" \
-        --old-bindir "/usr/lib/postgresql/11/bin" \
-        --new-bindir "/usr/lib/postgresql/12/bin" \
-        --old-options "-c config_file=/etc/postgresql/11/main/postgresql.conf" \
-        --new-options "-c config_file=/etc/postgresql/12/main/postgresql.conf" \
+        --old-datadir "/var/lib/postgresql/12/main" \
+        --new-datadir "/var/lib/postgresql/13/main" \
+        --old-bindir "/usr/lib/postgresql/12/bin" \
+        --new-bindir "/usr/lib/postgresql/13/bin" \
+        --old-options "-c config_file=/etc/postgresql/12/main/postgresql.conf" \
+        --new-options "-c config_file=/etc/postgresql/13/main/postgresql.conf" \
     && {
         # pg_upgrade succeeded
         
         # create a backup of the data
-        #bdir=/tmp/var-lib-postgresql-11--backup/
+        #bdir=/tmp/var-lib-postgresql-12--backup/
         #mkdir -p "$bdir"
-        #rsync -av /var/lib/postgresql/11/ "$bdir"
+        #rsync -av /var/lib/postgresql/12/ "$bdir"
         #tar czf "/tmp/$bdir.tar.gz" "$bdir"
         
         #echo "wrote backup: $bdir.tar.gz"
         
-        # remove postgresql-11
-        echo "removing postgresql-11 including data and configuration"
-        DEBIAN_FRONTEND=noninteractive apt-get purge postgresql-11 -y
+        # remove postgresql-12
+        echo "removing postgresql-12 including data and configuration"
+        DEBIAN_FRONTEND=noninteractive apt-get purge postgresql-12 -y
     } \
     || {
         # pg upgrade failed
