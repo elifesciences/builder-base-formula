@@ -45,21 +45,27 @@ caddy-pkg:
 {% else %}
 
 {% set CADDY_VERSION = "2.7.6" %}
-{% set CADDY_ZIP_HASH = "99587cf77c595f0bf62cc23c9ea101f9879fa016c7b689d498ce054904821f22" %}
-{% set CADDY_HASH = "db3bfc85bb93160f60fa6df9c3ebf2340dc11740e9a52c717d88a14c0430f229" %}
+{% set CADDY_TARGZ_HASHES = {
+    "amd64": "99587cf77c595f0bf62cc23c9ea101f9879fa016c7b689d498ce054904821f22",
+    "arm64": "6e6aeca09502a8f0ab0a08acd03bb765e80888052d108de22e0698a9160b7235",
+} %}
+{% set CADDY_HASHES = {
+    "amd64": "db3bfc85bb93160f60fa6df9c3ebf2340dc11740e9a52c717d88a14c0430f229",
+    "arm64": "dc49543c4cbf7a770acdb3cf63cb23b251719ef79d9861977d36cd8c3e54b384",
+} %}
 
 caddy-pkg:
     archive.extracted:
         - name: /root/caddy-{{ CADDY_VERSION }}
-        - source: "https://github.com/caddyserver/caddy/releases/download/v{{ CADDY_VERSION }}/caddy_{{ CADDY_VERSION }}_linux_amd64.tar.gz"
-        - source_hash: {{ CADDY_ZIP_HASH }}
+        - source: "https://github.com/caddyserver/caddy/releases/download/v{{ CADDY_VERSION }}/caddy_{{ CADDY_VERSION }}_linux_{{ grains['osarch'] }}.tar.gz"
+        - source_hash: {{ CADDY_TARGZ_HASHES[grains['osarch']] }}
         - enforce_toplevel: false
         - if_missing: /root/caddy-{{ CADDY_VERSION }}/caddy
 
     file.managed:
         - name: /usr/bin/caddy
         - source: /root/caddy-{{ CADDY_VERSION }}/caddy
-        - source_hash: {{ CADDY_HASH }}
+        - source_hash: {{ CADDY_HASHES[grains['osarch']] }}
         - mode: 755
         - require:
             - archive: caddy-pkg
