@@ -31,15 +31,15 @@ base:
 
             # find which files are taking up space on filesystem
             - ncdu
-            # diagnosing disk IO 
+            # diagnosing disk IO
             - sysstat # provides iostat
             - iotop
-            
+
             {% if osrelease != "18.04" %}
-            
+
             - ripgrep # aka 'rg'
             - fd-find # aka 'fd'
-            
+
             {% endif %}
 
             # useful for smoke testing the JSON output
@@ -96,9 +96,9 @@ base-updatedb-config:
 autoremove-orphans:
     cmd.run:
         # 'clean' clears out the local repository of retrieved package files.
-        # 'autoclean' clears out the local repository of retrieved package files. 
+        # 'autoclean' clears out the local repository of retrieved package files.
         # The difference is that it only removes package files that can no longer be downloaded
-        # 'autoremove' is used to remove packages that were automatically installed to satisfy dependencies 
+        # 'autoremove' is used to remove packages that were automatically installed to satisfy dependencies
         # for other packages and are now no longer needed.
         - name: |
             set -e
@@ -121,8 +121,8 @@ systemd-dir-exists:
         - source: salt://elife/config/etc-skel-.bashrc
         - template: jinja
 
-# lsh@2020-03: the root user's .bashrc file isn't sourced from /etc/skel/.bashrc like 
-# regular users. The two are very very similar with no functional differences but at 
+# lsh@2020-03: the root user's .bashrc file isn't sourced from /etc/skel/.bashrc like
+# regular users. The two are very very similar with no functional differences but at
 # some point they started diverging. This is *not* a temporary state.
 root-user:
     file.managed:
@@ -131,7 +131,7 @@ root-user:
         - template: jinja
 
 ubuntu-user:
-    user.present: 
+    user.present:
         - name: ubuntu
         - shell: /bin/bash
         - groups:
@@ -180,21 +180,3 @@ disable-ubuntu-motd-news:
         - name: /etc/default/motd-news
         - source: salt://elife/config/etc-default-motd-news
         - mode: 0644
-
-# dhcp support for IPv6
-# - https://github.com/elifesciences/issues/issues/8523
-cloud-init-dhcp-ipv6:
-    file.managed:
-        - name: /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.cfg
-        - source: salt://elife/config/etc-cloud-cloud.cfg.d-10_enable-dhcp-ipv6.cfg
-    
-    cmd.run:
-        # lsh@2024-02-23: was working in cloud-init 23.3 but is broken in cloud-init 23.4.3
-        # see: https://github.com/canonical/cloud-init/issues/4944
-        #- name: cloud-init schema -c /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.cfg
-        - name: cloud-init schema --system
-        - creates: /etc/cloud/cloud.cfg.d/10_enable-dhcp-ipv6.valid
-        - require:
-            - base-latest-pkgs
-            - file: cloud-init-dhcp-ipv6
-
