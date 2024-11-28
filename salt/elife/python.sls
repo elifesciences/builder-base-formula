@@ -17,7 +17,7 @@ python-dev:
             - libssl-dev
         - require:
             - python-3
-
+{% if grains.osmajorrelease <= 20 %}
 global-python-requisites:
     cmd.run:
         # lsh@2021-11-29: adds pipenv to globally available python tools.
@@ -26,6 +26,15 @@ global-python-requisites:
             set -e
             python3 -m pip install pip wheel virtualenv --upgrade --quiet
             python3 -m pip install pipenv==2022.1.8 --quiet
+{% else %}
+global-python-requisites:
+    pkg.installed:
+        - pkgs:
+            - python3-pip
+            - python3-wheel
+            - virtualenv
+            - pipenv
+{% endif %}
 
 # At 12:00 AM, on day 1 of the month
 monthly-pip-cache-purge:
