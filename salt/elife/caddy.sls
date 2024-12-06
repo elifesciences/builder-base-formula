@@ -210,11 +210,19 @@ caddy-server-service:
             - caddy-user-in-www-user-group
             - caddy-log-dir
 
+    # There is a bug with salt that sometimes means the service.running state isn't reloading
+    # So we explicitly reload it
+    module.run:
+        - name: service.systemctl_reload
+        - require:
+            - file: caddy-server-service
+
     service.running:
         - name: caddy
         - enable: true
         - require:
             - file: caddy-server-service
+            - module: caddy-server-service
             - caddy-pkg
             - caddy-validate-config
         - watch:
