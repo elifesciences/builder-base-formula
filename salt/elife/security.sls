@@ -23,10 +23,13 @@ sshd_config:
     file.managed:
         - name: /etc/ssh/sshd_config
         - source: salt://elife/config/etc-ssh-sshd_config
-# this shouldn't kick the provisioning user but it does
-#        - watch_in:
-#            - service: ssh
 
+sshd:
+    service.running:
+        - enable: True
+        - reload: True
+        - watch:
+            - file: /etc/ssh/sshd_config
 
 # have the system keep itself updated with security patches in non-dev environments.
 # lsh@2024-01-16: disabled in dev because work is often paused while dpkg is locked.
