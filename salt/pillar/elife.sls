@@ -281,8 +281,6 @@ elife:
 
     forced_dns: {}
 
-    helm:
-        username: elife
 
     kubectl:
         username: elife
