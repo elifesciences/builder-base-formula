@@ -35,12 +35,8 @@ base:
             - sysstat # provides iostat
             - iotop
 
-            {% if osrelease != "18.04" %}
-
             - ripgrep # aka 'rg'
             - fd-find # aka 'fd'
-
-            {% endif %}
 
             # useful for smoke testing the JSON output
             - jq
