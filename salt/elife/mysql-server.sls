@@ -1,8 +1,7 @@
 # lsh@2022-02-21: shouldn't this happen during salt bootstrap?
 # `salt.states.mysql_*` require the `python3-mysqldb` library to be installed
 
-# MySQL 8.0 in 20.04
-{% set oscodename = salt['grains.get']('oscodename') %}
+# MySQL 8.0 in 20.04, 22.04 and 24.04
 
 mysql-server:
     pkg.installed:
@@ -12,7 +11,7 @@ mysql-server:
 
     file.managed:
         - name: /etc/mysql/mysql.cnf
-        - source: salt://elife/config/etc-mysql-mysql.cnf.{{ oscodename }}
+        - source: salt://elife/config/etc-mysql-mysql.cnf
         - require:
             - pkg: mysql-server
 
