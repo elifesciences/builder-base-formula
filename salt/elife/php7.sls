@@ -1,13 +1,9 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
 
 # base php installation
-# 18.04 has php7.2
 # 20.04 has php7.4
 
 {% set php_version = '7.4' %}
-{% if osrelease == '18.04' %}
-    {% set php_version = '7.2' %}
-{% endif %}
 
 php:
     pkg.installed:
@@ -57,7 +53,7 @@ syslog-ng-for-php-log:
             - pkg: syslog-ng
         - listen_in:
             - service: syslog-ng
-    
+
 logrotate-for-php-log:
     file.managed:
         - name: /etc/logrotate.d/php
