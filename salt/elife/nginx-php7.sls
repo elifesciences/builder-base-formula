@@ -4,10 +4,6 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
 {% set php_version = '7.4' %}
 
-{% if osrelease == "18.04" %}
-    {% set php_version = '7.2' %}
-{% endif %}
-
 php-nginx-deps:
     pkg.installed:
         - name: php{{ php_version }}-fpm
@@ -37,7 +33,7 @@ not-used-php-log:
         - name: /var/log/php{{ php_version }}-fpm.log
 
 php-fpm:
-    # nginx config needs to target this sock file. 
+    # nginx config needs to target this sock file.
     # easier to target when version stripped out
     file.symlink:
         - name: /var/php-fpm.sock
