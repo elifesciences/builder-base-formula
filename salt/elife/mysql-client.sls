@@ -1,5 +1,3 @@
-{% set osrelease = salt['grains.get']('osrelease') %}
-
 mysql-package-list:
     pkg.installed:
         - pkgs:
@@ -8,4 +6,3 @@ mysql-package-list:
             # Have also switched from 'MySQLdb' to 'PyMYSQL'. Former is a C extension, latter is pure python and
             # Salt supports both: https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.mysql.html
             #- python3-mysqldb
-
