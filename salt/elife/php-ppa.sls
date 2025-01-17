@@ -64,7 +64,7 @@ php-log:
 php-cli-config:
     file.managed:
         - name: /etc/php/{{ php_version }}/cli/php.ini
-        - source: salt://elife/config/etc-php-{{ php_version }}-cli-php.ini
+        - source: salt://elife/config/etc-php-cli-php.ini
         - template: jinja
         - require:
             - php
@@ -95,7 +95,7 @@ php-fpm-deps:
 php-fpm-config:
     file.managed:
         - name: /etc/php/{{ php_version }}/fpm/php.ini
-        - source: salt://elife/config/etc-php-{{ php_version }}-fpm-php.ini
+        - source: salt://elife/config/etc-php-fpm-php.ini
         - template: jinja
         - require:
             - php-fpm-deps
@@ -104,7 +104,7 @@ php-fpm-config:
 php-fpm-pool:
     file.managed:
         - name: /etc/php/{{ php_version }}/fpm/pool.d/www.conf
-        - source: salt://elife/config/etc-php-{{ php_version }}-fpm-pool.d-www.conf
+        - source: salt://elife/config/etc-php-fpm-pool.d-www.conf
         - template: jinja
         - require:
             - php-fpm-deps
