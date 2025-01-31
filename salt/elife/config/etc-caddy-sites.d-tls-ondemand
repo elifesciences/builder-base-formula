@@ -1,0 +1,11 @@
+http://localhost:9123 {
+    # This on_demand query response will ensure that only subdomains of elifesciences.org will be
+    # start the auto cert issue process. All others will result in a failure to connect (no tls cert)
+
+    @elife_domain `{query.domain}.endsWith(".elifesciences.org")`
+    respond @elife_domain 200 {
+        body "OK"
+    }
+
+    respond "NOT OK" 500
+}
