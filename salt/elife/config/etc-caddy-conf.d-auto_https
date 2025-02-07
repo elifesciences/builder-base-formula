@@ -1,6 +1,5 @@
 {% if pillar.elife.webserver.auto_https %}
 auto_https disable_redirects
-acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 
 on_demand_tls {
 	ask http://localhost:9123/
