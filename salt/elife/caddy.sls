@@ -122,6 +122,7 @@ caddy-certs-snippet:
         - name: /etc/caddy/snippets/certs
         - source: salt://elife/config/etc-caddy-snippets-certs
         - makedirs: True
+        - template: jinja
         - require:
             - caddy-pkg
 
@@ -162,6 +163,14 @@ caddy-metrics-site:
     file.managed:
         - name: /etc/caddy/sites.d/metrics
         - source: salt://elife/config/etc-caddy-sites.d-metrics
+        - makedirs: true
+        - require:
+            - caddy-pkg
+
+caddy-ondemand-site:
+    file.managed:
+        - name: /etc/caddy/sites.d/tls-ondemand
+        - source: salt://elife/config/etc-caddy-sites.d-tls-ondemand
         - makedirs: true
         - require:
             - caddy-pkg

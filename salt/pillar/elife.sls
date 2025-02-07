@@ -92,6 +92,7 @@ elife:
         # lsh@2023-10-18: added 'app'. almost everything assumes nginx however.
         app: nginx # "nginx", "caddy"
         username: www-data
+        auto_https: false
 
     nginx:
         certificate_folder: /etc/certificates
