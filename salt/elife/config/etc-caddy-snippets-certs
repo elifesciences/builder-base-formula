@@ -1,1 +1,7 @@
+{% if pillar.elife.webserver.auto_https %}
+tls {
+    on_demand
+}
+{% else %}
 tls /etc/certificates/certificate.chained.crt /etc/certificates/privkey.pem
+{% endif %}
