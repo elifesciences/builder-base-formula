@@ -15,6 +15,18 @@
 ] %}
 {% set nothing = uninstall_versions.remove(php_version) %}
 
+{% set extensions = [
+    'fpm',
+    'cli',
+    'mbstring',
+    'mysql',
+    'xsl',
+    'gd',
+    'curl',
+    'xml',
+    'common',
+] + pillar.elife.php.extra_extensions %}
+
 php-ppa:
     pkgrepo.managed:
        - name: deb https://ppa.launchpadcontent.net/ondrej/php/ubuntu {{ salt['grains.get']('oscodename') }} main
@@ -26,28 +38,16 @@ php-clean:
     pkg.removed:
         - pkgs:
             {% for remove_version in uninstall_versions %}
-            - php{{ remove_version }}-fpm
-            - php{{ remove_version }}-cli
-            - php{{ remove_version }}-mbstring
-            - php{{ remove_version }}-mysql
-            - php{{ remove_version }}-xsl
-            - php{{ remove_version }}-gd
-            - php{{ remove_version }}-curl
-            - php{{ remove_version }}-xml
-            - php{{ remove_version }}-common
+                {% for extension in extensions %}
+                - php{{ remove_version }}-{{ extension }}
+                {% endfor %}
             {% endfor %}
 php:
     pkg.installed:
         - pkgs:
-            - php{{ php_version }}-cli
-            - php{{ php_version }}-mbstring
-            - php{{ php_version }}-mysql
-            - php{{ php_version }}-xsl
-            - php{{ php_version }}-gd
-            - php{{ php_version }}-curl
-            # lsh@2023-06-7: disabled installation. only experimental journal-cms instances are using php8 right now.
-            # required by proofreader-php, provides 'ext-dom', required by 'theseer/fdomdocument'
-            #- php{{ php_version }}-xml
+            {% for extension in extensions %}
+            - php{{ php_version }}-{{ extension }}
+            {% endfor %}
         - require:
             - php-clean
             - php-ppa

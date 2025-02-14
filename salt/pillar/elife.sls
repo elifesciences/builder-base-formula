@@ -214,6 +214,7 @@ elife:
     php:
         version: '7.4'
         fpm: false
+        extra_extensions: []
         memory_limit: 64M
         upload_max_filesize: 2M
         post_max_size: 8M
