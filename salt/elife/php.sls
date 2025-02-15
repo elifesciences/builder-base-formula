@@ -53,6 +53,17 @@ php:
             - php-ppa
             - pkg: base
 
+php-ppa-migrate:
+    pkg.latest:
+        - pkgs:
+            {% for extension in extensions %}
+            - php{{ php_version }}-{{ extension }}
+            {% endfor %}
+        - require:
+            - php
+        - onchanges:
+            - php-ppa
+
 php-log:
     file.managed:
         - name: /var/log/php_errors.log
