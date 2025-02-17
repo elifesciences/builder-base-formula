@@ -45,7 +45,7 @@ php-clean:
 
 php-clean-extensions:
     cmd.run:
-        - name: apt-get -y remove php-*
+        - name: apt-get -y remove php-*; sudo apt-get autoremove
         - onlyif: dpkg -l php-* | grep ii | grep -v php-common
 
 php:
@@ -59,6 +59,7 @@ php:
             - php-clean-extensions
             - php-ppa
             - pkg: base
+        - install_recommends: False
 
 php-ppa-migrate:
     pkg.latest:
@@ -70,6 +71,7 @@ php-ppa-migrate:
             - php
         - onchanges:
             - php-ppa
+        - install_recommends: False
 
 php-log:
     file.managed:
