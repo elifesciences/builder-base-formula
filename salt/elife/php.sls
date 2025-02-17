@@ -45,7 +45,7 @@ php-clean:
 
 php-clean-extensions:
     cmd.run:
-        - name: apt-get remove php-*
+        - name: apt-get -y remove php-*
         - onlyif: dpkg -l php-* | grep ii | grep -v php-common
 
 php:
