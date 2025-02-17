@@ -42,6 +42,12 @@ php-clean:
                 - php{{ remove_version }}-{{ extension }}
                 {% endfor %}
             {% endfor %}
+
+php-clean-extensions:
+    cmd.run:
+        - name: apt-get remove php-*
+        - onlyif: dpkg -l php-* | grep ii | grep -v php-common
+
 php:
     pkg.installed:
         - pkgs:
@@ -50,6 +56,7 @@ php:
             {% endfor %}
         - require:
             - php-clean
+            - php-clean-extensions
             - php-ppa
             - pkg: base
 
