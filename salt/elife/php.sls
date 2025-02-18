@@ -1,6 +1,6 @@
 {% set osrelease = salt['grains.get']('osrelease') %}
 
-{% set php_version = pillar.elife.php.version %}
+{% set php_version = pillar.elife.php.version if pillar.elife.php.version else '8.4' %}
 
 {% set uninstall_versions = [
   '7.1',
@@ -15,6 +15,8 @@
 ] %}
 {% set nothing = uninstall_versions.remove(php_version) %}
 
+{% set extra_extensions = pillar.elife.php.extra_extensions if pillar.elife.php.extra_extensions else [] %}
+
 {% set extensions = [
     'fpm',
     'cli',
@@ -25,7 +27,7 @@
     'curl',
     'xml',
     'common',
-] + pillar.elife.php.extra_extensions %}
+] + extra_extensions %}
 
 php-ppa:
     pkgrepo.managed:
