@@ -17,7 +17,7 @@
 
 {% set extra_extensions = pillar.elife.php.extra_extensions if pillar.elife.php.extra_extensions else [] %}
 
-{% set extensions = [
+{% set packages = [
     'fpm',
     'cli',
     'mbstring',
@@ -40,8 +40,8 @@ php-clean:
     pkg.removed:
         - pkgs:
             {% for remove_version in uninstall_versions %}
-                {% for extension in extensions %}
-                - php{{ remove_version }}-{{ extension }}
+                {% for package in packages %}
+                - php{{ remove_version }}-{{ package }}
                 {% endfor %}
             {% endfor %}
 
@@ -53,8 +53,8 @@ php-clean-extensions:
 php:
     pkg.installed:
         - pkgs:
-            {% for extension in extensions %}
-            - php{{ php_version }}-{{ extension }}
+            {% for package in packages %}
+            - php{{ php_version }}-{{ package }}
             {% endfor %}
         - require:
             - php-clean
