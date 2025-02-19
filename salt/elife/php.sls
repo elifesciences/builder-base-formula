@@ -43,7 +43,7 @@ php-clean:
                 {% endfor %}
             {% endfor %}
 
-php-clean-extensions:
+php-clean-packages:
     cmd.run:
         - name: apt-get -y remove php-*
         - onlyif: dpkg -l php-* | grep ii | grep -v php-common
@@ -65,8 +65,8 @@ php:
 php-ppa-migrate:
     pkg.latest:
         - pkgs:
-            {% for extension in extensions %}
-            - php{{ php_version }}-{{ extension }}
+            {% for package in packages %}
+            - php{{ php_version }}-{{ package }}
             {% endfor %}
         - require_in:
             - php
