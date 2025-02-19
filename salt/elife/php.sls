@@ -1,6 +1,4 @@
-{% set osrelease = salt['grains.get']('osrelease') %}
-
-{% set php_version = pillar.elife.php.version if pillar.elife.php.version else '8.4' %}
+{% set php_version = pillar.elife.php.get('version', '8.4') %}
 
 {% set uninstall_versions = [
   '7.1',
@@ -15,9 +13,9 @@
 ] %}
 {% set nothing = uninstall_versions.remove(php_version) %}
 
-{% set extra_extensions = pillar.elife.php.extra_extensions if pillar.elife.php.extra_extensions else [] %}
+{% set extra_extensions = pillar.elife.php.get('extra_extensions', []) %}
 
-{% set extensions = [
+{% set packages = [
     'fpm',
     'cli',
     'mbstring',
@@ -40,12 +38,12 @@ php-clean:
     pkg.removed:
         - pkgs:
             {% for remove_version in uninstall_versions %}
-                {% for extension in extensions %}
-                - php{{ remove_version }}-{{ extension }}
+                {% for package in packages %}
+                - php{{ remove_version }}-{{ package }}
                 {% endfor %}
             {% endfor %}
 
-php-clean-extensions:
+php-clean-packages:
     cmd.run:
         - name: apt-get -y remove php-*
         - onlyif: dpkg -l php-* | grep ii | grep -v php-common
@@ -53,12 +51,12 @@ php-clean-extensions:
 php:
     pkg.installed:
         - pkgs:
-            {% for extension in extensions %}
-            - php{{ php_version }}-{{ extension }}
+            {% for package in packages %}
+            - php{{ php_version }}-{{ package }}
             {% endfor %}
         - require:
             - php-clean
-            - php-clean-extensions
+            - php-clean-packages
             - php-ppa
             - pkg: base
         - install_recommends: False
@@ -67,8 +65,8 @@ php:
 php-ppa-migrate:
     pkg.latest:
         - pkgs:
-            {% for extension in extensions %}
-            - php{{ php_version }}-{{ extension }}
+            {% for package in packages %}
+            - php{{ php_version }}-{{ package }}
             {% endfor %}
         - require_in:
             - php
