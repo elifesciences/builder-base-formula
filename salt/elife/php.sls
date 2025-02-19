@@ -1,5 +1,3 @@
-{% set osrelease = salt['grains.get']('osrelease') %}
-
 {% set php_version = pillar.elife.php.get('version', '8.4') %}
 
 {% set uninstall_versions = [
