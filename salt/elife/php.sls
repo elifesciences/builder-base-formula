@@ -106,7 +106,7 @@ logrotate-for-php-log:
         - name: /etc/logrotate.d/php
         - source: salt://elife/config/etc-logrotate.d-php
 
-{% if pillar.elife.php.fpm %}
+{% if pillar.elife.php.get('fpm', False) %}
 php-fpm-deps:
     pkg.installed:
         - name: php{{ php_version }}-fpm
