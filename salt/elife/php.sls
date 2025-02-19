@@ -62,6 +62,7 @@ php:
             - php-ppa
             - pkg: base
         - install_recommends: False
+        - refresh: True
 
 php-ppa-migrate:
     pkg.latest:
@@ -69,7 +70,7 @@ php-ppa-migrate:
             {% for extension in extensions %}
             - php{{ php_version }}-{{ extension }}
             {% endfor %}
-        - require:
+        - require_in:
             - php
         - onchanges:
             - php-ppa
