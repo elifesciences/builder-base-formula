@@ -56,7 +56,7 @@ php:
             {% endfor %}
         - require:
             - php-clean
-            - php-clean-extensions
+            - php-clean-packages
             - php-ppa
             - pkg: base
         - install_recommends: False
