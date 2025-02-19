@@ -1,18 +1,5 @@
 {% set php_version = pillar.elife.php.get('version', '8.4') %}
 
-{% set uninstall_versions = [
-  '7.1',
-  '7.2',
-  '7.3',
-  '7.4',
-  '8.0',
-  '8.1',
-  '8.2',
-  '8.3',
-  '8.4',
-] %}
-{% set nothing = uninstall_versions.remove(php_version) %}
-
 {% set extra_extensions = pillar.elife.php.get('extra_extensions', []) %}
 
 {% set packages = [
@@ -34,19 +21,10 @@ php-ppa:
        - keyserver: keyserver.ubuntu.com
        - refresh_db: true
 
-php-clean:
-    pkg.removed:
-        - pkgs:
-            {% for remove_version in uninstall_versions %}
-                {% for package in packages %}
-                - php{{ remove_version }}-{{ package }}
-                {% endfor %}
-            {% endfor %}
-
 php-clean-packages:
     cmd.run:
         - name: apt-get -y remove php-*
-        - onlyif: dpkg -l php-* | grep ii | grep -v php-common
+        - onlyif: dpkg -l php-* | grep ii | grep -v php-common | grep -v php{{ php_version }}
 
 php:
     pkg.installed:
@@ -55,7 +33,6 @@ php:
             - php{{ php_version }}-{{ package }}
             {% endfor %}
         - require:
-            - php-clean
             - php-clean-packages
             - php-ppa
             - pkg: base
