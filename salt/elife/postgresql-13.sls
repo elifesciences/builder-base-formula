@@ -74,6 +74,7 @@ postgresql-config:
     file.managed:
         - name: /etc/postgresql/13/main/pg_hba.conf
         - source: salt://elife/config/etc-postgresql-13-main-pg_hba.conf
+        - makedirs: True
         - require:
             - pkg: postgresql
         - watch_in:
@@ -101,9 +102,10 @@ more-postgresql-config:
     file.managed:
         - name: /etc/postgresql/13/main/conf.d/port.conf
         - source: salt://elife/config/etc-postgresql-13-main-conf.d-port.conf
+        - makedirs: True
         - require:
             - pkg: postgresql
-            # run the migration first, which will purge the old 12 postgresql, then 
+            # run the migration first, which will purge the old 12 postgresql, then
             # enforce new config with port 5432 here
             - cmd: psql-12 to psql-13 migration
         - watch_in:
@@ -143,7 +145,7 @@ postgresql-user:
         - encrypted: scram-sha-256
         - refresh_password: True
         - db_password: {{ pillar.elife.db_root.password }}
-        
+
         # doesn't work on RDS instances
         - superuser: True
 
