@@ -24,6 +24,7 @@ include:
     - .environment-name
     - .smoke
     - .utils
+    - .mise
     - .forced-dns
     {% if (salt['elife.cfg']('project.ec2') | string) != 'True' %}
     {% if salt['elife.cfg']('project.ec2.masterless') %}
