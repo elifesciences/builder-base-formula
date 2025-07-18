@@ -18,6 +18,12 @@ install-ubr:
         - name: /etc/ubr/
         - makedirs: True
 
+mise-trust-ubr:
+    cmd.run:
+        - name: cd /opt/ubr &&  mise trust
+        - require:
+            - install-ubr
+
 new-ubr-config:
     file.managed:
         - name: /opt/ubr/app.cfg
