@@ -23,6 +23,7 @@ mise-trust-ubr:
         - name: cd /opt/ubr &&  mise trust
         - require:
             - install-ubr
+            - mise-pkg
 
 new-ubr-config:
     file.managed:
