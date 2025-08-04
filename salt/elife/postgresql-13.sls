@@ -1,3 +1,6 @@
+include:
+ - .base
+
 # postgresql-13.sls is intended to be a drop-in replacement for postgresql-12.sls
 # all are mutually exclusive and share many of the same state names
 
@@ -24,7 +27,7 @@ postgresql-deb-repo-remove:
     # workaround if the machine cannot refresh a missing repo
     # https://github.com/elifesciences/issues/issues/9360
     require_in:
-        - pkg.latest: elife.base.base-latest-pkgs
+        - pkg.latest: base-latest-pkgs
 
 postgresql-deb:
     pkgrepo.managed:
