@@ -1,6 +1,10 @@
 # postgresql-13.sls is intended to be a drop-in replacement for postgresql-12.sls
 # all are mutually exclusive and share many of the same state names
 
+# These versions of ubuntu have been moved to the postgres apt archive,
+# and the repo URL needs to be different
+{% set archived_osreleases = ["18.04", "20.04"] %}
+
 {% set oscodename = salt['grains.get']('oscodename') %}
 {% set leader = salt['elife.cfg']('project.node', 1) == 1 %}
 
@@ -9,8 +13,12 @@ postgresql-deb:
     pkgrepo.managed:
         # http://www.postgresql.org/download/linux/ubuntu/
         - humanname: Official Postgresql Ubuntu LTS
-        - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        {% if salt['grains.get']('osrelease') in archived_osreleases %}
+        - name: deb http://apt-archive.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        {% else %}
+        - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        {% endif %}
 
 pgpass-file:
     file.managed:
