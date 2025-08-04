@@ -20,6 +20,19 @@ postgresql-deb:
         - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         {% endif %}
 
+{% if salt['grains.get']('osrelease') in archived_osreleases %}
+postgresql-deb-repo-remove:
+    pkgrepo.absent:
+        # http://www.postgresql.org/download/linux/ubuntu/
+        - humanname: Official Postgresql Ubuntu LTS
+        - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        {% if salt['grains.get']('osrelease') in archived_osreleases %}
+        - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        {% else %}
+        - name: deb http://apt-archive.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        {% endif %}
+{% endif %}
+
 pgpass-file:
     file.managed:
         - name: /root/.pgpass
