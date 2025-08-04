@@ -17,11 +17,11 @@ include:
 postgresql-deb-repo-remove:
     pkgrepo.absent:
         {% if salt['grains.get']('osrelease') in archived_osreleases %}
-        - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        - name: deb http://apt.postgresql.org/pub/repos/apt {{ oscodename }}-pgdg main
         {% else %}
-        - name: deb http://apt-archive.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        - name: deb http://apt-archive.postgresql.org/pub/repos/apt {{ oscodename }}-pgdg main
         {% endif %}
-        # workaround if the machine cannot refresh a missing repo
+        # workaround if the machine cannot refresh apt early because of the missing Release file
         # https://github.com/elifesciences/issues/issues/9360
         - require_in:
             - base-latest-pkgs
