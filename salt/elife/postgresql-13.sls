@@ -27,7 +27,7 @@ postgresql-deb-repo-remove:
     # workaround if the machine cannot refresh a missing repo
     # https://github.com/elifesciences/issues/issues/9360
     require_in:
-        - pkg.latest: base-latest-pkgs
+        - base-latest-pkgs
 
 postgresql-deb:
     pkgrepo.managed:
