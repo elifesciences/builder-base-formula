@@ -24,6 +24,8 @@ postgresql-deb-repo-remove:
         {% else %}
         - content: deb http://apt-archive.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         {% endif %}
+        - require_in:
+            - base-latest-pkgs
 
 postgresql-deb:
     pkgrepo.managed:
