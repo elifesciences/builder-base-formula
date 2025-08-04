@@ -9,18 +9,8 @@
 {% set leader = salt['elife.cfg']('project.node', 1) == 1 %}
 
 # http://www.postgresql.org/download/linux/ubuntu/
-postgresql-deb:
-    pkgrepo.managed:
-        # http://www.postgresql.org/download/linux/ubuntu/
-        - humanname: Official Postgresql Ubuntu LTS
-        - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
-        {% if salt['grains.get']('osrelease') in archived_osreleases %}
-        - name: deb http://apt-archive.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
-        {% else %}
-        - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
-        {% endif %}
 
-{% if salt['grains.get']('osrelease') in archived_osreleases %}
+
 postgresql-deb-repo-remove:
     pkgrepo.absent:
         # http://www.postgresql.org/download/linux/ubuntu/
@@ -31,7 +21,20 @@ postgresql-deb-repo-remove:
         {% else %}
         - name: deb http://apt-archive.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         {% endif %}
-{% endif %}
+
+
+postgresql-deb:
+    pkgrepo.managed:
+        # http://www.postgresql.org/download/linux/ubuntu/
+        - humanname: Official Postgresql Ubuntu LTS
+        - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        {% if salt['grains.get']('osrelease') in archived_osreleases %}
+        - name: deb http://apt-archive.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        {% else %}
+        - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        {% endif %}
+        - require:
+            - pkgrepo: postgresql-deb-repo-remove
 
 pgpass-file:
     file.managed:
