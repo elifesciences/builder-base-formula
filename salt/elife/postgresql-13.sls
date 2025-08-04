@@ -16,16 +16,13 @@ include:
 
 postgresql-deb-repo-remove:
     pkgrepo.absent:
-        # http://www.postgresql.org/download/linux/ubuntu/
-        - humanname: Official Postgresql Ubuntu LTS
-        - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
         {% if salt['grains.get']('osrelease') in archived_osreleases %}
         - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         {% else %}
         - name: deb http://apt-archive.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         {% endif %}
-    # workaround if the machine cannot refresh a missing repo
-    # https://github.com/elifesciences/issues/issues/9360
+        # workaround if the machine cannot refresh a missing repo
+        # https://github.com/elifesciences/issues/issues/9360
         - require_in:
             - base-latest-pkgs
 
