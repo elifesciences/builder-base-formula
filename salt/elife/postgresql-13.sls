@@ -17,8 +17,7 @@ include:
 postgresql-deb-repo-remove:
     file.line:
         - name: /etc/apt/sources.list
-        - mode: ensure
-        - state: absent
+        - mode: delete
         {% if salt['grains.get']('osrelease') in archived_osreleases %}
         - content: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         {% else %}
