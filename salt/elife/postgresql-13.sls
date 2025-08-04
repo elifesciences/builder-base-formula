@@ -1,5 +1,5 @@
 include:
- - .base
+ - elife.base
 
 # postgresql-13.sls is intended to be a drop-in replacement for postgresql-12.sls
 # all are mutually exclusive and share many of the same state names
