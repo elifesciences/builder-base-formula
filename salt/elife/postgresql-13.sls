@@ -37,7 +37,7 @@ postgresql-deb:
         - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
         {% endif %}
         - require:
-            - pkgrepo: postgresql-deb-repo-remove
+            - postgresql-deb-repo-remove
 
 pgpass-file:
     file.managed:
