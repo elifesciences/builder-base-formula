@@ -65,7 +65,7 @@ elife:
         denied_masterless: {}
 
     composer:
-        version: 1.10.21
+        version: 2.2
 
     ssh_credentials: {}
         #some_identifier:
