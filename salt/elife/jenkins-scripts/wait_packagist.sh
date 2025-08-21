@@ -13,7 +13,7 @@ composer="${COMPOSER_HOME:-$HOME}"
 polling=5
 
 while : ; do
-    newest_available_revision=$(curl -v "https://packagist.org/p/${package}.json" | jq -r ".packages[\"$package\"][\"dev-master\"].source.reference")
+    newest_available_revision=$(curl -v "https://repo.packagist.org/p2/${package}~dev.json" | jq -r ".packages[\"$package\"][]|select(.version == \"dev-master\").source.reference")
     echo "Found revision $newest_available_revision"
     if [ "$revision" != "$newest_available_revision" ]; then
         echo "Continue waiting..."
