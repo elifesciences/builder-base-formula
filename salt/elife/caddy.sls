@@ -126,6 +126,14 @@ caddy-certs-snippet:
         - require:
             - caddy-pkg
 
+caddy-cve-2025-64459-mitigation-snippet:
+    file.managed:
+        - name: /etc/caddy/snippets/cve_2025_64459_mitigation.conf
+        - source: salt://elife/config/etc-caddy-snippets-cve_2025_64459_mitigation.conf
+        - makedirs: True
+        - require:
+            - caddy-pkg
+
 caddy-config:
     file.managed:
         - name: /etc/caddy/Caddyfile
