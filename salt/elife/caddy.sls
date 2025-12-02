@@ -128,11 +128,14 @@ caddy-certs-snippet:
 
 caddy-cve-2025-64459-mitigation-snippet:
     file.managed:
-        - name: /etc/caddy/snippets/cve_2025_64459_mitigation.conf
-        - source: salt://elife/config/etc-caddy-snippets-cve_2025_64459_mitigation.conf
+        - name: /etc/caddy/snippets/cve_2025_64459_mitigation
+        - source: salt://elife/config/etc-caddy-snippets-cve_2025_64459_mitigation
         - makedirs: True
         - require:
             - caddy-pkg
+remove-caddy-cve-2025-64459-mitigation-snippet-with-conf-ext:
+    file.absent:
+        - name: /etc/caddy/snippets/cve_2025_64459_mitigation.conf
 
 caddy-config:
     file.managed:
