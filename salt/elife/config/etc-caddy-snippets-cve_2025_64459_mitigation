@@ -1,5 +1,3 @@
-(cve_2025_64459_mitigation) {
-    # Strip the exploited query parameters if present
-    uri query -_connector
-    uri query -_negated
-}
+# Strip the exploited query parameters if present
+uri query -_connector
+uri query -_negated
