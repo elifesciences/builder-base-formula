@@ -44,7 +44,7 @@ caddy-pkg:
 
 {% else %}
 
-{% set CADDY_VERSION = "2.7.6" %}
+{% set CADDY_VERSION = pillar.elife.caddy.get('version', "2.7.6") %}
 {% set CADDY_TARGZ_HASHES = {
     "2.7.6": {
         "amd64": "99587cf77c595f0bf62cc23c9ea101f9879fa016c7b689d498ce054904821f22",
