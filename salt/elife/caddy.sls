@@ -50,11 +50,19 @@ caddy-pkg:
         "amd64": "99587cf77c595f0bf62cc23c9ea101f9879fa016c7b689d498ce054904821f22",
         "arm64": "6e6aeca09502a8f0ab0a08acd03bb765e80888052d108de22e0698a9160b7235",
     },
+    "2.10.2": {
+        "amd64": "5c218bc34c9197369263da7e9317a83acdbd80ef45d94dca5eff76e727c67cdd",
+        "arm64": "501e955fa634c5aab63247458c3ac655cfdd6cbf1e0436528f41248451c190ac",
+    },
 } %}
 {% set CADDY_HASHES = {
     "2.7.6": {
         "amd64": "db3bfc85bb93160f60fa6df9c3ebf2340dc11740e9a52c717d88a14c0430f229",
         "arm64": "dc49543c4cbf7a770acdb3cf63cb23b251719ef79d9861977d36cd8c3e54b384",
+    },
+    "2.10.2: {
+        "amd64": "4ef1f68c70219536b2711fd16547a79841a2dec2d6b4e56b1e3e5e9da76028e6",
+        "arm64": "6f297c7f4807d9e4d54137de4dc26fe51e9ddf9c2dae69bc6762d05330a77984",
     },
 } %}
 
