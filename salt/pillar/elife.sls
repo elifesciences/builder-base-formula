@@ -97,7 +97,7 @@ elife:
     nginx:
         certificate_folder: /etc/certificates
 
-    caddy:
+    caddy: {}
 
     certificates:
         # allows per-application certificate overrides, typically nginx or caddy, but also vault (master-server).
