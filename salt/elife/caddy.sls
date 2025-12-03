@@ -60,7 +60,7 @@ caddy-pkg:
         "amd64": "db3bfc85bb93160f60fa6df9c3ebf2340dc11740e9a52c717d88a14c0430f229",
         "arm64": "dc49543c4cbf7a770acdb3cf63cb23b251719ef79d9861977d36cd8c3e54b384",
     },
-    "2.10.2: {
+    "2.10.2": {
         "amd64": "4ef1f68c70219536b2711fd16547a79841a2dec2d6b4e56b1e3e5e9da76028e6",
         "arm64": "6f297c7f4807d9e4d54137de4dc26fe51e9ddf9c2dae69bc6762d05330a77984",
     },
