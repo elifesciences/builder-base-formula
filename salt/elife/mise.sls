@@ -24,3 +24,14 @@ mise-pkg:
         - refresh: true # apt-get update prior to installation
         - require:
             - mise-repo
+
+mise-deploy-user-config:
+    file.managed:
+        - name: /home/{{ pillar.elife.deploy_user.username }}/.config/mise/config.toml
+        - source: salt://elife/config/home-deploy-user-.config-mise-config.toml
+        - user: {{ pillar.elife.deploy_user.username }}
+        - group: {{ pillar.elife.deploy_user.username }}
+        - makedirs: True
+        - template: jinja
+        - require:
+            - deploy-user
