@@ -11,8 +11,9 @@ slack-channel-hook:
     cmd.run:
         - name: echo 'export SLACK_CHANNEL_HOOK={{ pillar.elife.jenkins.slack.channel_hook }}' > /etc/profile.d/slack-channel-hook.sh
 
+{% if pillar.elife.jenkins.github.token %}
 github-token:
     cmd.run:
         - name: |
             echo 'export GITHUB_TOKEN={{ pillar.elife.jenkins.github.token }}' > /etc/profile.d/jenkins-github-token.sh
-
+{% endif %}
