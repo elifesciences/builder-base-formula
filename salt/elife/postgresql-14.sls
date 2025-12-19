@@ -88,15 +88,6 @@ postgresql:
             - pgpass-file
 {% endif %}
 
-{% if not salt['elife.cfg']('cfn.outputs.RDSHost') %}
-# 12.04/14.04 legacy file, to be removed with postgresql.sls (psql 9.4)
-# systemd service/target is being used in 16.04+
-postgresql-init:
-    file.absent:
-        - name: /etc/init.d/postgresql
-#        - source: salt://elife/config/etc-init.d-postgresql # remove with postgresql.sls
-{% endif %}
-
 postgresql-config:
     file.managed:
         - name: /etc/postgresql/14/main/pg_hba.conf
@@ -104,37 +95,6 @@ postgresql-config:
         - makedirs: True
         - require:
             - pkg: postgresql
-        - watch_in:
-            - service: postgresql
-        - require_in:
-            - cmd: postgresql-ready
-
-# runs pg_upgrade on 13 data and then purges postgresql-13
-psql-13 to psql-14 migration:
-    file.managed:
-        - name: /root/upgrade-postgresql-13-to-14.sh
-        - source: salt://elife/scripts/root-upgrade-postgresql-13-to-14.sh
-
-    cmd.script:
-        - name: salt://elife/scripts/root-upgrade-postgresql-13-to-14.sh
-        - require:
-            - pkg: postgresql
-            - pgpass-file
-            - postgresql-config
-            - file: psql-13 to psql-14 migration
-
-# managing this file is necessary because of the migration
-# psql 14 default config is port 5433 and not 5432 when another psql is present
-more-postgresql-config:
-    file.managed:
-        - name: /etc/postgresql/14/main/conf.d/port.conf
-        - source: salt://elife/config/etc-postgresql-14-main-conf.d-port.conf
-        - makedirs: True
-        - require:
-            - pkg: postgresql
-            # run the migration first, which will purge the old 13 postgresql, then
-            # enforce new config with port 5432 here
-            - cmd: psql-13 to psql-14 migration
         - watch_in:
             - service: postgresql
         - require_in:
