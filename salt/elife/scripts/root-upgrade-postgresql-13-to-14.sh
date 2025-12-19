@@ -101,5 +101,6 @@ echo "using: $pg_upgrade"
         printf "\npg_upgrade logs: ---\n\n"
 
         cat /tmp/pg_upgrade_*
+        exit 1
     }
 )
