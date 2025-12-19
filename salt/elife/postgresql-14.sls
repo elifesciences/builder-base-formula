@@ -88,6 +88,16 @@ postgresql:
             - pgpass-file
 {% endif %}
 
+postgresql-migrate-data:
+    cmd.run:
+        - name: pg_upgradecluster 13 main
+        - require:
+            - pkg: postgresql
+        - unless:
+            - test -f /var/lib/postgresql/14/main/PG_VERSION
+        - require_in:
+            - postgresql-config
+
 postgresql-config:
     file.managed:
         - name: /etc/postgresql/14/main/pg_hba.conf
