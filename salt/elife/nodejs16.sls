@@ -8,13 +8,19 @@ nodejs6 ppa absent:
     file.absent:
         - name: /etc/apt/sources.list.d/nodesource.list
 
+old node ppa absent:
+    pkgrepo.absent:
+        - name: deb https://deb.nodesource.com/node_16.x {{ salt['grains.get']('oscodename') }} main
+        - file: /etc/apt/sources.list.d/node16source.list
+
 nodejs16:
     pkgrepo.managed:
-        - name: deb  https://deb.nodesource.com/node_16.x {{ salt['grains.get']('oscodename') }} main
+        - name: deb  https://deb.nodesource.com/node_16.x nodistro main
         - key_url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
         - file: /etc/apt/sources.list.d/node16source.list
         - require:
             - nodejs6 ppa absent
+            - old node ppa absent
 
     pkg.latest:
         - name: nodejs
