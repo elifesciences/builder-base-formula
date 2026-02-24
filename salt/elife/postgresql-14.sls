@@ -88,6 +88,17 @@ postgresql:
             - pgpass-file
 {% endif %}
 
+psql-13 to psql-14 migration:
+    file.managed:
+        - name: /root/upgrade-postgresql-13-to-14.sh
+        - source: salt://elife/scripts/root-upgrade-postgresql-13-to-14.sh
+
+    cmd.script:
+        - name: salt://elife/scripts/root-upgrade-postgresql-13-to-14.sh
+        - require:
+            - pkg: postgresql
+            - file: psql-13 to psql-14 migration
+
 postgresql-ready:
     cmd.run:
         - name: echo "PostgreSQL is set up and ready"
