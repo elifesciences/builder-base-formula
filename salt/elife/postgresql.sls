@@ -1,0 +1,163 @@
+include:
+ - elife.base
+
+# These versions of ubuntu have been moved to the postgres apt archive,
+# and the repo URL needs to be different
+{% set archived_osreleases = ["18.04", "20.04"] %}
+
+{% set oscodename = salt['grains.get']('oscodename') %}
+{% set leader = salt['elife.cfg']('project.node', 1) == 1 %}
+
+# http://www.postgresql.org/download/linux/ubuntu/
+
+{% set install_version = pillar.elife.postgresql.version %}
+{% set upgrade_from_version = pillar.elife.postgresql.version-1 %}
+
+
+postgresql-deb-repo-remove:
+    file.line:
+        - name: /etc/apt/sources.list
+        - mode: delete
+        {% if salt['grains.get']('osrelease') in archived_osreleases %}
+        - content: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        {% else %}
+        - content: deb http://apt-archive.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        {% endif %}
+        - require_in:
+            - base-latest-pkgs
+
+postgresql-deb:
+    pkgrepo.managed:
+        # http://www.postgresql.org/download/linux/ubuntu/
+        - humanname: Official Postgresql Ubuntu LTS
+        - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        {% if salt['grains.get']('osrelease') in archived_osreleases %}
+        - name: deb http://apt-archive.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        {% else %}
+        - name: deb http://apt.postgresql.org/pub/repos/apt/ {{ oscodename }}-pgdg main
+        {% endif %}
+        - require:
+            - postgresql-deb-repo-remove
+
+pgpass-file:
+    file.managed:
+        - name: /root/.pgpass
+        - source: salt://elife/config/root-pgpass
+        - template: jinja
+        - mode: 0600
+        - defaults:
+            user: {{ pillar.elife.db_root.username }}
+            pass: {{ pillar.elife.db_root.password }}
+            host: localhost
+            port: 5432
+
+{% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
+pgpass-rds-entry:
+    file.append:
+        - name: /root/.pgpass
+        - source: salt://elife/config/root-pgpass
+        - template: jinja
+        - defaults:
+            user: {{ pillar.elife.db_root.username }}
+            pass: {{ salt['elife.cfg']('project.rds_password') }}
+            host: {{ salt['elife.cfg']('cfn.outputs.RDSHost') }}
+            port: {{ salt['elife.cfg']('cfn.outputs.RDSPort') }}
+        - require:
+            - pgpass-file
+{% endif %}
+
+postgresql:
+    pkg.installed:
+        - pkgs:
+            - postgresql-{{ install_version }}
+            - libpq-dev # headers for building the libraries to them
+        - require:
+            - pkgrepo: postgresql-deb
+
+{% if not salt['elife.cfg']('cfn.outputs.RDSHost') %}
+    service.running:
+        - enable: True
+        - require:
+            - pkg: postgresql
+            - pgpass-file
+{% else %}
+    service.dead:
+        - enable: False
+        - require:
+            - pkg: postgresql
+            - pgpass-file
+{% endif %}
+
+postgresql-migrate-data:
+    cmd.run:
+        - name: pg_upgradecluster {{ upgrade_from_version }} main
+        - require:
+            - pkg: postgresql
+        - onlyif:
+            - test -f /var/lib/postgresql/{{ upgrade_from_version }}/main/PG_VERSION
+        - unless:
+            - test -f /var/lib/postgresql/{{ install_version }}/main/PG_VERSION
+        - require_in:
+            - postgresql-config
+
+postgresql-config:
+    file.managed:
+        - name: /etc/postgresql/{{ install_version }}/main/pg_hba.conf
+        - source: salt://elife/config/etc-postgresql-main-pg_hba.conf
+        - makedirs: True
+        - require:
+            - pkg: postgresql
+        - watch_in:
+            - service: postgresql
+        - require_in:
+            - cmd: postgresql-ready
+
+{% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
+# create the not-quite-super RDS user
+
+# lsh@2022-02-11: occasional problems when running this state in parallel:
+# - https://github.com/elifesciences/issues/issues/7224
+{% if leader %}
+
+rds-postgresql-user:
+    postgres_user.present:
+        - name: {{ pillar.elife.db_root.username }}
+        - password: {{ salt['elife.cfg']('project.rds_password') }}
+        - encrypted: scram-sha-256
+        - refresh_password: True
+        - db_password: {{ salt['elife.cfg']('project.rds_password') }}
+        - db_host: {{ salt['elife.cfg']('cfn.outputs.RDSHost') }}
+        - db_port: {{ salt['elife.cfg']('cfn.outputs.RDSPort') }}
+        - login: True
+        - require:
+            - pkg: postgresql
+        - require_in:
+            - cmd: postgresql-ready
+
+{% endif %} # ends leader
+
+{% else %}
+postgresql-user:
+    postgres_user.present:
+        - name: {{ pillar.elife.db_root.username }}
+        - password: {{ pillar.elife.db_root.password }}
+        - encrypted: scram-sha-256
+        - refresh_password: True
+        - db_password: {{ pillar.elife.db_root.password }}
+
+        # doesn't work on RDS instances
+        - superuser: True
+
+        - login: True
+        - require:
+            - pkg: postgresql
+            - service: postgresql
+        - require_in:
+            - cmd: postgresql-ready
+{% endif %}
+
+postgresql-ready:
+    cmd.run:
+        - name: echo "PostgreSQL is set up and ready"
+        - require:
+            - postgresql
