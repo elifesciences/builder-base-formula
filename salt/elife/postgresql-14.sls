@@ -93,6 +93,8 @@ postgresql-migrate-data:
         - name: pg_upgradecluster 13 main
         - require:
             - pkg: postgresql
+        - onlyif:
+            - test -f /var/lib/postgresql/13/main/PG_VERSION
         - unless:
             - test -f /var/lib/postgresql/14/main/PG_VERSION
         - require_in:
