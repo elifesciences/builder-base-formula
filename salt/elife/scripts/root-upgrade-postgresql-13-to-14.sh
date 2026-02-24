@@ -17,3 +17,7 @@ fi
 pg_upgradecluster --check -v 14 13 main
 
 pg_upgradecluster -v 14 13 main
+
+echo "Removing cluster 13"
+pg_dropcluster 13 main
+echo "13 cluster removed"
