@@ -15,3 +15,5 @@ if [[ $current_postgres_version == "14" ]]; then
 fi
 
 pg_upgradecluster --check -v 14 13 main
+
+pg_upgradecluster -v 14 13 main

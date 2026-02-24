@@ -88,21 +88,8 @@ postgresql:
             - pgpass-file
 {% endif %}
 
-postgresql-config:
-    file.managed:
-        - name: /etc/postgresql/14/main/pg_hba.conf
-        - source: salt://elife/config/etc-postgresql-14-main-pg_hba.conf
-        - makedirs: True
-        - require:
-            - pkg: postgresql
-        - watch_in:
-            - service: postgresql
-        - require_in:
-            - cmd: postgresql-ready
-
 postgresql-ready:
     cmd.run:
         - name: echo "PostgreSQL is set up and ready"
         - require:
             - postgresql
-
