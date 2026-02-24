@@ -128,6 +128,7 @@ elife:
             password: apppass
 
     postgresql:
+        version: 14
         host: '127.0.0.1'
         port: 5432
 

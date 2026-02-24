@@ -1,9 +1,6 @@
 include:
  - elife.base
 
-# postgresql-14.sls is intended to be a drop-in replacement for postgresql-13.sls
-# all are mutually exclusive and share many of the same state names
-
 # These versions of ubuntu have been moved to the postgres apt archive,
 # and the repo URL needs to be different
 {% set archived_osreleases = ["18.04", "20.04"] %}
@@ -12,6 +9,9 @@ include:
 {% set leader = salt['elife.cfg']('project.node', 1) == 1 %}
 
 # http://www.postgresql.org/download/linux/ubuntu/
+
+{% set install_version = pillar.elife.postgresql.version %}
+{% set upgrade_from_version = pillar.elife.postgresql.version-1 %}
 
 
 postgresql-deb-repo-remove:
@@ -69,7 +69,7 @@ pgpass-rds-entry:
 postgresql:
     pkg.installed:
         - pkgs:
-            - postgresql-14
+            - postgresql-{{ install_version }}
             - libpq-dev # headers for building the libraries to them
         - require:
             - pkgrepo: postgresql-deb
@@ -90,20 +90,20 @@ postgresql:
 
 postgresql-migrate-data:
     cmd.run:
-        - name: pg_upgradecluster 13 main
+        - name: pg_upgradecluster {{ upgrade_from_version }} main
         - require:
             - pkg: postgresql
         - onlyif:
-            - test -f /var/lib/postgresql/13/main/PG_VERSION
+            - test -f /var/lib/postgresql/{{ upgrade_from_version }}/main/PG_VERSION
         - unless:
-            - test -f /var/lib/postgresql/14/main/PG_VERSION
+            - test -f /var/lib/postgresql/{{ install_version }}/main/PG_VERSION
         - require_in:
             - postgresql-config
 
 postgresql-config:
     file.managed:
-        - name: /etc/postgresql/14/main/pg_hba.conf
-        - source: salt://elife/config/etc-postgresql-14-main-pg_hba.conf
+        - name: /etc/postgresql/{{ install_version }}/main/pg_hba.conf
+        - source: salt://elife/config/etc-postgresql-main-pg_hba.conf
         - makedirs: True
         - require:
             - pkg: postgresql
