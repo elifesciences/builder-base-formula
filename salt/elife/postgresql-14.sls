@@ -99,6 +99,19 @@ psql-13 to psql-14 migration:
             - pkg: postgresql
             - file: psql-13 to psql-14 migration
 
+postgresql-config:
+    file.managed:
+        - name: /etc/postgresql/14/main/pg_hba.conf
+        - source: salt://elife/config/etc-postgresql-14-main-pg_hba.conf
+        - makedirs: True
+        - require:
+            - pkg: postgresql
+            - psql-13 to psql-14 migration
+        - watch_in:
+            - service: postgresql
+        - require_in:
+            - cmd: postgresql-ready
+
 postgresql-ready:
     cmd.run:
         - name: echo "PostgreSQL is set up and ready"
