@@ -18,6 +18,13 @@ pg_upgradecluster --check -v 14 13 main
 
 pg_upgradecluster -v 14 13 main
 
+version_14_running=$(pg_lsclusters -j | jq '.[] | select(.version=="14").running')
+
+if [[ $version_14_running != "1" ]]; then
+    echo "Error: cluster version 14 is not running after an upgrade!"
+    exit 1
+fi
+
 echo "Removing cluster 13"
 pg_dropcluster 13 main
 echo "13 cluster removed"
