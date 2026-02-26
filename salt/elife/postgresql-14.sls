@@ -112,6 +112,50 @@ postgresql-config:
         - require_in:
             - cmd: postgresql-ready
 
+{% if salt['elife.cfg']('cfn.outputs.RDSHost') %}
+# create the not-quite-super RDS user
+
+# lsh@2022-02-11: occasional problems when running this state in parallel:
+# - https://github.com/elifesciences/issues/issues/7224
+{% if leader %}
+
+rds-postgresql-user:
+    postgres_user.present:
+        - name: {{ pillar.elife.db_root.username }}
+        - password: {{ salt['elife.cfg']('project.rds_password') }}
+        - encrypted: scram-sha-256
+        - refresh_password: True
+        - db_password: {{ salt['elife.cfg']('project.rds_password') }}
+        - db_host: {{ salt['elife.cfg']('cfn.outputs.RDSHost') }}
+        - db_port: {{ salt['elife.cfg']('cfn.outputs.RDSPort') }}
+        - login: True
+        - require:
+            - pkg: postgresql
+        - require_in:
+            - cmd: postgresql-ready
+
+{% endif %} # ends leader
+
+{% else %}
+postgresql-user:
+    postgres_user.present:
+        - name: {{ pillar.elife.db_root.username }}
+        - password: {{ pillar.elife.db_root.password }}
+        - encrypted: scram-sha-256
+        - refresh_password: True
+        - db_password: {{ pillar.elife.db_root.password }}
+
+        # doesn't work on RDS instances
+        - superuser: True
+
+        - login: True
+        - require:
+            - pkg: postgresql
+            - service: postgresql
+        - require_in:
+            - cmd: postgresql-ready
+{% endif %}
+
 postgresql-ready:
     cmd.run:
         - name: echo "PostgreSQL is set up and ready"
