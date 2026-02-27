@@ -66,12 +66,18 @@ pgpass-rds-entry:
             - pgpass-file
 {% endif %}
 
+postgresql-common:
+    pkg.latest:
+        - pkgs:
+            - postgresql-common
+
 postgresql:
     pkg.installed:
         - pkgs:
             - postgresql-14
             - libpq-dev # headers for building the libraries to them
         - require:
+            - postgresql-common
             - pkgrepo: postgresql-deb
 
 {% if not salt['elife.cfg']('cfn.outputs.RDSHost') %}
