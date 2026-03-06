@@ -50,6 +50,10 @@ caddy-pkg:
         "amd64": "99587cf77c595f0bf62cc23c9ea101f9879fa016c7b689d498ce054904821f22",
         "arm64": "6e6aeca09502a8f0ab0a08acd03bb765e80888052d108de22e0698a9160b7235",
     },
+    "2.9.1": {
+        "amd64": "0542edbb5ce0d6987de6a37caa2bbc52a42445ec094fb9ba3e605534af5dd898",
+        "arm64": "e6f117f373c690f159dc0178d03e9003b4962118a49d889fadaef14cfc7666f8",
+    },
     "2.10.2": {
         "amd64": "5c218bc34c9197369263da7e9317a83acdbd80ef45d94dca5eff76e727c67cdd",
         "arm64": "501e955fa634c5aab63247458c3ac655cfdd6cbf1e0436528f41248451c190ac",
@@ -59,6 +63,10 @@ caddy-pkg:
     "2.7.6": {
         "amd64": "db3bfc85bb93160f60fa6df9c3ebf2340dc11740e9a52c717d88a14c0430f229",
         "arm64": "dc49543c4cbf7a770acdb3cf63cb23b251719ef79d9861977d36cd8c3e54b384",
+    },
+    "2.9.1": {
+        "amd64": "4346f0fbb320f9eefb19137e7c1239d9836f55c0bf7f36a1efc20191bc645cb5",
+        "arm64": "c1eaae77b1466b87fc30132788aa8ba008d146a88d63c3b869a84b0f37dc1df2",
     },
     "2.10.2": {
         "amd64": "4ef1f68c70219536b2711fd16547a79841a2dec2d6b4e56b1e3e5e9da76028e6",
