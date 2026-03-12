@@ -35,3 +35,16 @@ postgresql-13-docker-config:
             - service: postgresql
         - onlyif:
             - test -d /etc/postgresql/13
+
+postgresql-14-docker-config:
+    file.managed:
+        - name: /etc/postgresql/14/main/conf.d/docker.conf
+        - source: salt://elife/config/etc-postgresql-conf.d-docker.conf
+        - require:
+            - postgresql-config
+        - require_in:
+            - service: postgresql
+        - watch_in:
+            - service: postgresql
+        - onlyif:
+            - test -d /etc/postgresql/14
