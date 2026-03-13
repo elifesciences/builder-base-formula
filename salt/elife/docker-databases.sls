@@ -14,28 +14,6 @@ docker-network-databases:
         - require:
             - docker-ready
 
-postgresql-12-docker-config:
-    file.managed:
-        - name: /etc/postgresql/12/main/conf.d/docker.conf
-        - source: salt://elife/config/etc-postgresql-conf.d-docker.conf
-        - require:
-            - pkg: postgresql
-        - require_in:
-            - service: postgresql
-        - onlyif:
-            - test -d /etc/postgresql/12
-
-postgresql-13-docker-config:
-    file.managed:
-        - name: /etc/postgresql/13/main/conf.d/docker.conf
-        - source: salt://elife/config/etc-postgresql-conf.d-docker.conf
-        - require:
-            - pkg: postgresql
-        - require_in:
-            - service: postgresql
-        - onlyif:
-            - test -d /etc/postgresql/13
-
 postgresql-14-docker-config:
     file.managed:
         - name: /etc/postgresql/14/main/conf.d/docker.conf
